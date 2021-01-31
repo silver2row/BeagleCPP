@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Building BeagleBone Application..."
+g++ -std=c++17 source.cpp GPIO.cpp -lpthread -o source.out
+echo "Finished"
