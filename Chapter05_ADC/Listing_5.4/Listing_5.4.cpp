@@ -12,10 +12,10 @@ int main()
   cout << RainbowText(message, "Blue") << endl;
   ADC adcPin(P9_39);
 
-  message = "Read continuosly the voltage on pin";
+  message = "Read continuously the voltage on pin";
   cout << RainbowText(message, "Blue") << endl;
 
-  float adcVoltageOut = 0;
+  float adcVoltageOut = 0.0;
   int sampleTime = 100;
   adcPin.ReadVoltageContinuosSampling(adcVoltageOut,sampleTime);
   
