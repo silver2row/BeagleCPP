@@ -55,7 +55,7 @@ class PWM
 
   public:
 
-    // Default constructor
+    // Overload constructor
     PWM(int id = P8_13, int period = 500000);
 
     // Interface method to get the period

@@ -23,13 +23,46 @@ class CustomException : public exception
     }
 };
 
-// Constructor
-GPIO::GPIO (int id, int mode) 
+// Default constructor
+GPIO::GPIO()
 {
-  this->id = id;
-  this->mode = mode;
-  this->name = "gpio" + to_string(id);
-  this->path = GPIO_PATH + name + "/";
+  id = P8_08;
+  mode = OUTPUT;
+
+  name = "gpio" + to_string(id);
+  path = GPIO_PATH + name + "/";
+  
+  cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
+        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
+  UnexportGPIO();
+  ExportGPIO();
+  SetMode(mode);
+  cout << RainbowText("Setting the GPIO pin was a success!", "Green") << endl;
+}
+
+// Overload constructor with the pin`s name
+GPIO::GPIO (int newId) 
+{
+  id = newId;
+  mode = OUTPUT;
+  name = "gpio" + to_string(id);
+  path = GPIO_PATH + name + "/";
+  
+  cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
+        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
+  UnexportGPIO();
+  ExportGPIO();
+  SetMode(mode);
+  cout << RainbowText("Setting the GPIO pin was a success!", "Green") << endl;
+}
+
+// Overload constructor with the pin and mode names
+GPIO::GPIO (int newId, int newMode) 
+{
+  id = newId;
+  mode = newMode;
+  name = "gpio" + to_string(id);
+  path = GPIO_PATH + name + "/";
   
   cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
         << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
@@ -108,7 +141,7 @@ int GPIO::UnexportGPIO()
 }
 
 /*
-   Private method that set the pin Mode
+   Public method to set the pin's Mode
    @param int: The desired mode 0/1 for OUTPUT/INPUT
    @return int: 0 set Mode has succeeded / -1 set Mode has failed 
 */
@@ -117,17 +150,17 @@ int GPIO::SetMode(int mode)
   switch (mode) 
   {
     case OUTPUT:
-        if (WriteFile(path, "direction", "out") != 0) 
-          throw "Error to set the pin direction as OUTPUT";
-        else
-          cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Orange") << endl;
-        break;
+      if (WriteFile(path, "direction", "out") != 0) 
+        throw "Error to set the pin direction as OUTPUT";
+      else
+        cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Orange") << endl;
+      break;
     case INPUT:
-        if (WriteFile(path, "direction", "in") != 0) 
-          throw "Error to set the pin direction as INPUT";
-        else
-          cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Yellow") << endl;
-        break;   
+      if (WriteFile(path, "direction", "in") != 0) 
+        throw "Error to set the pin direction as INPUT";
+      else
+        cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Yellow") << endl;
+      break;   
   }
   return 0;
 }
@@ -142,15 +175,15 @@ int GPIO::DigitalWrite(int newValue)
   switch (newValue) 
   {
     case HIGH:
-        //cout << "Setting the pin value as: " << "HIGH" << endl;
-        if (WriteFile(this->path, "value", "1") == 0)
-          return 0;
-        break;
+      //cout << "Setting the pin value as: " << "HIGH" << endl;
+      if (WriteFile(this->path, "value", "1") == 0)
+        return 0;
+      break;
     case LOW:
-        //cout << "Setting the pin value as: " << "LOW" << endl;
-        if (WriteFile(this->path, "value", "0") == 0)
-          return 0;
-        break;
+      //cout << "Setting the pin value as: " << "LOW" << endl;
+      if (WriteFile(this->path, "value", "0") == 0)
+        return 0;
+      break;
   }   
   return -1;
 }
@@ -166,6 +199,15 @@ int GPIO::DigitalRead()
     return LOW;
   else
     return HIGH;
+}
+
+/*
+   Public method to do a delay in microseconds
+   @param int: duration of the delay
+*/
+void GPIO::Delayus(int microsecondsToSleep) 
+{
+  this_thread::sleep_for(chrono::microseconds(microsecondsToSleep));
 }
 
 /*

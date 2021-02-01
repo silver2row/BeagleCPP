@@ -23,7 +23,7 @@ class CustomException : public exception
     }
 };
 
-// Overload constructor with 2 arguments
+// Overload constructor 
 PWM::PWM(int pwmPin, int newPeriod)
 {
   id = pwmPin;

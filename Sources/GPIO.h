@@ -57,19 +57,29 @@ class GPIO
     virtual string ReadFile(string, string);
     virtual int ExportGPIO();
     virtual int UnexportGPIO();
-    virtual int SetMode(int);
+    
    
-
-
   public:
-    // Overload constructor
+    // Default construnctor
+    GPIO ();
+
+    // Overload constructor with the pin`s name
+    GPIO (int);
+
+    // Overload constructor with the pin and mode names
     GPIO (int, int);
+
+    // Accessor Method to set the pin's mode
+    int SetMode(int);
 
     // Interface method to set the GPIO pin state
     virtual int DigitalWrite(int);
 
     // Interface method to get the GPIO pin state
     virtual int DigitalRead();
+
+    // Delay method in microseconds
+    virtual void Delayus(int);
 
     // Delay method in milliseconds
     virtual void Delayms(int);
