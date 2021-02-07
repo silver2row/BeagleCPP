@@ -4,7 +4,7 @@
 #include "HC_SR04.h"
 
 // Overload Construnctor
-HC_SR04::HC_SR04(int newTriggerPin, int newEchoPin) 
+HC_SR04::HC_SR04(GPIO newTriggerPin, int newEchoPin) 
   : triggerPin(newTriggerPin), echoPin(newEchoPin) 
 {
   // Set the right modes for the pins

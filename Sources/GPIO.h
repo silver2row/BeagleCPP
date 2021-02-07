@@ -61,12 +61,12 @@ class GPIO
    
   public:
     // Default construnctor
-    // GPIO ();
+    GPIO ();
 
     // Overload constructor with the pin`s name
     GPIO (int);
 
-    // Overload constructor with the pin and mode names
+    // Overload constructor with the pin id and mode
     GPIO (int, int);
 
     // Accessor Method to set the pin's mode

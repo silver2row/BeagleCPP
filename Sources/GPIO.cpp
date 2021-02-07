@@ -19,18 +19,16 @@ class CustomException : public exception
     CustomException (const char* why) : reason (why) {};
     virtual const char* what() const noexcept 
     {
-        return reason.c_str();
+      return reason.c_str();
     }
 };
 
 // Default constructor
-/*
 GPIO::GPIO()
 {
   string message = "Please, don't forget to setup the pin id and mode!";
   cout << RainbowText(message, "Red") << endl << endl;
 }
-*/
 
 // Overload constructor with the pin`s name
 GPIO::GPIO (int newId) 

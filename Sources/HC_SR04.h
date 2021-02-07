@@ -14,7 +14,7 @@ private:
   double distanceCm;
 public:
   // Overload Constructor
-  HC_SR04(int, int);
+  HC_SR04(GPIO, int);
 
   double PulseIn(); 
 
