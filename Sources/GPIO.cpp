@@ -26,7 +26,7 @@ class CustomException : public exception
 // Default constructor
 GPIO::GPIO()
 {
-  string message = "Please, setup the pin's id and the mode!";
+  string message = "Please, setup the pin's id and mode!";
   cout << RainbowText(message, "Red") << endl << endl;
 }
 
