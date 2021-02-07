@@ -15,7 +15,7 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin)
   timeTravel = 0.0;
   distanceCm = 0.0;
 
-  std::cout << RainbowText("trigger and echo pins created","Yellow") << endl;
+  std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Indigo") << endl;
 }
 
 double HC_SR04::PulseIn()
@@ -44,7 +44,7 @@ double HC_SR04::measureDistanceCm()
   // A delay for avoiding false readings (sonic burst)
   echoPin.Delayus(40);
 
-  // Calculate the pulses time travel when bounce an object
+  // Calculate the pulse's time travel when bounce an object
   timeTravel = PulseIn();
 
   return soundSpeed * timeTravel / 2.0; 

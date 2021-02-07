@@ -26,18 +26,8 @@ class CustomException : public exception
 // Default constructor
 GPIO::GPIO()
 {
-  id = P8_08;
-  mode = OUTPUT;
-
-  name = "gpio" + to_string(id);
-  path = GPIO_PATH + name + "/";
-  
-  cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
-        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
-  UnexportGPIO();
-  ExportGPIO();
-  SetMode(mode);
-  cout << RainbowText("Setting the GPIO pin was a success!", "Green") << endl;
+  string message = "Please, setup the id and the mode on the pin!";
+  cout << RainbowText(message, "Red") << endl;
 }
 
 // Overload constructor with the pin`s name
