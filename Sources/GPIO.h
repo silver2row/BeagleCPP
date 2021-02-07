@@ -61,7 +61,7 @@ class GPIO
    
   public:
     // Default construnctor
-    GPIO ();
+    // GPIO ();
 
     // Overload constructor with the pin`s name
     GPIO (int);
