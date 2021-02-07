@@ -12,7 +12,7 @@ int main()
   GPIO triggerPin(P8_17);
   // GPIO echoPin(P8_18);
 
-  HC_SR04 ultrasonicSensor(triggerPin,P8_18);
+  // HC_SR04 ultrasonicSensor(triggerPin,P8_18);
 
   for (size_t i = 0; i < 5; i++)
   {
