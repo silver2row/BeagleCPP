@@ -26,8 +26,8 @@ class CustomException : public exception
 // Default constructor
 GPIO::GPIO()
 {
-  string message = "Please, setup the id and the mode on the pin!";
-  cout << RainbowText(message, "Red") << endl;
+  string message = "Please, setup the pin's id and the mode!";
+  cout << RainbowText(message, "Red") << endl << endl;
 }
 
 // Overload constructor with the pin`s name
@@ -39,7 +39,7 @@ GPIO::GPIO (int newId)
   path = GPIO_PATH + name + "/";
   
   cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
-        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
+        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl << endl;
   UnexportGPIO();
   ExportGPIO();
   SetMode(mode);
@@ -55,7 +55,7 @@ GPIO::GPIO (int newId, int newMode)
   path = GPIO_PATH + name + "/";
   
   cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
-        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
+        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl << endl;
   UnexportGPIO();
   ExportGPIO();
   SetMode(mode);
