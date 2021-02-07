@@ -10,9 +10,9 @@ int main()
   
   // Declaring the pins and the HC_SR04 object
   GPIO triggerPin(P8_17);
-  // GPIO echoPin(P8_18);
+  GPIO echoPin(P8_18);
 
-  // HC_SR04 ultrasonicSensor(triggerPin,P8_18);
+  HC_SR04 ultrasonicSensor(triggerPin,echoPin);
 
   for (size_t i = 0; i < 5; i++)
   {
