@@ -5,7 +5,7 @@
 #include "LED.h"
 
 // Overload constructor
-LED::LED(int newId) : ledPin(newId, OUTPUT) {}
+LED::LED(int newId) : GPIO(newId, OUTPUT) {}
 
 /*
   Public method to turn on the Led attached to the pin 

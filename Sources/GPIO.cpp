@@ -28,17 +28,6 @@ GPIO::GPIO()
 {
   string message = "Please, don't forget to setup the pin id and mode!";
   cout << RainbowText(message, "Red") << endl << endl;
-  id = P8_08;
-  mode = OUTPUT;
-  name = "gpio" + to_string(id);
-  path = GPIO_PATH + name + "/";
-  
-  cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
-        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
-  UnexportGPIO();
-  ExportGPIO();
-  SetMode(mode);
-  cout << RainbowText("Setting the GPIO pin was a success!", "Green") << endl << endl;
 }
 
 // Overload constructor with the pin`s name
