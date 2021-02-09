@@ -40,7 +40,7 @@ void LED::Blink(int duration)
   string message
   {
     "Blinking has been activated with duration of: "
-    + to_string(duration) + "ms on pin: " + to_string(id);
+    + to_string(duration) + "ms on pin: " + to_string(id)
   };
   std::cout << RainbowText(message, "Pink", "Default", "Bold") 
             << endl << endl; 
