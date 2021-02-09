@@ -65,7 +65,7 @@ void LED::MakeBlink(int duration)
 */
 void LED::StopBlink ()
 {
-  stopBlinkFlag = true;
+  this->stopBlinkFlag = true;
 }
 
 /*
