@@ -58,10 +58,10 @@ void LED::MakeBlink(int duration)
 {
   while (this->stopBlinkFlag == false)
   {
-    ledPin.DigitalWrite(HIGH);
-    ledPin.Delayms(duration);
-    ledPin.DigitalWrite(LOW);
-    ledPin.Delayms(duration);
+    this->DigitalWrite(HIGH);
+    this->Delayms(duration);
+    this->DigitalWrite(LOW);
+    this->Delayms(duration);
   }
 }
 
