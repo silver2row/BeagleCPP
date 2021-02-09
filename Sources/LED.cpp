@@ -5,7 +5,10 @@
 #include "LED.h"
 
 // Overload constructor
-LED::LED(int newId) : ledPin(newId, OUTPUT) {}
+LED::LED(int newId) : ledPin(newId, OUTPUT) {
+  cout  << RainbowText("Led object was created on pin: ", "Yellow") 
+        << RainbowText(to_string(id), "Yellow", "Default", "Bold") << endl;
+}
 
 /*
   Public method to turn on the Led attached to the pin 
