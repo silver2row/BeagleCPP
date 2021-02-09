@@ -10,8 +10,8 @@ LED::LED(int newId) : ledPin(newId, OUTPUT) {
   id = newId;
   mode = OUTPUT;
 
-  cout  << RainbowText("Led object was created on pin: ", "Yellow") 
-        << RainbowText(to_string(id), "Yellow", "Default", "Bold") 
+  cout  << RainbowText("Led object was created on pin: ", "Light Blue") 
+        << RainbowText(to_string(id), "Light Blue", "Default", "Bold") 
         << endl << endl;
 }
 
