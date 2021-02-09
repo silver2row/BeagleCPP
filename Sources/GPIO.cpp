@@ -166,12 +166,12 @@ int GPIO::DigitalWrite(int newValue)
   switch (newValue) 
   {
     case HIGH:
-      //cout << "Setting the pin value as: " << "HIGH" << endl;
+      cout << "Setting the pin value as: " << "HIGH" << endl;
       if (WriteFile(this->path, "value", "1") == 0)
         return 0;
       break;
     case LOW:
-      //cout << "Setting the pin value as: " << "LOW" << endl;
+      cout << "Setting the pin value as: " << "LOW" << endl;
       if (WriteFile(this->path, "value", "0") == 0)
         return 0;
       break;
