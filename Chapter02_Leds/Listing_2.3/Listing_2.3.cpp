@@ -1,5 +1,4 @@
 #include <iostream>
-#include "../../Sources/GPIO.h"
 #include "../../Sources/LED.h"
 
 using namespace std;
@@ -12,8 +11,7 @@ int main()
     
     LED greenLedPin(P8_16);
 
-    message = "Start a DIGITAL heart beat pattern on a green led";
-    cout << RainbowText(message, "Green") << endl;
+    cout <<  "Start a DIGITAL heart beat pattern on a green led" << endl;
     greenLedPin.HeartBeat(100,10);
 
     char userInput = '\0';
