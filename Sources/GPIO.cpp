@@ -42,7 +42,8 @@ GPIO::GPIO (int newId)
   UnexportGPIO();
   ExportGPIO();
   SetMode(mode);
-  cout << RainbowText("Setting the GPIO pin was a success!", "Green") << endl << endl;
+  cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
+        << endl << endl;
 }
 
 // Overload constructor with the pin and mode names
@@ -58,7 +59,8 @@ GPIO::GPIO (int newId, int newMode)
   UnexportGPIO();
   ExportGPIO();
   SetMode(mode);
-  cout << RainbowText("Setting the GPIO pin was a success!", "Green") << endl << endl;
+  cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
+        << endl << endl;
 }
 
 /*
