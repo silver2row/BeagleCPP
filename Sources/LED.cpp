@@ -37,11 +37,14 @@ void LED::TurnOff()
 */
 void LED::Blink(int duration)
 {
-  string message; 
-  message = "Blinking has been activated with duration of: ";
-  message += to_string(duration) + "ms on pin: " + to_string(id);
-  std::cout << RainbowText(message, "Pink", "Default", "Bold") << endl; 
-  
+  string message
+  {
+    "Blinking has been activated with duration of: "
+    + to_string(duration) + "ms on pin: " + to_string(id);
+  };
+  std::cout << RainbowText(message, "Pink", "Default", "Bold") 
+            << endl << endl; 
+
   blinkThread = std::thread(&LED::MakeBlink, this, duration);
 }
 
@@ -81,7 +84,8 @@ void LED::Flash(int timeOn, int timeOff)
     + to_string(timeOn) + "ms and time off: " 
     + to_string(timeOff) + "ms on pin: " + to_string(id)
   };
-  std::cout << RainbowText(message, "Pink", "Default", "Bold") << endl; 
+  std::cout << RainbowText(message, "Pink", "Default", "Bold") << endl;
+
   flashThread = std::thread(&LED::MakeFlash, this, timeOn, timeOff);
 }
 
@@ -94,10 +98,10 @@ void LED::MakeFlash(int timeOn, int timeOff)
 {
   while (this->stopFlashFlag == false)
   {
-    DigitalWrite(HIGH);
-    Delayms(timeOn);
-    DigitalWrite(LOW);
-    Delayms(timeOff);
+    ledPin.DigitalWrite(HIGH);
+    ledPin.Delayms(timeOn);
+    ledPin.DigitalWrite(LOW);
+    ledPin.Delayms(timeOff);
   }
 }
 
@@ -106,7 +110,7 @@ void LED::MakeFlash(int timeOn, int timeOff)
 */
 void LED::StopFlash ()
 {
-  stopFlashFlag = true;
+  this->stopFlashFlag = true;
 }
 
 /*
@@ -122,7 +126,8 @@ void LED::HeartBeat(int timeOn, int ratio)
     + to_string(timeOn) + "ms on pin: " + to_string(id)
     + " with a ratio pulse/pause of: " + to_string(ratio)
   };
-  std::cout << RainbowText(message, "Pink", "Default", "Bold") << endl; 
+  std::cout << RainbowText(message, "Pink", "Default", "Bold") << endl;
+
   heartBeatThread = std::thread(&LED::MakeHeartBeat, this, timeOn, ratio);
 }
 
@@ -137,12 +142,12 @@ void LED::MakeHeartBeat(int timeOn, int ratio)
   {
     for (int i = 0; i < 2; i++)
     {
-      DigitalWrite(HIGH);
-      Delayms(timeOn);
-      DigitalWrite(LOW);
-      Delayms(timeOn);
+      ledPin.DigitalWrite(HIGH);
+      ledPin.Delayms(timeOn);
+      ledPin.DigitalWrite(LOW);
+      ledPin.Delayms(timeOn);
     }
-    Delayms(timeOn*ratio);
+    ledPin.Delayms(timeOn*ratio);
   }
 }
 
@@ -151,7 +156,7 @@ void LED::MakeHeartBeat(int timeOn, int ratio)
 */
 void LED::StopHeartBeat ()
 {
-    stopHeartBeatFlag = true;
+  this->stopHeartBeatFlag = true;
 }
 
 // Destructor
