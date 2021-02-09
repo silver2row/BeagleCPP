@@ -40,13 +40,8 @@ void LED::Blink(int duration)
   string message; 
   message = "Blinking has been activated with duration of: ";
   message += to_string(duration) + "ms on pin: " + to_string(id);
-
-  ledPin.DigitalWrite(HIGH);
-  ledPin.Delayms(duration);
-  ledPin.DigitalWrite(LOW);
-  ledPin.Delayms(duration);
-  
   std::cout << RainbowText(message, "Pink", "Default", "Bold") << endl; 
+  
   blinkThread = std::thread(&LED::MakeBlink, this, duration);
 }
 
