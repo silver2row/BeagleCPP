@@ -37,8 +37,8 @@ GPIO::GPIO (int newId)
   name = "gpio" + to_string(id);
   path = GPIO_PATH + name + "/";
   
-  cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
-        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
+  cout  << RainbowText("Trying to set up the GPIO pin: ","Green") 
+        << RainbowText(to_string(id), "Green", "Default", "Bold") << endl;
   UnexportGPIO();
   ExportGPIO();
   SetMode(mode);
@@ -54,8 +54,8 @@ GPIO::GPIO (int newId, int newMode)
   name = "gpio" + to_string(id);
   path = GPIO_PATH + name + "/";
   
-  cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
-        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
+  cout  << RainbowText("Trying to set up the GPIO pin: ","Green") 
+        << RainbowText(to_string(id), "Green", "Default", "Bold") << endl;
   UnexportGPIO();
   ExportGPIO();
   SetMode(mode);
@@ -144,13 +144,13 @@ int GPIO::SetMode(int mode)
       if (WriteFile(path, "direction", "out") != 0) 
         throw "Error to set the pin direction as OUTPUT";
       else
-        cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Orange") << endl;
+        cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Green") << endl;
       break;
     case INPUT:
       if (WriteFile(path, "direction", "in") != 0) 
         throw "Error to set the pin direction as INPUT";
       else
-        cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Yellow") << endl;
+        cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Green") << endl;
       break;   
   }
   return 0;
@@ -220,7 +220,7 @@ GPIO::~GPIO()
     Delayms(10);
 
     this->UnexportGPIO();
-    cout  << RainbowText("Destroying the GPIO_PIN with path: ","Gray")
-          << RainbowText(path, "Gray", "Default", "Bold") << endl;
+    cout  << RainbowText("Destroying the GPIO_PIN with path: ","Green")
+          << RainbowText(path, "Green", "Default", "Bold") << endl;
   }
 }
