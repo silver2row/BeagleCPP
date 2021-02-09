@@ -45,6 +45,9 @@ enum EDGE {
 
 class GPIO  
 {
+  private:
+    bool isDefaultConstructor = false;
+
   protected:
     int id;        /* The GPIO number of the object */
     int mode;      /* The GPIO mode e.g. 0/1 for OUTPUT/INPUT */
@@ -58,7 +61,6 @@ class GPIO
     virtual int ExportGPIO();
     virtual int UnexportGPIO();
     
-   
   public:
     // Default construnctor
     GPIO ();

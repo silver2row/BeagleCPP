@@ -26,8 +26,7 @@ class CustomException : public exception
 // Default constructor
 GPIO::GPIO()
 {
-  string message = "Please, don't forget to setup the pin id and mode!";
-  cout << RainbowText(message, "Red") << endl << endl;
+  isDefaultConstructor = true;
 }
 
 // Overload constructor with the pin`s name
@@ -212,11 +211,14 @@ void GPIO::Delayms(int millisecondsToSleep)
 // Destructor
 GPIO::~GPIO() 
 {
-  if (this->mode == OUTPUT)
-    this->DigitalWrite(LOW);
-  Delayms(10);
+  if (isDefaultConstructor == false)
+  {
+    if (this->mode == OUTPUT)
+      this->DigitalWrite(LOW);
+    Delayms(10);
 
-  this->UnexportGPIO();
-  cout  << RainbowText("Destroying the GPIO_PIN with path: ","Gray")
-        << RainbowText(path, "Gray", "Default", "Bold") << endl;
+    this->UnexportGPIO();
+    cout  << RainbowText("Destroying the GPIO_PIN with path: ","Gray")
+          << RainbowText(path, "Gray", "Default", "Bold") << endl;
+  }
 }
