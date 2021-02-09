@@ -6,8 +6,10 @@
 
 // Overload constructor
 LED::LED(int newId) : ledPin(newId, OUTPUT) {
+  id = newId;
+  mode = OUTPUT;
   cout  << RainbowText("Led object was created on pin: ", "Yellow") 
-        << RainbowText(to_string(newId), "Yellow", "Default", "Bold") << endl;
+        << RainbowText(to_string(id), "Yellow", "Default", "Bold") << endl;
 }
 
 /*

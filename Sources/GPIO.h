@@ -46,7 +46,7 @@ enum EDGE {
 class GPIO  
 {
   private:
-    bool isDefaultConstructor = false;
+    bool wasDefaultConstructorCalled = false;
 
   protected:
     int id;        /* The GPIO number of the object */

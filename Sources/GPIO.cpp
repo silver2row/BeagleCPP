@@ -26,7 +26,7 @@ class CustomException : public exception
 // Default constructor
 GPIO::GPIO()
 {
-  isDefaultConstructor = true;
+  wasDefaultConstructorCalled = true;
 }
 
 // Overload constructor with the pin`s name
@@ -211,7 +211,7 @@ void GPIO::Delayms(int millisecondsToSleep)
 // Destructor
 GPIO::~GPIO() 
 {
-  if (isDefaultConstructor == false)
+  if (wasDefaultConstructorCalled == false)
   {
     if (this->mode == OUTPUT)
       this->DigitalWrite(LOW);
