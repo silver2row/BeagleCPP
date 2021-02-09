@@ -42,7 +42,7 @@ void LED::Blink(int duration)
     "Blinking has been activated with duration of: "
     + to_string(duration) + "ms on pin: " + to_string(id)
   };
-  std::cout << RainbowText(message, "Pink", "Default", "Bold") 
+  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") 
             << endl << endl; 
 
   blinkThread = std::thread(&LED::MakeBlink, this, duration);
@@ -84,7 +84,7 @@ void LED::Flash(int timeOn, int timeOff)
     + to_string(timeOn) + "ms and time off: " 
     + to_string(timeOff) + "ms on pin: " + to_string(id)
   };
-  std::cout << RainbowText(message, "Pink", "Default", "Bold") << endl;
+  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << endl;
 
   flashThread = std::thread(&LED::MakeFlash, this, timeOn, timeOff);
 }
@@ -126,7 +126,7 @@ void LED::HeartBeat(int timeOn, int ratio)
     + to_string(timeOn) + "ms on pin: " + to_string(id)
     + " with a ratio pulse/pause of: " + to_string(ratio)
   };
-  std::cout << RainbowText(message, "Pink", "Default", "Bold") << endl;
+  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << endl;
 
   heartBeatThread = std::thread(&LED::MakeHeartBeat, this, timeOn, ratio);
 }
