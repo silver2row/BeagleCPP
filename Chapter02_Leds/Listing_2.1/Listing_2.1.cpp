@@ -12,12 +12,10 @@ int main()
   LED ledPinRed(P8_12);
   LED ledPinYellow(P8_14);
 
-  message = "Start a blinking on a red led";
-  cout << RainbowText(message, "Red") << endl;
+  cout << "Start a blinking on a red led" << endl;
   ledPinRed.Blink(1000);
 
-  message = "Start a blinking on a yellow led";
-  cout << RainbowText(message, "Yellow") << endl;
+  cout <<  "Start a blinking on a yellow led" << endl;
   ledPinYellow.Blink(100);
 
   char userInput = '\0';
