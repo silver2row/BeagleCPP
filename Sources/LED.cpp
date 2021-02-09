@@ -47,7 +47,7 @@ void LED::Blink(int duration)
   ledPin.Delayms(duration);
   
   std::cout << RainbowText(message, "Pink", "Default", "Bold") << endl; 
-  blinkThread = std::thread(&LED::MakeBlink, ledPin, duration);
+  blinkThread = std::thread(&LED::MakeBlink, this, duration);
 }
 
 /*
