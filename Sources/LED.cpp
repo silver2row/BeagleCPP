@@ -6,8 +6,10 @@
 
 // Overload constructor
 LED::LED(int newId) : ledPin(newId, OUTPUT) {
+  
   id = newId;
   mode = OUTPUT;
+
   cout  << RainbowText("Led object was created on pin: ", "Yellow") 
         << RainbowText(to_string(id), "Yellow", "Default", "Bold") 
         << endl << endl;
@@ -51,10 +53,10 @@ void LED::MakeBlink(int duration)
 {
   while (this->stopBlinkFlag == false)
   {
-    DigitalWrite(HIGH);
-    Delayms(duration);
-    DigitalWrite(LOW);
-    Delayms(duration);
+    this->DigitalWrite(HIGH);
+    this->Delayms(duration);
+    this->DigitalWrite(LOW);
+    this->Delayms(duration);
   }
 }
 
