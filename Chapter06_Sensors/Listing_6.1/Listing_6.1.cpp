@@ -22,7 +22,7 @@ int main()
     triggerPin.Delayus(1000000);
   }
   
-  HC_SR04 ultrasonicSensor(triggerPin, echoPin);
+  // HC_SR04 ultrasonicSensor(triggerPin, echoPin);
   
 
   /*
