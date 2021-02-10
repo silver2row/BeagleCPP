@@ -82,16 +82,14 @@ int GPIO::SetMode(int mode)
   switch (mode) 
   {
     case OUTPUT:
-      if (WriteFile(path, "direction", "out") != 1) 
-        throw "Error to set the pin direction as OUTPUT";
-      else
-        cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Green") << endl;
+      std::cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Gray") 
+                << std::endl;
+      WriteFile(path, "direction", "out");
       break;
     case INPUT:
-      if (WriteFile(path, "direction", "in") != 1) 
-        throw "Error to set the pin direction as INPUT";
-      else
-        cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Green") << endl;
+      std::cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Gray") 
+                << std::endl;
+      WriteFile(path, "direction", "in"); 
       break;   
   }
   return 1;
@@ -108,13 +106,11 @@ int GPIO::DigitalWrite(int newValue)
   {
     case HIGH:
       std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
-      if (WriteFile(path, "value", "1") != 1)
-        return -1;
+      WriteFile(path, "value", "1");
       break;
     case LOW:
       std::cout << "Setting the pin value as: " << "LOW" << std::endl;
-      if (WriteFile(path, "value", "0") != 1)
-        return -1;
+      WriteFile(path, "value", "0");
       break;
   }   
   return 1;
