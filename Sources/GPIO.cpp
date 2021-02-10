@@ -37,8 +37,8 @@ GPIO::GPIO (int newId)
   name = "gpio" + to_string(id);
   path = GPIO_PATH + name + "/";
   
-  cout  << RainbowText("Trying to set up the GPIO pin: ","Green") 
-        << RainbowText(to_string(id), "Green", "Default", "Bold") << endl;
+  cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
+        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
   UnexportGPIO(id);
   ExportGPIO(id);
   SetMode(mode);

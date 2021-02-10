@@ -2,7 +2,6 @@
 #define SYSFILEACCESS_H
 
 #include <string>
-#include "RAINBOWCOLORS.h"
 
 const std::string GPIO_PATH("/sys/class/gpio/");
 
