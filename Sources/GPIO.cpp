@@ -142,8 +142,9 @@ GPIO::~GPIO()
     wasDestructorCalled == true;
     this->DigitalWrite(LOW);
     std::cout << "Turning the OUTPUT OFF" << std::endl;
+    Delayms(10000);
   }
-  Delayms(10);
+  
   /*
   if (wasDefaultConstructorCalled == false && wasDestructorCalled == false)
   {
