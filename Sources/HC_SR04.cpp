@@ -18,8 +18,8 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin)
   std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") 
             << endl;
 
-  triggerPin.DigitalWrite(HIGH);
-  echoPin.DigitalWrite(HIGH);
+  cout << "trigger id: " << triggerPin.id << endl;
+  cout << "echo id: " << echoPin.id << endl;
 }
 
 double HC_SR04::PulseIn()
