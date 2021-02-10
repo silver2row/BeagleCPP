@@ -2,27 +2,9 @@
 #define GPIO_H
 
 #include <string>
-#include <thread>
-#include "RAINBOWCOLORS.h"
+#include "SYSFILEACCESS.h"
+#include "PIN_ID.h"
 
-using namespace std;
-
-const string GPIO_PATH("/sys/class/gpio/");
-
-/* The gpio number of the pin*/
-enum ID {
-  P8_08 = 67,
-  P8_10 = 68,
-  P8_11 = 45,
-  P8_12 = 44,
-  P8_14 = 26,
-  P8_16 = 46,
-  P8_17 = 27,
-  P8_18 = 65,
-  P8_19 = 22,
-  P8_20 = 63,
-  P8_26 = 61,
-};
 
 /* The mode e.g. 0/1 for OUTPUT/INPUT */
 enum MODE {
@@ -43,7 +25,7 @@ enum EDGE {
   BOTH,
 };
 
-class GPIO  
+class GPIO : public SYSFILEACCESS
 {
   private:
     bool wasDefaultConstructorCalled = false;
@@ -53,14 +35,8 @@ class GPIO
     int id;        /* The GPIO number of the object */
     int mode;      /* The GPIO mode e.g. 0/1 for OUTPUT/INPUT */
     int value;     /* The GPIO value e.g. 0/1 for LOW/HIGH */
-    string name;   /* The name of the GPIO e.g. gpio44 */
-    string path;   /* The full path to the GPIO e.g. /sys/class/gpio/gpio44 */
-    
-    // Helper methods
-    virtual int WriteFile(string, string, string);
-    virtual string ReadFile(string, string);
-    virtual int ExportGPIO();
-    virtual int UnexportGPIO();
+    std::string name;   /* The name of the GPIO e.g. gpio44 */
+    std::string path;   /* The full path to the GPIO e.g. /sys/class/gpio/gpio44 */
     
   public:
     // Default construnctor

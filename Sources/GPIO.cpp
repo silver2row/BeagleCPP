@@ -39,8 +39,8 @@ GPIO::GPIO (int newId)
   
   cout  << RainbowText("Trying to set up the GPIO pin: ","Green") 
         << RainbowText(to_string(id), "Green", "Default", "Bold") << endl;
-  UnexportGPIO();
-  ExportGPIO();
+  UnexportGPIO(id);
+  ExportGPIO(id);
   SetMode(mode);
   cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
         << endl << endl;
@@ -56,79 +56,11 @@ GPIO::GPIO (int newId, int newMode)
   
   cout  << RainbowText("Trying to set up the GPIO pin: ","Green") 
         << RainbowText(to_string(id), "Green", "Default", "Bold") << endl;
-  UnexportGPIO();
-  ExportGPIO();
+  UnexportGPIO(id);
+  ExportGPIO(id);
   SetMode(mode);
   cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
         << endl << endl;
-}
-
-/*
-  Private method that writes a string value to a file in the path provided
-  @param String path: The system path of the file to be modified
-  @param String feature: The name of file to be written
-  @param string value: The value to be written to in the file
-  @return int: 0 written has succeeded
-*/
-int GPIO::WriteFile(string path, string feature, string value) 
-{
-  string fileName = path + feature;
-
-  ofstream file(fileName, ios_base::out);
-  if (!file.is_open()) 
-  {
-    perror(("Error while opening file: " + fileName).c_str());
-    throw CustomException("Error in 'WriteFile' method");
-  } 
-  file << value;
-  file.close();
-  Delayms(10); 
-  return 0;
-}
-
-/*
-  Private method that read a file in the path provided
-  @param String path: The sysfs path of the file to be read
-  @param String feature: The file to be read to in that path
-  @return string: the read value 
-*/
-string GPIO::ReadFile(string path, string feature) 
-{
-  string fileName;
-  fileName = path + feature;
-  ifstream file(fileName, ios_base::in);
-  if (!file.is_open()) {
-    perror(("Error while opening file: " + fileName).c_str());
-    throw CustomException("Error in 'ReadFile' method");
-  }
-  string value;
-  getline(file,value);
-  if (file.bad())
-    perror(("Error while reading file: " + fileName).c_str());
-  file.close();
-  return value;
-}
-
-/*
-  Private method to export the GPIO pin
-  @return int: 0 export has succeeded / -1 export has failed 
-*/
-int GPIO::ExportGPIO()
-{
-  if (WriteFile(GPIO_PATH, "export", to_string(id)) != 0)
-    throw CustomException("Error to export the pin");
-  return 0;
-}
-
-/*
-  Private method to unexport the GPIO pin
-  @return int: 0 unexport has succeeded / -1 unexport has failed 
-*/
-int GPIO::UnexportGPIO() 
-{
-  if (WriteFile(GPIO_PATH, "unexport", to_string(id)) != 0)
-    throw CustomException("Error to unexport the pin");
-  return 0;
 }
 
 /*
@@ -143,7 +75,7 @@ int GPIO::GetId()
 /*
   Public method to set the pin's mode
   @param int: The desired mode 0/1 for OUTPUT/INPUT
-  @return int: 0 set Mode has succeeded / -1 set Mode has failed 
+  @return int: 1 set Mode has succeeded / -1 set Mode has failed 
 */
 int GPIO::SetMode(int mode) 
 {
@@ -162,7 +94,7 @@ int GPIO::SetMode(int mode)
         cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Green") << endl;
       break;   
   }
-  return 0;
+  return 1;
 }
 
 /*
