@@ -9,20 +9,6 @@
 #include "GPIO.h"
 #include "RAINBOWCOLORS.h"
 
-using namespace std;
-
-class CustomException : public exception 
-{
-  private:
-    string reason;
-  public:
-    CustomException (const char* why) : reason (why) {};
-    virtual const char* what() const noexcept 
-    {
-      return reason.c_str();
-    }
-};
-
 // Default constructor
 GPIO::GPIO()
 {
@@ -34,16 +20,16 @@ GPIO::GPIO (int newId)
 {
   id = newId;
   mode = OUTPUT;
-  name = "gpio" + to_string(id);
+  name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
   
-  cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
-        << RainbowText(to_string(id), "Gray", "Default", "Bold") << endl;
+  std::cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
+        << RainbowText(std::to_string(id), "Gray", "Default", "Bold") << std::endl;
   UnexportGPIO(id);
   ExportGPIO(id);
   SetMode(mode);
-  cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
-        << endl << endl;
+  std::cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
+        << std::endl << std::endl;
 }
 
 // Overload constructor with the pin and mode names
@@ -51,16 +37,16 @@ GPIO::GPIO (int newId, int newMode)
 {
   id = newId;
   mode = newMode;
-  name = "gpio" + to_string(id);
+  name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
   
-  cout  << RainbowText("Trying to set up the GPIO pin: ","Green") 
-        << RainbowText(to_string(id), "Green", "Default", "Bold") << endl;
+  std::cout  << RainbowText("Trying to set up the GPIO pin: ","Green") 
+        << RainbowText(std::to_string(id), "Green", "Default", "Bold") << std::endl;
   UnexportGPIO(id);
   ExportGPIO(id);
   SetMode(mode);
-  cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
-        << endl << endl;
+  std::cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
+        << std::endl << std::endl;
 }
 
 /*
@@ -122,7 +108,7 @@ int GPIO::DigitalWrite(int newValue)
 */
 int GPIO::DigitalRead() 
 {
-  string value = ReadFile(path, "value");
+  std::string value = ReadFile(path, "value");
   if (value == "0")
     return LOW;
   else
@@ -135,7 +121,7 @@ int GPIO::DigitalRead()
 */
 void GPIO::Delayus(int microsecondsToSleep) 
 {
-  this_thread::sleep_for(chrono::microseconds(microsecondsToSleep));
+  std::this_thread::sleep_for(std::chrono::microseconds(microsecondsToSleep));
 }
 
 /*
@@ -144,7 +130,7 @@ void GPIO::Delayus(int microsecondsToSleep)
 */
 void GPIO::Delayms(int millisecondsToSleep) 
 {
-  this_thread::sleep_for(chrono::milliseconds(millisecondsToSleep));
+  std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep));
 }
 
 // Destructor

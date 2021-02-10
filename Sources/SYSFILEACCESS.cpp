@@ -40,7 +40,7 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, std::string 
   } 
   file << value;
   file.close();
-  std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep)); 
+  std::this_thread::sleep_for(std::chrono::milliseconds(10)); 
   return 1;
 }
 
