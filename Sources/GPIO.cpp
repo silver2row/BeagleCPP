@@ -225,6 +225,7 @@ GPIO::~GPIO()
   if (wasDefaultConstructorCalled == false && wasDestructorCalled == false)
   {
     wasDestructorCalled = true;
+    
     if (this->mode == OUTPUT)
       this->DigitalWrite(LOW);
     Delayms(10);
