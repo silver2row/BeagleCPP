@@ -139,7 +139,7 @@ GPIO::~GPIO()
   if (this->mode == OUTPUT)
   {
     this->DigitalWrite(LOW);
-    std:: << "Turning the OUTPUT OFF" << std::endl;
+    std::cout << "Turning the OUTPUT OFF" << std::endl;
   }
   Delayms(10);
   /*
