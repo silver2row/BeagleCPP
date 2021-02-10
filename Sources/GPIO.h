@@ -27,10 +27,6 @@ enum EDGE {
 
 class GPIO : public SYSFILEACCESS
 {
-  private:
-    bool wasDefaultConstructorCalled = false;
-    bool wasDestructorCalled = false;
-
   protected:
     int id;        /* The GPIO number of the object */
     int mode;      /* The GPIO mode e.g. 0/1 for OUTPUT/INPUT */

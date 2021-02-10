@@ -11,9 +11,7 @@
 
 // Default constructor
 GPIO::GPIO()
-{
-  wasDefaultConstructorCalled = true;
-}
+{}
 
 // Overload constructor with the pin`s name
 GPIO::GPIO (int newId) 
@@ -134,29 +132,4 @@ void GPIO::Delayms(int millisecondsToSleep)
 }
 
 // Destructor
-GPIO::~GPIO() 
-{
-
-  if (this->mode == OUTPUT && wasDestructorCalled == false)
-  {
-    wasDestructorCalled == true;
-    this->DigitalWrite(LOW);
-    std::cout << "Turning the OUTPUT OFF" << std::endl;
-    Delayms(10000);
-  }
-  
-  /*
-  if (wasDefaultConstructorCalled == false && wasDestructorCalled == false)
-  {
-    wasDestructorCalled = true;
-    
-    if (this->mode == OUTPUT)
-      this->DigitalWrite(LOW);
-    Delayms(10);
-
-    this->UnexportGPIO();
-    cout  << RainbowText("Destroying the GPIO_PIN with path: ","Green")
-          << RainbowText(path, "Green", "Default", "Bold") << endl;
-  }
-  */
-}
+GPIO::~GPIO() {}
