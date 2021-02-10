@@ -222,6 +222,7 @@ void GPIO::Delayms(int millisecondsToSleep)
 // Destructor
 GPIO::~GPIO() 
 {
+  /*
   if (wasDefaultConstructorCalled == false && wasDestructorCalled == false)
   {
     wasDestructorCalled = true;
@@ -234,4 +235,5 @@ GPIO::~GPIO()
     cout  << RainbowText("Destroying the GPIO_PIN with path: ","Green")
           << RainbowText(path, "Green", "Default", "Bold") << endl;
   }
+  */
 }
