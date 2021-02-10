@@ -10,24 +10,14 @@
 #include "RAINBOWCOLORS.h"
 
 // Default constructor
-GPIO::GPIO()
-{}
+GPIO::GPIO() {}
 
 // Overload constructor with the pin`s name
 GPIO::GPIO (int newId) 
 {
   id = newId;
   mode = OUTPUT;
-  name = "gpio" + std::to_string(id);
-  path = GPIO_PATH + name + "/";
-  
-  std::cout  << RainbowText("Trying to set up the GPIO pin: ","Gray") 
-        << RainbowText(std::to_string(id), "Gray", "Default", "Bold") << std::endl;
-  UnexportGPIO(id);
-  ExportGPIO(id);
-  SetMode(mode);
-  std::cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
-        << std::endl << std::endl;
+  InitPin();
 }
 
 // Overload constructor with the pin and mode names
@@ -35,6 +25,12 @@ GPIO::GPIO (int newId, int newMode)
 {
   id = newId;
   mode = newMode;
+  InitPin();
+}
+
+// Public method to initialize the GPIO pin
+void GPIO::InitPin()
+{
   name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
   
@@ -43,9 +39,10 @@ GPIO::GPIO (int newId, int newMode)
   UnexportGPIO(id);
   ExportGPIO(id);
   SetMode(mode);
-  std::cout  << RainbowText("Setting the GPIO pin was a success!", "Green") 
-        << std::endl << std::endl;
+  std::cout << RainbowText("Setting the GPIO pin was a success!", "Green") 
+            << std::endl << std::endl;
 }
+
 
 /*
   Public method to get the pin's id
