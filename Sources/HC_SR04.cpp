@@ -6,8 +6,6 @@
 // Default constructor
 HC_SR04::HC_SR04()
 {
-  triggerPin();
-  echoPin();
 }
 
 // Overload Constructor
