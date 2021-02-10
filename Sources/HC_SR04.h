@@ -4,7 +4,7 @@
 #include "GPIO.h"
 #include "RAINBOWCOLORS.h"
 
-class HC_SR04 : public GPIO
+class HC_SR04
 {
 private:
   GPIO triggerPin;
