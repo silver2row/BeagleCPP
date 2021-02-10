@@ -74,7 +74,9 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
 */
 int SYSFILEACCESS::ExportGPIO(int id)
 {
+  std::cout << "Exit from export the pin" << std::endl;
   WriteFile(GPIO_PATH, "export", std::to_string(id));
+  std::cout << "Exit from export the pin" << std::endl;
   return 1;
 }
 
@@ -85,9 +87,9 @@ int SYSFILEACCESS::ExportGPIO(int id)
 */
 int SYSFILEACCESS::UnexportGPIO(int id) 
 {
-  std::cout << "Unexporting the pin" << std::endl;
+  std::cout << "Enter to unexport the pin" << std::endl;
   WriteFile(GPIO_PATH, "unexport", std::to_string(id));
-  std::cout << "Unexporting the pin" << std::endl;
+  std::cout << "Exit from unexport the pin" << std::endl;
   return 1;
 }
 
