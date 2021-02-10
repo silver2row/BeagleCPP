@@ -4,8 +4,8 @@
 #include "HC_SR04.h"
 
 // Overload Construnctor
-HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) 
-  : triggerPin(newTriggerPin), echoPin(newEchoPin) 
+HC_SR04::HC_SR04(GPIO newTriggerPin) 
+  : triggerPin(newTriggerPin) 
 {
   // Set the right modes for the pins
   triggerPin.SetMode(OUTPUT);
@@ -18,8 +18,8 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin)
   std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") 
             << endl;
 
-  cout << "trigger id: " << triggerPin.id << endl;
-  cout << "echo id: " << echoPin.id << endl;
+  cout << "trigger id: " << triggerPin.GetId() << endl;
+  cout << "echo id: " << echoPin.GetId() << endl;
 }
 
 double HC_SR04::PulseIn()
