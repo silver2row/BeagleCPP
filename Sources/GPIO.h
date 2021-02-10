@@ -71,7 +71,10 @@ class GPIO
     // Overload constructor with the pin id and mode
     GPIO (int, int);
 
-    // Accessor Method to set the pin's mode
+    // Accessor method to get the pin's mode
+    int GetId();
+
+    // Mutator method to set the pin's mode
     int SetMode(int);
 
     // Interface method to set the GPIO pin state

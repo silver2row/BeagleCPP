@@ -132,9 +132,18 @@ int GPIO::UnexportGPIO()
 }
 
 /*
-   Public method to set the pin's Mode
-   @param int: The desired mode 0/1 for OUTPUT/INPUT
-   @return int: 0 set Mode has succeeded / -1 set Mode has failed 
+  Public method to get the pin's id
+  @return int: The pin's id
+*/
+int GPIO::Id()
+{
+  return id;
+}
+
+/*
+  Public method to set the pin's mode
+  @param int: The desired mode 0/1 for OUTPUT/INPUT
+  @return int: 0 set Mode has succeeded / -1 set Mode has failed 
 */
 int GPIO::SetMode(int mode) 
 {
