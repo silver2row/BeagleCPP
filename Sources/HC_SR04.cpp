@@ -3,18 +3,13 @@
 
 #include "HC_SR04.h"
 
-// Default constructor
-HC_SR04::HC_SR04()
-{
-}
-
 // Overload Constructor
-HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) 
-  : triggerPin(newTriggerPin), echoPin(newEchoPin)
+HC_SR04::HC_SR04(int newTriggerPin, int newEchoPin) 
+  : triggerPin(newTriggerPin, OUTPUT), echoPin(newEchoPin, OUTPUT)
 {
   // Set the right modes for the pins
-  triggerPin.SetMode(OUTPUT);
-  echoPin.SetMode(OUTPUT);
+  // triggerPin.SetMode(OUTPUT);
+  // echoPin.SetMode(OUTPUT);
 
   soundSpeed = 343.0 * 100 / 1000000; // Units in cm/us
   timeTravel = 0.0;
@@ -35,6 +30,10 @@ void HC_SR04::test()
     triggerPin.Delayms(1000);
     triggerPin.DigitalWrite(LOW);
     triggerPin.Delayus(1000000);
+    echoPin.DigitalWrite(HIGH);
+    echoPin.Delayms(1000);
+    echoPin.DigitalWrite(LOW);
+    echoPin.Delayms(1000);
   }
 }
 

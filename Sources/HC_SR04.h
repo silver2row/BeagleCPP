@@ -14,11 +14,9 @@ private:
   double distanceCm;
   
 public:
-  // Default constructor
-  HC_SR04();
 
   // Overload constructor
-  HC_SR04(GPIO, GPIO);
+  HC_SR04(int, int);
 
   void test();
 

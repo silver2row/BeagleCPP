@@ -9,10 +9,10 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
   // Declaring the pins and the HC_SR04 object
-  GPIO triggerPin(P8_12);
-  GPIO echoPin(P8_14);
+  // GPIO triggerPin(P8_12);
+  // GPIO echoPin(P8_14);
 
-  HC_SR04 ultrasonicSensor(triggerPin, echoPin);
+  HC_SR04 ultrasonicSensor(P8_12, P8_14);
 
   ultrasonicSensor.test();
   
