@@ -14,6 +14,7 @@ int main()
 
   HC_SR04 ultrasonicSensor(triggerPin,echoPin);
 
+  /*
   for (size_t i = 0; i < 5; i++)
   {
     triggerPin.DigitalWrite(HIGH);
@@ -21,6 +22,7 @@ int main()
     triggerPin.DigitalWrite(LOW);
     triggerPin.Delayus(1000000);
   }
+  */
   
 
   /*

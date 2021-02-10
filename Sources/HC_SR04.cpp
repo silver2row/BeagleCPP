@@ -9,13 +9,17 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin)
 {
   // Set the right modes for the pins
   triggerPin.SetMode(OUTPUT);
-  echoPin.SetMode(INPUT);
+  echoPin.SetMode(OUTPUT);
 
   soundSpeed = 343.0 * 100 / 1000000; // Units in cm/us
   timeTravel = 0.0;
   distanceCm = 0.0;
 
-  std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Indigo") << endl;
+  std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") 
+            << endl;
+
+  triggerPin.DigitalWrite(HIGH);
+  echoPin.DigitalWrite(HIGH);
 }
 
 double HC_SR04::PulseIn()

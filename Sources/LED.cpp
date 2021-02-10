@@ -5,8 +5,8 @@
 #include "LED.h"
 
 // Overload constructor
-LED::LED(int newId) : ledPin(newId, OUTPUT) {
-  
+LED::LED(int newId) : ledPin(newId, OUTPUT) 
+{
   id = newId;
   mode = OUTPUT;
 
