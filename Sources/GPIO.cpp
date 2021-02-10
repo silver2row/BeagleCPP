@@ -34,15 +34,15 @@ void GPIO::InitPin()
   name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
   
-  std::cout  << RainbowText("Trying to set up the GPIO pin: ","Green") 
-        << RainbowText(std::to_string(id), "Green", "Default", "Bold") << std::endl;
+  std::cout << RainbowText("Trying to set up the GPIO pin: ","Green") 
+            << RainbowText(std::to_string(id), "Green", "Default", "Bold") 
+            << std::endl;
   UnexportGPIO(id);
   ExportGPIO(id);
   SetMode(mode);
   std::cout << RainbowText("Setting the GPIO pin was a success!", "Green") 
             << std::endl << std::endl;
 }
-
 
 /*
   Public method to get the pin's id
