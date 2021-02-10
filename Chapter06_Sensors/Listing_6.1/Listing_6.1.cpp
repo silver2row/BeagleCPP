@@ -9,8 +9,8 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
   // Declaring the pins and the HC_SR04 object
-  // GPIO triggerPin(P8_12);
-  // GPIO echoPin(P8_14);
+  GPIO triggerPin(P8_12);
+  GPIO echoPin(P8_14);
 
   HC_SR04 ultrasonicSensor(P8_12, P8_14);
 
@@ -22,7 +22,7 @@ int main()
   double distance = 0.0;
   for (size_t i = 0; i < 10; i++)
   {
-    distance = ultrasonicSensor.measureDistanceCm();
+    distance = ultrasonicS   ensor.measureDistanceCm();
     cout << "The measure distance is: " << distance << "cm" << endl;
     ultrasonicSensor.Delayms(500);
   }
