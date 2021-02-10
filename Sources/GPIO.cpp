@@ -137,7 +137,10 @@ void GPIO::Delayms(int millisecondsToSleep)
 GPIO::~GPIO() 
 {
   if (this->mode == OUTPUT)
+  {
     this->DigitalWrite(LOW);
+    std:: << "Turning the OUTPUT OFF" << std::endl;
+  }
   Delayms(10);
   /*
   if (wasDefaultConstructorCalled == false && wasDestructorCalled == false)
