@@ -4,7 +4,7 @@
 #include "GPIO.h"
 #include "RAINBOWCOLORS.h"
 
-class HC_SR04
+class HC_SR04 : public GPIO
 {
 private:
   GPIO triggerPin;
@@ -12,9 +12,15 @@ private:
   double soundSpeed;
   double timeTravel;
   double distanceCm;
+  
 public:
-  // Overload Constructor
+  // Default constructor
+  HC_SR04();
+
+  // Overload constructor
   HC_SR04(GPIO, GPIO);
+
+  void test();
 
   double PulseIn(); 
 

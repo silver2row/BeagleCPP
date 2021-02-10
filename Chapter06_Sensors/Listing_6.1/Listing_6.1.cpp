@@ -12,19 +12,10 @@ int main()
   GPIO triggerPin(P8_12);
   GPIO echoPin(P8_14);
 
+  HC_SR04 ultrasonicSensor(triggerPin, echoPin);
 
+  ultrasonicSensor.test();
   
-  for (size_t i = 0; i < 5; i++)
-  {
-    triggerPin.DigitalWrite(HIGH);
-    triggerPin.Delayms(1000);
-    triggerPin.DigitalWrite(LOW);
-    triggerPin.Delayus(1000000);
-  }
-  
-  // HC_SR04 ultrasonicSensor(triggerPin, echoPin);
-  
-
   /*
   HC_SR04 ultrasonicSensor(triggerPin,echoPin);
 

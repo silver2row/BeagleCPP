@@ -3,7 +3,14 @@
 
 #include "HC_SR04.h"
 
-// Overload Construnctor
+// Default constructor
+HC_SR04::HC_SR04()
+{
+  triggerPin();
+  echoPin();
+}
+
+// Overload Constructor
 HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) 
   : triggerPin(newTriggerPin), echoPin(newEchoPin)
 {
@@ -20,6 +27,17 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin)
 
   cout << "trigger id: " << triggerPin.GetId() << endl;
   cout << "echo id: " << echoPin.GetId() << endl;
+}
+
+void HC_SR04::test()
+{
+  for (size_t i = 0; i < 5; i++)
+  {
+    triggerPin.DigitalWrite(HIGH);
+    triggerPin.Delayms(1000);
+    triggerPin.DigitalWrite(LOW);
+    triggerPin.Delayus(1000000);
+  }
 }
 
 double HC_SR04::PulseIn()
