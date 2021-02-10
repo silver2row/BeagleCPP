@@ -222,8 +222,9 @@ void GPIO::Delayms(int millisecondsToSleep)
 // Destructor
 GPIO::~GPIO() 
 {
-  if (wasDefaultConstructorCalled == false)
+  if (wasDefaultConstructorCalled == false && wasDestructorCalled == false)
   {
+    wasDestructorCalled = true;
     if (this->mode == OUTPUT)
       this->DigitalWrite(LOW);
     Delayms(10);
