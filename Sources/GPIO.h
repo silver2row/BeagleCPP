@@ -2,28 +2,31 @@
 #define GPIO_H
 
 #include <string>
+#include <map>
+
+#include "BLACKPIN_ID.h"
 #include "SYSFILEACCESS.h"
-#include "PIN_ID.h"
 
-
-/* The mode e.g. 0/1 for OUTPUT/INPUT */
+/* The numeric mode for MODE: e.g. 0/1 for OUTPUT/INPUT */
 enum MODE {
   OUTPUT = 0,
   INPUT = 1,
 };
 
-/* The value e.g. 0/1 for LOW/HIGH */
+/* The numeric value for VALUE: e.g. 0/1 for LOW/HIGH */
 enum VALUE {
   LOW = 0,
   HIGH = 1,
 };
 
-/* The value e.g. 0/1 for LOW/HIGH */
+/* The numeric value for EDGE: e.g. 0/1/2 for RISING/FALLING/BOTH */
 enum EDGE {
-  RISING,
-  FALLING,
-  BOTH,
+  RISING = 0,
+  FALLING = 1,
+  BOTH = 2,
 };
+
+
 
 class GPIO : public SYSFILEACCESS
 {
@@ -34,6 +37,9 @@ class GPIO : public SYSFILEACCESS
     std::string name;   /* The name of the GPIO e.g. gpio44 */
     std::string path;   /* The full path to the GPIO e.g. /sys/class/gpio/gpio44 */
     
+    /* Map to store the BeagleBone Black id pin`s chip number with its name*/
+    std::map <int, std::string> blackPinIdMap; 
+
   public:
     // Default construnctor
     GPIO ();
@@ -43,6 +49,9 @@ class GPIO : public SYSFILEACCESS
 
     // Overload constructor with the pin id and mode
     GPIO (int, int);
+
+    // Initialize the GPIO pin id map with its name
+    void InitPinIdMap(); 
 
     // Initialize the GPIO pin with the data provided by the constructor
     void InitPin();

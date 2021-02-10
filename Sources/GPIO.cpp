@@ -28,14 +28,28 @@ GPIO::GPIO (int newId, int newMode)
   InitPin();
 }
 
+// Public method to initialize the GPIO pin id map with its name
+void GPIO::InitPinIdMap()
+{
+  blackPinIdMap = 
+  {
+    {P8_08, "P8_08"},
+    {P8_10, "P8_10"},
+    {P8_11, "P8_11"},
+    {P8_12, "P8_12"},
+    {P8_14, "P8_14"},
+  };
+}
+
 // Public method to initialize the GPIO pin
 void GPIO::InitPin()
 {
-  name = "gpio" + std::to_string(id);
+  InitPinIdMap();
+  name = "gpio" + blackPinIdMap.at(id);
   path = GPIO_PATH + name + "/";
   
   std::cout << RainbowText("Trying to set up the GPIO pin: ","Green") 
-            << RainbowText(std::to_string(id), "Green", "Default", "Bold") 
+            << RainbowText(blackPinIdMap.at(id), "Green", "Default", "Bold") 
             << std::endl;
   UnexportGPIO(id);
   ExportGPIO(id);

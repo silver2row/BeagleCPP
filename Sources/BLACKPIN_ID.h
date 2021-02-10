@@ -1,6 +1,5 @@
-
-#ifndef PIN_ID_H
-#define PIN_ID_H
+#ifndef BLACKPIN_ID_H
+#define BLACKPIN_ID_H
 
 /* The gpio number of the pin*/
 enum ID {
@@ -17,4 +16,4 @@ enum ID {
   P8_26 = 61,
 };
 
-#endif // PIN_ID_H
+#endif // BLACKPIN_ID_H
