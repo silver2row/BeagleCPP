@@ -16,7 +16,7 @@ private:
 public:
 
   // Overload constructor
-  HC_SR04(int, int);
+  HC_SR04(GPIO, GPIO);
 
   void test();
 
