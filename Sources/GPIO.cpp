@@ -45,7 +45,7 @@ void GPIO::InitPinIdMap()
 void GPIO::InitPin()
 {
   InitPinIdMap();
-  name = "gpio" + blackPinIdMap.at(id);
+  name = "gpio" + id;
   path = GPIO_PATH + name + "/";
   
   std::cout << RainbowText("Trying to set up the GPIO pin: ","Green") 
@@ -77,14 +77,14 @@ int GPIO::SetMode(int mode)
   switch (mode) 
   {
     case OUTPUT:
+      WriteFile(path, "direction", "out");
       std::cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Gray") 
                 << std::endl;
-      WriteFile(path, "direction", "out");
       break;
     case INPUT:
+      WriteFile(path, "direction", "in"); 
       std::cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Gray") 
                 << std::endl;
-      WriteFile(path, "direction", "in"); 
       break;   
   }
   return 1;
