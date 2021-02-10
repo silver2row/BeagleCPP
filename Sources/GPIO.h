@@ -47,6 +47,7 @@ class GPIO
 {
   private:
     bool wasDefaultConstructorCalled = false;
+    bool wasDestructorCalled = false;
 
   protected:
     int id;        /* The GPIO number of the object */
