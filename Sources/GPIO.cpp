@@ -77,7 +77,8 @@ int GPIO::SetMode(int mode)
   switch (mode) 
   {
     case OUTPUT:
-      WriteFile(path, "direction", "out");
+      if (WriteFile(path, "direction", "out") != 1);
+        throw CustomException("Error in the SetMode method");
       std::cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Gray") 
                 << std::endl;
       break;

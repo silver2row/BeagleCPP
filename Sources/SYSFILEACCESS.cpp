@@ -34,10 +34,7 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, std::string 
   std::string fileName = path + feature;
   std::ofstream file(fileName, std::ios_base::out);
   if (!file.is_open()) 
-  {
     perror(("Error while opening file: " + fileName).c_str());
-    throw CustomException("Error in 'WriteFile' method");
-  } 
   file << value;
   file.close();
   std::this_thread::sleep_for(std::chrono::milliseconds(10)); 
@@ -55,10 +52,8 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
   std::string fileName;
   fileName = path + feature;
   std::ifstream file(fileName, std::ios_base::in);
-  if (!file.is_open()) {
+  if (!file.is_open()) 
     perror(("Error while opening file: " + fileName).c_str());
-    throw CustomException("Error in 'ReadFile' method");
-  }
   std::string value;
   getline(file,value);
   if (file.bad())
@@ -75,7 +70,8 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
 int SYSFILEACCESS::ExportGPIO(int id)
 {
   std::cout << "Enter from export the pin" << std::endl;
-  WriteFile(GPIO_PATH, "export", std::to_string(id));
+  if (WriteFile(GPIO_PATH, "export", std::to_string(id)) != 1);
+    perror("Error in the ExportGPIO method");
   std::cout << "Exit from export the pin" << std::endl;
   return 1;
 }
@@ -92,6 +88,3 @@ int SYSFILEACCESS::UnexportGPIO(int id)
   std::cout << "Exit from unexport the pin" << std::endl;
   return 1;
 }
-
-
-
