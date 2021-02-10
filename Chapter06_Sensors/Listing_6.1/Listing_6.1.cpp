@@ -12,7 +12,6 @@ int main()
   GPIO triggerPin(P8_12);
   GPIO echoPin(P8_14);
 
-  HC_SR04 ultrasonicSensor(triggerPin, echoPin);
 
   
   for (size_t i = 0; i < 5; i++)
@@ -23,6 +22,7 @@ int main()
     triggerPin.Delayus(1000000);
   }
   
+  HC_SR04 ultrasonicSensor(triggerPin, echoPin);
   
 
   /*
