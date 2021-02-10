@@ -135,7 +135,7 @@ int GPIO::UnexportGPIO()
   Public method to get the pin's id
   @return int: The pin's id
 */
-int GPIO::Id()
+int GPIO::GetId()
 {
   return id;
 }
