@@ -85,9 +85,9 @@ int SYSFILEACCESS::ExportGPIO(int id)
 */
 int SYSFILEACCESS::UnexportGPIO(int id) 
 {
-  cout << "Unexporting the pin" << std::endl;
+  std::cout << "Unexporting the pin" << std::endl;
   WriteFile(GPIO_PATH, "unexport", std::to_string(id));
-  cout << "Unexporting the pin" << std::endl;
+  std::cout << "Unexporting the pin" << std::endl;
   return 1;
 }
 
