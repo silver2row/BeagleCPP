@@ -40,7 +40,7 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, std::string 
   } 
   file << value;
   file.close();
-  Delayms(10); 
+  std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep)); 
   return 1;
 }
 
@@ -74,7 +74,7 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
 */
 int SYSFILEACCESS::ExportGPIO(int id)
 {
-  std::cout << "Exit from export the pin" << std::endl;
+  std::cout << "Enter from export the pin" << std::endl;
   WriteFile(GPIO_PATH, "export", std::to_string(id));
   std::cout << "Exit from export the pin" << std::endl;
   return 1;
@@ -93,12 +93,5 @@ int SYSFILEACCESS::UnexportGPIO(int id)
   return 1;
 }
 
-/*
-  Public method to do a delay in milliseconds
-  @param int: duration of the delay
-*/
-void SYSFILEACCESS::Delayms(int millisecondsToSleep) 
-{
-  std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep));
-}
+
 

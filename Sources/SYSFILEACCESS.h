@@ -19,10 +19,6 @@ class SYSFILEACCESS
 
     // Method to unexport the GPIO pin
     virtual int UnexportGPIO(int);
-
-    // Delay method in milliseconds
-    virtual void Delayms(int);
-    
 };
 
 #endif // SYSFILEACCESS_H
