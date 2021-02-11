@@ -66,6 +66,12 @@ void GPIO::InitPinIdMap()
     {P8_11, "P8_11"},
     {P8_12, "P8_12"},
     {P8_14, "P8_14"},
+    {P8_16, "P8_16"},
+    {P8_17, "P8_17"}, 
+    {P8_18, "P8_18"},
+    {P8_19, "P8_19"},
+    {P8_20, "P8_20"},
+    {P8_26, "P8_26"}
   };
 }
 
@@ -94,19 +100,20 @@ std::string GPIO::GetPinHeaderId()
 */
 int GPIO::SetMode(int mode) 
 {
+  std::string message;
   switch (mode) 
   {
     case OUTPUT:
       if (WriteFile(path, "direction", "out") != 1)
         throw BeagleCPPException("Error in the 'SetMode' method");
-      std::cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Gray") 
-                << std::endl;
+      message = "Set the pin direction as DIGITAL OUTPUT";
+      // std::cout << RainbowText(message, "Gray") << std::endl;
       break;
     case INPUT:
       if (WriteFile(path, "direction", "in") != 1)
-        throw BeagleCPPException("Error in the 'SetMode' method"); 
-      std::cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Gray") 
-                << std::endl;
+        throw BeagleCPPException("Error in the 'SetMode' method");
+      message = "Set the pin direction as DIGITAL INPUT";
+      std::cout << RainbowText(message, "Gray") << std::endl;
       break;   
   }
   return 1;
@@ -115,7 +122,7 @@ int GPIO::SetMode(int mode)
 /*
   Public method to set/clear the pin value
   @param int: The desired value 1 for HIGH and 0 for low
-  @return int: 1 set value has succeeded / -1 set value has failed 
+  @return int: 1 set value has succeeded
 */
 int GPIO::DigitalWrite(int newValue) 
 {
@@ -124,12 +131,12 @@ int GPIO::DigitalWrite(int newValue)
     case HIGH:
       if (WriteFile(path, "value", "1") != 1)
         throw BeagleCPPException("Error in the 'DigitalWrite' method");
-      std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
+      // std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
       break;
     case LOW:
       if (WriteFile(path, "value", "0") != 1)
         throw BeagleCPPException("Error in the 'DigitalWrite' method");
-      std::cout << "Setting the pin value as: " << "LOW" << std::endl;
+      // std::cout << "Setting the pin value as: " << "LOW" << std::endl;
       break;
   }   
   return 1;

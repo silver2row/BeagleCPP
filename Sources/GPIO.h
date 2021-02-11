@@ -53,10 +53,10 @@ class GPIO : public SYSFILEACCESS
     // Initialize the GPIO pin with the data provided by the constructor
     void InitPin();
 
-    // Initialize the GPIO pin id map with its name
+    // Initialize the GPIO pin id map kernel's number -> header's name
     void InitPinIdMap(); 
 
-    // Accessor method to get the kernel pin's mode
+    // Accessor method to get the kernel pin's number
     int GetPinKernelId();
 
     // Accessor method to get the header pin's name
