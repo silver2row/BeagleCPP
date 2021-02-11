@@ -18,8 +18,8 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin)
   std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") 
             << std::endl;
 
-  std::cout << "trigger id: " << triggerPin.GetPinIdMap() << std::endl;
-  std::cout << "echo id: " << echoPin.GetId() << std::endl;
+  std::cout << "trigger id: " << triggerPin.GetPinHeaderId() << std::endl;
+  std::cout << "echo id: " << echoPin.GetPinKernelId() << std::endl;
 }
 
 void HC_SR04::test()

@@ -31,13 +31,13 @@ enum EDGE {
 class GPIO : public SYSFILEACCESS
 {
   protected:
-    int id;        /* The GPIO number of the object */
+    int id;        /* The Kernel GPIO number of the object */
     int mode;      /* The GPIO mode e.g. 0/1 for OUTPUT/INPUT */
     int value;     /* The GPIO value e.g. 0/1 for LOW/HIGH */
     std::string name;   /* The name of the GPIO e.g. gpio44 */
     std::string path;   /* The full path to the GPIO e.g. /sys/class/gpio/gpio44 */
     
-    /* Map to store the BeagleBone Black id pin`s chip number with its name*/
+    /* Map to store the BeagleBone Black pin`s kernel number with its header name */
     std::map <int, std::string> blackPinIdMap; 
 
   public:
@@ -56,11 +56,11 @@ class GPIO : public SYSFILEACCESS
     // Initialize the GPIO pin id map with its name
     void InitPinIdMap(); 
 
-    // Accessor method to get the pin's mode
-    int GetId();
+    // Accessor method to get the kernel pin's mode
+    int GetPinKernelId();
 
-    // Accessor method to get the pin's name
-    std::string GetPinIdMap();
+    // Accessor method to get the header pin's name
+    std::string GetPinHeaderId();
 
     // Mutator method to set the pin's mode
     int SetMode(int);
