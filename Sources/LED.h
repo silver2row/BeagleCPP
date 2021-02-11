@@ -7,7 +7,6 @@
 class LED: public GPIO 
 {
   private:
-    GPIO ledPin;
     bool stopBlinkFlag = false;
     bool stopFlashFlag = false;
     bool stopHeartBeatFlag = false;
