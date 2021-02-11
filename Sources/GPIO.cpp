@@ -106,7 +106,7 @@ int GPIO::SetMode(int mode)
       if (WriteFile(path, "direction", "out") != 1)
         throw BeagleCPPException("Error in the 'SetMode' method");
       message = "Set the pin direction as DIGITAL OUTPUT";
-      // std::cout << RainbowText(message, "Gray") << std::endl;
+      std::cout << RainbowText(message, "Gray") << std::endl;
       break;
     case INPUT:
       if (WriteFile(path, "direction", "in") != 1)

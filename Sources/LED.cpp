@@ -7,12 +7,8 @@
 // Overload constructor
 LED::LED(int newId) : GPIO(newId, OUTPUT) 
 {
-  /*
-  id = newId;
-  mode = OUTPUT;
-  */
   std::cout  << RainbowText("Led object was created on pin: ", "Light Blue") 
-        << RainbowText(std::to_string(id), "Light Blue", "Default", "Bold") 
+        << RainbowText(this->GetPinHeaderId(), "Light Blue", "Default", "Bold") 
         << std::endl << std::endl;
 }
 
@@ -56,10 +52,10 @@ void LED::MakeBlink(int duration)
 {
   while (this->stopBlinkFlag == false)
   {
-    ledPin.DigitalWrite(HIGH);
-    ledPin.Delayms(duration);
-    ledPin.DigitalWrite(LOW);
-    ledPin.Delayms(duration);
+    this->DigitalWrite(HIGH);
+    this->Delayms(duration);
+    this->DigitalWrite(LOW);
+    this->Delayms(duration);
   }
 }
 
@@ -97,10 +93,10 @@ void LED::MakeFlash(int timeOn, int timeOff)
 {
   while (this->stopFlashFlag == false)
   {
-    ledPin.DigitalWrite(HIGH);
-    ledPin.Delayms(timeOn);
-    ledPin.DigitalWrite(LOW);
-    ledPin.Delayms(timeOff);
+    this->DigitalWrite(HIGH);
+    this->Delayms(timeOn);
+    this->DigitalWrite(LOW);
+    this->Delayms(timeOff);
   }
 }
 
@@ -140,12 +136,12 @@ void LED::MakeHeartBeat(int timeOn, int ratio)
   {
     for (int i = 0; i < 2; i++)
     {
-      ledPin.DigitalWrite(HIGH);
-      ledPin.Delayms(timeOn);
-      ledPin.DigitalWrite(LOW);
-      ledPin.Delayms(timeOn);
+      this->DigitalWrite(HIGH);
+      this->Delayms(timeOn);
+      this->DigitalWrite(LOW);
+      this->Delayms(timeOn);
     }
-    ledPin.Delayms(timeOn*ratio);
+    this->Delayms(timeOn*ratio);
   }
 }
 
