@@ -40,6 +40,22 @@ GPIO::GPIO (int newId, int newMode)
   InitPin();
 }
 
+// Public method to initialize the GPIO pin
+void GPIO::InitPin()
+{
+  InitPinIdMap();
+  name = "gpio" + std::to_string(id);
+  path = GPIO_PATH + name + "/";
+  std::cout << RainbowText("Trying to set up the GPIO pin: ","Green") 
+            << RainbowText(blackPinIdMap.at(id), "Green", "Default", "Bold") 
+            << std::endl;
+  UnexportGPIO(id);
+  ExportGPIO(id);
+  SetMode(mode);
+  std::cout << RainbowText("Setting the GPIO pin was a success!", "Green") 
+            << std::endl << std::endl;
+}
+
 // Public method to initialize the GPIO pin id map with its name
 void GPIO::InitPinIdMap()
 {
@@ -51,23 +67,6 @@ void GPIO::InitPinIdMap()
     {P8_12, "P8_12"},
     {P8_14, "P8_14"},
   };
-}
-
-// Public method to initialize the GPIO pin
-void GPIO::InitPin()
-{
-  InitPinIdMap();
-  name = "gpio" + std::to_string(id);
-  path = GPIO_PATH + name + "/";
-  
-  std::cout << RainbowText("Trying to set up the GPIO pin: ","Green") 
-            << RainbowText(blackPinIdMap.at(id), "Green", "Default", "Bold") 
-            << std::endl;
-  UnexportGPIO(id);
-  ExportGPIO(id);
-  SetMode(mode);
-  std::cout << RainbowText("Setting the GPIO pin was a success!", "Green") 
-            << std::endl << std::endl;
 }
 
 /*
@@ -82,7 +81,7 @@ int GPIO::GetId()
 /*
   Public method to set the pin's mode
   @param int: The desired mode 0/1 for OUTPUT/INPUT
-  @return int: 1 set Mode has succeeded / -1 set Mode has failed 
+  @return int: 1 set Mode has succeeded 
 */
 int GPIO::SetMode(int mode) 
 {
@@ -114,11 +113,13 @@ int GPIO::DigitalWrite(int newValue)
   switch (newValue) 
   {
     case HIGH:
-      WriteFile(path, "value", "1");
+      if (WriteFile(path, "value", "1") != 1)
+        throw BeagleCPPException("Error in the 'DigitalWrite' method");
       std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
       break;
     case LOW:
-      WriteFile(path, "value", "0");
+      if (WriteFile(path, "value", "0") != 1)
+        throw BeagleCPPException("Error in the 'DigitalWrite' method");
       std::cout << "Setting the pin value as: " << "LOW" << std::endl;
       break;
   }   

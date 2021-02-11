@@ -76,12 +76,8 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
 */
 int SYSFILEACCESS::ExportGPIO(int id)
 {
-  std::cout << "GPIO_PATH: " << GPIO_PATH << std::endl;
-  std::cout << "id: " << id << std::endl;
-  std::cout << "Enter to export the pin" << std::endl;
   if (WriteFile(GPIO_PATH, "export", std::to_string(id)) != 1)
     throw BeagleCPPException ("Error in the 'ExportGPIO' method");
-  std::cout << "Exit from export the pin" << std::endl;
   return 1;
 }
 
@@ -92,11 +88,7 @@ int SYSFILEACCESS::ExportGPIO(int id)
 */
 int SYSFILEACCESS::UnexportGPIO(int id) 
 {
-  std::cout << "GPIO_PATH: " << GPIO_PATH << std::endl;
-  std::cout << "id: " << id << std::endl;
-  std::cout << "Enter to unexport the pin" << std::endl;
   if (WriteFile(GPIO_PATH, "unexport", std::to_string(id)) != 1)
     throw BeagleCPPException ("Error in the 'UnexportGPIO' method");
-  std::cout << "Exit from unexport the pin" << std::endl;
   return 1;
 }

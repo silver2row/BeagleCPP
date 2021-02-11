@@ -50,11 +50,11 @@ class GPIO : public SYSFILEACCESS
     // Overload constructor with the pin id and mode
     GPIO (int, int);
 
-    // Initialize the GPIO pin id map with its name
-    void InitPinIdMap(); 
-
     // Initialize the GPIO pin with the data provided by the constructor
     void InitPin();
+
+    // Initialize the GPIO pin id map with its name
+    void InitPinIdMap(); 
 
     // Accessor method to get the pin's mode
     int GetId();
