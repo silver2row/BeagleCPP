@@ -5,14 +5,15 @@
 #include "LED.h"
 
 // Overload constructor
-LED::LED(int newId) : ledPin(newId, OUTPUT) 
+LED::LED(int newId) : GPIO(newId, OUTPUT) 
 {
+  /*
   id = newId;
   mode = OUTPUT;
-
-  cout  << RainbowText("Led object was created on pin: ", "Light Blue") 
-        << RainbowText(to_string(id), "Light Blue", "Default", "Bold") 
-        << endl << endl;
+  */
+  std::cout  << RainbowText("Led object was created on pin: ", "Light Blue") 
+        << RainbowText(std::to_string(id), "Light Blue", "Default", "Bold") 
+        << std::endl << std::endl;
 }
 
 /*
@@ -37,14 +38,13 @@ void LED::TurnOff()
 */
 void LED::Blink(int duration)
 {
-  string message
+  std::string message
   {
     "Blinking has been activated with duration of: "
-    + to_string(duration) + "ms on pin: " + to_string(id)
+    + std::to_string(duration) + "ms on pin: " + std::to_string(id)
   };
   std::cout << RainbowText(message, "Light Blue", "Default", "Bold") 
-            << endl << endl; 
-
+            << std::endl << std::endl; 
   blinkThread = std::thread(&LED::MakeBlink, this, duration);
 }
 
@@ -78,14 +78,13 @@ void LED::StopBlink ()
 */
 void LED::Flash(int timeOn, int timeOff)
 {
-  string message 
+  std::string message 
   {
     "Flashing has been activated time on: "
-    + to_string(timeOn) + "ms and time off: " 
-    + to_string(timeOff) + "ms on pin: " + to_string(id)
+    + std::to_string(timeOn) + "ms and time off: " 
+    + std::to_string(timeOff) + "ms on pin: " + std::to_string(id)
   };
-  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << endl;
-
+  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl;
   flashThread = std::thread(&LED::MakeFlash, this, timeOn, timeOff);
 }
 
@@ -120,14 +119,13 @@ void LED::StopFlash ()
 */
 void LED::HeartBeat(int timeOn, int ratio)
 {
-  string message 
+  std::string message 
   {
     "Heart beat has been activated with a time ON of: "
-    + to_string(timeOn) + "ms on pin: " + to_string(id)
-    + " with a ratio pulse/pause of: " + to_string(ratio)
+    + std::to_string(timeOn) + "ms on pin: " + std::to_string(id)
+    + " with a ratio pulse/pause of: " + std::to_string(ratio)
   };
-  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << endl;
-
+  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl;
   heartBeatThread = std::thread(&LED::MakeHeartBeat, this, timeOn, ratio);
 }
 

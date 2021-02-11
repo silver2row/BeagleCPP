@@ -7,7 +7,6 @@
 #include <mutex>
 
 #include "GPIO.h"
-#include "RAINBOWCOLORS.h"
 
 class BeagleCPPException : public std::exception 
 {
