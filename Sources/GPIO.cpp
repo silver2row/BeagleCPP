@@ -78,6 +78,11 @@ int GPIO::GetId()
   return id;
 }
 
+std::string GPIO::GetPinIdMap()
+{
+  return blackPinIdMap.at(id);
+}
+
 /*
   Public method to set the pin's mode
   @param int: The desired mode 0/1 for OUTPUT/INPUT
