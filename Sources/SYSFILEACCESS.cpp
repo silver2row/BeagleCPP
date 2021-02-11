@@ -7,14 +7,12 @@
 
 #include "SYSFILEACCESS.h"
 
-// using namespace std;
-
-class CustomException : public std::exception 
+class BeagleCPPException : public std::exception 
 {
   private:
     std::string reason;
   public:
-    CustomException (const char* why) : reason (why) {};
+    BeagleCPPException (const char* why) : reason (why) {};
     virtual const char* what() const noexcept 
     {
       return reason.c_str();
@@ -33,19 +31,25 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, std::string 
 {
   std::string fileName = path + feature;
   std::ofstream file(fileName, std::ios_base::out);
-  if (!file.is_open()) 
+  if (file.is_open())
+  {
+    file << value;
+    file.close();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    return 1; 
+  } 
+  else 
+  {
     perror(("Error while opening file: " + fileName).c_str());
-  file << value;
-  file.close();
-  std::this_thread::sleep_for(std::chrono::milliseconds(10)); 
-  return 1;
+    return -1;
+  }
 }
 
 /*
   Private method that read a file in the path provided
   @param String path: The sysfs path of the file to be read
   @param String feature: The file to be read to in that path
-  @return string: the read value 
+  @return string: the read value / "-1" if there was an error
 */
 std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature) 
 {
@@ -53,11 +57,14 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
   fileName = path + feature;
   std::ifstream file(fileName, std::ios_base::in);
   if (!file.is_open()) 
+  {
     perror(("Error while opening file: " + fileName).c_str());
+    return "-1";
+  }
   std::string value;
   getline(file,value);
-  if (file.bad())
-    perror(("Error while reading file: " + fileName).c_str());
+  //if (file.bad())
+  //  perror(("Error while reading file: " + fileName).c_str());
   file.close();
   return value;
 }
@@ -69,9 +76,11 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
 */
 int SYSFILEACCESS::ExportGPIO(int id)
 {
-  std::cout << "Enter from export the pin" << std::endl;
-  if (WriteFile(GPIO_PATH, "export", std::to_string(id)) != 1);
-    perror("Error in the ExportGPIO method");
+  std::cout << "GPIO_PATH: " << GPIO_PATH << std::endl;
+  std::cout << "id: " << id << std::endl;
+  std::cout << "Enter to export the pin" << std::endl;
+  if (WriteFile(GPIO_PATH, "export", std::to_string(id)) != 1)
+    throw BeagleCPPException ("Error in the 'ExportGPIO' method");
   std::cout << "Exit from export the pin" << std::endl;
   return 1;
 }
@@ -83,8 +92,11 @@ int SYSFILEACCESS::ExportGPIO(int id)
 */
 int SYSFILEACCESS::UnexportGPIO(int id) 
 {
+  std::cout << "GPIO_PATH: " << GPIO_PATH << std::endl;
+  std::cout << "id: " << id << std::endl;
   std::cout << "Enter to unexport the pin" << std::endl;
-  WriteFile(GPIO_PATH, "unexport", std::to_string(id));
+  if (WriteFile(GPIO_PATH, "unexport", std::to_string(id)) != 1)
+    throw BeagleCPPException ("Error in the 'UnexportGPIO' method");
   std::cout << "Exit from unexport the pin" << std::endl;
   return 1;
 }

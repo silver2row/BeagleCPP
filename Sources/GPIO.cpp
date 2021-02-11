@@ -9,6 +9,18 @@
 #include "GPIO.h"
 #include "RAINBOWCOLORS.h"
 
+class BeagleCPPException : public std::exception 
+{
+  private:
+    std::string reason;
+  public:
+    BeagleCPPException (const char* why) : reason (why) {};
+    virtual const char* what() const noexcept 
+    {
+      return reason.c_str();
+    }
+};
+
 // Default constructor
 GPIO::GPIO() {}
 
@@ -45,7 +57,7 @@ void GPIO::InitPinIdMap()
 void GPIO::InitPin()
 {
   InitPinIdMap();
-  name = "gpio" + id;
+  name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
   
   std::cout << RainbowText("Trying to set up the GPIO pin: ","Green") 
@@ -77,13 +89,14 @@ int GPIO::SetMode(int mode)
   switch (mode) 
   {
     case OUTPUT:
-      if (WriteFile(path, "direction", "out") != 1);
-        throw CustomException("Error in the SetMode method");
+      if (WriteFile(path, "direction", "out") != 1)
+        throw BeagleCPPException("Error in the 'SetMode' method");
       std::cout << RainbowText("Set the pin direction as DIGITAL OUTPUT", "Gray") 
                 << std::endl;
       break;
     case INPUT:
-      WriteFile(path, "direction", "in"); 
+      if (WriteFile(path, "direction", "in") != 1)
+        throw BeagleCPPException("Error in the 'SetMode' method"); 
       std::cout << RainbowText("Set the pin direction as DIGITAL INPUT", "Gray") 
                 << std::endl;
       break;   
@@ -101,12 +114,12 @@ int GPIO::DigitalWrite(int newValue)
   switch (newValue) 
   {
     case HIGH:
-      std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
       WriteFile(path, "value", "1");
+      std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
       break;
     case LOW:
-      std::cout << "Setting the pin value as: " << "LOW" << std::endl;
       WriteFile(path, "value", "0");
+      std::cout << "Setting the pin value as: " << "LOW" << std::endl;
       break;
   }   
   return 1;
