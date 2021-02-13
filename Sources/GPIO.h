@@ -52,7 +52,7 @@ class GPIO : public SYSFILEACCESS
     GPIO (int, int);
 
     // Initialize the GPIO pin with the data provided by the constructor
-    void InitPin();
+    void InitSystemFolder();
 
     // Initialize the GPIO pin id map kernel's number -> header's name
     void InitPinIdMap(); 

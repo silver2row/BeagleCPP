@@ -4,8 +4,8 @@
 #include "HC_SR04.h"
 
 // Overload Constructor
-HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) 
-  : triggerPin(newTriggerPin), echoPin(newEchoPin)
+HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) :
+        triggerPin(newTriggerPin), echoPin(newEchoPin)
 {
   // Set the right modes for the pins
   triggerPin.SetMode(OUTPUT);

@@ -27,8 +27,7 @@ GPIO::GPIO() {}
 GPIO::GPIO (int newId) 
 {
   id = newId;
-  mode = OUTPUT;
-  InitPin();
+  InitSystemFolder();
 }
 
 // Overload constructor with the pin and mode names
@@ -36,23 +35,25 @@ GPIO::GPIO (int newId, int newMode)
 {
   id = newId;
   mode = newMode;
-  InitPin();
+  InitSystemFolder();
+  SetMode(mode);
+  std::cout << RainbowText("Setting the GPIO pin was complete!", "Green") 
+            << std::endl << std::endl;
 }
 
 // Public method to initialize the GPIO pin
-void GPIO::InitPin()
+void GPIO::InitSystemFolder()
 {
   InitPinIdMap();
   name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
-  std::cout << RainbowText("Trying to set up the GPIO pin: ","Green") 
+  std::cout << RainbowText("Trying to create the GPIO pin's system folder: ","Green") 
             << RainbowText(blackPinIdMap.at(id), "Green", "Default", "Bold") 
             << std::endl;
   UnexportGPIO(id);
   ExportGPIO(id);
-  SetMode(mode);
-  std::cout << RainbowText("Setting the GPIO pin was a success!", "Green") 
-            << std::endl << std::endl;
+  std::cout << RainbowText("The GPIO pin's system folder was created!", "Green") 
+            << std::endl;
 }
 
 // Public method to initialize the GPIO pin id map with its name
@@ -105,13 +106,13 @@ int GPIO::SetMode(int mode)
     case OUTPUT:
       if (WriteFile(path, "direction", "out") != 1)
         throw BeagleCPPException("Error in the 'SetMode' method");
-      message = "Set the pin direction as DIGITAL OUTPUT";
+      message = "Set direction for " + blackPinIdMap.at(id) + " pin as DIGITAL OUTPUT";
       std::cout << RainbowText(message, "Gray") << std::endl;
       break;
     case INPUT:
       if (WriteFile(path, "direction", "in") != 1)
         throw BeagleCPPException("Error in the 'SetMode' method");
-      message = "Set the pin direction as DIGITAL INPUT";
+      message = "Set direction for " + blackPinIdMap.at(id) + " pin as DIGITAL INPUT";
       std::cout << RainbowText(message, "Gray") << std::endl;
       break;   
   }
