@@ -2,6 +2,7 @@
 #define PWM_H
 
 #include <string>
+#include <vector>
 #include <thread>
 #include "RAINBOWCOLORS.h"
 
@@ -21,8 +22,8 @@ const std::string EHRPWM0_PATH = "48300000.epwmss/48300200.pwm/pwm/";
 const std::string EHRPWM1_PATH = "48302000.epwmss/48302200.pwm/pwm/";
 const std::string EHRPWM2_PATH = "48304000.epwmss/48304200.pwm/pwm/";
 
-/* The pwm class internal number of the pin*/
-enum ID {
+/* The pwm internal class number of the pin*/
+enum PWM_ID {
   P8_13 = 0,
   P8_19 = 1,
   P9_14 = 2,
@@ -41,15 +42,14 @@ class PWM
     int period;
     int dutyCycle;
     int enable;
-    
     bool stopDutyCycleFlag = false;
 
-    std::thread functionThread;
-    
     // Method to write the files
     virtual int WriteFile(std::string, std::string, int);
+
     // Method to enable the pwm on the pin
     virtual int Enable();
+    
     // Method to enable the pwm on the pin
     virtual int Disable();
 

@@ -8,12 +8,12 @@
 
 #include "GPIO.h"
 
-class BeagleCPPException : public std::exception 
+class GPIO_Exception : public std::exception 
 {
   private:
     std::string reason;
   public:
-    BeagleCPPException (const char* why) : reason (why) {};
+    GPIO_Exception (const char* why) : reason (why) {};
     virtual const char* what() const noexcept 
     {
       return reason.c_str();
@@ -69,7 +69,6 @@ void GPIO::InitPinIdMap()
     {P8_16, "P8_16"},
     {P8_17, "P8_17"}, 
     {P8_18, "P8_18"},
-    {P8_19, "P8_19"},
     {P8_20, "P8_20"},
     {P8_26, "P8_26"}
   };
@@ -105,13 +104,13 @@ int GPIO::SetMode(int mode)
   {
     case OUTPUT:
       if (WriteFile(path, "direction", "out") != 1)
-        throw BeagleCPPException("Error in the 'SetMode' method");
+        throw GPIO_Exception("Error in the 'SetMode' method");
       message = "Set direction for " + blackPinIdMap.at(id) + " pin as DIGITAL OUTPUT";
       std::cout << RainbowText(message, "Gray") << std::endl;
       break;
     case INPUT:
       if (WriteFile(path, "direction", "in") != 1)
-        throw BeagleCPPException("Error in the 'SetMode' method");
+        throw GPIO_Exception("Error in the 'SetMode' method");
       message = "Set direction for " + blackPinIdMap.at(id) + " pin as DIGITAL INPUT";
       std::cout << RainbowText(message, "Gray") << std::endl;
       break;   
@@ -130,12 +129,12 @@ int GPIO::DigitalWrite(int newValue)
   {
     case HIGH:
       if (WriteFile(path, "value", "1") != 1)
-        throw BeagleCPPException("Error in the 'DigitalWrite' method");
+        throw GPIO_Exception("Error in the 'DigitalWrite' method");
       // std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
       break;
     case LOW:
       if (WriteFile(path, "value", "0") != 1)
-        throw BeagleCPPException("Error in the 'DigitalWrite' method");
+        throw GPIO_Exception("Error in the 'DigitalWrite' method");
       // std::cout << "Setting the pin value as: " << "LOW" << std::endl;
       break;
   }   

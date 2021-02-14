@@ -2,7 +2,6 @@
 #define HC_SR04_H
 
 #include "GPIO.h"
-#include "RAINBOWCOLORS.h"
 
 class HC_SR04 : public GPIO
 {

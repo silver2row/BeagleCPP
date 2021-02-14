@@ -68,5 +68,9 @@
     "unordered_map": "cpp",
     "utility": "cpp",
     "vector": "cpp"
-  }
+  },
+  "cSpell.words": [
+    "EHRPWM",
+    "epwmss"
+  ]
 }

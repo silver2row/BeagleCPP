@@ -11,12 +11,12 @@
 
 using namespace std;
 
-class CustomException : public exception 
+class PWM_Exception : public exception 
 {
   private:
     string reason;
   public:
-    CustomException (const char* why) : reason (why) {};
+    PWM_Exception (const char* why) : reason (why) {};
     virtual const char* what() const noexcept 
     {
       return reason.c_str();
@@ -94,7 +94,7 @@ int PWM::WriteFile(string path, string feature, int value)
   if (!file.is_open()) 
   {
     perror(("Error while opening file: " + fileName).c_str());
-    throw CustomException("Error in 'writeFile' method");
+    throw PWM_Exception("Error in 'writeFile' method");
   } 
   file << value;
   file.close();
@@ -110,13 +110,13 @@ int PWM::WriteFile(string path, string feature, int value)
 */
 int PWM::Enable()
 {
-   if (WriteFile(path, "enable", 1) == 1)
-      return 1;
-   else 
-   {
-      perror("Error enabling the PWM on the pin");
-      throw CustomException("Error in Enable method");
-   }
+  if (WriteFile(path, "enable", 1) == 1)
+    return 1;
+  else 
+  {
+    perror("Error enabling the PWM on the pin");
+    throw PWM_Exception("Error in Enable method");
+  }
 }
 
 /*
@@ -126,13 +126,13 @@ int PWM::Enable()
 */
 int PWM::Disable()
 {
-   if (WriteFile(path, "enable", 0) == 1)
-      return 1;
-   else 
-   {
-      perror("Error disabling the PWM on the pin");
-      throw CustomException("Error in DisablePWM method");
-   }
+  if (WriteFile(path, "enable", 0) == 1)
+    return 1;
+  else 
+  {
+    perror("Error disabling the PWM on the pin");
+    throw PWM_Exception("Error in DisablePWM method");
+  }
 }
 
 /*
@@ -141,7 +141,7 @@ int PWM::Disable()
 */
 int PWM::GetPeriod()
 {
-   return period;
+  return period;
 }
 
 /*
@@ -150,25 +150,25 @@ int PWM::GetPeriod()
 */
 int PWM::GetDutyCycle()
 {
-   return dutyCycle;
+  return dutyCycle;
 }
 
 /*
-   Public method to set the period of the PWM
-   The chosen period is in nanoseconds 
-   @param int: The desired period
-   @return int: 1 set period has succeeded / throw an exception if not
+  Public method to set the period of the PWM
+  The chosen period is in nanoseconds 
+  @param int: The desired period
+  @return int: 1 set period has succeeded / throw an exception if not
 */
 int PWM::SetPeriod(int newPeriod)
 {
-   period = newPeriod;
-   if (WriteFile(path, "period", period) == 1)
-      return 1;
-   else 
-   {
-      perror("Error setting the PWM period for the pin");
-      throw CustomException("Error in WritePWMPeriod method");
-   }
+  period = newPeriod;
+  if (WriteFile(path, "period", period) == 1)
+    return 1;
+  else 
+  {
+    perror("Error setting the PWM period for the pin");
+    throw PWM_Exception("Error in WritePWMPeriod method");
+  }
 }
 
 /*
@@ -193,7 +193,7 @@ int PWM::SetDutyCycle(int newDutyCycle)
     else 
     {
       perror("Error setting the PWM duty cycle for the pin");
-      throw CustomException("Error in WritePWMDutyCycle method");
+      throw PWM_Exception("Error in WritePWMDutyCycle method");
     }
   }
   return 0;
@@ -219,8 +219,8 @@ int PWM::DoUserFunction (callbackType callbackFunction)
   string message = "'UserFunction' method has been activated!";
   cout << RainbowText(message, "Orange") << endl;
 
-  functionThread = thread(callbackFunction);
-
+  std::thread functionThread(callbackFunction);
+  functionThread.detach();
   return 1;
 }
 
@@ -235,9 +235,6 @@ void PWM::StopUserFunction()
 // Destructor
 PWM::~PWM() 
 {
-  if (functionThread.joinable())
-    functionThread.join();
-
   // Turn Off the duty cycle on the pin
   this->SetDutyCycle(0);
 

@@ -15,8 +15,11 @@ std::map <std::string, std::string> mapForegroundColor=
   { "Black", "38;5;0" },
   { "Gray", "38;5;246" },
   { "White", "38;5;15" },
+  { "Olive Green", "38;5;64" },
   { "Light Green", "38;5;107" },
   { "Light Blue", "38;5;123" },
+  { "Light Red", "38;5;196" },
+  { "Sky Blue", "38;5;75" },
   { "Default", "39" }
 };
 
@@ -33,8 +36,11 @@ std::map <std::string, std::string> mapBackgroundColor =
   { "Black", "48;5;0" },
   { "Gray", "48;5;246" },
   { "White", "48;5;15" },
-  { "Light Green", "38;5;107" },
-  { "Light Blue", "38;5;123" },
+  { "Olive Green", "48;5;64" },
+  { "Light Green", "48;5;107" },
+  { "Light Blue", "48;5;123" },
+  { "Light Red", "48;5;196" },
+  { "Sky Blue", "48;5;75" },
   { "Default", "49" }
 };
 

@@ -5,7 +5,7 @@
 using namespace std;
 
 // Global pwm pin declaration
-PWM pwmWhiteLedPin(P8_19,600000);
+PWM pwmWhiteLedPin(P8_13,600000);
 
 bool stopPulse = false;
 int PulseLed()
