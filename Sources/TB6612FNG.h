@@ -44,7 +44,7 @@ public:
   virtual void StopMode();
 
   // Interface method to do a short brake on the motor
-  virtual void ShortBrakeMode();
+  virtual void ShortBrakeMode();  
 
   // Destructor
   ~TB6612FNG();
