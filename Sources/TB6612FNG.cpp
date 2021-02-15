@@ -59,10 +59,18 @@ void TB6612FNG::SetSpeed(int speed)
 void TB6612FNG::Drive(int speed)
 {
   standByPin.DigitalWrite(HIGH);
-  speed = speed * swapSpinMotor;
+  speed *= swapSpinMotor;
   if (speed > 0)
   {
+    std::cout << "Turning motor CW with speed: " << speed << std::endl;
     SetCWMode();
+    SetSpeed(speed);
+  }
+  else
+  {
+    std::cout << "Turning motor CCW with speed: " << -speed << std::endl;
+    SetCCWMode();
+    speed *= -1;
     SetSpeed(speed);
   }
 }
@@ -112,4 +120,5 @@ TB6612FNG::~TB6612FNG()
   SetSpeed(0);
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
+  standByPin.DigitalWrite(LOW);
 }

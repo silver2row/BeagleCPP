@@ -12,7 +12,7 @@ int main()
   GPIO AIN1(P8_12);
   GPIO AIN2(P8_14);
   GPIO STBY(P8_16);
-  PWM PWMA(P8_13);
+  PWM PWMA(P8_19);
 
   TB6612FNG MotorA (AIN1, AIN2, STBY, PWMA, false);
   for (size_t i = 0; i < 100; i+=10)
@@ -21,7 +21,7 @@ int main()
   }
   for (size_t i = 100; i > 0; i-=10)
   {
-    MotorA.MakeDrive(i,500);
+    MotorA.MakeDrive(-i,500);
   }
   
   message = "Main program finishes here...";
