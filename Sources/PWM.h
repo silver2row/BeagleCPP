@@ -2,7 +2,6 @@
 #define PWM_H
 
 #include <string>
-#include <vector>
 #include <thread>
 #include "RAINBOWCOLORS.h"
 
@@ -49,7 +48,7 @@ class PWM
 
     // Method to enable the pwm on the pin
     virtual int Enable();
-    
+
     // Method to enable the pwm on the pin
     virtual int Disable();
 

@@ -213,7 +213,6 @@ void PWM::Delayms(int millisecondsToSleep)
   @param callbackType: user function pointer to execute 
   @return int: 1 the user function was called      
 */
-
 int PWM::DoUserFunction (callbackType callbackFunction)
 {
   string message = "'UserFunction' method has been activated!";
@@ -235,6 +234,7 @@ void PWM::StopUserFunction()
 // Destructor
 PWM::~PWM() 
 {
+  /*
   // Turn Off the duty cycle on the pin
   this->SetDutyCycle(0);
 
@@ -243,4 +243,5 @@ PWM::~PWM()
   this->Delayms(10);
   cout  << RainbowText("Destroying the PWM_PIN with path: ","Gray")
         << RainbowText(path, "Gray", "Default", "Bold") << endl;
+  */
 }

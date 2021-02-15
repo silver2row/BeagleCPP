@@ -15,7 +15,15 @@ int main()
   PWM PWMA(P8_13);
 
   TB6612FNG MotorA (AIN1, AIN2, STBY, PWMA, false);
-
+  for (size_t i = 0; i < 100; i+=10)
+  {
+    MotorA.MakeDrive(i,500);
+  }
+  for (size_t i = 100; i > 0; i-=10)
+  {
+    MotorA.MakeDrive(i,500);
+  }
+  
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
 
