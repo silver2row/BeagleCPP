@@ -22,7 +22,7 @@ class BeagleCPPException : public std::exception
 
 /*
   Public method that writes a string value to a file in the path provided
-  @param String path: The system path of the file to be modified
+  @param String path: The file system path to be modified
   @param String feature: The name of file to be written
   @param string value: The value to be written to in the file
   @return int: 1 written has succeeded
