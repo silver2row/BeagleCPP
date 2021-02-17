@@ -53,9 +53,17 @@ class PWM
     virtual int Disable();
 
   public:
+    // Default construnctor
+    PWM();
 
-    // Overload constructor
-    PWM(int id = P8_13, int period = 500000);
+    // Overload constructor with pin's id
+    PWM(int);
+
+    // Overload constructor with the pin id and period
+    PWM(int, int);
+
+    // Initialize the PWM pin with the data provided by the constructor
+    void InitPWMPin();
 
     // Interface method to get the period
     virtual int GetPeriod();

@@ -5,7 +5,7 @@
 #include <thread> // this_thread::sleep_for()
 #include <exception>
 #include <mutex>
-#include <cstdlib>// system()
+#include <cstdlib>  // system()
 
 #include "PWM.h"
 
@@ -23,12 +23,33 @@ class PWM_Exception : public exception
     }
 };
 
+// Default constructor
+PWM::PWM() {}
+
+// Overload constructor with the pin's id
+PWM::PWM(int newPWMPin)
+{
+  id = newPWMPin;
+  period = 500000;
+  InitPWMPin();
+  SetPeriod(period);
+}
+
 // Overload constructor 
 PWM::PWM(int pwmPin, int newPeriod)
 {
   id = pwmPin;
   period = newPeriod;
+  InitPWMPin();
+  SetPeriod(newPeriod); 
+  cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
+        << RainbowText(to_string(GetPeriod()), "Pink") 
+        << RainbowText("ns was a success!", "Pink") << endl; 
+}
 
+// Public method to initialize the PWM pin
+void PWM::InitPWMPin()
+{
   idMap[P8_13] = "P8.13";
   idMap[P8_19] = "P8.19";
   idMap[P9_14] = "P9.14";
@@ -36,7 +57,7 @@ PWM::PWM(int pwmPin, int newPeriod)
   idMap[P9_21] = "P9.21";
   idMap[P9_22] = "P9.22";
 
-  switch (pwmPin)
+  switch (id)
   {
   case P8_13:
     name = EHRPWM2_PATH + "pwmchip6/pwm-6:1/";
@@ -59,48 +80,40 @@ PWM::PWM(int pwmPin, int newPeriod)
   default:
     break;
   }
-
   path = PWM_PATH + name;
 
   cout  << RainbowText("Trying to enable the PWM pin: ","Pink") 
-        << RainbowText(idMap[pwmPin], "Pink", "Default", "Bold") << endl;
-  string commandString = "config-pin " + idMap[pwmPin] + " pwm";
+        << RainbowText(idMap[id], "Pink", "Default", "Bold") << endl;
+  string commandString = "config-pin " + idMap[id] + " pwm";
   const char* command = commandString.c_str();
   system(command);
 
-  // Set the period for the PWM behavior
-  SetPeriod(newPeriod); 
-
-  // Enabling the PWM behavior on the pin
   Enable();
-
-  cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
-        << RainbowText(to_string(GetPeriod()), "Pink") 
-        << RainbowText("ns was a success!", "Pink") << endl; 
 }
 
 /*
    Private method that writes a string value to a file in the path provided
-   @param string path: The system path of the file to be modified
+   @param string path: The file system path to be modified
    @param string feature: The name of file to be written
    @param int value: The value to be written to in the file
    @return int: 1 written has succeeded
 */
-int PWM::WriteFile(string path, string feature, int value) 
+int PWM::WriteFile(std::string path, std::string feature, int value) 
 {
-  string fileName = path + feature;
-
-  ofstream file(fileName, ios_base::out);
-  if (!file.is_open()) 
+  std::string fileName = path + feature;
+  std::ofstream file(fileName, ios_base::out);
+  if (file.is_open())
+  {
+    file << value;
+    file.close();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    return 1;
+  } 
+  else
   {
     perror(("Error while opening file: " + fileName).c_str());
-    throw PWM_Exception("Error in 'writeFile' method");
+    return -1;
   } 
-  file << value;
-  file.close();
-  Delayms(10);
-  
-  return 1;
 }
 
 /*
@@ -110,12 +123,14 @@ int PWM::WriteFile(string path, string feature, int value)
 */
 int PWM::Enable()
 {
-  if (WriteFile(path, "enable", 1) == 1)
-    return 1;
+  if (WriteFile(path, "enable", 1) != 1)
+  {
+    perror("Error trying to enable the PWM on the pin");
+    throw PWM_Exception("Error in the 'Enable' method");
+  }
   else 
   {
-    perror("Error enabling the PWM on the pin");
-    throw PWM_Exception("Error in Enable method");
+    return 1;
   }
 }
 
@@ -126,12 +141,14 @@ int PWM::Enable()
 */
 int PWM::Disable()
 {
-  if (WriteFile(path, "enable", 0) == 1)
-    return 1;
+  if (WriteFile(path, "enable", 0) != 1)
+  {
+    perror("Error trying to disable the PWM on the pin");
+    throw PWM_Exception("Error in the 'Disable' method");
+  }
   else 
   {
-    perror("Error disabling the PWM on the pin");
-    throw PWM_Exception("Error in DisablePWM method");
+    return 1;
   }
 }
 
@@ -162,12 +179,14 @@ int PWM::GetDutyCycle()
 int PWM::SetPeriod(int newPeriod)
 {
   period = newPeriod;
-  if (WriteFile(path, "period", period) == 1)
-    return 1;
-  else 
+  if (WriteFile(path, "period", period) != 1)
   {
     perror("Error setting the PWM period for the pin");
-    throw PWM_Exception("Error in WritePWMPeriod method");
+    throw PWM_Exception("Error in the 'SetPeriod' method");
+  }
+  else 
+  {
+    return 1;
   }
 }
 
