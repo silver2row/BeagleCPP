@@ -52,7 +52,7 @@ class GPIO : public SYSFILEACCESS
     GPIO (int, int);
 
     // Initialize the GPIO pin with the data provided by the constructor
-    void InitSystemFolder();
+    void InitGPIOPin();
 
     // Initialize the GPIO pin id map kernel's number -> header's name
     void InitPinIdMap(); 
@@ -68,6 +68,9 @@ class GPIO : public SYSFILEACCESS
 
     // Interface method to set the GPIO pin state
     virtual int DigitalWrite(int);
+
+    // Overload Interface method to set the GPIO pin state adn printing the value
+    virtual int DigitalWrite(int, bool);
 
     // Interface method to get the GPIO pin state
     virtual int DigitalRead();

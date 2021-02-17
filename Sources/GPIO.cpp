@@ -27,7 +27,7 @@ GPIO::GPIO() {}
 GPIO::GPIO (int newId) 
 {
   id = newId;
-  InitSystemFolder();
+  InitGPIOPin();
 }
 
 // Overload constructor with the pin and mode names
@@ -35,14 +35,14 @@ GPIO::GPIO (int newId, int newMode)
 {
   id = newId;
   mode = newMode;
-  InitSystemFolder();
+  InitGPIOPin();
   SetMode(mode);
   std::cout << RainbowText("Setting the GPIO pin was complete!", "Green") 
             << std::endl << std::endl;
 }
 
 // Public method to initialize the GPIO pin
-void GPIO::InitSystemFolder()
+void GPIO::InitGPIOPin()
 {
   InitPinIdMap();
   name = "gpio" + std::to_string(id);
@@ -95,7 +95,7 @@ std::string GPIO::GetPinHeaderId()
 /*
   Public method to set the pin's mode
   @param int: The desired mode 0/1 for OUTPUT/INPUT
-  @return int: 1 set Mode has succeeded 
+  @return int: 1 set Mode has succeeded / throw an exception if not
 */
 int GPIO::SetMode(int mode) 
 {
@@ -104,13 +104,19 @@ int GPIO::SetMode(int mode)
   {
     case OUTPUT:
       if (WriteFile(path, "direction", "out") != 1)
+      {
+        perror("Error trying to set the direction OUT on the pin");
         throw GPIO_Exception("Error in the 'SetMode' method");
+      }
       message = "Set direction for " + blackPinIdMap.at(id) + " pin as DIGITAL OUTPUT";
       std::cout << RainbowText(message, "Gray") << std::endl;
       break;
     case INPUT:
       if (WriteFile(path, "direction", "in") != 1)
+      {
+        perror("Error trying to set the direction IN on the pin");
         throw GPIO_Exception("Error in the 'SetMode' method");
+      }
       message = "Set direction for " + blackPinIdMap.at(id) + " pin as DIGITAL INPUT";
       std::cout << RainbowText(message, "Gray") << std::endl;
       break;   
@@ -129,13 +135,53 @@ int GPIO::DigitalWrite(int newValue)
   {
     case HIGH:
       if (WriteFile(path, "value", "1") != 1)
+      {
+        perror("Error trying to set the value HIGH on the pin");
         throw GPIO_Exception("Error in the 'DigitalWrite' method");
-      // std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
+      }
       break;
     case LOW:
       if (WriteFile(path, "value", "0") != 1)
+      {
+        perror("Error trying to set the value LOW on the pin");
         throw GPIO_Exception("Error in the 'DigitalWrite' method");
-      // std::cout << "Setting the pin value as: " << "LOW" << std::endl;
+      }
+      break;
+  }   
+  return 1;
+}
+
+/*
+  Overload public method to set/clear the pin value
+  @param int: The desired value 1 for HIGH and 0 for low
+  @param bool:A flag if the user wants to see messages on the terminal
+  @return int: 1 set value has succeeded
+*/
+int GPIO::DigitalWrite(int newValue, bool printingFlag) 
+{
+  switch (newValue) 
+  {
+    case HIGH:
+      if (WriteFile(path, "value", "1") != 1)
+      {
+        perror("Error trying to set the value HIGH on the pin");
+        throw GPIO_Exception("Error in the 'DigitalWrite' method");
+      }
+      if (printingFlag == true)
+      {
+        std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
+      }
+      break;
+    case LOW:
+      if (WriteFile(path, "value", "0") != 1)
+      {
+        perror("Error trying to set the value LOW on the pin");
+        throw GPIO_Exception("Error in the 'DigitalWrite' method");
+      }
+      if (printingFlag == true)
+      {
+        std::cout << "Setting the pin value as: " << "LOW" << std::endl;
+      }
       break;
   }   
   return 1;
