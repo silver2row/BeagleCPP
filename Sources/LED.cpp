@@ -5,7 +5,7 @@
 #include "LED.h"
 
 // Overload constructor
-LED::LED(int newId) : GPIO(newId, OUTPUT) 
+LED::LED(GPIO_ID newId) : GPIO(newId, OUTPUT) 
 {
   std::cout  << RainbowText("Led object was created on pin: ", "Light Blue") 
         << RainbowText(this->GetPinHeaderId(), "Light Blue", "Default", "Bold") 

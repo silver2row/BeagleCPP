@@ -20,7 +20,7 @@ class LED: public GPIO
     void MakeHeartBeat(int, int);
   public:
     // Overload constructor
-    LED (int);
+    LED (GPIO_ID);
 
     // Method to turn on the Led
     void TurnOn();
