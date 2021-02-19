@@ -2,11 +2,33 @@
 
 #include "TB6612FNG.h"
 
-// Overload Constructor
+// Overload Constructor WITHOUT standby pin
 TB6612FNG::TB6612FNG (GPIO newInput1Pin, GPIO newInput2Pin,
-  GPIO newStandByPin, PWM newPWMPin, bool newSwapSpin) :
+  PWM newPWMPin, bool newSwapSpin) :
   input1Pin(newInput1Pin), input2Pin(newInput2Pin),
-  standByPin(newStandByPin), pwmPin(newPWMPin), swapSpin(newSwapSpin)
+  pwmPin(newPWMPin), swapSpin(newSwapSpin)
+{
+  // Set the right modes for the pins
+  input1Pin.SetMode(OUTPUT);
+  input2Pin.SetMode(OUTPUT);
+
+  // Avoid set standby mode in the motor
+  standByPin.DigitalWrite(HIGH);
+
+  // Set a integer variable to signal a change in the direction of motor rotation  
+  if (swapSpin == true)
+    swapSpinMotor = -1;
+  else
+    swapSpinMotor = 1;
+  
+  std::cout << RainbowText("TB6612FNG was created!", "Light Red") << std::endl;
+}
+
+// Overload Constructor WITH standby pin
+TB6612FNG::TB6612FNG (GPIO newInput1Pin, GPIO newInput2Pin,
+  PWM newPWMPin, bool newSwapSpin, GPIO newStandByPin) :
+  input1Pin(newInput1Pin), input2Pin(newInput2Pin),
+  pwmPin(newPWMPin), swapSpin(newSwapSpin), standByPin(newStandByPin)
 {
   // Set the right modes for the pins
   input1Pin.SetMode(OUTPUT);

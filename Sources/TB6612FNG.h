@@ -24,9 +24,13 @@ private:
   // Helper method to set CCW the direction of motor rotation 
   virtual void SetCCWMode();
   
-public: 
-  // Overload constructor
-  TB6612FNG(GPIO, GPIO, GPIO, PWM, bool);
+public:
+
+  // Overload constructor WITHOUT standby pin
+  TB6612FNG(GPIO, GPIO, PWM, bool);
+
+  // Overload constructor WITH standby pin
+  TB6612FNG(GPIO, GPIO, PWM, bool, GPIO);
 
   // Interface method to set the rotation speed
   virtual void SetSpeed(int);

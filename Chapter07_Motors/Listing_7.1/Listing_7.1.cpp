@@ -9,12 +9,13 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
   // Declaring the motor pins
-  GPIO AIN1(P8_12);
+/*   GPIO AIN1(P8_12);
   GPIO AIN2(P8_14);
   GPIO STBY(P8_16);
   PWM PWMA(P8_19);
 
-  TB6612FNG MotorA (AIN1, AIN2, STBY, PWMA, false);
+  TB6612FNG MotorA (AIN1, AIN2, PWMA, false, STBY); */
+  TB6612FNG MotorA (P8_12, P8_14, P8_19, false, P8_16);
   for (size_t i = 0; i < 100; i+=10)
   {
     MotorA.MakeDrive(i,500);
