@@ -27,14 +27,12 @@ enum EDGE {
   BOTH = 2,
 };
 
-
-
 class GPIO : public SYSFILEACCESS
 {
   protected:
-    int id;        /* The Kernel GPIO number of the object */
-    int mode;      /* The GPIO mode e.g. 0/1 for OUTPUT/INPUT */
-    int value;     /* The GPIO value e.g. 0/1 for LOW/HIGH */
+    GPIO_ID id;         /* Enum for the Kernel GPIO number of the object */
+    MODE mode;          /* The GPIO mode e.g. 0/1 for OUTPUT/INPUT */
+    int value;          /* The GPIO value e.g. 0/1 for LOW/HIGH */
     std::string name;   /* The name of the GPIO e.g. gpio44 */
     std::string path;   /* The full path to the GPIO e.g. /sys/class/gpio/gpio44 */
     
@@ -46,10 +44,10 @@ class GPIO : public SYSFILEACCESS
     GPIO ();
 
     // Overload constructor with the pin`s name
-    GPIO (int);
+    GPIO (GPIO_ID);
 
     // Overload constructor with the pin id and mode
-    GPIO (int, int);
+    GPIO (GPIO_ID, MODE);
 
     // Initialize the GPIO pin with the data provided by the constructor
     void InitGPIOPin();
@@ -64,7 +62,7 @@ class GPIO : public SYSFILEACCESS
     std::string GetPinHeaderId();
 
     // Mutator method to set the pin's mode
-    int SetMode(int);
+    int SetMode(MODE);
 
     // Interface method to set the GPIO pin state
     virtual int DigitalWrite(int);

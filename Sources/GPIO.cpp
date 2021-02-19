@@ -24,14 +24,14 @@ class GPIO_Exception : public std::exception
 GPIO::GPIO() {}
 
 // Overload constructor with the pin`s name
-GPIO::GPIO (int newId) 
+GPIO::GPIO (GPIO_ID newId) 
 {
   id = newId;
   InitGPIOPin();
 }
 
-// Overload constructor with the pin and mode names
-GPIO::GPIO (int newId, int newMode) 
+// Overload constructor with the pin id and mode
+GPIO::GPIO (GPIO_ID newId, MODE newMode) 
 {
   id = newId;
   mode = newMode;
@@ -97,8 +97,9 @@ std::string GPIO::GetPinHeaderId()
   @param int: The desired mode 0/1 for OUTPUT/INPUT
   @return int: 1 set Mode has succeeded / throw an exception if not
 */
-int GPIO::SetMode(int mode) 
+int GPIO::SetMode(MODE newMode) 
 {
+  mode = newMode;
   std::string message;
   switch (mode) 
   {
