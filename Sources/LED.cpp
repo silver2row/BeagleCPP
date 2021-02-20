@@ -29,6 +29,17 @@ void LED::TurnOff()
 }
 
 /*
+  Public method to toggle the Led attached to the pin 
+*/
+void LED::Toggle()
+{
+  if (this->DigitalRead() == LOW)
+    this->DigitalWrite(HIGH);
+  else
+    this->DigitalWrite(LOW);
+}
+
+/*
   Public method to make a blink on the pin 
   @param int: The desired duration in milliseconds
 */
@@ -156,6 +167,9 @@ void LED::StopHeartBeat ()
 // Destructor
 LED::~LED()
 {
+  if(this->DigitalRead() == HIGH)
+    this->DigitalWrite(LOW);
+
   if (blinkThread.joinable())
     blinkThread.join();
   if (flashThread.joinable())

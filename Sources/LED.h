@@ -2,6 +2,7 @@
 #define LED_H
 
 #include <thread>
+#include <vector>
 #include "GPIO.h"
 
 class LED: public GPIO 
@@ -18,6 +19,7 @@ class LED: public GPIO
     void MakeBlink(int); 
     void MakeFlash(int, int);
     void MakeHeartBeat(int, int);
+
   public:
     // Overload constructor
     LED (GPIO_ID);
@@ -27,6 +29,9 @@ class LED: public GPIO
 
     // Method to turn off the Led
     void TurnOff();
+
+    // Method to toggle Led
+    void Toggle();
 
     // Method for doing a blinking pattern
     void Blink(int);
