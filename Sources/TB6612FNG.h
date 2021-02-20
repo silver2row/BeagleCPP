@@ -23,6 +23,9 @@ private:
   
   // Helper method to set CCW the direction of motor rotation 
   virtual void SetCCWMode();
+
+  std::thread driveThreadDuration;
+  void MakeDriveDuration(int, int);
   
 public:
 
@@ -39,7 +42,7 @@ public:
   virtual void Drive (int);
 
   // Overloaded interface method to drive the motor during a certain time 
-  virtual void MakeDrive (int, int);
+  virtual void Drive (int, int);
 
   // Interface method to set the standby mode in the motor
   virtual void SetStandByMode();

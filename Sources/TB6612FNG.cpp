@@ -102,7 +102,17 @@ void TB6612FNG::Drive(int speed)
   @param int: the desired speed (-100,100)
   @param int: the desired duration in milliseconds     
 */
-void TB6612FNG::MakeDrive(int speed, int duration)
+void TB6612FNG::Drive(int speed, int duration)
+{
+  driveThreadDuration = std::thread(&TB6612FNG::MakeDriveDuration, this, speed, duration);
+}
+
+/*
+  Private method that contains the routine to drive the motor
+  @param int: The desired speed (-100,100)
+  @param int: The desired duration in milliseconds
+*/
+void TB6612FNG::MakeDriveDuration(int speed, int duration)
 {
   Drive(speed);
   this->GPIO::Delayms(duration);
@@ -143,4 +153,7 @@ TB6612FNG::~TB6612FNG()
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
   standByPin.DigitalWrite(LOW);
+  
+  if (driveThreadDuration.joinable())
+    driveThreadDuration.join();
 }

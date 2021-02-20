@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../Sources/PWM.h"
+#include "../../Sources/TB6612FNG.h"
 
 using namespace std;
 
@@ -8,20 +8,21 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
-  message = "Setting a PWM mode on a blue led";
-  cout << RainbowText(message, "Blue") << endl;
-  PWM pwmBlueLedPin(P8_13);
+  // Declaring the header pin's names
+  GPIO AIN1(P8_12);
+  GPIO AIN2(P8_14);
+  PWM PWMA(P8_19);
+  GPIO STBY(P8_16);
 
-  int pwmValue = 50;
-  message = "Set a pwm duty cycle of 50%' on a blue led and wait 1 second";
-  cout << RainbowText(message, "Violet") << endl;
-  pwmBlueLedPin.SetDutyCycle(pwmValue); 
+  // Declare the motor object
+  TB6612FNG MotorA (AIN1, AIN2, PWMA, false, STBY);
 
   message = "If you want to stop the program, enter 'y' for yes";
   cout << RainbowText(message, "Blue") << endl;
-  message = "Or enter 'w' for increase brightness or 's' for decrease it";
+  message = "Or enter 'w' for increase speed or 's' for decrease it";
   cout << RainbowText(message, "Blue") << endl;
 
+  int motorSpeed = 0;
   char userInput = '\0';
   while (userInput != 'y')
   {
@@ -32,15 +33,18 @@ int main()
     switch (userInput)
     {
     case 'w':
-      pwmBlueLedPin.SetDutyCycle(pwmValue += 10);
+      motorSpeed += 10;
+      MotorA.Drive(motorSpeed);
       break;
     case 's':
-      pwmBlueLedPin.SetDutyCycle(pwmValue -= 10);
+      motorSpeed -= 10;
+      MotorA.Drive(motorSpeed);
       break;
     default:
       break;
     }
-  }
+
+  }  
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

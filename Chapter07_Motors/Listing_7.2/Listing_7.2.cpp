@@ -8,8 +8,14 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
-  // Declare the motor object directly with the header pin's names
-  TB6612FNG MotorA (P8_12, P8_14, P8_19, false, P8_16);
+  // Declaring the header pin's names
+  GPIO AIN1(P8_12);
+  GPIO AIN2(P8_14);
+  PWM PWMA(P8_19);
+  GPIO STBY(P8_16);
+
+  // Declare the motor object
+  TB6612FNG MotorA (AIN1, AIN2, PWMA, false, STBY);
 
   for (size_t i = 0; i < 100; i+=10)
     MotorA.Drive(i,500);
