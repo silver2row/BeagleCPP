@@ -10,13 +10,13 @@
 
 using namespace std;
 
-class CustomException : public exception 
+class ADC_Exception : public exception 
 {
   private:
     string reason;
   public:
-    CustomException (const char* why) : reason (why) {};
-    virtual const char* what() const noexcept 
+    ADC_Exception (const char* why) : reason (why) {};
+    virtual const char* what()
     {
       return reason.c_str();
     }
@@ -58,7 +58,7 @@ int ADC::ReadFile(string newPath)
   ifstream file(fileName, ios_base::in);
   if (!file.is_open()) {
     perror(("Error while opening file: " + fileName).c_str());
-    throw CustomException("Error in 'ReadFile' method");
+    throw ADC_Exception("Error in 'ReadFile' method");
   }
 
   string value;
@@ -163,7 +163,7 @@ void ADC::StopReadVoltageContinuousSampling()
 }
 
 /*
-  Public callback method to do a user customized function when is called
+  Public callback method to do a user Customized function when is called
   @param callbackType: user function pointer to execute 
   @return int: 1 the user function was called      
 */

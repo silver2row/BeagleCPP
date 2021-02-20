@@ -3,7 +3,9 @@
 
 #include <string>
 #include <thread>
+
 #include "RAINBOWCOLORS.h"
+#include "SYSFILEACCESS.h"
 
 /* 
   Declare a type for a function pointer
@@ -11,7 +13,7 @@
     function_type:  the function name
     int: return type  
     (*): the dereference operator due to the address of the function name
-    (): the arguments of the function, in this case void
+    (): the arguments of the function, in this case: void
   Stores the address of a function 
 */
 using callbackType = int (*)();
@@ -31,7 +33,7 @@ enum PWM_ID {
   P9_22 = 5, 
 };
 
-class PWM
+class PWM : public SYSFILEACCESS
 {
   private:
     int id; /* The PWM number of the object */
@@ -43,9 +45,6 @@ class PWM
     int enable;
     bool stopDutyCycleFlag = false;
 
-    // Method to write the files
-    virtual int WriteFile(std::string, std::string, int);
-
     // Method to enable the pwm on the pin
     virtual int Enable();
 
@@ -53,7 +52,7 @@ class PWM
     virtual int Disable();
 
   public:
-    // Default construnctor
+    // Default constructor
     PWM();
 
     // Overload constructor with pin's id

@@ -14,7 +14,7 @@ class GPIO_Exception : public std::exception
     std::string reason;
   public:
     GPIO_Exception (const char* why) : reason (why) {};
-    virtual const char* what() const noexcept 
+    virtual const char* what()
     {
       return reason.c_str();
     }
@@ -59,19 +59,16 @@ void GPIO::InitGPIOPin()
 // Public method to initialize the GPIO pin id map with its name
 void GPIO::InitPinIdMap()
 {
-  blackPinIdMap = 
-  {
-    {P8_08, "P8_08"},
-    {P8_10, "P8_10"},
-    {P8_11, "P8_11"},
-    {P8_12, "P8_12"},
-    {P8_14, "P8_14"},
-    {P8_16, "P8_16"},
-    {P8_17, "P8_17"}, 
-    {P8_18, "P8_18"},
-    {P8_20, "P8_20"},
-    {P8_26, "P8_26"}
-  };
+  blackPinIdMap[P8_08] = "P8_08";
+  blackPinIdMap[P8_10] = "P8_10";
+  blackPinIdMap[P8_11] = "P8_11";
+  blackPinIdMap[P8_12] = "P8_12";
+  blackPinIdMap[P8_14] = "P8_14";
+  blackPinIdMap[P8_16] = "P8_16";
+  blackPinIdMap[P8_17] = "P8_17";
+  blackPinIdMap[P8_18] = "P8_18";
+  blackPinIdMap[P8_20] = "P8_20";
+  blackPinIdMap[P8_26] = "P8_26";
 }
 
 /*
@@ -122,6 +119,30 @@ int GPIO::SetMode(MODE newMode)
       std::cout << RainbowText(message, "Gray") << std::endl;
       break;   
   }
+  return 1;
+}
+
+/*
+  Private method to export the GPIO pin
+  @param int: the pin's id
+  @return int: 1 export has succeeded / -1 export has failed 
+*/
+int GPIO::ExportGPIO(int id)
+{
+  if (WriteFile(GPIO_PATH, "export", std::to_string(id)) != 1)
+    throw GPIO_Exception ("Error in the 'ExportGPIO' method");
+  return 1;
+}
+
+/*
+  Private method to unexport the GPIO pin
+  @param int: the pin's id
+  @return int: 1 unexport has succeeded / -1 unexport has failed 
+*/
+int GPIO::UnexportGPIO(int id) 
+{
+  if (WriteFile(GPIO_PATH, "unexport", std::to_string(id)) != 1)
+    throw GPIO_Exception ("Error in the 'UnexportGPIO' method");
   return 1;
 }
 

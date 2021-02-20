@@ -3,7 +3,7 @@
 
 #include <string>
 
-const std::string GPIO_PATH("/sys/class/gpio/");
+
 
 class SYSFILEACCESS  
 {
@@ -11,14 +11,11 @@ class SYSFILEACCESS
     // Method to write a system file
     virtual int WriteFile(std::string, std::string, std::string);
 
+    // Overload Method to write a system file
+    virtual int WriteFile(std::string, std::string, int);
+
     // Method to read a system file
     virtual std::string ReadFile(std::string, std::string);
-
-    // Method to export the GPIO pin
-    virtual int ExportGPIO(int);
-
-    // Method to unexport the GPIO pin
-    virtual int UnexportGPIO(int);
 };
 
 #endif // SYSFILEACCESS_H

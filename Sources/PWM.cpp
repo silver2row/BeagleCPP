@@ -17,7 +17,7 @@ class PWM_Exception : public exception
     string reason;
   public:
     PWM_Exception (const char* why) : reason (why) {};
-    virtual const char* what() const noexcept 
+    virtual const char* what() 
     {
       return reason.c_str();
     }
@@ -89,31 +89,6 @@ void PWM::InitPWMPin()
   system(command);
 
   Enable();
-}
-
-/*
-   Private method that writes a string value to a file in the path provided
-   @param string path: The file system path to be modified
-   @param string feature: The name of file to be written
-   @param int value: The value to be written to in the file
-   @return int: 1 written has succeeded
-*/
-int PWM::WriteFile(std::string path, std::string feature, int value) 
-{
-  std::string fileName = path + feature;
-  std::ofstream file(fileName, ios_base::out);
-  if (file.is_open())
-  {
-    file << value;
-    file.close();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    return 1;
-  } 
-  else
-  {
-    perror(("Error while opening file: " + fileName).c_str());
-    return -1;
-  } 
 }
 
 /*

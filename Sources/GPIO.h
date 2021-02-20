@@ -8,6 +8,8 @@
 #include "BLACKPIN_ID.h"
 #include "SYSFILEACCESS.h"
 
+const std::string GPIO_PATH("/sys/class/gpio/");
+
 /* The numeric mode for MODE: e.g. 0/1 for OUTPUT/INPUT */
 enum MODE {
   OUTPUT = 0,
@@ -40,7 +42,7 @@ class GPIO : public SYSFILEACCESS
     std::map <int, std::string> blackPinIdMap; 
 
   public:
-    // Default construnctor
+    // Default constructor
     GPIO ();
 
     // Overload constructor with the pin`s name
@@ -63,6 +65,12 @@ class GPIO : public SYSFILEACCESS
 
     // Mutator method to set the pin's mode
     int SetMode(MODE);
+
+    // Method to export the GPIO pin
+    virtual int ExportGPIO(int);
+
+    // Method to unexport the GPIO pin
+    virtual int UnexportGPIO(int);
 
     // Interface method to set the GPIO pin state
     virtual int DigitalWrite(int);
