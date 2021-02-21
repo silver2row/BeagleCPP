@@ -24,8 +24,10 @@ private:
   // Helper method to set CCW the direction of motor rotation 
   virtual void SetCCWMode();
 
-  std::thread driveThreadDuration;
-  void MakeDriveDuration(int, int);
+  // Create a vector of threads
+  std::vector<std::thread> vecOfThreads;
+
+  void MakeDrive(int, int);
   
 public:
 
@@ -34,6 +36,9 @@ public:
 
   // Overload constructor WITH standby pin
   TB6612FNG(GPIO, GPIO, PWM, bool, GPIO);
+
+  // Initialize the GPIO pin with the data provided by the constructor
+  void InitTB6612Pins();
 
   // Interface method to set the rotation speed
   virtual void SetSpeed(int);
@@ -56,5 +61,20 @@ public:
   // Destructor
   ~TB6612FNG();
 };
+
+// Functions to drive a robot with a couple of motors attached
+void Forward (TB6612FNG, TB6612FNG, int);
+void Forward (TB6612FNG, TB6612FNG, int, int);
+
+void Backward (TB6612FNG, TB6612FNG, int);
+void Backward (TB6612FNG, TB6612FNG, int, int);
+
+void TurnLeft (TB6612FNG, TB6612FNG, int);
+void TurnLeft (TB6612FNG, TB6612FNG, int, int);
+
+void TurnRight (TB6612FNG, TB6612FNG, int);
+void TurnRight (TB6612FNG, TB6612FNG, int, int);
+
+void Brake (TB6612FNG, TB6612FNG);
 
 #endif // HC-SR04_H
