@@ -79,10 +79,10 @@ void TB6612FNG::Drive(int speed)
   // If it is desired, swap the turning direction 
   speed *= swapSpinMotor;
 
-  // Verify the speed limits
-  if (speed >= 100)
+  // Verify and limit the speed
+  if (speed >= maxSpeed)
     speed = maxSpeed;
-  else if (speed <= -100)
+  else if (speed <= -maxSpeed)
     speed = -maxSpeed;
 
   // Select and set the correct turn direction
