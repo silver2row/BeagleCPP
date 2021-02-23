@@ -109,20 +109,24 @@ void TB6612FNG::Drive(int speed)
 */
 void TB6612FNG::Drive(int speed, int duration)
 {
-  if (duration < 0)
+  if (duration < 0) 
     duration *= -1;
-  vecOfThreads.push_back(std::thread(&TB6612FNG::MakeDrive, this, speed, duration));
+  std::thread driveThread(&TB6612FNG::DriveThread, this, speed, duration);
+  driveThread.join();
+
 }
 
 /*
-  Private method that contains the routine to drive the motor
-  @param int: The desired speed (-100,100)
-  @param int: The desired duration in milliseconds
+  Private method that contains the routine to drive 
+  the motor during a certain time
+  @param int: the desired speed (-100,100)
+  @param int: the desired duration in milliseconds     
 */
-void TB6612FNG::MakeDrive(int speed, int duration)
+
+void TB6612FNG::DriveThread(int speed, int duration)
 {
   Drive(speed);
-  this->GPIO::Delayms(duration);
+  Delayms(duration);
 }
 
 /*
@@ -154,21 +158,22 @@ void TB6612FNG::ShortBrakeMode()
   input2Pin.DigitalWrite(HIGH);
 }
 
+/*
+  Public method to do a delay in milliseconds
+  @param int: duration of the delay
+*/
+void TB6612FNG::Delayms(int millisecondsToSleep) 
+{
+  std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep));
+}
+
 TB6612FNG::~TB6612FNG() 
 {
   SetSpeed(0);
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
   standByPin.DigitalWrite(LOW);
-  
-  // Iterate over the thread vector
-  for (std::thread& th : vecOfThreads)
-  {
-    if (th.joinable())
-      th.join();
-  }
 }
-
 /*
   Function to drive FORWARD a robot with a couple of motors
   @param TB6612FNG: The left motor of the robot

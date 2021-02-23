@@ -17,10 +17,10 @@ int main()
   // Declare the motor object
   TB6612FNG MotorA (AIN1, AIN2, PWMA, false, STBY);
 
-  for (size_t i = 0; i < 100; i+=10)
-    MotorA.Drive(i,500);
+    for (size_t i = 0; i < 100; i+=10)
+    MotorA.Drive(-i,1000);
   for (size_t i = 100; i > 0; i-=10)
-    MotorA.Drive(-i,500);
+    MotorA.Drive(-i,1000);
   
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

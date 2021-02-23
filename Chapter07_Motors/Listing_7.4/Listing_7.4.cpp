@@ -34,16 +34,17 @@ int main()
     {
     case 'w':
       motorSpeed += 10;
-      MotorA.Drive(motorSpeed,500);
+      MotorA.Drive(motorSpeed,1000);
+      for(int i = 0; i < 10000; i++)
+        std::cout<<"Display From MainThread"<<std::endl;
       break;
     case 's':
       motorSpeed -= 10;
-      MotorA.Drive(motorSpeed,500);
+      MotorA.Drive(motorSpeed,1000);
       break;
     default:
       break;
     }
-
   }  
 
   message = "Main program finishes here...";

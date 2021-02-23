@@ -2,6 +2,7 @@
 #define TB6612FNG_H
 
 #include <vector>
+#include <chrono> // chrono::milliseconds()
 #include <thread>
 
 #include "GPIO.h"
@@ -24,10 +25,8 @@ private:
   // Helper method to set CCW the direction of motor rotation 
   virtual void SetCCWMode();
 
-  // Create a vector of threads
-  std::vector<std::thread> vecOfThreads;
-
-  void MakeDrive(int, int);
+  // Helper method to do a Drive with duration in a thread
+  virtual void DriveThread(int, int);
   
 public:
 
@@ -56,7 +55,10 @@ public:
   virtual void StopMode();
 
   // Interface method to do a short brake on the motor
-  virtual void ShortBrakeMode();  
+  virtual void ShortBrakeMode();
+
+  // Delay method in milliseconds
+  virtual void Delayms(int);  
 
   // Destructor
   ~TB6612FNG();
