@@ -34,13 +34,15 @@ int main()
     {
     case 'w':
       motorSpeed += 10;
-      MotorA.Drive(motorSpeed,1000);
-      for(int i = 0; i < 10000; i++)
-        std::cout<<"Display From MainThread"<<std::endl;
+      MotorA.DriveThread(motorSpeed,5000);
+      for(int i = 0; i < 100; i++)
+        cout << "Doing something else while the motor is running" << endl;
       break;
     case 's':
       motorSpeed -= 10;
-      MotorA.Drive(motorSpeed,1000);
+      MotorA.DriveThread(motorSpeed,5000);
+      for(int i = 0; i < 100; i++)
+        cout << "Doing something else while the motor is running" << endl;
       break;
     default:
       break;

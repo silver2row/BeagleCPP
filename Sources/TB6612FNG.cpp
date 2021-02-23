@@ -111,9 +111,18 @@ void TB6612FNG::Drive(int speed, int duration)
 {
   if (duration < 0) 
     duration *= -1;
-  std::thread driveThread(&TB6612FNG::DriveThread, this, speed, duration);
-  driveThread.join();
+  Drive(speed);
+  Delayms(duration);
+}
 
+/*
+  Public method to drive the motor during a certain time inside a thread
+  @param int: the desired speed (-100,100)
+  @param int: the desired duration in milliseconds     
+*/
+void TB6612FNG::DriveThread(int speed, int duration)
+{
+  vectorDriveThread.push_back(std::thread(&TB6612FNG::MakeDriveThread, this, speed, duration));
 }
 
 /*
@@ -122,8 +131,7 @@ void TB6612FNG::Drive(int speed, int duration)
   @param int: the desired speed (-100,100)
   @param int: the desired duration in milliseconds     
 */
-
-void TB6612FNG::DriveThread(int speed, int duration)
+void TB6612FNG::MakeDriveThread(int speed, int duration)
 {
   Drive(speed);
   Delayms(duration);
@@ -173,6 +181,12 @@ TB6612FNG::~TB6612FNG()
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
   standByPin.DigitalWrite(LOW);
+
+  for (std::thread & th : vectorDriveThread)
+  {
+    if (th.joinable())
+        th.join();
+  }
 }
 /*
   Function to drive FORWARD a robot with a couple of motors
