@@ -162,10 +162,10 @@ TB6612FNG::~TB6612FNG()
   standByPin.DigitalWrite(LOW);
   
   // Iterate over the thread vector
-  for (std::thread & th : vecOfThreads)
+  for (std::thread& th : vecOfThreads)
   {
     if (th.joinable())
-        th.join();
+      th.join();
   }
 }
 
