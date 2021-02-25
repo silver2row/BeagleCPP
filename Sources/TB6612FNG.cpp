@@ -59,6 +59,36 @@ void TB6612FNG::SetCCWMode()
 }
 
 /*
+  Private method to do a SHORT BRAKE on the motor    
+*/
+void TB6612FNG::ShortBrakeMode()
+{
+  input1Pin.DigitalWrite(HIGH);
+  input2Pin.DigitalWrite(HIGH);
+  SetSpeed(0);
+  standByPin.DigitalWrite(HIGH);
+}
+
+/*
+  Private method to set the STOP mode in the  motor    
+*/
+void TB6612FNG::StopMode()
+{
+  input1Pin.DigitalWrite(LOW);
+  input2Pin.DigitalWrite(LOW);
+  SetSpeed(maxSpeed);
+  standByPin.DigitalWrite(HIGH);
+}
+
+/*
+  Private method to set the STANDBY mode in the  motor    
+*/
+void TB6612FNG::StandByMode()
+{
+  standByPin.DigitalWrite(LOW);
+}
+
+/*
   Public method to set the speed rotation
   @param int: the desired speed (-100,100)     
 */
@@ -86,14 +116,19 @@ void TB6612FNG::Drive(int speed)
     speed = -maxSpeed;
 
   // Select and set the correct turn direction
+  std::string message;
   if (speed >= 0)
   {
-    std::cout << "Turning motor CW with speed: " << speed << std::endl;
+    message = "Turning motor CW with speed: ";
+    std::cout << RainbowText(message, "Light Red", "Default", "Bold") 
+              << speed << std::endl;
     SetCWMode();
   }
   else
   {
-    std::cout << "Turning motor CCW with speed: " << speed << std::endl;
+    message = "Turning motor CCW with speed: ";
+    std::cout << RainbowText(message, "Light Red", "Default", "Bold") 
+              << speed << std::endl;
     SetCCWMode();
     speed *= -1;
   }
@@ -113,6 +148,23 @@ void TB6612FNG::Drive(int speed, int duration)
     duration *= -1;
   Drive(speed);
   Delayms(duration);
+  Brake();
+}
+
+/*
+  Public method to drive and brake the motor after certain time
+  @param int: the desired speed (-100,100)
+  @param int: the desired duration in milliseconds
+  @param bool: Confirm to stop the motor after driving it     
+*/
+void TB6612FNG::Drive(int speed, int duration, bool stopMotor)
+{
+  if (duration < 0) 
+    duration *= -1;
+  Drive(speed);
+  Delayms(duration);
+  if (stopMotor == true)
+    Brake();
 }
 
 /*
@@ -122,7 +174,7 @@ void TB6612FNG::Drive(int speed, int duration)
 */
 void TB6612FNG::DriveThread(int speed, int duration)
 {
-  vectorDriveThread.push_back(std::thread(&TB6612FNG::MakeDriveThread, this, speed, duration));
+  vectorDriveThreads.push_back(std::thread(&TB6612FNG::MakeDriveThread, this, speed, duration));
 }
 
 /*
@@ -138,32 +190,12 @@ void TB6612FNG::MakeDriveThread(int speed, int duration)
 }
 
 /*
-  Public method to set the standby mode in the  motor    
+  Public method to brake the motor with short brake mode
 */
-void TB6612FNG::SetStandByMode()
-{
-  standByPin.DigitalWrite(LOW);
-}
 
-/*
-  Public method to stop the  motor    
-*/
-void TB6612FNG::StopMode()
+void TB6612FNG::Brake()
 {
-  SetSpeed(maxSpeed);
-  SetStandByMode();
-  input1Pin.DigitalWrite(LOW);
-  input2Pin.DigitalWrite(LOW);
-}
-
-/*
-  Public method to do a short brake on the motor    
-*/
-void TB6612FNG::ShortBrakeMode()
-{
-  SetSpeed(maxSpeed);
-  input1Pin.DigitalWrite(HIGH);
-  input2Pin.DigitalWrite(HIGH);
+  ShortBrakeMode();
 }
 
 /*
@@ -182,12 +214,13 @@ TB6612FNG::~TB6612FNG()
   input2Pin.DigitalWrite(LOW);
   standByPin.DigitalWrite(LOW);
 
-  for (std::thread & th : vectorDriveThread)
+  for (std::thread & th : vectorDriveThreads)
   {
     if (th.joinable())
         th.join();
   }
 }
+
 /*
   Function to drive FORWARD a robot with a couple of motors
   @param TB6612FNG: The left motor of the robot
@@ -319,6 +352,6 @@ void TurnRight (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int durati
 */ 
 void Brake (TB6612FNG motorLeft, TB6612FNG motorRight)
 {
-  motorLeft.StopMode();
-  motorRight.StopMode();
+  motorLeft.Brake();
+  motorRight.Brake();
 }

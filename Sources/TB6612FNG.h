@@ -19,16 +19,25 @@ private:
   int swapSpinMotor;
   const int maxSpeed = 100;
 
-  // Helper method to set CW the direction of motor rotation 
+  // Method to set CW the direction of motor rotation 
   virtual void SetCWMode();
   
-  // Helper method to set CCW the direction of motor rotation 
+  // Method to set CCW the direction of motor rotation 
   virtual void SetCCWMode();
 
-  // Helper method to drive the motor with duration in a thread
+  // Method to do a short brake on the motor
+  virtual void ShortBrakeMode();
+
+  // Method to stop the motor
+  virtual void StopMode();
+
+  // Method to set the standby mode in the motor
+  virtual void StandByMode();
+
+  // Method to drive the motor with duration in a thread
   virtual void MakeDriveThread(int, int);
 
-  std::vector<std::thread> vectorDriveThread;
+  std::vector<std::thread> vectorDriveThreads;
   
 public:
 
@@ -50,17 +59,14 @@ public:
   // Overloaded interface method to drive the motor during a certain time 
   virtual void Drive (int, int);
 
+  // Overloaded interface method to drive and brake the motor after certain time 
+  virtual void Drive (int, int, bool);
+
   // Interface method to drive the motor in a thread
   virtual void DriveThread(int, int);
 
-  // Interface method to set the standby mode in the motor
-  virtual void SetStandByMode();
-
-  // Interface method to stop the motor
-  virtual void StopMode();
-
-  // Interface method to do a short brake on the motor
-  virtual void ShortBrakeMode();
+  // Interface method to brake the motor
+  virtual void Brake();
 
   // Delay method in milliseconds
   virtual void Delayms(int);  
