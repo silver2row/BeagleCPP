@@ -16,12 +16,12 @@ int main()
   cout << RainbowText(message, "Blue") << endl;
 
   int adcValue = 0;
-  int intervalTime = 250;
   for (int i = 0; i < 100; i++)
   {
-    adcPin.ReadADC(adcValue, intervalTime);
+    adcValue = adcPin.ReadADC();
     cout << "Reading " << i+1 << " of " << " 100: ";
     cout << adcValue << endl;
+    adcPin.Delayms(100);
   }
 
   message = "Main program finishes here...";

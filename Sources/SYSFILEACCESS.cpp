@@ -45,11 +45,11 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, std::string 
 }
 
 /*
-   Private method that writes a string value to a file in the path provided
-   @param string path: The file system path to be modified
-   @param string feature: The name of file to be written
-   @param int value: The value to be written to in the file
-   @return int: 1 written has succeeded
+  Public method that writes a string value to a file in the path provided
+  @param string path: The file system path to be modified
+  @param string feature: The name of file to be written
+  @param int value: The value to be written to in the file
+  @return int: 1 written has succeeded
 */
 int SYSFILEACCESS::WriteFile(std::string path, std::string feature, int value) 
 {
@@ -70,10 +70,10 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, int value)
 }
 
 /*
-  Private method that read a file in the path provided
+  Public method that read a file in the path provided
   @param String path: The sysfs path of the file to be read
   @param String feature: The file to be read to in that path
-  @return string: the read value / "-1" if there was an error
+  @return string: The read value / "-1" if there was an error
 */
 std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature) 
 {
@@ -91,4 +91,30 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
   //  perror(("Error while reading file: " + fileName).c_str());
   file.close();
   return value;
+}
+
+/*
+  Public method that read a file in the path provided
+  @param String path: The sysfs path of the file to be read
+  @return int: The read value / "-1" if there was an error
+*/
+int SYSFILEACCESS::ReadFile(std::string path) 
+{
+  std::string fileName;
+  fileName = path;
+  std::ifstream file(fileName, std::ios_base::in);
+
+  if (file.is_open())
+  {
+    std::string value;
+    getline(file,value);
+    file.close();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    return std::stoi(value);
+  } 
+  else
+  {
+    perror(("Error while opening file: " + fileName).c_str());
+    return -1;
+  }
 }

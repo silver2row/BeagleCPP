@@ -41,46 +41,51 @@ ADC::ADC(int adcPin)
   cout  << RainbowText("Trying to enable the ADC on pin: ","Violet") 
         << RainbowText(idMap[id], "Violet", "Default", "Bold") << endl;
 
-  GetADC();
-  cout  << RainbowText("Setting the ADC pin was a success!", "Violet") << endl; 
+  int ADCValue = ReadADC();
+  if (ADCValue >= 0 && ADCValue <= 4095)
+    cout  << RainbowText("Setting the ADC pin was a success!", "Violet") << endl; 
 }
 
 /*
-  Protected method to get the ADC value on pin 
-  @return int: The pin's value between 0 - 4095
+  Private method that read a file in the path provided
+  @param String path: The sysfs path of the file to be read
+  @return int: the read value 
 */
-int ADC::GetADC()
+int ADC::ReadFile(string newPath) 
 {
-  adcValue = ReadFile(path);
-  if ( adcValue == -1)
-  {
-    perror("Error trying to read the ADC on the pin");
-    throw ADC_Exception("Error in the 'ReadADC' method");
+  string fileName;
+  fileName = path;
+  ifstream file(fileName, ios_base::in);
+  if (!file.is_open()) {
+    perror(("Error while opening file: " + fileName).c_str());
+    throw ADC_Exception("Error in 'ReadFile' method");
   }
-  else
-  {
-    return adcValue;
-  }
+
+  string value;
+  getline(file,value);
+  if (file.bad())
+    perror(("Error while reading file: " + fileName).c_str());
+  file.close();
+
+  return stoi(value);
 }
 
 /*
    Public method to get the ADC value on pin 
    @return int: The pin's value between 0 - 4095
 */
-void ADC::ReadADC(int &adcOut)
+int ADC::ReadADC()
 {
-  adcOut = GetADC();
+  return ReadFile(path);
 }
 
 /*
-  Public method to get one the ADC value on pin and wait a time Interval
-  @param int: Reference output for the ADC value between 0 - 4095
-  @param int: The time interval between each sample
+   Public method to get the voltage on the pin 
+   @return float: The pin's value between 0 - 1.8
 */
-void ADC::ReadADC(int &adcValueOut, int timeInterval)
+float ADC::ReadVoltage()
 {
-  this->ReadADC(adcValueOut);
-  Delayms(timeInterval);
+  return ( ReadFile(path) * 1.8 / 4095 );
 }
 
 /*
@@ -88,54 +93,36 @@ void ADC::ReadADC(int &adcValueOut, int timeInterval)
   @param int: Reference output for the ADC value between 0 - 4095
   @param int: The time interval between each sample
 */
-void ADC::ReadADCContinuosly(int &adcValueOut, int timeInterval)
+void ADC::ReadADCContinuousSampling(int &adcValueOut, int sampleTime)
 {
-  std::string message = "Read ADC input has been activated";
+  message = "Read ADC input has been activated";
   cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
-  ReadADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval);
+
+  ReadADCThread = std::thread(&ADC::MakeReadADCContinuousSampling, this, std::ref(adcValueOut),sampleTime);
 }
 
 /*
   Private method that contains the routine to make the ADC read 
   @param int: A reference variable to store The pin's value between 0 - 4095
 */
-void ADC::MakeReadADC(int &adcValueOut, int timeInterval)
+void ADC::MakeReadADCContinuousSampling(int &adcValueOut, int sampleTime)
 {
   while (stopReadADCFlag == false)
   {
-    this->ReadADC(adcValueOut);
-    std::string message = "ADC value on pin " + idMap[id] + ": " + to_string(adcValueOut);
+    adcValueOut = this->ReadADC();
+    message = "ADC value on pin " + idMap[id] + ": " + to_string(adcValueOut);
     cout << RainbowText(message, "Violet") << endl;
-    Delayms(timeInterval);
+    // cout << "ADC value on pin " << idMap[id] << ": " << adcValueOut << endl;
+    Delayms(sampleTime);
   }
 }
 
 /*
   Public method to stop reading the ADC 
 */
-void ADC::StopReadADC()
+void ADC::StopReadADCContinuousSampling()
 {
   stopReadADCFlag = true;
-}
-
-/*
-  Public method to get the voltage on the pin
-  @param float: Reference output for the ADC value between 0 - 1.8
-*/
-void ADC::ReadVoltage(float &voltageOut)
-{
-  voltageOut = GetADC() * 1.8 / 4095;
-}
-
-/*
-  Public method to get the voltage on the pin
-  @param float: Reference output for the ADC value between 0 - 1.8
-  @param int: The time interval between each sample
-*/
-void ADC::ReadVoltage(float &voltageOut, int timeInterval)
-{
-  this->ReadVoltage(voltageOut);
-  Delayms(timeInterval);
 }
 
 /*
@@ -143,32 +130,34 @@ void ADC::ReadVoltage(float &voltageOut, int timeInterval)
   @param float: Reference output for the ADC value between 0 - 1.8
   @param int: The time interval between each sample
 */
-void ADC::ReadVoltageContinuosly(float &voltageOut, int timeInterval)
+void ADC::ReadVoltageContinuousSampling(float &voltageOut, int sampleTime)
 {
-  std::string  message = "Read voltage in a thread has been activated";
+  message = "Read voltage has been activated";
   cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
-  ReadVoltageThread = std::thread(&ADC::MakeReadVoltage, this, std::ref(voltageOut),timeInterval);
+
+  ReadVoltageThread = std::thread(&ADC::MakeReadVoltageContinuousSampling, this, std::ref(voltageOut),sampleTime);
 }
 
 /*
   Private method that contains the routine to make the ADC read 
   @param int: A reference variable to store The pin's value between 0 - 4095
 */
-void ADC::MakeReadVoltage(float &voltageOut, int timeInterval)
+void ADC::MakeReadVoltageContinuousSampling(float &voltageOut, int sampleTime)
 {
   while (stopReadVoltageFlag == false)
   {
-    this->ReadVoltage(voltageOut);
-    std::string message = "Voltage on pin " + idMap[id] + ": " + to_string(voltageOut);
+    voltageOut = this->ReadVoltage();
+    message = "Voltage on pin " + idMap[id] + ": " + to_string(voltageOut);
     cout << RainbowText(message, "Violet") << endl;
-    Delayms(timeInterval);
+    //cout << "Voltage on pin " << idMap[id] << ": " <<  << endl;
+    Delayms(sampleTime);
   }
 }
 
 /*
   Public method to stop reading the voltage 
 */
-void ADC::StopReadVoltage()
+void ADC::StopReadVoltageContinuousSampling()
 {
   stopReadVoltageFlag = true;
 }
@@ -181,7 +170,7 @@ void ADC::StopReadVoltage()
 
 int ADC::DoUserFunction (callbackType callbackFunction)
 {
-  std::string message = "'UserFunction' method has been activated!";
+  message = "'UserFunction' method has been activated!";
   cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
 
   functionThread = thread(callbackFunction);

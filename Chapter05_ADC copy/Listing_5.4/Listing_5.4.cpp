@@ -12,22 +12,22 @@ int main()
   cout << RainbowText(message, "Blue") << endl;
   ADC adcPin(P9_39);
 
-  message = "Read continuously the ADC value on pin";
+  message = "Read continuously the voltage on pin";
   cout << RainbowText(message, "Blue") << endl;
 
-  int adcValueOut = 0;
-  int intervalTime = 100;
-  adcPin.ReadADCContinuosly(adcValueOut,intervalTime);
+  float adcVoltageOut = 0.0;
+  int sampleTime = 100;
+  adcPin.ReadVoltageContinuousSampling(adcVoltageOut,sampleTime);
   
   char userInput = '\0';
   while (userInput != 'y')
   {
     message = "Do you want to stop the readings on the pin? Enter 'y' for yes:";
-    cout << RainbowText(message, "Blue")  << endl;
+    cout << RainbowText(message, "Blue") << endl;
     cin >> userInput;
     if (userInput == 'y') 
     {
-      adcPin.StopReadADC();
+      adcPin.StopReadVoltageContinuousSampling();
     }
   }
 

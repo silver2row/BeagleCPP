@@ -45,10 +45,10 @@ class PWM : public SYSFILEACCESS
     int enable;
     bool stopDutyCycleFlag = false;
 
-    // Method to enable the pwm on the pin
+    // Helper method to enable the pwm on the pin
     virtual int Enable();
 
-    // Method to enable the pwm on the pin
+    // Helper method to enable the pwm on the pin
     virtual int Disable();
 
   public:

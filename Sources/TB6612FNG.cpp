@@ -146,9 +146,9 @@ void TB6612FNG::Drive(int speed, int duration)
 {
   if (duration < 0) 
     duration *= -1;
+
   Drive(speed);
   Delayms(duration);
-  Brake();
 }
 
 /*
@@ -161,8 +161,10 @@ void TB6612FNG::Drive(int speed, int duration, bool stopMotor)
 {
   if (duration < 0) 
     duration *= -1;
+
   Drive(speed);
   Delayms(duration);
+  
   if (stopMotor == true)
     Brake();
 }

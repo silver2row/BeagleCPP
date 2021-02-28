@@ -16,8 +16,8 @@ int main()
   cout << RainbowText(message, "Blue") << endl;
 
   int adcValueOut = 0;
-  int intervalTime = 100;
-  adcPin.ReadADCContinuosly(adcValueOut,intervalTime);
+  int sampleTime = 100;
+  adcPin.ReadADCContinuousSampling(adcValueOut,sampleTime);
   
   char userInput = '\0';
   while (userInput != 'y')
@@ -27,7 +27,7 @@ int main()
     cin >> userInput;
     if (userInput == 'y') 
     {
-      adcPin.StopReadADC();
+      adcPin.StopReadADCContinuousSampling();
     }
   }
 

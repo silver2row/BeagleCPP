@@ -15,11 +15,11 @@ int AnalogRead()
 {
   while (stopAnalogRead == false)
   {
-    adcPin.ReadADC(adcValue);
-    cout << "ADC value on pin: " << adcValue << " / ";
-    adcPin.ReadVoltage(adcVoltage);
+    adcValue = adcPin.ReadADC();
+    cout << "ADC value on pin: " << adcValue << endl;
+    adcVoltage = adcPin.ReadVoltage();
     cout << "Voltage on the pin: " << adcVoltage << endl;
-    adcPin.Delayms(250);
+    adcPin.Delayms(100);
   }
   return 0;
 }

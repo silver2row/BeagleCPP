@@ -3,9 +3,7 @@
 
 #include <string>
 #include <thread>
-
 #include "RAINBOWCOLORS.h"
-#include "SYSFILEACCESS.h"
 
 /* 
   Declare a type for a function pointer
@@ -31,14 +29,14 @@ enum ID {
   P9_35 = 6,
 };
 
-class ADC : public SYSFILEACCESS
+class ADC
 {
   private:
     int id; /* The ADC number of the object */
     std::string idMap[7];
     std::string path; /* The full path to the ADC e.g. /sys/bus/iio/devices/iio:device0/in_voltage0_raw */
     std::string name; /* The name of the ADC e.g. in_voltage0_raw */
-    int adcValue;
+    std::string message; /* The variable to output messages on the terminal*/
 
     bool stopReadADCFlag = false;
     bool stopReadVoltageFlag = false;
@@ -47,43 +45,37 @@ class ADC : public SYSFILEACCESS
     std::thread ReadVoltageThread;
     std::thread functionThread;
 
-    void MakeReadADC(int &, int);
-    void MakeReadVoltage(float &, int);
-
-  protected:
-    // Helper method to get the ADC value on pin
-    virtual int GetADC();
+    void MakeReadADCContinuousSampling(int &, int);
+    void MakeReadVoltageContinuousSampling(float &, int);
+    
+    // Method to read files
+    virtual int ReadFile(std::string);
 
   public:
+
     // Default constructor
     ADC(int);
 
-    // Interface method to read one time the adc value on the pin
-    virtual void ReadADC(int &);
+    // Interface method to get one ADC value
+    virtual int ReadADC();
 
-    // Overload interface method for reading the ADC value with a delay on the pin
-    virtual void ReadADC(int &, int);
+    // Interface method to get the voltage on the pin
+    virtual float ReadVoltage();
 
     // Interface method for reading the ADC value continuosly on the pin
-    virtual void ReadADCContinuosly(int &, int);
+    virtual void ReadADCContinuousSampling(int &, int);
 
-    // Interface method to read one time the voltage on the pin
-    virtual void ReadVoltage(float &);
-
-    // Overload interface method for reading the voltage with a dealay on the pin
-    virtual void ReadVoltage(float &, int);
-
-    // Interface method for reading the voltage with a dealay on the pin
-    virtual void ReadVoltageContinuosly(float &, int);
+    // Interface method for reading the Voltage continuosly on the pin
+    virtual void ReadVoltageContinuousSampling(float &, int);
     
     // Method to do execute an user function
     virtual int DoUserFunction(callbackType);
 
     // Method to stop the ADC continuos sampling 
-    virtual void StopReadADC();
+    virtual void StopReadADCContinuousSampling();
 
     // Method to stop the voltage continuos sampling
-    virtual void StopReadVoltage();
+    virtual void StopReadVoltageContinuousSampling();
     
     // Method to stop the user function
     virtual void StopUserFunction();
