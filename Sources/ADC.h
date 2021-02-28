@@ -45,7 +45,6 @@ class ADC : public SYSFILEACCESS
 
     std::thread ReadADCThread;
     std::thread ReadVoltageThread;
-    std::thread functionThread;
 
     void MakeReadADC(int &, int);
     void MakeReadVoltage(float &, int);

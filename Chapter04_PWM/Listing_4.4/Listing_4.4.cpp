@@ -41,8 +41,11 @@ int main()
     cin >> userInput;
     if (userInput == 'y') 
     {
+      // Stop the function
       stopPulse = true;
-      pwmWhiteLedPin.StopUserFunction();
+      
+      // Clean the pwm value on pin
+      pwmWhiteLedPin.SetDutyCycle(0);
     }
   }
 

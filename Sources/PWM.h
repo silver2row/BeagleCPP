@@ -43,8 +43,7 @@ class PWM : public SYSFILEACCESS
     int period;
     int dutyCycle;
     int enable;
-    bool stopDutyCycleFlag = false;
-
+    
     // Helper method to enable the pwm on the pin
     virtual int Enable();
 
@@ -81,9 +80,6 @@ class PWM : public SYSFILEACCESS
 
     // Method to do execute an user function
     virtual int DoUserFunction(callbackType);
-
-    // Method to stop the user function
-    virtual void StopUserFunction();
 
     // Destructor
     virtual ~PWM();

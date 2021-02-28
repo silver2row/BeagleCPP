@@ -184,8 +184,8 @@ int ADC::DoUserFunction (callbackType callbackFunction)
   std::string message = "'UserFunction' method has been activated!";
   cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
 
-  functionThread = thread(callbackFunction);
-
+  std::thread functionThread(callbackFunction);
+  functionThread.detach();
   return 1;
 }
 
@@ -214,8 +214,6 @@ ADC::~ADC()
     ReadADCThread.join();
   if (ReadVoltageThread.joinable())
     ReadVoltageThread.join();
-  if (functionThread.joinable())
-    functionThread.join();
 
   // Waiting for the last reading on the pin
   this->Delayms(10);

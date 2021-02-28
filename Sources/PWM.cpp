@@ -169,28 +169,23 @@ int PWM::SetPeriod(int newPeriod)
    Public method to set the duty cycle of the PWM
    @param int: The desired duty cycle in pertentage: 0-100
    @return  int: 1 set duty cycle has succeeded / throw an exception if not
-            int: 0 if the user decides to stop this method
 */
 int PWM::SetDutyCycle(int newDutyCycle)
 {
-  while (stopDutyCycleFlag == false)
+  if (newDutyCycle >= 0 && newDutyCycle <= 100)
+    dutyCycle = static_cast<int>(newDutyCycle / 100.0 * period);
+  else if (newDutyCycle < 0)
+    dutyCycle = 0;
+  else
+    dutyCycle = 100;
+  
+  if (WriteFile(path, "duty_cycle", dutyCycle) == 1)
+    return 1;
+  else 
   {
-    if (newDutyCycle >= 0 && newDutyCycle <= 100)
-      dutyCycle = static_cast<int>(newDutyCycle / 100.0 * period);
-    else if (newDutyCycle < 0)
-      dutyCycle = 0;
-    else
-      dutyCycle = 100;
-    
-    if (WriteFile(path, "duty_cycle", dutyCycle) == 1)
-      return 1;
-    else 
-    {
-      perror("Error setting the PWM duty cycle for the pin");
-      throw PWM_Exception("Error in WritePWMDutyCycle method");
-    }
+    perror("Error setting the PWM duty cycle for the pin");
+    throw PWM_Exception("Error in WritePWMDutyCycle method");
   }
-  return 0;
 }
 
 /*
@@ -217,23 +212,5 @@ int PWM::DoUserFunction (callbackType callbackFunction)
   return 1;
 }
 
-/*
-   Public method to stop the user function execution
-*/
-void PWM::StopUserFunction()
-{
-  stopDutyCycleFlag = true;
-}
-
 // Destructor
-PWM::~PWM() 
-{
-  /*
-  // Turn Off the duty cycle on the pin
-  SetDutyCycle(0);
-
-  cout  << RainbowText("Stoping the PWM_PIN with path: ","Gray")
-        << RainbowText(idMap[id], "Gray", "Default", "Bold") << endl;
-  */
-  
-}
+PWM::~PWM() {}

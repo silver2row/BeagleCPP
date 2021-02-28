@@ -12,35 +12,20 @@ int main()
   cout << RainbowText(message, "Blue") << endl;
   PWM pwmBlueLedPin(P8_13);
 
-  int pwmValue = 0;
-  message = "Set a pwm duty cycle of 50%' on a blue led";
-  cout << RainbowText(message, "Violet") << endl;
-  pwmBlueLedPin.SetDutyCycle(pwmValue); 
-
-  message = "If you want to stop the program, enter 'y' for yes";
-  cout << RainbowText(message, "Blue") << endl;
-  message = "Or enter 'w' for increase brightness or 's' for decrease it";
-  cout << RainbowText(message, "Blue") << endl;
-
-  char userInput = '\0';
-  while (userInput != 'y')
+  // Make a 'stairs pattern' on the Led
+  for (int pwmValue = 0; pwmValue < 100; pwmValue += 10)
   {
-    message = "Enter an option 'y', 'w', 's': ";
-    cout << RainbowText(message, "Blue");
-    cin >> userInput;
-
-    switch (userInput)
-    {
-    case 'w':
-      pwmBlueLedPin.SetDutyCycle(pwmValue += 10);
-      break;
-    case 's':
-      pwmBlueLedPin.SetDutyCycle(pwmValue -= 10);
-      break;
-    default:
-      break;
-    }
+    pwmBlueLedPin.SetDutyCycle(pwmValue);
+    pwmBlueLedPin.Delayms(250);
   }
+  for (int pwmValue = 100; pwmValue > 0; pwmValue -= 10)
+  {
+    pwmBlueLedPin.SetDutyCycle(pwmValue);
+    pwmBlueLedPin.Delayms(250);
+  }  
+
+  // Clean the pwm value on pin
+  pwmBlueLedPin.SetDutyCycle(0);
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
