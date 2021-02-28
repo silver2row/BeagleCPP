@@ -88,7 +88,7 @@ void ADC::ReadADC(int &adcValueOut, int timeInterval)
   @param int: Reference output for the ADC value between 0 - 4095
   @param int: The time interval between each sample
 */
-void ADC::ReadADCContinuosly(int &adcValueOut, int timeInterval)
+void ADC::ReadADCContinuously(int &adcValueOut, int timeInterval)
 {
   std::string message = "Read ADC input has been activated";
   cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
@@ -143,7 +143,7 @@ void ADC::ReadVoltage(float &voltageOut, int timeInterval)
   @param float: Reference output for the ADC value between 0 - 1.8
   @param int: The time interval between each sample
 */
-void ADC::ReadVoltageContinuosly(float &voltageOut, int timeInterval)
+void ADC::ReadVoltageContinuously(float &voltageOut, int timeInterval)
 {
   std::string  message = "Read voltage in a thread has been activated";
   cout << RainbowText(message, "Violet", "Default", "Bold") << endl;

@@ -65,7 +65,7 @@ class ADC : public SYSFILEACCESS
     virtual void ReadADC(int &, int);
 
     // Interface method for reading the ADC value continuosly on the pin
-    virtual void ReadADCContinuosly(int &, int);
+    virtual void ReadADCContinuously(int &, int);
 
     // Interface method to read one time the voltage on the pin
     virtual void ReadVoltage(float &);
@@ -74,7 +74,7 @@ class ADC : public SYSFILEACCESS
     virtual void ReadVoltage(float &, int);
 
     // Interface method for reading the voltage with a dealay on the pin
-    virtual void ReadVoltageContinuosly(float &, int);
+    virtual void ReadVoltageContinuously(float &, int);
     
     // Method to do execute an user function
     virtual int DoUserFunction(callbackType);

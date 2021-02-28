@@ -17,7 +17,7 @@ int main()
 
   float adcVoltageOut = 0.0;
   int sampleTime = 100;
-  adcPin.ReadVoltageContinuousSampling(adcVoltageOut,sampleTime);
+  adcPin.ReadVoltageContinuously(adcVoltageOut,sampleTime);
   
   char userInput = '\0';
   while (userInput != 'y')
@@ -27,7 +27,7 @@ int main()
     cin >> userInput;
     if (userInput == 'y') 
     {
-      adcPin.StopReadVoltageContinuousSampling();
+      adcPin.StopReadVoltage();
     }
   }
 

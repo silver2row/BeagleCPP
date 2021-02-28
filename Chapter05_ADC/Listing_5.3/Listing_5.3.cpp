@@ -17,7 +17,7 @@ int main()
 
   int adcValueOut = 0;
   int intervalTime = 100;
-  adcPin.ReadADCContinuosly(adcValueOut,intervalTime);
+  adcPin.ReadADCContinuously(adcValueOut,intervalTime);
   
   char userInput = '\0';
   while (userInput != 'y')
