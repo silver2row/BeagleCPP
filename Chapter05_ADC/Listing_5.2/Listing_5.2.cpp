@@ -8,17 +8,17 @@ ADC adcPin(P9_39);
 
 // Global variables
 bool stopAnalogRead = false;
-int adcValue = 0;
-float adcVoltage = 0.0;
+int adcValueOut = 0;
+float adcVoltageOut = 0.0;
 
 int AnalogRead()
 {
   while (stopAnalogRead == false)
   {
-    adcPin.ReadADC(adcValue);
-    cout << "ADC value on pin: " << adcValue << " / ";
-    adcPin.ReadVoltage(adcVoltage);
-    cout << "Voltage on the pin: " << adcVoltage << endl;
+    adcPin.ReadADC(adcValueOut);
+    cout << "ADC value on pin: " << adcValueOut << " / ";
+    adcPin.ReadVoltage(adcVoltageOut);
+    cout << "Voltage on the pin: " << adcVoltageOut << endl;
     adcPin.Delayms(250);
   }
   return 0;

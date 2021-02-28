@@ -230,12 +230,10 @@ PWM::~PWM()
 {
   /*
   // Turn Off the duty cycle on the pin
-  this->SetDutyCycle(0);
+  SetDutyCycle(0);
 
-  // Disabling the pwm on the pin
-  this->Disable();
-  this->Delayms(10);
-  cout  << RainbowText("Destroying the PWM_PIN with path: ","Gray")
-        << RainbowText(path, "Gray", "Default", "Bold") << endl;
+  cout  << RainbowText("Stoping the PWM_PIN with path: ","Gray")
+        << RainbowText(idMap[id], "Gray", "Default", "Bold") << endl;
   */
+  
 }

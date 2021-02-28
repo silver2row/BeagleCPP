@@ -12,8 +12,8 @@ int main()
   cout << RainbowText(message, "Blue") << endl;
   PWM pwmBlueLedPin(P8_13);
 
-  int pwmValue = 50;
-  message = "Set a pwm duty cycle of 50%' on a blue led and wait 1 second";
+  int pwmValue = 0;
+  message = "Set a pwm duty cycle of 50%' on a blue led";
   cout << RainbowText(message, "Violet") << endl;
   pwmBlueLedPin.SetDutyCycle(pwmValue); 
 

@@ -195,6 +195,7 @@ int ADC::DoUserFunction (callbackType callbackFunction)
 void ADC::StopUserFunction()
 {
   stopReadADCFlag = true;
+  stopReadVoltageFlag = true;
 }
 
 /*
