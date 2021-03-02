@@ -13,13 +13,16 @@ int main()
   PWM pwmBlueLedPin(P8_13);
 
   // Make a 'stairs pattern' on the Led
+  cout << "Doing a stairs pattern on a Blue Led..." << endl;
   for (int pwmValue = 0; pwmValue < 100; pwmValue += 10)
   {
+    cout << "Setting a duty cycle of: " << pwmValue << endl;
     pwmBlueLedPin.SetDutyCycle(pwmValue);
     pwmBlueLedPin.Delayms(250);
   }
   for (int pwmValue = 100; pwmValue > 0; pwmValue -= 10)
   {
+    cout << "Setting a duty cycle of: " << pwmValue << endl;
     pwmBlueLedPin.SetDutyCycle(pwmValue);
     pwmBlueLedPin.Delayms(250);
   }  
