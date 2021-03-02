@@ -34,11 +34,8 @@ int DoStairs(PWM pwmPin)
     pwmPin.SetDutyCycle(pwmValue);
     pwmPin.Delayms(50);
   }
-  cout << endl;  
-
-  // Clean the pwm value on pin
-  pwmPin.SetDutyCycle(0);
-
+  cout << endl;
+    
   return 0;
 }
 

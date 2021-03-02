@@ -32,9 +32,6 @@ int main()
   }
   cout << endl;  
 
-  // Clean the pwm value on pin
-  pwmBlueLedPin.SetDutyCycle(0);
-
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
 

@@ -33,23 +33,21 @@ int main()
     {
     case 'w':
       pwmValue += 10;
-      if (pwmValue >= 100);
+      if (pwmValue >= 100)
         pwmValue = 100;
-      pwmBlueLedPin.SetDutyCycle(pwmValue);
       break;
     case 's':
       pwmValue -= 10;
       if (pwmValue <= 0)
         pwmValue = 0;
-      pwmBlueLedPin.SetDutyCycle(pwmValue);
       break;
     default:
       break;
     }
-  }
 
-  // Clean the pwm value on pin
-  pwmBlueLedPin.SetDutyCycle(0);
+    pwmBlueLedPin.SetDutyCycle(pwmValue);
+    cout << "PWM value: " << pwmValue << endl;
+  }
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
