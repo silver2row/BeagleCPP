@@ -16,7 +16,7 @@ int main()
   cout << RainbowText(message, "Blue") << endl;
 
   int adcValueOut = 0;
-  int intervalTime = 250;
+  int intervalTime = 100;
   for (int i = 0; i < 100; i++)
   {
     adcPin.ReadADC(adcValueOut, intervalTime);

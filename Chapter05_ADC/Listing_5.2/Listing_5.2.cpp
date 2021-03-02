@@ -18,7 +18,8 @@ int AnalogRead()
     adcPin.ReadADC(adcValueOut);
     cout << "ADC value on pin: " << adcValueOut << " / ";
     adcPin.ReadVoltage(adcVoltageOut);
-    cout << "Voltage on the pin: " << adcVoltageOut << endl;
+    cout << "Voltage on the pin: " << adcVoltageOut << " / ";
+    cout << "'y' for exit" << endl;
     adcPin.Delayms(250);
   }
   return 0;
@@ -41,7 +42,6 @@ int main()
     if (userInput == 'y') 
     {
       stopAnalogRead = true;
-      adcPin.StopUserFunction();
     }
   }
 

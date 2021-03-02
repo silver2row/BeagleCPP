@@ -12,26 +12,27 @@ PWM pwmYellowLedPin(P9_16);
 PWM pwmRedLedPin(P9_21);
 PWM pwmBlueLedPin2(P9_22);
 
-bool stopStairs = false;
 int DoStairs(PWM pwmPin)
 {
   // Make a 'stairs pattern to up' on the Led
   cout << "Doing a stairs pattern to up on a Blue Led..." << endl;
+
   for (int pwmValue = 0; pwmValue <= 100; pwmValue += 10)
   {
     cout << "Setting a duty cycle of: " << pwmValue << endl;
     pwmPin.SetDutyCycle(pwmValue);
-    pwmPin.Delayms(250);
+    pwmPin.Delayms(50);
   }
   cout << endl;
 
   // Make a 'stairs pattern to down' on the Led
   cout << "Doing a stairs pattern to down on a Blue Led..." << endl;
+
   for (int pwmValue = 100; pwmValue >= 0; pwmValue -= 10)
   {
     cout << "Setting a duty cycle of: " << pwmValue << endl;
     pwmPin.SetDutyCycle(pwmValue);
-    pwmPin.Delayms(250);
+    pwmPin.Delayms(50);
   }
   cout << endl;  
 

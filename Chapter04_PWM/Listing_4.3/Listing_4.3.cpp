@@ -32,10 +32,16 @@ int main()
     switch (userInput)
     {
     case 'w':
-      pwmBlueLedPin.SetDutyCycle(pwmValue += 10);
+      pwmValue += 10;
+      if (pwmValue >= 100);
+        pwmValue = 100;
+      pwmBlueLedPin.SetDutyCycle(pwmValue);
       break;
     case 's':
-      pwmBlueLedPin.SetDutyCycle(pwmValue -= 10);
+      pwmValue -= 10;
+      if (pwmValue <= 0)
+        pwmValue = 0;
+      pwmBlueLedPin.SetDutyCycle(pwmValue);
       break;
     default:
       break;
