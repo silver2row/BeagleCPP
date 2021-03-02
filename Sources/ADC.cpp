@@ -67,9 +67,9 @@ int ADC::GetADC()
    Public method to get the ADC value on pin 
    @return int: The pin's value between 0 - 4095
 */
-void ADC::ReadADC(int &adcOut)
+void ADC::ReadADC(int &adcValueOut)
 {
-  adcOut = GetADC();
+  adcValueOut = GetADC();
 }
 
 /*
@@ -79,7 +79,7 @@ void ADC::ReadADC(int &adcOut)
 */
 void ADC::ReadADC(int &adcValueOut, int timeInterval)
 {
-  this->ReadADC(adcValueOut);
+  ReadADC(adcValueOut);
   Delayms(timeInterval);
 }
 
@@ -88,11 +88,14 @@ void ADC::ReadADC(int &adcValueOut, int timeInterval)
   @param int: Reference output for the ADC value between 0 - 4095
   @param int: The time interval between each sample
 */
-void ADC::ReadADCContinuously(int &adcValueOut, int timeInterval)
+void ADC::ReadADC(int &adcValueOut, int timeInterval, bool runInBackground)
 {
-  std::string message = "Read ADC input has been activated";
-  cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
-  ReadADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval);
+  if (runInBackground == true)
+  {
+    std::string message = "Read ADC input has been activated";
+    cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
+    ReadADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval);
+  }
 }
 
 /*
@@ -143,7 +146,7 @@ void ADC::ReadVoltage(float &voltageOut, int timeInterval)
   @param float: Reference output for the ADC value between 0 - 1.8
   @param int: The time interval between each sample
 */
-void ADC::ReadVoltageContinuously(float &voltageOut, int timeInterval)
+void ADC::ReadVoltage(float &voltageOut, int timeInterval, bool runInBackground)
 {
   std::string  message = "Read voltage in a thread has been activated";
   cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
@@ -187,15 +190,6 @@ int ADC::DoUserFunction (callbackType callbackFunction)
   std::thread functionThread(callbackFunction);
   functionThread.detach();
   return 1;
-}
-
-/*
-   Public method to stop the user function execution
-*/
-void ADC::StopUserFunction()
-{
-  stopReadADCFlag = true;
-  stopReadVoltageFlag = true;
 }
 
 /*
