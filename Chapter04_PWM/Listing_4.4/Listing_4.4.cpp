@@ -19,6 +19,9 @@ int PulseLed()
       pwmWhiteLedPin.Delayms(10);
     }
   }
+        
+  // Clean the pwm value on pin
+  pwmWhiteLedPin.SetDutyCycle(0);
   return 0;
 }
 
@@ -43,9 +46,6 @@ int main()
     {
       // Stop the function
       stopPulse = true;
-      
-      // Clean the pwm value on pin
-      pwmWhiteLedPin.SetDutyCycle(0);
     }
   }
 
