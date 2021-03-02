@@ -213,4 +213,7 @@ int PWM::DoUserFunction (callbackType callbackFunction)
 }
 
 // Destructor
-PWM::~PWM() {}
+PWM::~PWM() 
+{
+  this->SetDutyCycle(0);
+}

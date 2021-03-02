@@ -241,4 +241,8 @@ void GPIO::Delayms(int millisecondsToSleep)
 }
 
 // Destructor
-GPIO::~GPIO() {}
+GPIO::~GPIO() 
+{
+  if (this->mode == OUTPUT)
+    this->DigitalWrite(LOW);
+}
