@@ -50,8 +50,13 @@ void GPIO::InitGPIOPin()
   std::cout << RainbowText("Trying to create the GPIO pin's system folder: ","Green") 
             << RainbowText(blackPinIdMap.at(id), "Green", "Default", "Bold") 
             << std::endl;
-  UnexportGPIO(id);
-  ExportGPIO(id);
+  
+  // Repeat two times to ensure the pin's folder was created
+  for (size_t i = 0; i < 2; i++)
+  {
+    UnexportGPIO(id);
+    ExportGPIO(id);
+  }
   std::cout << RainbowText("The GPIO pin's system folder was created!", "Green") 
             << std::endl;
 }
