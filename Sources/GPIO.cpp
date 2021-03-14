@@ -64,16 +64,37 @@ void GPIO::InitGPIOPin()
 // Public method to initialize the GPIO pin id map with its name
 void GPIO::InitPinIdMap()
 {
+  blackPinIdMap[P8_07] = "P8_07";
   blackPinIdMap[P8_08] = "P8_08";
+  blackPinIdMap[P8_09] = "P8_09";
   blackPinIdMap[P8_10] = "P8_10";
   blackPinIdMap[P8_11] = "P8_11";
   blackPinIdMap[P8_12] = "P8_12";
+  blackPinIdMap[P8_13] = "P8_13";
   blackPinIdMap[P8_14] = "P8_14";
+  blackPinIdMap[P8_15] = "P8_15";
   blackPinIdMap[P8_16] = "P8_16";
   blackPinIdMap[P8_17] = "P8_17";
   blackPinIdMap[P8_18] = "P8_18";
-  blackPinIdMap[P8_20] = "P8_20";
+  blackPinIdMap[P8_19] = "P8_19";
   blackPinIdMap[P8_26] = "P8_26";
+  blackPinIdMap[P9_11] = "P9_11";
+  blackPinIdMap[P9_12] = "P9_12";
+  blackPinIdMap[P9_13] = "P9_13";
+  blackPinIdMap[P9_14] = "P9_14";
+  blackPinIdMap[P9_15] = "P9_15";
+  blackPinIdMap[P9_16] = "P9_16";
+  blackPinIdMap[P9_17] = "P9_17";
+  blackPinIdMap[P9_18] = "P9_18";
+  blackPinIdMap[P9_21] = "P9_21";
+  blackPinIdMap[P9_22] = "P9_22";
+  blackPinIdMap[P9_23] = "P9_23";
+  blackPinIdMap[P9_24] = "P9_24";
+  blackPinIdMap[P9_26] = "P9_26";
+  blackPinIdMap[P9_27] = "P9_27";
+  blackPinIdMap[P9_30] = "P9_30";
+  blackPinIdMap[P9_41] = "P9_41";
+  blackPinIdMap[P9_42] = "P9_42";
 }
 
 /*
