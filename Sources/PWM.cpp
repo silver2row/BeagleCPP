@@ -88,7 +88,12 @@ void PWM::InitPWMPin()
   const char* command = commandString.c_str();
   system(command);
 
-  Enable();
+  // Repeat two times to ensure the pin's setup was done correctly
+  for (size_t i = 0; i < 2; i++)
+  {
+    Disable();
+    Enable();
+  }
 }
 
 /*
