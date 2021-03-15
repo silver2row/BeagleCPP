@@ -67,10 +67,10 @@ class GPIO : public SYSFILEACCESS
     int SetMode(MODE);
 
     // Method to export the GPIO pin
-    virtual int ExportGPIO(int);
+    virtual int ExportGPIO();
 
     // Method to unexport the GPIO pin
-    virtual int UnexportGPIO(int);
+    virtual int UnexportGPIO();
 
     // Interface method to set the GPIO pin state
     virtual int DigitalWrite(int);

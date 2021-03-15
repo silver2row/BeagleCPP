@@ -54,8 +54,8 @@ void GPIO::InitGPIOPin()
   // Repeat two times to ensure the pin's folder was created
   for (size_t i = 0; i < 2; i++)
   {
-    UnexportGPIO(id);
-    ExportGPIO(id);
+    UnexportGPIO();
+    ExportGPIO();
   }
   std::cout << RainbowText("The GPIO pin's system folder was created!", "Green") 
             << std::endl;
@@ -150,10 +150,9 @@ int GPIO::SetMode(MODE newMode)
 
 /*
   Private method to export the GPIO pin
-  @param int: the pin's id
   @return int: 1 export has succeeded / -1 export has failed 
 */
-int GPIO::ExportGPIO(int id)
+int GPIO::ExportGPIO()
 {
   if (WriteFile(GPIO_PATH, "export", std::to_string(id)) != 1)
     throw GPIO_Exception ("Error in the 'ExportGPIO' method");
@@ -162,10 +161,9 @@ int GPIO::ExportGPIO(int id)
 
 /*
   Private method to unexport the GPIO pin
-  @param int: the pin's id
   @return int: 1 unexport has succeeded / -1 unexport has failed 
 */
-int GPIO::UnexportGPIO(int id) 
+int GPIO::UnexportGPIO() 
 {
   if (WriteFile(GPIO_PATH, "unexport", std::to_string(id)) != 1)
     throw GPIO_Exception ("Error in the 'UnexportGPIO' method");
