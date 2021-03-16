@@ -42,7 +42,6 @@ class PWM : public SYSFILEACCESS
     std::string path;   /* The full path to the PWM e.g. /sys/class/pwm/pwm-6:1 */
     int period;
     int dutyCycle;
-    int enable;
     
     // Helper method to enable the pwm on the pin
     virtual int Enable();

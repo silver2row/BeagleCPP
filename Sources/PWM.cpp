@@ -32,7 +32,9 @@ PWM::PWM(int newPWMPin)
   id = newPWMPin;
   period = 500000;
   InitPWMPin();
-  SetPeriod(period);
+  cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
+        << RainbowText("500000", "Pink") 
+        << RainbowText("ns was a success!", "Pink") << endl; 
 }
 
 // Overload constructor 
@@ -41,7 +43,6 @@ PWM::PWM(int pwmPin, int newPeriod)
   id = pwmPin;
   period = newPeriod;
   InitPWMPin();
-  SetPeriod(newPeriod); 
   cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
         << RainbowText(to_string(GetPeriod()), "Pink") 
         << RainbowText("ns was a success!", "Pink") << endl; 
@@ -50,12 +51,12 @@ PWM::PWM(int pwmPin, int newPeriod)
 // Public method to initialize the PWM pin
 void PWM::InitPWMPin()
 {
-  idMap[P8_13] = "P8.13";
-  idMap[P8_19] = "P8.19";
-  idMap[P9_14] = "P9.14";
-  idMap[P9_16] = "P9.16";
-  idMap[P9_21] = "P9.21";
-  idMap[P9_22] = "P9.22";
+  idMap[P8_13] = "P8_13";
+  idMap[P8_19] = "P8_19";
+  idMap[P9_14] = "P9_14";
+  idMap[P9_16] = "P9_16";
+  idMap[P9_21] = "P9_21";
+  idMap[P9_22] = "P9_22";
 
   switch (id)
   {
@@ -87,13 +88,8 @@ void PWM::InitPWMPin()
   string commandString = "config-pin " + idMap[id] + " pwm";
   const char* command = commandString.c_str();
   system(command);
-
-  // Repeat two times to ensure the pin's setup was done correctly
-  for (size_t i = 0; i < 2; i++)
-  {
-    Disable();
-    Enable();
-  }
+  SetPeriod(period);
+  Enable();
 }
 
 /*
@@ -184,12 +180,14 @@ int PWM::SetDutyCycle(int newDutyCycle)
   else
     dutyCycle = 100;
   
-  if (WriteFile(path, "duty_cycle", dutyCycle) == 1)
-    return 1;
-  else 
+  if (WriteFile(path, "duty_cycle", dutyCycle) != 1)
   {
     perror("Error setting the PWM duty cycle for the pin");
     throw PWM_Exception("Error in WritePWMDutyCycle method");
+  }
+  else 
+  {
+    return 1;
   }
 }
 
