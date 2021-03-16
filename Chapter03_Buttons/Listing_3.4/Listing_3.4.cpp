@@ -26,12 +26,12 @@ int UserCallBackFunction_RedButton()
 {
   string message;
   message = "Callback function for the red button has been activated!"; 
-  cout << RainbowText(message, "Red", "Indigo", "Bold") << endl;
+  cout << RainbowText(message, "Red", "Bold") << endl;
 
-  int isButtonPushed = 0;
+  bool isButtonPushed = false;
   isButtonPushed = redButtonPin.WaitForButton(RISING);
   
-  if (isButtonPushed == 1) 
+  if (isButtonPushed == true) 
   {
     message = "The red button was pressed -> turning the red Led On!!!";
     cout << RainbowText(message, "Red") << endl;
@@ -45,12 +45,12 @@ int UserCallBackFunction_YellowButton()
 {
   string message;
   message = "Callback function for the yellow button has been activated"; 
-  cout << RainbowText(message, "Yellow", "Indigo", "Bold") << endl;
+  cout << RainbowText(message, "Yellow", "Bold") << endl;
 
-  int isButtonPushed = 0;
+  bool isButtonPushed = false;
   isButtonPushed = yellowButtonPin.WaitForButton(FALLING);
   
-  if (isButtonPushed == 1) 
+  if (isButtonPushed == true) 
   {
     message = "The yellow button was pressed -> turning the yellow Led On!!!";
     cout << RainbowText(message, "Yellow") << endl;
@@ -65,22 +65,21 @@ int main()
   string message = "Main function starting here...";
   cout << endl << RainbowText(message,"Blue", "White", "Bold") << endl;
 
-  message = "Activating blinking, flashing and heartbeat on different Leds";
-  cout << RainbowText(message, "Orange") << endl;
+  cout <<"Activating blinking, flashing and heartbeat on different Leds" << endl;
 
   greenLedPin.Blink(100);
   blueLedPin.Flash(100,200);
   whiteLedPin.HeartBeat(100,10);
 
   message = "The program is timing for ";
-  cout << RainbowText(message, "Indigo");
+  cout << RainbowText(message, "Yellow");
   message = "10 seconds"; 
-  cout << RainbowText(message, "Indigo", "Default", "Blink");
+  cout << RainbowText(message, "Yellow", "Default", "Blink");
   message = " and is pending if a press on any button occurs";
-  cout << RainbowText(message, "Indigo") << endl;
+  cout << RainbowText(message, "Yellow") << endl;
 
-  redButtonPin.WhenButtonWasPressed(&UserCallBackFunction_RedButton);
-  yellowButtonPin.WhenButtonWasPressed(&UserCallBackFunction_YellowButton);
+  redButtonPin.DoUserFunction(&UserCallBackFunction_RedButton);
+  yellowButtonPin.DoUserFunction(&UserCallBackFunction_YellowButton);
   delayms(10000);
 
   // Stop the processes on the Buttons and Leds

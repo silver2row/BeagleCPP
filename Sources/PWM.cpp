@@ -42,7 +42,7 @@ PWM::PWM(PWM_ID pwmPin, int newPeriod)
   period = newPeriod;
   InitPWMPin();
   std::cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
-        << RainbowText(to_string(GetPeriod()), "Pink") 
+        << RainbowText(std::to_string(GetPeriod()), "Pink") 
         << RainbowText("ns was a success!", "Pink") << std::endl; 
 }
 

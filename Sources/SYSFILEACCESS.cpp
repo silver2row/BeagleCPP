@@ -80,17 +80,20 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
   std::string fileName;
   fileName = path + feature;
   std::ifstream file(fileName, std::ios_base::in);
-  if (!file.is_open()) 
+  if (file.is_open())
+  {
+    std::string value;
+    getline(file,value);
+    file.close();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    return value;
+  } 
+  else
   {
     perror(("Error while opening file: " + fileName).c_str());
     return "-1";
   }
-  std::string value;
-  getline(file,value);
-  //if (file.bad())
-  //  perror(("Error while reading file: " + fileName).c_str());
-  file.close();
-  return value;
+
 }
 
 /*
@@ -103,7 +106,6 @@ int SYSFILEACCESS::ReadFile(std::string path)
   std::string fileName;
   fileName = path;
   std::ifstream file(fileName, std::ios_base::in);
-
   if (file.is_open())
   {
     std::string value;

@@ -50,8 +50,7 @@ void LED::Blink(int duration)
     "Blinking has been activated with duration of: "
     + std::to_string(duration) + "ms on pin: " + std::to_string(id)
   };
-  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") 
-            << std::endl << std::endl; 
+  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl; 
   blinkThread = std::thread(&LED::MakeBlink, this, duration);
 }
 

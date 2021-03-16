@@ -18,7 +18,12 @@ class BUTTON_Exception : public std::exception
 };
 
 // Overload constructor
-BUTTON::BUTTON(GPIO_ID newId) : GPIO(newId, INPUT) {}
+BUTTON::BUTTON(GPIO_ID newId) : GPIO(newId, INPUT) 
+{
+  std::cout  << RainbowText("Button object was created on pin: ", "Olive Green") 
+        << RainbowText(this->GetPinHeaderId(), "Olive Green", "Default", "Bold") 
+        << std::endl << std::endl;
+}
 
 /*
    Public method for reading the input from a button
@@ -36,118 +41,128 @@ VALUE BUTTON::ReadButton()
 }
 
 /*
-   Public method for waiting a rising edge on the press of a button
-   @return int:   1 The button was pressed
-                  0 The button was not pressed
+  Public method for waiting a specific type edge on the press of a button
+  @param EDGE:  The desired edge type RISING / FALLING / BOTH. 
+                RISING option is the default 
+  @return bool: true if the button was pressed, false if not.
 */
-int BUTTON::WaitForButton()
+bool BUTTON::WaitForButton(EDGE edge)
 {
   if (this->mode != INPUT)
   {
     perror("'WaitForButton' method only works on INPUT mode");
     throw BUTTON_Exception("Error in the 'WaitForButton' method");
   }
+
+  // Reset the button state
+  buttonWasPress = false;
+
   std::string message;
   VALUE previousValueOnPin;
   VALUE actualValueOnPin;
 
-  WriteFile(path, "edge", "rising");
-  while (stopWaitForButtonFlag == false)
+  switch (edge)
   {
-    previousValueOnPin = this->ReadButton(); 
-    if (previousValueOnPin == LOW)
-      break; 
+    case RISING:
+      WriteFile(path, "edge", "rising");
+      while (stopWaitForButtonFlag == false)
+      {
+        previousValueOnPin = this->ReadButton(); 
+        if (previousValueOnPin == LOW)
+          break; 
+      }
+      while (stopWaitForButtonFlag == false)
+      {
+        actualValueOnPin = this->ReadButton();
+        if (actualValueOnPin == HIGH)
+          break; 
+      }
+      if (previousValueOnPin != actualValueOnPin)
+      {
+        message = "A RISING edge was detected!";
+        std::cout << RainbowText(message, "Pink") << std::endl;
+        buttonWasPress = true;
+        return true;
+      }
+      break;
+
+    case FALLING:
+      WriteFile(path, "edge", "falling");
+      while (stopWaitForButtonFlag == false)
+      {
+        previousValueOnPin = this->ReadButton(); 
+        if (previousValueOnPin == HIGH)
+          break; 
+      }
+      while (stopWaitForButtonFlag == false)
+      {
+        actualValueOnPin = this->ReadButton();
+        if (actualValueOnPin == LOW)
+          break; 
+      }
+      if (previousValueOnPin != actualValueOnPin)
+      {
+        message = "A FALLING edge was detected!";
+        std::cout << RainbowText(message, "Pink") << std::endl;
+        buttonWasPress = true;
+        return true;
+      }
+      break;
+
+    case BOTH:
+      WriteFile(path, "edge", "both");
+      previousValueOnPin = this->ReadButton();
+      while (stopWaitForButtonFlag == false)
+      {
+        if (previousValueOnPin != ReadButton())
+        {
+          message = "A RISING OR FALLING edge was detected!";
+          std::cout << RainbowText(message, "Yellow") << std::endl;
+          buttonWasPress = true;
+          return true;
+        }
+      }
+      break;
+    default:
+      message = "A RISING or FALLING edge was not specified for detecting it!";
+      std::cout << RainbowText(message, "Yellow") << std::endl;
+      return false;
   }
-  while (stopWaitForButtonFlag == false)
-  {
-    actualValueOnPin = this->ReadButton();
-    if (actualValueOnPin == HIGH)
-      break; 
-  }
-  if (previousValueOnPin != actualValueOnPin)
-  {
-    message = "A RISING edge was detected!";
-    std::cout << RainbowText(message, "Pink") << std::endl;
-    return 1;
-  }
-  return 0;
+  buttonWasPress = false;
+  return false;
+}
+bool BUTTON::ListenButton(EDGE edge)
+{
+  std::string message = "'ListenButton' method has been activated!";
+  std::cout << RainbowText(message, "Olive Green") << std::endl;
+
+  // Reset the button state
+  buttonWasPress = false;
+
+  // Activate the thread
+  this->ListenButtonThread(edge);
+
+  // Wait for a press on the button using a thread
+  while (buttonWasPress == false);
+
+  return true;
 }
 
 /*
-  Public overloaded method for waiting a specific type edge on the press of a button
-  @param int: The desired edge type RISING / FALLING / BOTH
-  @return int:  1 The button was pressed
-                0 The button was not pressed
+   Public method for detecting a RISING EDGE on the press of a button
+   in background like an interruption
 */
-int BUTTON::WaitForButton(EDGE edge = RISING)
+void BUTTON::ListenButtonThread(EDGE edge)
 {
-   if (this->mode != INPUT)
+  std::string message
   {
-    perror("'WaitForButton' method only works on INPUT mode");
-    throw BUTTON_Exception("Error in the 'WaitForButton' method");
-  }
-  std::string message;
-  VALUE previousValueOnPin;
-  VALUE actualValueOnPin;
-  switch (edge)
-  {
-  case RISING:
-    WriteFile(path, "edge", "rising");
-    while (stopWaitForButtonFlag == false)
-    {
-      previousValueOnPin = this->ReadButton(); 
-      if (previousValueOnPin == LOW)
-        break; 
-    }
-     while (stopWaitForButtonFlag == false)
-    {
-      actualValueOnPin = this->ReadButton();
-      if (actualValueOnPin == HIGH)
-        break; 
-    }
-    if (previousValueOnPin != actualValueOnPin)
-    {
-      message = "A RISING edge was detected!";
-      std::cout << RainbowText(message, "Pink") << std::endl;
-      return 1;
-    }
-    break;
-  case FALLING:
-    WriteFile(path, "edge", "falling");
-    while (stopWaitForButtonFlag == false)
-    {
-      previousValueOnPin = this->ReadButton(); 
-      if (previousValueOnPin == HIGH)
-        break; 
-    }
-    while (stopWaitForButtonFlag == false)
-    {
-      actualValueOnPin = this->ReadButton();
-      if (actualValueOnPin == LOW)
-        break; 
-    }
-    if (previousValueOnPin != actualValueOnPin)
-    {
-      message = "A FALLING edge was detected!";
-      std::cout << RainbowText(message, "Pink") << std::endl;
-      return 1;
-    }
-    break;
-  case BOTH:
-    WriteFile(path, "edge", "both");
-    previousValueOnPin = this->ReadButton();
-    while (stopWaitForButtonFlag == false)
-    {
-      if (previousValueOnPin != ReadButton())
-      {
-        message = "A RISING OR FALLING edge was detected!";
-        std::cout << RainbowText(message, "Yellow") << std::endl;
-        return 1;
-      }
-    }
-    break;
-  }
-  return 0;
+    "Detect a RISING EDGE on a button has been activated on pin: "
+    + std::to_string(id)
+  };
+  std::cout << RainbowText(message, "Olive Green") << std::endl; 
+
+  std::thread detectAButtonThread(&BUTTON::WaitForButton, this, edge);
+  detectAButtonThread.detach();
 }
 
 /*
@@ -156,33 +171,34 @@ int BUTTON::WaitForButton(EDGE edge = RISING)
    @return int: 1 the user function was called
                 -1 Error in the pin's mode
 */
-int BUTTON::WhenButtonWasPressed(callbackType callbackFunction)
+int BUTTON::DoUserFunction(callbackType callbackFunction)
 {
-  if (this->mode != INPUT)
-  {
-    perror("'waitForButton' method only works on INPUT mode");
-    return -1;
-  }
+  std::string message = "'UserFunction' method has been activated!";
+  std::cout << RainbowText(message, "Olive Green") << std::endl;
 
-  std::string message = "'WhenButtonWasPressed' method has been activated!!!";
-  std::cout << RainbowText(message, "Orange") << std::endl;
+  // Reset the button state
+  buttonWasPress = false;
 
-  whenButtonWasPressedThread = std::thread(callbackFunction);
-
+  std::thread functionThread(callbackFunction);
+  functionThread.detach();
   return 1;
 }
 
 /*
-   Public method to stop the function executed when the button was pressed
+  Public method to stop the function executed when the button was pressed
 */
 void BUTTON::StopWaitForButton()
 {
   stopWaitForButtonFlag = true;
 }
 
-// Destructor
-BUTTON::~BUTTON()
+/*
+  Public method to stop the DetectAButton method
+*/
+void BUTTON::StopDetectAButton()
 {
-  if (whenButtonWasPressedThread.joinable())
-    whenButtonWasPressedThread.join();
+  stopWaitForButtonFlag = true;
 }
+
+// Destructor
+BUTTON::~BUTTON() {}

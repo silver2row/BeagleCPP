@@ -25,9 +25,11 @@ enum EDGE {
 class BUTTON : public GPIO
 {
   private:
+    bool buttonWasPress = false;
     bool stopWaitForButtonFlag = false;
-
-    std::thread whenButtonWasPressedThread; 
+    
+    std::thread detectAButtonThread;
+    std::thread whenButtonWasPressedThread;
 
   public:
     // Overload constructor
@@ -36,17 +38,26 @@ class BUTTON : public GPIO
     // Interface method to get the GPIO pin state
     virtual VALUE ReadButton();
 
-    // Method for wait for a press on a button with default RISING EDGE
-    virtual int WaitForButton();
+    // Method to wait for a press on a button with default RISING EDGE
+    virtual bool WaitForButton(EDGE edge = RISING);
 
-    // Overloaded Method for wait for a press on a button with an EDGE
-    virtual int WaitForButton(EDGE);
+    /* 
+    Method to detect a press on a button in background like an 
+    interruption with default RISING EDGE 
+    */ 
+    virtual bool ListenButton(EDGE edge = RISING);
 
-    // Method to execute an user function when the button will be pressed
-    virtual int WhenButtonWasPressed(callbackType);
+    // Method to do something WHEN a will be press with default RISING EDGE
+    virtual void ListenButtonThread(EDGE edge = RISING);
+
+    // Method to execute an user function
+    virtual int DoUserFunction(callbackType);
 
     // Method to stop the function executed whe the button was pressed
     virtual void StopWaitForButton();
+
+    // Method to stop the DetectAButton method
+    virtual void StopDetectAButton();
 
     // Destructor
     ~BUTTON();

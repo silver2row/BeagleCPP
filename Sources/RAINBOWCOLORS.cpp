@@ -2,7 +2,7 @@
 #include <map>
 #include "RAINBOWCOLORS.h"
 
-std::map <std::string, std::string> mapForegroundColor= 
+std::map <std::string, std::string> mapForegroundColor = 
 {
   { "Red", "38;5;160" },
   { "Orange", "38;5;202" },
