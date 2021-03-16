@@ -5,7 +5,7 @@
 #include "BUTTON.h"
 
 // Overload constructor
-BUTTON::BUTTON(int newId) : GPIO(newId, INPUT) {}
+BUTTON::BUTTON(GPIO_ID newId) : GPIO(newId, INPUT) {}
 
 /*
    Public method for reading the input from a button
@@ -36,7 +36,7 @@ int BUTTON::WaitForButton()
     perror("'waitForButton' method only works on INPUT mode");
     return -1;
   }
-  string message;
+  std::string message;
 
   WriteFile(path, "edge", "rising");
   while (stopWaitForButtonFlag == false)
@@ -53,7 +53,7 @@ int BUTTON::WaitForButton()
   if (previousValueOnPin != valueOnPin)
   {
     message = "A RISING edge was detected!";
-    cout << RainbowText(message, "Pink") << endl;
+    std::cout << RainbowText(message, "Pink") << std::endl;
     return 1;
   }
   return 0;
@@ -73,7 +73,7 @@ int BUTTON::WaitForButton(int edge = RISING)
     perror("'waitForButton' method only works on INPUT mode");
     return -1;
   }
-  string message;
+  std::string message;
   switch (edge)
   {
   case RISING:
@@ -92,7 +92,7 @@ int BUTTON::WaitForButton(int edge = RISING)
     if (previousValueOnPin != valueOnPin)
     {
       message = "A RISING edge was detected!";
-      cout << RainbowText(message, "Pink") << endl;
+      std::cout << RainbowText(message, "Pink") << std::endl;
       return 1;
     }
     break;
@@ -112,7 +112,7 @@ int BUTTON::WaitForButton(int edge = RISING)
     if (previousValueOnPin != valueOnPin)
     {
       message = "A FALLING edge was detected!";
-      cout << RainbowText(message, "Pink") << endl;
+      std::cout << RainbowText(message, "Pink") << std::endl;
       return 1;
     }
     break;
@@ -124,7 +124,7 @@ int BUTTON::WaitForButton(int edge = RISING)
       if (previousValueOnPin != ReadButton())
       {
         message = "A RISING OR FALLING edge was detected!";
-        cout << RainbowText(message, "Yellow") << endl;
+        std::cout << RainbowText(message, "Yellow") << std::endl;
         return 1;
       }
     }
@@ -147,10 +147,10 @@ int BUTTON::WhenButtonWasPressed(callbackType callbackFunction)
     return -1;
   }
 
-  string message = "'WhenButtonWasPressed' method has been activated!!!";
-  cout << RainbowText(message, "Orange") << endl;
+  std::string message = "'WhenButtonWasPressed' method has been activated!!!";
+  std::cout << RainbowText(message, "Orange") << std::endl;
 
-  whenButtonWasPressedThread = thread(callbackFunction);
+  whenButtonWasPressedThread = std::thread(callbackFunction);
 
   return 1;
 }

@@ -26,7 +26,7 @@ class BUTTON : public GPIO
 
   public:
     // Overload constructor
-    BUTTON(int);
+    BUTTON(GPIO_ID);
 
     // Interface method to get the GPIO pin state
     virtual int ReadButton();
