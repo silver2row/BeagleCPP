@@ -1,56 +1,70 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <exception>
 
 #include "BUTTON.h"
+
+class BUTTON_Exception : public std::exception 
+{
+  private:
+    std::string reason;
+  public:
+    BUTTON_Exception (const char* why) : reason (why) {};
+    virtual const char* what() 
+    {
+      return reason.c_str();
+    }
+};
 
 // Overload constructor
 BUTTON::BUTTON(GPIO_ID newId) : GPIO(newId, INPUT) {}
 
 /*
    Public method for reading the input from a button
-   @return int:   The button state HIGH / LOW
+   @return VALUE: The button state LOW / HIGH
                  -1 Error in the pin's mode
 */
-int BUTTON::ReadButton()
+VALUE BUTTON::ReadButton()
 {
   if (this->mode != INPUT)
   {
     perror("'ReadButton' method only works on INPUT mode");
-    return -1;
+    throw BUTTON_Exception("Error in the 'ReadButton' method");
   }
-  valueOnPin = this->DigitalRead();
-  return valueOnPin;
+  return this->DigitalRead();
 }
 
 /*
    Public method for waiting a rising edge on the press of a button
    @return int:   1 The button was pressed
                   0 The button was not pressed
-                 -1 Error in the pin's mode
 */
 int BUTTON::WaitForButton()
 {
   if (this->mode != INPUT)
   {
-    perror("'waitForButton' method only works on INPUT mode");
-    return -1;
+    perror("'WaitForButton' method only works on INPUT mode");
+    throw BUTTON_Exception("Error in the 'WaitForButton' method");
   }
   std::string message;
+  VALUE previousValueOnPin;
+  VALUE actualValueOnPin;
 
   WriteFile(path, "edge", "rising");
   while (stopWaitForButtonFlag == false)
   {
-    previousValueOnPin = ReadButton(); 
+    previousValueOnPin = this->ReadButton(); 
     if (previousValueOnPin == LOW)
       break; 
   }
   while (stopWaitForButtonFlag == false)
   {
-    if (ReadButton() == HIGH)
+    actualValueOnPin = this->ReadButton();
+    if (actualValueOnPin == HIGH)
       break; 
   }
-  if (previousValueOnPin != valueOnPin)
+  if (previousValueOnPin != actualValueOnPin)
   {
     message = "A RISING edge was detected!";
     std::cout << RainbowText(message, "Pink") << std::endl;
@@ -64,32 +78,34 @@ int BUTTON::WaitForButton()
   @param int: The desired edge type RISING / FALLING / BOTH
   @return int:  1 The button was pressed
                 0 The button was not pressed
-                -1 Error in the pin's mode
 */
-int BUTTON::WaitForButton(int edge = RISING)
+int BUTTON::WaitForButton(EDGE edge = RISING)
 {
-  if (this->mode != INPUT)
+   if (this->mode != INPUT)
   {
-    perror("'waitForButton' method only works on INPUT mode");
-    return -1;
+    perror("'WaitForButton' method only works on INPUT mode");
+    throw BUTTON_Exception("Error in the 'WaitForButton' method");
   }
   std::string message;
+  VALUE previousValueOnPin;
+  VALUE actualValueOnPin;
   switch (edge)
   {
   case RISING:
     WriteFile(path, "edge", "rising");
     while (stopWaitForButtonFlag == false)
     {
-      previousValueOnPin = ReadButton(); 
+      previousValueOnPin = this->ReadButton(); 
       if (previousValueOnPin == LOW)
         break; 
     }
-    while (stopWaitForButtonFlag == false)
+     while (stopWaitForButtonFlag == false)
     {
-      if (ReadButton() == HIGH)
+      actualValueOnPin = this->ReadButton();
+      if (actualValueOnPin == HIGH)
         break; 
     }
-    if (previousValueOnPin != valueOnPin)
+    if (previousValueOnPin != actualValueOnPin)
     {
       message = "A RISING edge was detected!";
       std::cout << RainbowText(message, "Pink") << std::endl;
@@ -100,16 +116,17 @@ int BUTTON::WaitForButton(int edge = RISING)
     WriteFile(path, "edge", "falling");
     while (stopWaitForButtonFlag == false)
     {
-      previousValueOnPin = ReadButton(); 
+      previousValueOnPin = this->ReadButton(); 
       if (previousValueOnPin == HIGH)
         break; 
     }
     while (stopWaitForButtonFlag == false)
     {
-      if (ReadButton() == LOW)
+      actualValueOnPin = this->ReadButton();
+      if (actualValueOnPin == LOW)
         break; 
     }
-    if (previousValueOnPin != valueOnPin)
+    if (previousValueOnPin != actualValueOnPin)
     {
       message = "A FALLING edge was detected!";
       std::cout << RainbowText(message, "Pink") << std::endl;
@@ -118,7 +135,7 @@ int BUTTON::WaitForButton(int edge = RISING)
     break;
   case BOTH:
     WriteFile(path, "edge", "both");
-    previousValueOnPin = ReadButton();
+    previousValueOnPin = this->ReadButton();
     while (stopWaitForButtonFlag == false)
     {
       if (previousValueOnPin != ReadButton())

@@ -22,19 +22,11 @@ enum VALUE {
   HIGH = 1,
 };
 
-/* The numeric value for EDGE: e.g. 0/1/2 for RISING/FALLING/BOTH */
-enum EDGE {
-  RISING = 0,
-  FALLING = 1,
-  BOTH = 2,
-};
-
 class GPIO : public SYSFILEACCESS
 {
   protected:
     GPIO_ID id;         /* Enum for the Kernel GPIO number of the object */
-    MODE mode;          /* The GPIO mode e.g. 0/1 for OUTPUT/INPUT */
-    int value;          /* The GPIO value e.g. 0/1 for LOW/HIGH */
+    MODE mode;          /* The GPIO mode e.g. OUTPUT / INPUT*/
     std::string name;   /* The name of the GPIO e.g. gpio44 */
     std::string path;   /* The full path to the GPIO e.g. /sys/class/gpio/gpio44 */
     
@@ -73,13 +65,13 @@ class GPIO : public SYSFILEACCESS
     virtual int UnexportGPIO();
 
     // Interface method to set the GPIO pin state
-    virtual int DigitalWrite(int);
+    virtual int DigitalWrite(VALUE);
 
     // Overload Interface method to set the GPIO pin state adn printing the value
-    virtual int DigitalWrite(int, bool);
+    virtual int DigitalWrite(VALUE, bool);
 
     // Interface method to get the GPIO pin state
-    virtual int DigitalRead();
+    virtual VALUE DigitalRead();
 
     // Delay method in microseconds
     virtual void Delayus(int);

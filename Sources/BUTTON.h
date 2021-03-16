@@ -15,11 +15,16 @@
 */
 using callbackType = int (*)();
 
+/* The numeric value for EDGE: e.g. 0/1/2 for RISING/FALLING/BOTH */
+enum EDGE {
+  RISING = 0,
+  FALLING = 1,
+  BOTH = 2,
+};
+
 class BUTTON : public GPIO
 {
   private:
-    int valueOnPin;
-    int previousValueOnPin; 
     bool stopWaitForButtonFlag = false;
 
     std::thread whenButtonWasPressedThread; 
@@ -29,15 +34,15 @@ class BUTTON : public GPIO
     BUTTON(GPIO_ID);
 
     // Interface method to get the GPIO pin state
-    virtual int ReadButton();
+    virtual VALUE ReadButton();
 
-    // Method for wait for a press on a button with default rising edge
+    // Method for wait for a press on a button with default RISING EDGE
     virtual int WaitForButton();
 
-    // Overloaded Method for wait for a press on a button with an Edge
-    virtual int WaitForButton(int);
+    // Overloaded Method for wait for a press on a button with an EDGE
+    virtual int WaitForButton(EDGE);
 
-    // Method to do execute an user function when the button will be pressed
+    // Method to execute an user function when the button will be pressed
     virtual int WhenButtonWasPressed(callbackType);
 
     // Method to stop the function executed whe the button was pressed

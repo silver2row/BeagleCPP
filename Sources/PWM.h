@@ -36,7 +36,7 @@ enum PWM_ID {
 class PWM : public SYSFILEACCESS
 {
   private:
-    int id; /* The PWM number of the object */
+    PWM_ID id; /* The PWM number of the object */
     std::string idMap[6];
     std::string name;   /* The name of the PWM e.g. pwm-6:1 */
     std::string path;   /* The full path to the PWM e.g. /sys/class/pwm/pwm-6:1 */
@@ -54,10 +54,10 @@ class PWM : public SYSFILEACCESS
     PWM();
 
     // Overload constructor with pin's id
-    PWM(int);
+    PWM(PWM_ID);
 
     // Overload constructor with the pin id and period
-    PWM(int, int);
+    PWM(PWM_ID, int);
 
     // Initialize the PWM pin with the data provided by the constructor
     void InitPWMPin();
@@ -77,7 +77,7 @@ class PWM : public SYSFILEACCESS
     // Delay method in milliseconds
     virtual void Delayms(int);
 
-    // Method to do execute an user function
+    // Method to execute an user function
     virtual int DoUserFunction(callbackType);
 
     // Destructor

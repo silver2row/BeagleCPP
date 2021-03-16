@@ -47,7 +47,7 @@ void GPIO::InitGPIOPin()
   InitPinIdMap();
   name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
-  std::cout << RainbowText("Trying to create the GPIO pin's system folder: ","Green") 
+  std::cout << RainbowText("Trying to set the GPIO pin: ","Green") 
             << RainbowText(blackPinIdMap.at(id), "Green", "Default", "Bold") 
             << std::endl;
   
@@ -172,10 +172,10 @@ int GPIO::UnexportGPIO()
 
 /*
   Public method to set/clear the pin value
-  @param int: The desired value 1 for HIGH and 0 for low
+  @param VALUE: The desired value LOW / HIGH 
   @return int: 1 set value has succeeded
 */
-int GPIO::DigitalWrite(int newValue) 
+int GPIO::DigitalWrite(VALUE newValue) 
 {
   switch (newValue) 
   {
@@ -199,11 +199,11 @@ int GPIO::DigitalWrite(int newValue)
 
 /*
   Overload public method to set/clear the pin value
-  @param int: The desired value 1 for HIGH and 0 for low
+  @param VALUE: The desired value LOW / HIGH 
   @param bool:A flag if the user wants to see messages on the terminal
   @return int: 1 set value has succeeded
 */
-int GPIO::DigitalWrite(int newValue, bool printingFlag) 
+int GPIO::DigitalWrite(VALUE newValue, bool printingFlag) 
 {
   switch (newValue) 
   {
@@ -234,10 +234,10 @@ int GPIO::DigitalWrite(int newValue, bool printingFlag)
 }
 
 /*
-   Public method to get the pin value
-   @return GPIO::VALUE: The value of the pin LOW/HIGH
+  Public method to get the pin value
+  @return VALUE: The value of the pin LOW / HIGH
 */
-int GPIO::DigitalRead() 
+VALUE GPIO::DigitalRead() 
 {
   std::string value = ReadFile(path, "value");
   if (value == "0")

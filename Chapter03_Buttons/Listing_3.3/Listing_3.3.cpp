@@ -1,7 +1,5 @@
 #include <iostream>
 #include <chrono>
-
-#include "../../Sources/GPIO.h"
 #include "../../Sources/BUTTON.h"
 
 using namespace std;

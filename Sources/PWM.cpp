@@ -9,12 +9,10 @@
 
 #include "PWM.h"
 
-using namespace std;
-
-class PWM_Exception : public exception 
+class PWM_Exception : public std::exception 
 {
   private:
-    string reason;
+    std::string reason;
   public:
     PWM_Exception (const char* why) : reason (why) {};
     virtual const char* what() 
@@ -27,25 +25,25 @@ class PWM_Exception : public exception
 PWM::PWM() {}
 
 // Overload constructor with the pin's id
-PWM::PWM(int newPWMPin)
+PWM::PWM(PWM_ID newPWMPin)
 {
   id = newPWMPin;
   period = 500000;
   InitPWMPin();
-  cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
+  std::cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
         << RainbowText("500000", "Pink") 
-        << RainbowText("ns was a success!", "Pink") << endl; 
+        << RainbowText("ns was a success!", "Pink") << std::endl; 
 }
 
 // Overload constructor 
-PWM::PWM(int pwmPin, int newPeriod)
+PWM::PWM(PWM_ID pwmPin, int newPeriod)
 {
   id = pwmPin;
   period = newPeriod;
   InitPWMPin();
-  cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
+  std::cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
         << RainbowText(to_string(GetPeriod()), "Pink") 
-        << RainbowText("ns was a success!", "Pink") << endl; 
+        << RainbowText("ns was a success!", "Pink") << std::endl; 
 }
 
 // Public method to initialize the PWM pin
@@ -83,9 +81,9 @@ void PWM::InitPWMPin()
   }
   path = PWM_PATH + name;
 
-  cout  << RainbowText("Trying to enable the PWM pin: ","Pink") 
-        << RainbowText(idMap[id], "Pink", "Default", "Bold") << endl;
-  string commandString = "config-pin " + idMap[id] + " pwm";
+  std::cout  << RainbowText("Trying to enable the PWM pin: ","Pink") 
+        << RainbowText(idMap[id], "Pink", "Default", "Bold") << std::endl;
+  std::string commandString = "config-pin " + idMap[id] + " pwm";
   const char* command = commandString.c_str();
   system(command);
   SetPeriod(period);
@@ -197,7 +195,7 @@ int PWM::SetDutyCycle(int newDutyCycle)
 */
 void PWM::Delayms(int millisecondsToSleep) 
 {
-  this_thread::sleep_for(chrono::milliseconds(millisecondsToSleep));
+  std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep));
 }
 
 /*
@@ -207,8 +205,8 @@ void PWM::Delayms(int millisecondsToSleep)
 */
 int PWM::DoUserFunction (callbackType callbackFunction)
 {
-  string message = "'UserFunction' method has been activated!";
-  cout << RainbowText(message, "Orange") << endl;
+  std::string message = "'UserFunction' method has been activated!";
+  std::cout << RainbowText(message, "Orange") << std::endl;
 
   std::thread functionThread(callbackFunction);
   functionThread.detach();

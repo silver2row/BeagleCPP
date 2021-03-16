@@ -31,7 +31,8 @@ int UserCallBackFunction_RedButton()
   int isButtonPushed = 0;
   isButtonPushed = redButtonPin.WaitForButton(RISING);
   
-  if (isButtonPushed == 1) {
+  if (isButtonPushed == 1) 
+  {
     message = "The red button was pressed -> turning the red Led On!!!";
     cout << RainbowText(message, "Red") << endl;
     redLedPin.TurnOn();
@@ -49,7 +50,8 @@ int UserCallBackFunction_YellowButton()
   int isButtonPushed = 0;
   isButtonPushed = yellowButtonPin.WaitForButton(FALLING);
   
-  if (isButtonPushed == 1) {
+  if (isButtonPushed == 1) 
+  {
     message = "The yellow button was pressed -> turning the yellow Led On!!!";
     cout << RainbowText(message, "Yellow") << endl;
     yellowLedPin.TurnOn();
