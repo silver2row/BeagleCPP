@@ -20,8 +20,8 @@ class BUTTON_Exception : public std::exception
 // Overload constructor
 BUTTON::BUTTON(GPIO_ID newId) : GPIO(newId, INPUT) 
 {
-  std::cout  << RainbowText("Button object was created on pin: ", "Olive Green") 
-        << RainbowText(this->GetPinHeaderId(), "Olive Green", "Default", "Bold") 
+  std::cout  << RainbowText("Button object was created on pin: ", "Light Red") 
+        << RainbowText(this->GetPinHeaderId(), "Light Red", "Default", "Bold") 
         << std::endl << std::endl;
 }
 
@@ -54,9 +54,6 @@ bool BUTTON::WaitForButton(EDGE edge)
     throw BUTTON_Exception("Error in the 'WaitForButton' method");
   }
 
-  // Reset the button state
-  buttonWasPress = false;
-
   std::string message;
   VALUE previousValueOnPin;
   VALUE actualValueOnPin;
@@ -81,7 +78,6 @@ bool BUTTON::WaitForButton(EDGE edge)
       {
         message = "A RISING edge was detected!";
         std::cout << RainbowText(message, "Pink") << std::endl;
-        buttonWasPress = true;
         return true;
       }
       break;
@@ -104,7 +100,6 @@ bool BUTTON::WaitForButton(EDGE edge)
       {
         message = "A FALLING edge was detected!";
         std::cout << RainbowText(message, "Pink") << std::endl;
-        buttonWasPress = true;
         return true;
       }
       break;
@@ -118,7 +113,6 @@ bool BUTTON::WaitForButton(EDGE edge)
         {
           message = "A RISING OR FALLING edge was detected!";
           std::cout << RainbowText(message, "Yellow") << std::endl;
-          buttonWasPress = true;
           return true;
         }
       }
@@ -128,56 +122,18 @@ bool BUTTON::WaitForButton(EDGE edge)
       std::cout << RainbowText(message, "Yellow") << std::endl;
       return false;
   }
-  buttonWasPress = false;
   return false;
-}
-bool BUTTON::ListenButton(EDGE edge)
-{
-  std::string message = "'ListenButton' method has been activated!";
-  std::cout << RainbowText(message, "Olive Green") << std::endl;
-
-  // Reset the button state
-  buttonWasPress = false;
-
-  // Activate the thread
-  this->ListenButtonThread(edge);
-
-  // Wait for a press on the button using a thread
-  while (buttonWasPress == false);
-
-  return true;
-}
-
-/*
-   Public method for detecting a RISING EDGE on the press of a button
-   in background like an interruption
-*/
-void BUTTON::ListenButtonThread(EDGE edge)
-{
-  std::string message
-  {
-    "Detect a RISING EDGE on a button has been activated on pin: "
-    + std::to_string(id)
-  };
-  std::cout << RainbowText(message, "Olive Green") << std::endl; 
-
-  std::thread detectAButtonThread(&BUTTON::WaitForButton, this, edge);
-  detectAButtonThread.detach();
 }
 
 /*
    Public callback method to do something when a button will be pressed
    @param callbackType: user function pointer to execute
-   @return int: 1 the user function was called
-                -1 Error in the pin's mode
+   @return int: 1 the user callback function was called
 */
-int BUTTON::DoUserFunction(callbackType callbackFunction)
+int BUTTON::WhenButtonWillBePressed(callbackType callbackFunction)
 {
   std::string message = "'UserFunction' method has been activated!";
   std::cout << RainbowText(message, "Olive Green") << std::endl;
-
-  // Reset the button state
-  buttonWasPress = false;
 
   std::thread functionThread(callbackFunction);
   functionThread.detach();
@@ -188,14 +144,6 @@ int BUTTON::DoUserFunction(callbackType callbackFunction)
   Public method to stop the function executed when the button was pressed
 */
 void BUTTON::StopWaitForButton()
-{
-  stopWaitForButtonFlag = true;
-}
-
-/*
-  Public method to stop the DetectAButton method
-*/
-void BUTTON::StopDetectAButton()
 {
   stopWaitForButtonFlag = true;
 }

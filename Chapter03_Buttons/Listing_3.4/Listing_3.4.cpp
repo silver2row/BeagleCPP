@@ -78,8 +78,8 @@ int main()
   message = " and is pending if a press on any button occurs";
   cout << RainbowText(message, "Yellow") << endl;
 
-  redButtonPin.DoUserFunction(&UserCallBackFunction_RedButton);
-  yellowButtonPin.DoUserFunction(&UserCallBackFunction_YellowButton);
+  redButtonPin.WhenButtonWillBePressed(&UserCallBackFunction_RedButton);
+  yellowButtonPin.WhenButtonWillBePressed(&UserCallBackFunction_YellowButton);
   delayms(10000);
 
   // Stop the processes on the Buttons and Leds

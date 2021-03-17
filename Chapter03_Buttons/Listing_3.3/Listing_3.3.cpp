@@ -16,7 +16,6 @@ int UserCallBackFunction_ButtonRed()
   cout << "Hello, I am a USER defined callback function!" << endl; 
   bool isButtonPushed = false;
   isButtonPushed = redButtonPin.WaitForButton();
-
   if (isButtonPushed == true) 
     cout << "The red button was pressed!!!" << endl;
     
@@ -35,9 +34,10 @@ int main()
   message = " and is pending if a press on a button occurs";
   cout << RainbowText(message, "Yellow") << endl;
 
-  redButtonPin.DoUserFunction(&UserCallBackFunction_ButtonRed);
+  redButtonPin.WhenButtonWillBePressed(&UserCallBackFunction_ButtonRed);
   delayms(5000);
 
+  redButtonPin.StopWaitForButton();
   message = "Main function ends here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl << endl;
   return 0;
