@@ -38,12 +38,8 @@ int main()
   string message = "Main function starting here...";
   cout << endl << RainbowText(message,"Blue", "White", "Bold") << endl;
   
-  message = "The program is timing for ";
-  cout << RainbowText(message, "Yellow");
-  message = "5 seconds"; 
-  cout << RainbowText(message, "Yellow", "Default", "Blink");
-  message = " and is pending if a press on a button occurs";
-  cout << RainbowText(message, "Yellow") << endl;
+  cout  << "The program is timing for 5 seconds and is pending"
+        << "if a press on a button occurs" << endl;
 
   redButtonPin.WhenButtonWillBePressed(&UserCallBackFunction_ButtonRed);
   delayms(5000);
