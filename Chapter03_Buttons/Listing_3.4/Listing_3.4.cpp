@@ -1,7 +1,17 @@
+/******************************************************************************
+Listing_3.4.cpp
+@wgaonar
+19/03/2021
+https://github.com/wgaonar/BeagleCPP
+
+Make 3 LEDs blink, flash, heart-beat and at the same time listen the inputs 
+from two buttons
+
+Classes: BUTTON / LED
+******************************************************************************/
 #include <iostream>
 #include <chrono>
 
-#include "../../Sources/GPIO.h"
 #include "../../Sources/BUTTON.h"
 #include "../../Sources/LED.h"
 
@@ -83,8 +93,6 @@ int main()
   delayms(10000);
 
   // Stop the processes on the Buttons and Leds
-  redButtonPin.StopWaitForButton();
-  yellowButtonPin.StopWaitForButton();
   greenLedPin.StopBlink();
   blueLedPin.StopFlash();
   whiteLedPin.StopHeartBeat();

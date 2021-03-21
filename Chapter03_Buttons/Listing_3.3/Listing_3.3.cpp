@@ -4,7 +4,8 @@ Listing_3.3.cpp
 19/03/2021
 https://github.com/wgaonar/BeagleCPP
 
-Uses the WhenButtonWillBePressed() method to call a user defined callback function to wait for the press on a button connected with a Pulldown resistor
+Uses the WhenButtonWillBePressed() method to call a user defined callback 
+function to wait for the press on a button connected with a Pulldown resistor
 
 Class: BUTTON
 ******************************************************************************/
