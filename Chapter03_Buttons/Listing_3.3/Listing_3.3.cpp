@@ -1,3 +1,14 @@
+/******************************************************************************
+Listing_3.3.cpp
+@wgaonar
+19/03/2021
+https://github.com/wgaonar/BeagleCPP
+
+Uses the WhenButtonWillBePressed() method to call a user defined callback function to wait for the press on a button connected with a Pulldown resistor
+
+Class: BUTTON
+******************************************************************************/
+
 #include <iostream>
 #include <chrono>
 #include "../../Sources/BUTTON.h"
@@ -37,7 +48,6 @@ int main()
   redButtonPin.WhenButtonWillBePressed(&UserCallBackFunction_ButtonRed);
   delayms(5000);
 
-  redButtonPin.StopWaitForButton();
   message = "Main function ends here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl << endl;
   return 0;

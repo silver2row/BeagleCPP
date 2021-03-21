@@ -24,12 +24,6 @@ enum EDGE {
 
 class BUTTON : public GPIO
 {
-  private:
-    bool stopWaitForButtonFlag = false;
-    
-    std::thread detectAButtonThread;
-    std::thread whenButtonWasPressedThread;
-
   public:
     // Overload constructor
     BUTTON(GPIO_ID);
@@ -42,9 +36,6 @@ class BUTTON : public GPIO
 
     // Method to execute an user function like an interruption
     virtual int WhenButtonWillBePressed(callbackType);
-
-    // Method to stop the function executed whe the button was pressed
-    virtual void StopWaitForButton();
 
     // Destructor
     ~BUTTON();

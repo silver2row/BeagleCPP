@@ -37,8 +37,7 @@ GPIO::GPIO (GPIO_ID newId, MODE newMode)
   mode = newMode;
   InitGPIOPin();
   SetMode(mode);
-  std::cout << RainbowText("Setting the GPIO pin was complete!", "Green") 
-            << std::endl << std::endl;
+  std::cout << RainbowText("Setting the GPIO pin was complete!", "Green") << std::endl;
 }
 
 // Public method to initialize the GPIO pin
@@ -47,7 +46,8 @@ void GPIO::InitGPIOPin()
   InitPinIdMap();
   name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
-  std::cout << RainbowText("Trying to set the GPIO pin: ","Green") 
+  std::cout << std::endl
+            << RainbowText("Trying to set the GPIO pin: ","Green") 
             << RainbowText(blackPinIdMap.at(id), "Green", "Default", "Bold") 
             << std::endl;
   

@@ -1,3 +1,14 @@
+/******************************************************************************
+Listing_3.1.cpp
+@wgaonar
+19/03/2021
+https://github.com/wgaonar/BeagleCPP
+
+Wait for the press on a button connected with a Pulldown resistor
+
+Class: BUTTON
+******************************************************************************/
+
 #include <iostream>
 #include "../../Sources/BUTTON.h"
 
@@ -12,14 +23,12 @@ int main()
   message = "Please, press the red button!";
   cout << endl << RainbowText(message, "Red") << endl;
 
-  while (redButtonPin.ReadButton() == 0)
-  {
-    if (redButtonPin.ReadButton() == 1)
-    {
-      message = "The red button was pressed!!!";
-      cout << RainbowText(message, "Red") << endl;
-    }
-  }
+  while (redButtonPin.ReadButton() != LOW); 
+  while (redButtonPin.ReadButton() != HIGH); 
+  cout << "The red button was pressed!" << endl;
+  
+  while (redButtonPin.ReadButton() != LOW); 
+  cout << "The red button was released!" << endl;
   
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl << endl;
