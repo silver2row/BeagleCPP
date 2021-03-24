@@ -1,3 +1,13 @@
+/************************************************************************
+Listing_1.1.cpp
+@wgaonar
+24/03/2021
+https://github.com/wgaonar/BeagleCPP
+
+Blink a led
+
+Class: GPIO
+************************************************************************/
 #include <iostream>
 #include "../../Sources/GPIO.h"
 
@@ -13,10 +23,12 @@ int main()
   for (int i = 0; i < 10; i++)   
   {
     cout << "Blinking " << i+1 << " times out of " << 10 <<  endl;
+    
     ledPin.DigitalWrite(HIGH);
-    ledPin.Delayms(1000);
+    Delayms(1000);
+
     ledPin.DigitalWrite(LOW);
-    ledPin.Delayms(1000);
+    Delayms(1000);
   }
 
   message = "Main program finishes here...";

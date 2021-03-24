@@ -246,27 +246,27 @@ VALUE GPIO::DigitalRead()
     return HIGH;
 }
 
-/*
-   Public method to do a delay in microseconds
-   @param int: duration of the delay
-*/
-void GPIO::Delayus(int microsecondsToSleep) 
+// Destructor
+GPIO::~GPIO() 
 {
-  std::this_thread::sleep_for(std::chrono::microseconds(microsecondsToSleep));
+  if (this->mode == OUTPUT)
+    this->DigitalWrite(LOW);
 }
 
 /*
    Public method to do a delay in milliseconds
    @param int: duration of the delay
 */
-void GPIO::Delayms(int millisecondsToSleep) 
+void Delayms(int millisecondsToSleep) 
 {
   std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep));
 }
 
-// Destructor
-GPIO::~GPIO() 
+/*
+   Public method to do a delay in microseconds
+   @param int: duration of the delay
+*/
+void Delayus(int microsecondsToSleep) 
 {
-  if (this->mode == OUTPUT)
-    this->DigitalWrite(LOW);
+  std::this_thread::sleep_for(std::chrono::microseconds(microsecondsToSleep));
 }

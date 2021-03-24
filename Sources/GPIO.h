@@ -73,14 +73,14 @@ class GPIO : public SYSFILEACCESS
     // Interface method to get the GPIO pin state
     virtual VALUE DigitalRead();
 
-    // Delay method in microseconds
-    virtual void Delayus(int);
-
-    // Delay method in milliseconds
-    virtual void Delayms(int);
-
     // Destructor
     virtual ~GPIO ();    
 };
+
+// Delay method in milliseconds
+void Delayms(int);
+
+// Delay method in microseconds
+void Delayus(int);
 
 #endif // GPIO_H

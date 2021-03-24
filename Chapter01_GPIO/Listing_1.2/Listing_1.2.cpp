@@ -1,11 +1,20 @@
+/************************************************************************
+Listing_1.3.cpp
+@wgaonar
+24/03/2021
+https://github.com/wgaonar/BeagleCPP
+
+Turn ON / OFF  six leds in order
+
+Class: GPIO
+************************************************************************/
 #include <iostream>
 #include "../../Sources/GPIO.h"
 
 using namespace std;
 
-int main()
+int main() 
 {
-
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
@@ -21,11 +30,11 @@ int main()
           << RainbowText(to_string(count), "Red") << " times" << endl;
     ledPin.DigitalWrite(HIGH);
     
-    while (buttonPin.DigitalRead() == HIGH)
-        ledPin.Delayms(10);
+    while (buttonPin.DigitalRead() == HIGH) 
+      Delayms(10);
     cout << "The button was released, turning the led OFF" << endl << endl;
     ledPin.DigitalWrite(LOW);
-    ledPin.Delayms(10);
+    Delayms(10);
   }
   
   message = "Main program finishes here...";
