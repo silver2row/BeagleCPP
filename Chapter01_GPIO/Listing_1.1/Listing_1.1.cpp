@@ -22,7 +22,7 @@ int main()
 
   for (int i = 0; i < 10; i++)   
   {
-    cout << "Blinking " << i+1 << " times out of " << 10 <<  endl;
+    cout << "Blinking " << i+1 << " times of " << 10 <<  endl;
     
     ledPin.DigitalWrite(HIGH);
     Delayms(1000);

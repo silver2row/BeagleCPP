@@ -4,7 +4,7 @@ Listing_1.4.cpp
 28/03/2021
 https://github.com/wgaonar/BeagleCPP
 
-Blink in milliseconds a led without Delayms()
+Blink a LED in milliseconds without Delayms()
 
 Class: GPIO
 ************************************************************************/
@@ -25,28 +25,28 @@ int main()
   const int interval = 1000;       // interval at which to blink (milliseconds)
 
   int count = 0;
-  while (count <= 10)
+  while (count < 10)
   {
     // Get the actual time
     unsigned long currentMillis = Millis();
 
     if ((currentMillis - previousMillis) >= interval) 
     {
-      cout << "Blinking " << count+1 << " times out of " << 10 <<  endl;
-
       // save the last time you blinked the LED
       previousMillis = currentMillis;
 
       // if the LED is off turn it on and vice-versa:
       if (ledState == LOW) 
         ledState = HIGH;
-      else 
+      else
+      { 
         ledState = LOW;
+        count++;
+        cout << "Blinking " << count << " times of 10\n";
+      }
 
       // set the LED with the ledState of the variable:
       ledPin.DigitalWrite(ledState);
-
-      count++;
     }  
   }
 
