@@ -172,12 +172,12 @@ int GPIO::UnexportGPIO()
 
 /*
   Public method to set/clear the pin value
-  @param VALUE: The desired value LOW / HIGH 
+  @param STATE: The desired value LOW / HIGH 
   @return int: 1 set value has succeeded
 */
-int GPIO::DigitalWrite(VALUE newValue) 
+int GPIO::DigitalWrite(STATE newState) 
 {
-  switch (newValue) 
+  switch (newState) 
   {
     case HIGH:
       if (WriteFile(path, "value", "1") != 1)
@@ -199,13 +199,13 @@ int GPIO::DigitalWrite(VALUE newValue)
 
 /*
   Overload public method to set/clear the pin value
-  @param VALUE: The desired value LOW / HIGH 
+  @param STATE: The desired value LOW / HIGH 
   @param bool:A flag if the user wants to see messages on the terminal
   @return int: 1 set value has succeeded
 */
-int GPIO::DigitalWrite(VALUE newValue, bool printingFlag) 
+int GPIO::DigitalWrite(STATE newState, bool printingFlag) 
 {
-  switch (newValue) 
+  switch (newState) 
   {
     case HIGH:
       if (WriteFile(path, "value", "1") != 1)
@@ -235,9 +235,9 @@ int GPIO::DigitalWrite(VALUE newValue, bool printingFlag)
 
 /*
   Public method to get the pin value
-  @return VALUE: The value of the pin LOW / HIGH
+  @return STATE: The value of the pin LOW / HIGH
 */
-VALUE GPIO::DigitalRead() 
+STATE GPIO::DigitalRead() 
 {
   std::string value = ReadFile(path, "value");
   if (value == "0")
@@ -253,20 +253,3 @@ GPIO::~GPIO()
     this->DigitalWrite(LOW);
 }
 
-/*
-   Public method to do a delay in milliseconds
-   @param int: duration of the delay
-*/
-void Delayms(int millisecondsToSleep) 
-{
-  std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep));
-}
-
-/*
-   Public method to do a delay in microseconds
-   @param int: duration of the delay
-*/
-void Delayus(int microsecondsToSleep) 
-{
-  std::this_thread::sleep_for(std::chrono::microseconds(microsecondsToSleep));
-}

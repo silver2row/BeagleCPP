@@ -29,7 +29,7 @@ class BUTTON : public GPIO
     BUTTON(GPIO_ID);
 
     // Interface method to get the GPIO pin state
-    virtual VALUE ReadButton();
+    virtual STATE ReadButton();
 
     // Method to wait for a press on a button with default RISING EDGE
     virtual bool WaitForButton(EDGE edge = RISING);

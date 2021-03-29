@@ -7,6 +7,7 @@
 #include "RAINBOWCOLORS.h"
 #include "BLACKPIN_ID.h"
 #include "SYSFILEACCESS.h"
+#include "MISCELLANEOUS.h"
 
 const std::string GPIO_PATH("/sys/class/gpio/");
 
@@ -17,7 +18,7 @@ enum MODE {
 };
 
 /* The numeric value for VALUE: e.g. 0/1 for LOW/HIGH */
-enum VALUE {
+enum STATE {
   LOW = 0,
   HIGH = 1,
 };
@@ -65,22 +66,16 @@ class GPIO : public SYSFILEACCESS
     virtual int UnexportGPIO();
 
     // Interface method to set the GPIO pin state
-    virtual int DigitalWrite(VALUE);
+    virtual int DigitalWrite(STATE);
 
     // Overload Interface method to set the GPIO pin state adn printing the value
-    virtual int DigitalWrite(VALUE, bool);
+    virtual int DigitalWrite(STATE, bool);
 
     // Interface method to get the GPIO pin state
-    virtual VALUE DigitalRead();
+    virtual STATE DigitalRead();
 
     // Destructor
     virtual ~GPIO ();    
 };
-
-// Delay method in milliseconds
-void Delayms(int);
-
-// Delay method in microseconds
-void Delayus(int);
 
 #endif // GPIO_H

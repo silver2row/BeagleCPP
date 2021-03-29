@@ -27,10 +27,10 @@ BUTTON::BUTTON(GPIO_ID newId) : GPIO(newId, INPUT)
 
 /*
    Public method for reading the input from a button
-   @return VALUE: The button state LOW / HIGH
+   @return STATE: The button state LOW / HIGH
                  -1 Error in the pin's mode
 */
-VALUE BUTTON::ReadButton()
+STATE BUTTON::ReadButton()
 {
   if (this->mode != INPUT)
   {
@@ -76,7 +76,7 @@ bool BUTTON::WaitForButton(EDGE edge)
 
     case BOTH:
       WriteFile(path, "edge", "both");
-      VALUE tempValueOnPin;
+      STATE tempValueOnPin;
       tempValueOnPin = this->ReadButton();
       while (tempValueOnPin == this->ReadButton());
       message = "A RISING OR FALLING edge was detected!";
