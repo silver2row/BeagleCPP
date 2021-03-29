@@ -9,7 +9,7 @@ Turn ON / OFF  six leds in order
 Class: GPIO
 ************************************************************************/
 #include <iostream>
-#include "../../Sources/GPIO.h"
+#include "../../Sources/BeagleCPP.h"
 
 using namespace std;
 
