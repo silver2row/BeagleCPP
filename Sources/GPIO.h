@@ -68,7 +68,7 @@ class GPIO : public SYSFILEACCESS
     // Interface method to set the GPIO pin state
     virtual int DigitalWrite(STATE);
 
-    // Overload Interface method to set the GPIO pin state adn printing the value
+    // Overload Interface method to set the GPIO pin state and printing the value
     virtual int DigitalWrite(STATE, bool);
 
     // Interface method to get the GPIO pin state
