@@ -1,3 +1,13 @@
+/************************************************************************
+Listing_2.1.cpp
+@wgaonar
+30/03/2021
+https://github.com/wgaonar/BeagleCPP
+
+Blink a LED with its own method blink() 
+
+Class: LED
+************************************************************************/
 #include <iostream>
 #include "../../Sources/LED.h"
 
@@ -18,12 +28,13 @@ int main()
   ledPinYellow.Blink(100);
 
   char userInput = '\0';
-  while (userInput != 'y')
+  while (userInput != 'y') 
   {
     message = "Do you want to stop blinking? Enter 'y' for yes: ";
     cout << RainbowText(message, "Violet");
     cin >> userInput;
-    if (userInput == 'y') {
+    if (userInput == 'y') 
+    {
       ledPinRed.StopBlink();
       ledPinYellow.StopBlink();
     }
