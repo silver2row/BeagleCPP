@@ -63,9 +63,9 @@ void LED::MakeBlink(int duration)
   while (this->stopBlinkFlag == false)
   {
     this->DigitalWrite(HIGH);
-    this->Delayms(duration);
+    Delayms(duration);
     this->DigitalWrite(LOW);
-    this->Delayms(duration);
+    Delayms(duration);
   }
 }
 
@@ -104,9 +104,9 @@ void LED::MakeFlash(int timeOn, int timeOff)
   while (this->stopFlashFlag == false)
   {
     this->DigitalWrite(HIGH);
-    this->Delayms(timeOn);
+    Delayms(timeOn);
     this->DigitalWrite(LOW);
-    this->Delayms(timeOff);
+    Delayms(timeOff);
   }
 }
 
@@ -147,11 +147,11 @@ void LED::MakeHeartBeat(int timeOn, int ratio)
     for (int i = 0; i < 2; i++)
     {
       this->DigitalWrite(HIGH);
-      this->Delayms(timeOn);
+      Delayms(timeOn);
       this->DigitalWrite(LOW);
-      this->Delayms(timeOn);
+      Delayms(timeOn);
     }
-    this->Delayms(timeOn*ratio);
+    Delayms(timeOn*ratio);
   }
 }
 
@@ -166,13 +166,9 @@ void LED::StopHeartBeat ()
 // Destructor
 LED::~LED()
 {
-  if(this->DigitalRead() == HIGH)
-    this->DigitalWrite(LOW);
+  if(this->DigitalRead() == HIGH) this->DigitalWrite(LOW);
 
-  if (blinkThread.joinable())
-    blinkThread.join();
-  if (flashThread.joinable())
-    flashThread.join();
-  if (heartBeatThread.joinable())
-    heartBeatThread.join();
+  if (blinkThread.joinable()) blinkThread.join();
+  if (flashThread.joinable()) flashThread.join();
+  if (heartBeatThread.joinable()) heartBeatThread.join();
 }
