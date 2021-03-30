@@ -4,7 +4,8 @@ Listing_3.2.cpp
 19/03/2021
 https://github.com/wgaonar/BeagleCPP
 
-Uses the WaitForButton() method to wait for the press on buttons connected with a pull-down and pull-up resistor
+Uses the WaitForButton() method to wait for the press on buttons connected 
+with a pull-down and pull-up resistor
 
 Class: BUTTON
 ******************************************************************************/
