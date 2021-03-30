@@ -4,7 +4,7 @@ Listing_2.1.cpp
 30/03/2021
 https://github.com/wgaonar/BeagleCPP
 
-Blink a LED with its own method blink() 
+Blink two LEDs with its own method Blink() 
 
 Class: LED
 ************************************************************************/

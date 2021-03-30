@@ -1,3 +1,13 @@
+/************************************************************************
+Listing_2.2.cpp
+@wgaonar
+30/03/2021
+https://github.com/wgaonar/BeagleCPP
+
+Flash two LEDs with its own method Flash() 
+
+Class: LED
+************************************************************************/
 #include <iostream>
 #include "../../Sources/LED.h"
 
@@ -23,7 +33,8 @@ int main()
     message = "Do you want to stop flashing? Enter 'y' for yes: ";
     cout << RainbowText(message, "Violet");
     cin >> userInput;
-    if (userInput == 'y') {
+    if (userInput == 'y') 
+    {
         ledPinBlue.StopFlash();
         ledPinWhite.StopFlash();
     }

@@ -1,3 +1,13 @@
+/************************************************************************
+Listing_2.3.cpp
+@wgaonar
+30/03/2021
+https://github.com/wgaonar/BeagleCPP
+
+Make a HeartBeat Pattern on a LED with its own method HeartBeat() 
+
+Class: LED
+************************************************************************/
 #include <iostream>
 #include "../../Sources/LED.h"
 
@@ -20,9 +30,7 @@ int main()
         message = "Do you want to stop the heart beat patterns? Enter 'y' for yes: ";
         cout << RainbowText(message, "Violet");
         cin >> userInput;
-        if (userInput == 'y') {
-            greenLedPin.StopHeartBeat();
-        }
+        if (userInput == 'y') greenLedPin.StopHeartBeat();
     }
      
     message = "Main program finishes here...";
