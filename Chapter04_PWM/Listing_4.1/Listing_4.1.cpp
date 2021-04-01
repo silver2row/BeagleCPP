@@ -28,7 +28,7 @@ int main()
   {
     cout << "Setting a duty cycle of: " << pwmValue << endl;
     pwmBlueLedPin.SetDutyCycle(pwmValue);
-    pwmBlueLedPin.Delayms(250);
+    Delayms(250);
   }
   cout << endl;
 
@@ -38,7 +38,7 @@ int main()
   {
     cout << "Setting a duty cycle of: " << pwmValue << endl;
     pwmBlueLedPin.SetDutyCycle(pwmValue);
-    pwmBlueLedPin.Delayms(250);
+    Delayms(250);
   }
   cout << endl;  
 

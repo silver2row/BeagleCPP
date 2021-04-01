@@ -103,9 +103,7 @@ int PWM::Enable()
     throw PWM_Exception("Error in the 'Enable' method");
   }
   else 
-  {
     return 1;
-  }
 }
 
 /*
@@ -121,9 +119,7 @@ int PWM::Disable()
     throw PWM_Exception("Error in the 'Disable' method");
   }
   else 
-  {
     return 1;
-  }
 }
 
 /*
@@ -159,9 +155,7 @@ int PWM::SetPeriod(int newPeriod)
     throw PWM_Exception("Error in the 'SetPeriod' method");
   }
   else 
-  {
     return 1;
-  }
 }
 
 /*
@@ -184,9 +178,7 @@ int PWM::SetDutyCycle(int newDutyCycle)
     throw PWM_Exception("Error in WritePWMDutyCycle method");
   }
   else 
-  {
     return 1;
-  }
 }
 
 /*

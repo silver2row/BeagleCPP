@@ -6,6 +6,7 @@
 
 #include "RAINBOWCOLORS.h"
 #include "SYSFILEACCESS.h"
+#include "MISCELLANEOUS.h"
 
 /* 
   Declare a type for a function pointer
