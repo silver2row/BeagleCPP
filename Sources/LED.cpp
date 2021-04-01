@@ -138,9 +138,9 @@ void LED::HeartBeat(int timeOn, int ratio)
 /*
    Private method that contains the routine to do the digital heart beat 
    @param int: The desired time On of the pulse in milliseconds
-   @param int: The desired ratio between the pulses and the pause in the pattern
+   @param int: The desired time Off between the pulses in milliseconds
 */
-void LED::MakeHeartBeat(int timeOn, int ratio)
+void LED::MakeHeartBeat(int timeOn, int timeOff)
 {
   while (this->stopHeartBeatFlag == false)
   {
@@ -151,7 +151,7 @@ void LED::MakeHeartBeat(int timeOn, int ratio)
       this->DigitalWrite(LOW);
       Delayms(timeOn);
     }
-    Delayms(timeOn*ratio);
+    Delayms(timeOff);
   }
 }
 

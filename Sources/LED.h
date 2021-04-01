@@ -34,13 +34,13 @@ class LED: public GPIO
     void Toggle();
 
     // Method for doing a blinking pattern
-    void Blink(int);
+    void Blink(int duration = 1000);
 
     // Method for doing a flashing pattern
-    void Flash(int, int);
+    void Flash(int timeOn = 100, int timeOff = 1000);
 
     // Method for doing a digital heart beat pattern
-    void HeartBeat(int, int);
+    void HeartBeat(int timeOn = 100, int timeOff = 1000);
 
     // Method for stopping a blinking
     void StopBlink();

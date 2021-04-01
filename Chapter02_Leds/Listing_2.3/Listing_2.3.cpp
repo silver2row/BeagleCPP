@@ -22,15 +22,15 @@ int main()
     LED greenLedPin(P8_16);
 
     cout <<  "Start a DIGITAL heart beat pattern on a green led" << endl;
-    greenLedPin.HeartBeat(100,10);
+    greenLedPin.HeartBeat(100,1000);
 
     char userInput = '\0';
     while (userInput != 'y')
     {
-        message = "Do you want to stop the heart beat patterns? Enter 'y' for yes: ";
-        cout << RainbowText(message, "Violet");
-        cin >> userInput;
-        if (userInput == 'y') greenLedPin.StopHeartBeat();
+      message = "Do you want to stop the heart beat patterns? Enter 'y' for yes: ";
+      cout << RainbowText(message, "Violet");
+      cin >> userInput;
+      if (userInput == 'y') greenLedPin.StopHeartBeat();
     }
      
     message = "Main program finishes here...";
