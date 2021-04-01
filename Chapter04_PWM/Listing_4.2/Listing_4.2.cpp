@@ -1,3 +1,13 @@
+/******************************************************************************
+Listing_4.2.cpp
+@wgaonar
+01/04/2021
+https://github.com/wgaonar/BeagleCPP
+
+Make a PWM cycle of incremental steps on six LEDs
+
+Class: PWM
+******************************************************************************/
 #include <iostream>
 #include <cmath>
 #include "../../Sources/PWM.h"
