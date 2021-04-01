@@ -5,18 +5,6 @@
 
 #include "BUTTON.h"
 
-class BUTTON_Exception : public std::exception 
-{
-  private:
-    std::string reason;
-  public:
-    BUTTON_Exception (const char* why) : reason (why) {};
-    virtual const char* what() 
-    {
-      return reason.c_str();
-    }
-};
-
 // Overload constructor
 BUTTON::BUTTON(GPIO_ID newId) : GPIO(newId, INPUT) 
 {
@@ -32,11 +20,6 @@ BUTTON::BUTTON(GPIO_ID newId) : GPIO(newId, INPUT)
 */
 STATE BUTTON::ReadButton()
 {
-  if (this->mode != INPUT)
-  {
-    perror("'ReadButton' method only works on INPUT mode");
-    throw BUTTON_Exception("Error in the 'ReadButton' method");
-  }
   return this->DigitalRead();
 }
 
@@ -48,11 +31,6 @@ STATE BUTTON::ReadButton()
 */
 bool BUTTON::WaitForButton(EDGE edge)
 {
-  if (this->mode != INPUT)
-  {
-    perror("'WaitForButton' method only works on INPUT mode");
-    throw BUTTON_Exception("Error in the 'WaitForButton' method");
-  }
   std::string message;
   switch (edge)
   {

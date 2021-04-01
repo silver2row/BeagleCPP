@@ -22,7 +22,7 @@ enum EDGE {
   BOTH = 2,
 };
 
-class BUTTON : public GPIO
+class BUTTON : protected GPIO
 {
   public:
     // Overload constructor
