@@ -4,7 +4,7 @@ Listing_4.1.cpp
 01/04/2021
 https://github.com/wgaonar/BeagleCPP
 
-Make a PWM cycle on a LED
+Make a PWM cycle of incremental steps on a LED
 
 Class: PWM
 ******************************************************************************/
