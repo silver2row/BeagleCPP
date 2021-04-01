@@ -182,15 +182,6 @@ int PWM::SetDutyCycle(int newDutyCycle)
 }
 
 /*
-  Public method to do a delay in milliseconds
-  @param int: duration of the delay
-*/
-void PWM::Delayms(int millisecondsToSleep) 
-{
-  std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep));
-}
-
-/*
   Public callback method to do a user customized function when is called
   @param callbackType: user function pointer to execute 
   @return int: 1 the user function was called      
