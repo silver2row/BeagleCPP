@@ -17,10 +17,10 @@ using namespace std;
 // Global pwm pin declaration
 PWM pwmWhiteLedPin(P8_19,600000);
 
-bool stopPulseFunction = false;
+bool stopPulseLedFunction = false;
 int PulseLed()
 {
-  while (stopPulseFunction == false)
+  while (stopPulseLedFunction == false)
   {
     for (float in = 0; in < 6.28; in += 0.0628)
     {
@@ -50,7 +50,7 @@ int main()
     cout << RainbowText(message, "Violet");
     cin >> userInput;
     if (userInput == 'y') 
-      stopPulseFunction = true;
+      stopPulseLedFunction = true;
   }
 
   message = "Main program finishes here...";
