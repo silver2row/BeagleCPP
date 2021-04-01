@@ -1,3 +1,13 @@
+/******************************************************************************
+Listing_4.1.cpp
+@wgaonar
+01/04/2021
+https://github.com/wgaonar/BeagleCPP
+
+Make a PWM cycle on a LED
+
+Class: PWM
+******************************************************************************/
 #include <iostream>
 #include "../../Sources/PWM.h"
 
