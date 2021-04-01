@@ -5,7 +5,7 @@
 #include <vector>
 #include "GPIO.h"
 
-class LED: public GPIO 
+class LED: protected GPIO 
 {
   private:
     bool stopBlinkFlag = false;
