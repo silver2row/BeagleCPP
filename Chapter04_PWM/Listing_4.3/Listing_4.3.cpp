@@ -1,3 +1,13 @@
+/******************************************************************************
+Listing_4.3.cpp
+@wgaonar
+01/04/2021
+https://github.com/wgaonar/BeagleCPP
+
+Control the brightness of a LED with the keyboard
+
+Class: PWM
+******************************************************************************/
 #include <iostream>
 #include "../../Sources/PWM.h"
 
