@@ -6,6 +6,7 @@
 
 #include "RAINBOWCOLORS.h"
 #include "SYSFILEACCESS.h"
+#include "MISCELLANEOUS.h"
 
 /* 
   Declare a type for a function pointer
@@ -21,7 +22,7 @@ using callbackType = int (*)();
 const std::string ADC_PATH = "/sys/bus/iio/devices/iio:device0/";
 
 /* The pwm class internal number of the pin*/
-enum ID {
+enum ADC_ID {
   P9_39 = 0,
   P9_40 = 1, 
   P9_37 = 2,
@@ -57,36 +58,33 @@ class ADC : public SYSFILEACCESS
     // Default constructor
     ADC(int);
 
-    // Interface method to read one time the adc value on the pin
+    // Interface method to read one time the ADC value on the pin
     virtual void ReadADC(int &);
 
-    // Overload interface method for reading the ADC value with a delay on the pin
+    // Overload interface method to read the ADC value with an interval time
     virtual void ReadADC(int &, int);
 
-    // Interface method for reading the ADC value continuosly on the pin
+    // Interface method for reading the ADC in background
     virtual void ReadADC(int &, int, bool);
 
     // Interface method to read one time the voltage on the pin
     virtual void ReadVoltage(float &);
 
-    // Overload interface method for reading the voltage with a delay on the pin
+    // Overload interface method to read the voltage with an interval time
     virtual void ReadVoltage(float &, int);
 
-    // Interface method for reading the voltage continuosly on the pin
+    // Interface method for reading the voltage in background
     virtual void ReadVoltage(float &, int, bool);
     
     // Method to do execute an user function
     virtual int DoUserFunction(callbackType);
 
-    // Method to stop the ADC continuos sampling 
+    // Method to stop the ADC continuous sampling 
     virtual void StopReadADC();
 
-    // Method to stop the voltage continuos sampling
+    // Method to stop the voltage continuous sampling
     virtual void StopReadVoltage();
     
-    // Delay method in milliseconds
-    virtual void Delayms(int);
-
     // Destructor
     virtual ~ADC();
 };

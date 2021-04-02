@@ -58,9 +58,7 @@ int ADC::GetADC()
     throw ADC_Exception("Error in the 'ReadADC' method");
   }
   else
-  {
     return adcValue;
-  }
 }
 
 /*
@@ -192,15 +190,6 @@ int ADC::DoUserFunction (callbackType callbackFunction)
   return 1;
 }
 
-/*
-  Public method to do a delay in milliseconds
-  @param int: duration of the delay
-*/
-void ADC::Delayms(int millisecondsToSleep) 
-{
-  this_thread::sleep_for(chrono::milliseconds(millisecondsToSleep));
-}
-
 // Destructor
 ADC::~ADC() 
 {
@@ -210,7 +199,7 @@ ADC::~ADC()
     ReadVoltageThread.join();
 
   // Waiting for the last reading on the pin
-  this->Delayms(10);
+  Delayms(10);
   cout  << RainbowText("Stoping the reading on the ADC PIN: ","Violet")
         << RainbowText(idMap[id], "Violet", "Default", "Bold") << endl;
 }
