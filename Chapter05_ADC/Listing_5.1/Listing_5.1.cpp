@@ -1,3 +1,13 @@
+/******************************************************************************
+Listing_5.1.cpp
+@wgaonar
+02/04/2021
+https://github.com/wgaonar/BeagleCPP
+
+Read 100 times a signal on AIN0 (P9_39) each 100 milliseconds
+
+Class: PWM
+******************************************************************************/
 #include <iostream>
 #include "../../Sources/ADC.h"
 
