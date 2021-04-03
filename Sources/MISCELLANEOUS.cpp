@@ -80,5 +80,3 @@ unsigned long Nanos()
 
   return duration_cast<nanoseconds>(elapsedTime).count();
 }
-
-
