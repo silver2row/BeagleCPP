@@ -34,7 +34,7 @@ int BrightLed()
     pwmValue = adcValueOut / 4095.0 * 100; 
     cout << "PWM value: " << pwmValue << endl;
     pwmBlueLedPin.SetDutyCycle(pwmValue);
-    adcPin.Delayms(100);
+    Delayms(100);
   }
   return 0;
 }
