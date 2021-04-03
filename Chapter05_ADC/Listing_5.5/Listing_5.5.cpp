@@ -1,5 +1,14 @@
-#include <iostream>
+/******************************************************************************
+Listing_5.5.cpp
+@wgaonar
+03/04/2021
+https://github.com/wgaonar/BeagleCPP
 
+Control de brightness of a LED with an analog value from a POT wired to AIN0 (P9_39) in background each 100 milliseconds while polling an key stroke by the user
+
+Class: ADC
+******************************************************************************/
+#include <iostream>
 #include "../../Sources/ADC.h"
 #include "../../Sources/PWM.h"
 
@@ -44,10 +53,7 @@ int main()
     message = "Do you want to stop the readings on the pin? Enter 'y' for yes:";
     cout << RainbowText(message, "Blue") << endl;
     cin >> userInput;
-    if (userInput == 'y') 
-    {
-      stopBrightLed = true;
-    }
+    if (userInput == 'y') stopBrightLed = true;
   }
 
   // Clean the pwm value on pin

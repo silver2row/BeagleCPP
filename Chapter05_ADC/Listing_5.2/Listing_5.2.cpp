@@ -1,3 +1,13 @@
+/******************************************************************************
+Listing_5.2.cpp
+@wgaonar
+02/04/2021
+https://github.com/wgaonar/BeagleCPP
+
+Read the analog value and the voltage on AIN0 (P9_39) with a user callback function each 250 milliseconds while polling an key stroke by the user
+
+Class: ADC
+******************************************************************************/
 #include <iostream>
 #include "../../Sources/ADC.h"
 
@@ -20,7 +30,7 @@ int AnalogRead()
     adcPin.ReadVoltage(adcVoltageOut);
     cout << "Voltage on the pin: " << adcVoltageOut << " / ";
     cout << "'y' for exit" << endl;
-    adcPin.Delayms(250);
+    Delayms(250);
   }
   return 0;
 }
@@ -39,10 +49,7 @@ int main()
     message = "Do you want to stop the readings on the pin? Enter 'y' for yes: ";
     cout << RainbowText(message, "Blue")  << endl;
     cin >> userInput;
-    if (userInput == 'y') 
-    {
-      stopAnalogRead = true;
-    }
+    if (userInput == 'y') stopAnalogRead = true;
   }
 
   message = "Main program finishes here...";
