@@ -104,7 +104,7 @@ void ADC::MakeReadADC(int &adcValueOut, int timeInterval)
 {
   while (stopReadADCFlag == false)
   {
-    this->ReadADC(adcValueOut);
+    ReadADC(adcValueOut);
     std::string message = "ADC value on pin " + idMap[id] + ": " + to_string(adcValueOut);
     cout << RainbowText(message, "Violet") << endl;
     Delayms(timeInterval);
@@ -135,7 +135,7 @@ void ADC::ReadVoltage(float &voltageOut)
 */
 void ADC::ReadVoltage(float &voltageOut, int timeInterval)
 {
-  this->ReadVoltage(voltageOut);
+  ReadVoltage(voltageOut);
   Delayms(timeInterval);
 }
 
@@ -159,7 +159,7 @@ void ADC::MakeReadVoltage(float &voltageOut, int timeInterval)
 {
   while (stopReadVoltageFlag == false)
   {
-    this->ReadVoltage(voltageOut);
+    ReadVoltage(voltageOut);
     std::string message = "Voltage on pin " + idMap[id] + ": " + to_string(voltageOut);
     cout << RainbowText(message, "Violet") << endl;
     Delayms(timeInterval);
@@ -193,13 +193,9 @@ int ADC::DoUserFunction (callbackType callbackFunction)
 // Destructor
 ADC::~ADC() 
 {
-  if (ReadADCThread.joinable())
-    ReadADCThread.join();
-  if (ReadVoltageThread.joinable())
-    ReadVoltageThread.join();
+  if (ReadADCThread.joinable()) ReadADCThread.join();
+  if (ReadVoltageThread.joinable()) ReadVoltageThread.join();
 
   // Waiting for the last reading on the pin
   Delayms(10);
-  cout  << RainbowText("Stoping the reading on the ADC PIN: ","Violet")
-        << RainbowText(idMap[id], "Violet", "Default", "Bold") << endl;
 }
