@@ -214,9 +214,7 @@ int GPIO::DigitalWrite(STATE newState, bool printingFlag)
         throw GPIO_Exception("Error in the 'DigitalWrite' method");
       }
       if (printingFlag == true)
-      {
         std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
-      }
       break;
     case LOW:
       if (WriteFile(path, "value", "0") != 1)
@@ -225,9 +223,7 @@ int GPIO::DigitalWrite(STATE newState, bool printingFlag)
         throw GPIO_Exception("Error in the 'DigitalWrite' method");
       }
       if (printingFlag == true)
-      {
         std::cout << "Setting the pin value as: " << "LOW" << std::endl;
-      }
       break;
   }   
   return 1;
@@ -249,7 +245,6 @@ STATE GPIO::DigitalRead()
 // Destructor
 GPIO::~GPIO() 
 {
-  if (this->mode == OUTPUT)
-    this->DigitalWrite(LOW);
+  if (this->mode == OUTPUT) this->DigitalWrite(LOW);
 }
 

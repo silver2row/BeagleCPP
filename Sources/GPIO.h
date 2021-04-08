@@ -2,6 +2,7 @@
 #define GPIO_H
 
 #include <string>
+#include <thread>
 #include <map>
 
 #include "RAINBOWCOLORS.h"
@@ -30,7 +31,7 @@ class GPIO : public SYSFILEACCESS
     MODE mode;          /* The GPIO mode e.g. OUTPUT / INPUT*/
     std::string name;   /* The name of the GPIO e.g. gpio44 */
     std::string path;   /* The full path to the GPIO e.g. /sys/class/gpio/gpio44 */
-    
+
     /* Map to store the BeagleBone Black pin`s kernel number with its header name */
     std::map <int, std::string> blackPinIdMap; 
 
