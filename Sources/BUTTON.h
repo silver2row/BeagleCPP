@@ -13,7 +13,7 @@
     (): the arguments of the function, in this case void
   Stores the address of a function 
 */
-using callbackType = int (*)();
+using callback = int (*)();
 
 /* The numeric value for EDGE: e.g. 0/1/2 for RISING/FALLING/BOTH */
 enum EDGE {
@@ -24,7 +24,14 @@ enum EDGE {
 
 class BUTTON : protected GPIO
 {
+  private:
+  // Method to handle the event due to the press on the button
+  void EventDetectionFunction(EDGE, callback);
+
   public:
+    // Default constructor
+    BUTTON();
+
     // Overload constructor
     BUTTON(GPIO_ID);
 
@@ -32,10 +39,10 @@ class BUTTON : protected GPIO
     virtual STATE ReadButton();
 
     // Method to wait for a press on a button with default RISING EDGE
-    virtual bool WaitForButton(EDGE edge = RISING);
+    virtual bool WaitForEdge(EDGE edge = RISING);
 
     // Method to execute an user function like an interruption
-    virtual int WhenButtonWillBePressed(callbackType);
+    virtual int AddEventDetection(EDGE edge, callback);
 
     // Destructor
     ~BUTTON();
