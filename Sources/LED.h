@@ -21,6 +21,9 @@ class LED: protected GPIO
     void MakeHeartBeat(int, int);
 
   public:
+    // Default constructor
+    LED ();
+
     // Overload constructor
     LED (GPIO_ID);
 

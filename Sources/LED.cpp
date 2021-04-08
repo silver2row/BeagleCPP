@@ -4,6 +4,9 @@
 
 #include "LED.h"
 
+// Default constructor
+LED::LED() {}
+
 // Overload constructor
 LED::LED(GPIO_ID newId) : GPIO(newId, OUTPUT) 
 {
@@ -121,18 +124,18 @@ void LED::StopFlash ()
 /*
   Public method to make a digital heart beat on the pin 
   @param int: The desired time On of the pulse in milliseconds
-  @param int: The desired ratio between the pulses and the pause in the pattern
+  @param int: The desired time Off of the pulse in milliseconds
 */
-void LED::HeartBeat(int timeOn, int ratio)
+void LED::HeartBeat(int timeOn, int timeOff)
 {
   std::string message 
   {
     "Heart beat has been activated with a time ON of: "
     + std::to_string(timeOn) + "ms on pin: " + std::to_string(id)
-    + " with a ratio pulse/pause of: " + std::to_string(ratio)
+    + " with a time OFF of: " + std::to_string(timeOff)
   };
   std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl;
-  heartBeatThread = std::thread(&LED::MakeHeartBeat, this, timeOn, ratio);
+  heartBeatThread = std::thread(&LED::MakeHeartBeat, this, timeOn, timeOff);
 }
 
 /*
