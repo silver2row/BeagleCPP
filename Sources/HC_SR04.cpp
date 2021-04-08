@@ -1,70 +1,43 @@
 #include <iostream>
-#include <ctime> // function time()
+#include <chrono> // chrono::milliseconds()
+// #include <ctime> // function time()
 
 #include "HC_SR04.h"
 
 // Overload Constructor
-HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) :
+HC_SR04::HC_SR04(GPIO newTriggerPin, GPI newEchoPin) :
         triggerPin(newTriggerPin), echoPin(newEchoPin)
-{
-  // Set the right modes for the pins
-  triggerPin.SetMode(OUTPUT);
-  echoPin.SetMode(OUTPUT);
-
-  soundSpeed = 343.0 * 100 / 1000000; // Units in cm/us
+{ 
+  soundSpeed = 343.0 * 100 / 1000000; // Units in cm/ms
   timeTravel = 0.0;
   distanceCm = 0.0;
 
-  std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") 
-            << std::endl;
-
-  std::cout << "trigger id: " << triggerPin.GetPinHeaderId() << std::endl;
-  std::cout << "echo id: " << echoPin.GetPinKernelId() << std::endl;
+  std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") << std::endl;
 }
 
-void HC_SR04::test()
+void HC_SR04::PulseIn()
 {
-  for (size_t i = 0; i < 5; i++)
-  {
-    triggerPin.DigitalWrite(HIGH);
-    triggerPin.Delayms(1000);
-    triggerPin.DigitalWrite(LOW);
-    triggerPin.Delayus(1000000);
-    echoPin.DigitalWrite(HIGH);
-    echoPin.Delayms(1000);
-    echoPin.DigitalWrite(LOW);
-    echoPin.Delayms(1000);
-  }
-}
 
-double HC_SR04::PulseIn()
-{
-  // Wait for a HIGH state on the echo pin
-  while (echoPin.DigitalRead() == LOW);
-  time_t startTime = time(0);
+/*   auto endTime = std::chrono::steady_clock::now();
+  std::cout << "Wave has been detected\n";
 
-  while (echoPin.DigitalRead() == HIGH);
-  time_t endTime = time(0);
+  std::chrono::duration<double> elapsedTime = (endTime-startTime).count();
 
-  return difftime(endTime, startTime);
+  std::cout << "duration: " << duration_cast<std::chrono::microseconds>(elapsedTime).count() << std::endl; */
 }
 
 double HC_SR04::measureDistanceCm()
 {
-  // Clean the trigger pin
-  triggerPin.DigitalWrite(LOW);
-  triggerPin.Delayus(2);
-
-  // Send the pulse and keep it for at least 10 us in HIGH state
+  // Send the pulse and keep it for at least 5ms in HIGH state
   triggerPin.DigitalWrite(HIGH);
-  triggerPin.Delayus(2);
+  Delayms(5);
+
   triggerPin.DigitalWrite(LOW);
+  std::cout << "Trigger pin was activated\n";
 
-  // A delay for avoiding false readings (sonic burst)
-  echoPin.Delayus(40);
+  auto startTime = std::chrono::steady_clock::now();
 
-  // Calculate the pulse's time travel when bounce an object
-  timeTravel = PulseIn();
+  Delayms(1000);
 
   return soundSpeed * timeTravel / 2.0; 
 }
