@@ -26,13 +26,13 @@ int main()
   cout << endl << "The program is waiting for a press on a PULL DOWN Button" << endl;
   cout << "Please, press the button!" << endl;
 
-  redButtonPin.WaitForButton(RISING);
+  redButtonPin.WaitForEdge(RISING);
   cout <<"The red button was pressed one time!!!" << endl;
 
   cout << endl << "Now, The program is waiting for a press on a PULL UP Button" << endl;
   cout << "Please, press the button!" << endl;
 
-  yellowButtonPin.WaitForButton(FALLING);
+  yellowButtonPin.WaitForEdge(FALLING);
   cout <<"The yellow button was pressed one time!!!" << endl;
   
   message = "Main program finishes here...";

@@ -10,16 +10,11 @@ from two buttons
 Classes: BUTTON / LED
 ******************************************************************************/
 #include <iostream>
-#include <chrono>
 
 #include "../../Sources/BUTTON.h"
 #include "../../Sources/LED.h"
 
 using namespace std;
-
-void delayms(int millisecondsToSleep) {
-   this_thread::sleep_for(chrono::milliseconds(millisecondsToSleep));
-}
 
 // Global BUTTON pins declaration
 BUTTON redButtonPin(P8_08);
@@ -32,40 +27,28 @@ LED greenLedPin(P8_16);
 LED blueLedPin(P8_18);
 LED whiteLedPin(P8_26);
 
-int UserCallBackFunction_RedButton() 
+int RedButtonFunction() 
 {
   string message;
   message = "Callback function for the red button has been activated!"; 
   cout << RainbowText(message, "Red", "Bold") << endl;
-
-  bool isButtonPushed = false;
-  isButtonPushed = redButtonPin.WaitForButton(RISING);
   
-  if (isButtonPushed == true) 
-  {
-    message = "The red button was pressed -> turning the red Led On!!!";
-    cout << RainbowText(message, "Red") << endl;
-    redLedPin.TurnOn();
-  }
-
+  message = "The red button was pressed -> turning the red Led On!!!";
+  cout << RainbowText(message, "Red") << endl;
+  redLedPin.TurnOn();
+  
   return 0;   
 }
 
-int UserCallBackFunction_YellowButton()
+int YellowButtonFunction()
 {
   string message;
   message = "Callback function for the yellow button has been activated"; 
   cout << RainbowText(message, "Yellow", "Bold") << endl;
 
-  bool isButtonPushed = false;
-  isButtonPushed = yellowButtonPin.WaitForButton(FALLING);
-  
-  if (isButtonPushed == true) 
-  {
-    message = "The yellow button was pressed -> turning the yellow Led On!!!";
-    cout << RainbowText(message, "Yellow") << endl;
-    yellowLedPin.TurnOn();
-  }
+  message = "The yellow button was pressed -> turning the yellow Led On!!!";
+  cout << RainbowText(message, "Yellow") << endl;
+  yellowLedPin.TurnOn();
 
   return 0;   
 }
@@ -77,9 +60,9 @@ int main()
 
   cout <<"Activating blinking, flashing and heartbeat on different Leds" << endl;
 
-  greenLedPin.Blink(100);
-  blueLedPin.Flash(100,200);
-  whiteLedPin.HeartBeat(100,10);
+  greenLedPin.Blink(1000);
+  blueLedPin.Flash(100,1000);
+  whiteLedPin.HeartBeat(100,1000);
 
   message = "The program is timing for ";
   cout << RainbowText(message, "Yellow");
@@ -88,9 +71,9 @@ int main()
   message = " and is pending if a press on any button occurs";
   cout << RainbowText(message, "Yellow") << endl;
 
-  redButtonPin.WhenButtonWillBePressed(&UserCallBackFunction_RedButton);
-  yellowButtonPin.WhenButtonWillBePressed(&UserCallBackFunction_YellowButton);
-  delayms(10000);
+  redButtonPin.AddEventDetection(RISING, &RedButtonFunction);
+  yellowButtonPin.AddEventDetection(FALLING, &YellowButtonFunction);
+  Delayms(10000);
 
   // Stop the processes on the Buttons and Leds
   greenLedPin.StopBlink();
