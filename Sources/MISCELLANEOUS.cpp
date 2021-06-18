@@ -11,8 +11,7 @@ using namespace std::chrono;
   Function to do a delay in milliseconds
   @param int: duration of the delay
 */
-void Delayms(int millisecondsToSleep) 
-{
+void Delayms(int millisecondsToSleep) {
   std::this_thread::sleep_for(milliseconds(millisecondsToSleep));
 }
 
@@ -20,20 +19,16 @@ void Delayms(int millisecondsToSleep)
   Function to do a delay in microseconds
   @param int: duration of the delay
 */
-void Delayus(int microsecondsToSleep) 
-{
+void Delayus(int microsecondsToSleep) {
   std::this_thread::sleep_for(microseconds(microsecondsToSleep));
 }
-
-
 
 /*  
   Returns the number of milliseconds passed since 
   the Beagle board began running the current program
   @return unsigned long: the elapse time
 */
-unsigned long Millis()
-{
+unsigned long Millis() {
   // Retrieve the  Unix Time (UTC), Thursday, 1 January 1970.
   time_point<system_clock> UTCTime = time_point<system_clock>{};
 
@@ -50,8 +45,7 @@ unsigned long Millis()
   the Beagle board began running the current program
   @return unsigned long: the elapse time
 */
-unsigned long Micros()
-{
+unsigned long Micros() {
   // Retrieve the  Unix Time (UTC), Thursday, 1 January 1970.
   time_point<system_clock> UTCTime = time_point<system_clock>{};
 

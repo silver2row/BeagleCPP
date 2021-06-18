@@ -34,7 +34,7 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, std::string 
   {
     file << value;
     file.close();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     return 1; 
   } 
   else 
@@ -59,7 +59,7 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, int value)
   {
     file << value;
     file.close();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     return 1;
   } 
   else
@@ -85,7 +85,7 @@ std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature)
     std::string value;
     getline(file,value);
     file.close();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     return value;
   } 
   else
@@ -111,7 +111,7 @@ int SYSFILEACCESS::ReadFile(std::string path)
     std::string value;
     getline(file,value);
     file.close();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     return std::stoi(value);
   } 
   else

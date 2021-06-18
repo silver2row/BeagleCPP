@@ -22,10 +22,10 @@ int main()
   LED ledPinWhite(P8_26);
 
   cout << "Start a flashing on a blue led" << endl;
-  ledPinBlue.Flash(50,500);
+  ledPinBlue.Flash(100,400);
 
   cout << "Start a flashing on a white led" << endl;
-  ledPinWhite.Flash(100, 1000);
+  ledPinWhite.Flash(50, 200);
 
   char userInput = '\0';
   while (userInput != 'y')
@@ -35,8 +35,8 @@ int main()
     cin >> userInput;
     if (userInput == 'y') 
     {
-        ledPinBlue.StopFlash();
-        ledPinWhite.StopFlash();
+      ledPinBlue.StopFlash();
+      ledPinWhite.StopFlash();
     }
   }
     

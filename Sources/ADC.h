@@ -4,9 +4,7 @@
 #include <string>
 #include <thread>
 
-#include "RAINBOWCOLORS.h"
 #include "SYSFILEACCESS.h"
-#include "MISCELLANEOUS.h"
 
 /* 
   Declare a type for a function pointer
@@ -21,16 +19,7 @@ using callbackType = int (*)();
 
 const std::string ADC_PATH = "/sys/bus/iio/devices/iio:device0/";
 
-/* The pwm class internal number of the pin*/
-enum ADC_ID {
-  P9_39 = 0,
-  P9_40 = 1, 
-  P9_37 = 2,
-  P9_38 = 3,
-  P9_33 = 4,
-  P9_36 = 5,
-  P9_35 = 6,
-};
+
 
 class ADC : public SYSFILEACCESS
 {

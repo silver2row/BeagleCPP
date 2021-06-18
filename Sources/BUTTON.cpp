@@ -85,7 +85,9 @@ void BUTTON::EventDetectionFunction(EDGE newEdge, callback callbackFunction)
 {
   while (true)
   {
-    this->WaitForEdge(newEdge);
+    //this->WaitForEdge(newEdge);
+    while (this->DigitalRead() != HIGH);
+    while (this->DigitalRead() != LOW);
     std::thread CallbackFunctionThread(callbackFunction);
     CallbackFunctionThread.detach();
   }

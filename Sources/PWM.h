@@ -4,9 +4,7 @@
 #include <string>
 #include <thread>
 
-#include "RAINBOWCOLORS.h"
 #include "SYSFILEACCESS.h"
-#include "MISCELLANEOUS.h"
 
 /* 
   Declare a type for a function pointer
@@ -23,16 +21,6 @@ const std::string PWM_PATH ("/sys/devices/platform/ocp/");
 const std::string EHRPWM0_PATH = "48300000.epwmss/48300200.pwm/pwm/";
 const std::string EHRPWM1_PATH = "48302000.epwmss/48302200.pwm/pwm/";
 const std::string EHRPWM2_PATH = "48304000.epwmss/48304200.pwm/pwm/";
-
-/* The pwm internal class number of the pin*/
-enum PWM_ID {
-  P8_13 = 0,
-  P8_19 = 1,
-  P9_14 = 2,
-  P9_16 = 3,
-  P9_21 = 4,
-  P9_22 = 5, 
-};
 
 class PWM : public SYSFILEACCESS
 {
