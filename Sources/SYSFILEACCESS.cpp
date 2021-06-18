@@ -13,8 +13,7 @@ class SYSFILEACCESS_Exception : public std::exception
     std::string reason;
   public:
     SYSFILEACCESS_Exception (const char* why) : reason (why) {};
-    virtual const char* what()
-    {
+    virtual const char* what() {
       return reason.c_str();
     }
 };
@@ -30,15 +29,12 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, std::string 
 {
   std::string fileName = path + feature;
   std::ofstream file(fileName, std::ios_base::out);
-  if (file.is_open())
-  {
+  if (file.is_open()) {
     file << value;
     file.close();
-    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     return 1; 
   } 
-  else 
-  {
+  else {
     perror(("Error while opening file: " + fileName).c_str());
     return -1;
   }
@@ -51,19 +47,15 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, std::string 
   @param int value: The value to be written to in the file
   @return int: 1 written has succeeded
 */
-int SYSFILEACCESS::WriteFile(std::string path, std::string feature, int value) 
-{
+int SYSFILEACCESS::WriteFile(std::string path, std::string feature, int value) {
   std::string fileName = path + feature;
   std::ofstream file(fileName, std::ios_base::out);
-  if (file.is_open())
-  {
+  if (file.is_open()) {
     file << value;
     file.close();
-    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     return 1;
   } 
-  else
-  {
+  else {
     perror(("Error while opening file: " + fileName).c_str());
     return -1;
   } 
@@ -75,21 +67,17 @@ int SYSFILEACCESS::WriteFile(std::string path, std::string feature, int value)
   @param String feature: The file to be read to in that path
   @return string: The read value / "-1" if there was an error
 */
-std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature) 
-{
+std::string SYSFILEACCESS::ReadFile(std::string path, std::string feature) {
   std::string fileName;
   fileName = path + feature;
   std::ifstream file(fileName, std::ios_base::in);
-  if (file.is_open())
-  {
+  if (file.is_open()) {
     std::string value;
     getline(file,value);
     file.close();
-    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     return value;
   } 
-  else
-  {
+  else {
     perror(("Error while opening file: " + fileName).c_str());
     return "-1";
   }
@@ -106,16 +94,13 @@ int SYSFILEACCESS::ReadFile(std::string path)
   std::string fileName;
   fileName = path;
   std::ifstream file(fileName, std::ios_base::in);
-  if (file.is_open())
-  {
+  if (file.is_open()) {
     std::string value;
     getline(file,value);
     file.close();
-    // std::this_thread::sleep_for(std::chrono::milliseconds(10));
     return std::stoi(value);
   } 
-  else
-  {
+  else {
     perror(("Error while opening file: " + fileName).c_str());
     return -1;
   }
