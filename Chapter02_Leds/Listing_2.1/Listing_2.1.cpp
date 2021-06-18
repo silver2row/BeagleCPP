@@ -13,8 +13,7 @@ Class: LED
 
 using namespace std;
 
-int main()
-{
+int main() {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
@@ -28,19 +27,16 @@ int main()
   ledPinYellow.Blink(100);
 
   char userInput = '\0';
-  while (userInput != 'y') 
-  {
+  while (userInput != 'y') {
     message = "Do you want to stop blinking? Enter 'y' for yes: ";
     cout << RainbowText(message, "Violet");
     cin >> userInput;
-    if (userInput == 'y') 
-    {
+    if (userInput == 'y') {
       ledPinRed.StopBlink();
       ledPinYellow.StopBlink();
     }
   }
     
-
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
   return 0;
