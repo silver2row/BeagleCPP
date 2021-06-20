@@ -45,7 +45,7 @@ void LED::Toggle() {
 void LED::Blink(int duration) {
   std::string message {
     "Blinking has been activated with duration of: "
-    + std::to_string(duration) + "ms on pin: " + std::to_string(id)
+    + std::to_string(duration) + "ms on pin: " + this->GetPinHeaderId()
   };
   std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl; 
   blinkThread = std::thread(&LED::MakeBlink, this, duration);
@@ -74,13 +74,13 @@ void LED::StopBlink () {
 /*
   Public method to make a flash on the pin 
   @param int: The desired time ON in milliseconds
-  @param int: The desired time OFF in milliseconds
+  @param int: The desired period in milliseconds
 */
 void LED::Flash(int timeOn, int period) {
   std::string message {
     "Flashing has been activated with a time ON of: "
     + std::to_string(timeOn) + "ms on a period of: " 
-    + std::to_string(period) + "ms on pin: " + std::to_string(id)
+    + std::to_string(period) + "ms on pin: " + this->GetPinHeaderId()
   };
   std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl;
   flashThread = std::thread(&LED::MakeFlash, this, timeOn, period);
@@ -117,7 +117,7 @@ void LED::HeartBeat(int timeOn, int period)
   std::string message {
     "Heart beat has been activated with a time ON of: "
     + std::to_string(timeOn) + " on a period of: " 
-    + std::to_string(period) + "ms on pin: " + std::to_string(id)
+    + std::to_string(period) + "ms on pin: " + this->GetPinHeaderId()
   };
   std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl;
   heartBeatThread = std::thread(&LED::MakeHeartBeat, this, timeOn, period);
@@ -126,7 +126,7 @@ void LED::HeartBeat(int timeOn, int period)
 /*
    Private method that contains the routine to do the digital heart beat 
    @param int: The desired time On of the pulse in milliseconds
-   @param int: The desired time Off between the pulses in milliseconds
+   @param int: The desired period in milliseconds
 */
 void LED::MakeHeartBeat(int timeOn, int period)
 {
@@ -137,7 +137,7 @@ void LED::MakeHeartBeat(int timeOn, int period)
       this->DigitalWrite(LOW);
       Delayms(timeOn);
     }
-    Delayms(period - timeOn);
+    Delayms(period - 4 * timeOn);
   }
 }
 
