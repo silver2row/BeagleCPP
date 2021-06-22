@@ -2,25 +2,25 @@
 #define HC_SR04_H
 
 #include "GPIO.h"
-#include "GPI.h"
 
-class HC_SR04 : public GPIO, public GPI
+class HC_SR04 : public GPIO 
 {
 private:
   GPIO triggerPin;
-  GPI echoPin;
+  GPIO echoPin;
   double soundSpeed;
   double timeTravel;
-  double distanceCm;
+
+  // Initialize the GPIO pin with the data provided by the constructor
+  void InitSensor();
 
 public:
+  double distanceCm;
 
   // Overload constructor
-  HC_SR04(GPIO, GPI);
+  HC_SR04(GPIO, GPIO);
 
-  void PulseIn(); 
-
-  double measureDistanceCm();
+  int MeasureDistanceCm();
 
   // Destructor
   ~HC_SR04();

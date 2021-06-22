@@ -1,5 +1,5 @@
 /******************************************************************************
-Listing_5.5.cpp
+HC_SR04_1.1.cpp
 @wgaonar
 22/06/2021
 https://github.com/wgaonar/BeagleCPP
