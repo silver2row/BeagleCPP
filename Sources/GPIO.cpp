@@ -52,8 +52,7 @@ void GPIO::InitGPIOPin()
             << std::endl;
   
   // Repeat two times to ensure the pin's folder was created
-  for (size_t i = 0; i < 2; i++)
-  {
+  for (size_t i = 0; i < 2; i++) {
     UnexportGPIO();
     ExportGPIO();
   }

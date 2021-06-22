@@ -32,9 +32,9 @@ STATE BUTTON::ReadButton()
                 RISING option is the default 
   @return bool: true if an edge was detected, false if not.
 */
-bool BUTTON::WaitForEdge(EDGE edge)
+bool BUTTON::WaitForEdge(EDGE newEdge)
 {
-  switch (edge)
+  switch (newEdge)
   {
     case RISING:
       WriteFile(path, "edge", "rising");
@@ -68,8 +68,7 @@ bool BUTTON::WaitForEdge(EDGE edge)
   @param callbackType: user function pointer to execute
   @return int: 1 the user callback function was called
 */
-int BUTTON::AddEventDetection(EDGE newEdge, callback callbackFunction)
-{
+int BUTTON::AddEventDetection(EDGE newEdge, callback callbackFunction) {
   std::thread AddEventDetectionThread(&BUTTON::EventDetectionFunction, this, newEdge, callbackFunction);
   AddEventDetectionThread.detach();
 
@@ -81,8 +80,7 @@ int BUTTON::AddEventDetection(EDGE newEdge, callback callbackFunction)
   @param EDGE: The edge type to be detected
   @param callbackType: user function pointer to execute
 */
-void BUTTON::EventDetectionFunction(EDGE newEdge, callback callbackFunction)
-{
+void BUTTON::EventDetectionFunction(EDGE newEdge, callback callbackFunction) {
   while (true)
   {
     //this->WaitForEdge(newEdge);
