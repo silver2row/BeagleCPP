@@ -9,14 +9,12 @@
 
 #include "PWM.h"
 
-class PWM_Exception : public std::exception 
-{
+class PWM_Exception : public std::exception {
   private:
     std::string reason;
   public:
     PWM_Exception (const char* why) : reason (why) {};
-    virtual const char* what() 
-    {
+    virtual const char* what() {
       return reason.c_str();
     }
 };
@@ -25,8 +23,7 @@ class PWM_Exception : public std::exception
 PWM::PWM() {}
 
 // Overload constructor with the pin's id
-PWM::PWM(PWM_ID newPWMPin)
-{
+PWM::PWM(PWM_ID newPWMPin) {
   id = newPWMPin;
   period = 500000;
   InitPWMPin();
@@ -35,11 +32,11 @@ PWM::PWM(PWM_ID newPWMPin)
         << RainbowText("ns was a success!", "Pink") << std::endl; 
 }
 
-// Overload constructor 
-PWM::PWM(PWM_ID pwmPin, int newPeriod)
-{
+// Overload constructor with pin's id and period
+PWM::PWM(PWM_ID pwmPin, int newPeriod) {
   id = pwmPin;
-  period = newPeriod;
+  if (newPeriod > 0)
+    period = newPeriod;
   InitPWMPin();
   std::cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
         << RainbowText(std::to_string(GetPeriod()), "Pink") 
@@ -135,8 +132,7 @@ int PWM::GetPeriod()
    Public method to get the period 
    @return int: The pin's duty cycle
 */
-int PWM::GetDutyCycle()
-{
+int PWM::GetDutyCycle() {
   return dutyCycle;
 }
 
@@ -149,8 +145,7 @@ int PWM::GetDutyCycle()
 int PWM::SetPeriod(int newPeriod)
 {
   period = newPeriod;
-  if (WriteFile(path, "period", period) != 1)
-  {
+  if (WriteFile(path, "period", period) != 1) {
     perror("Error setting the PWM period for the pin");
     throw PWM_Exception("Error in the 'SetPeriod' method");
   }
@@ -163,8 +158,7 @@ int PWM::SetPeriod(int newPeriod)
    @param int: The desired duty cycle in pertentage: 0-100
    @return  int: 1 set duty cycle has succeeded / throw an exception if not
 */
-int PWM::SetDutyCycle(int newDutyCycle)
-{
+int PWM::SetDutyCycle(int newDutyCycle) {
   if (newDutyCycle >= 0 && newDutyCycle <= 100)
     dutyCycle = static_cast<int>(newDutyCycle / 100.0 * period);
   else if (newDutyCycle < 0)
@@ -172,8 +166,7 @@ int PWM::SetDutyCycle(int newDutyCycle)
   else
     dutyCycle = 100;
   
-  if (WriteFile(path, "duty_cycle", dutyCycle) != 1)
-  {
+  if (WriteFile(path, "duty_cycle", dutyCycle) != 1) {
     perror("Error setting the PWM duty cycle for the pin");
     throw PWM_Exception("Error in WritePWMDutyCycle method");
   }
@@ -186,8 +179,7 @@ int PWM::SetDutyCycle(int newDutyCycle)
   @param callbackType: user function pointer to execute 
   @return int: 1 the user function was called      
 */
-int PWM::DoUserFunction (callbackType callbackFunction)
-{
+int PWM::DoUserFunction (callbackType callbackFunction) {
   std::string message = "'UserFunction' method has been activated!";
   std::cout << RainbowText(message, "Orange") << std::endl;
 

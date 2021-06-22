@@ -14,8 +14,7 @@ Class: BUTTON
 
 using namespace std;
 
-int main()
-{
+int main() {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   

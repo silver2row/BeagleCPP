@@ -30,8 +30,7 @@ int main()
   adcPin.ReadVoltage(adcVoltageOut, intervalTime, true);
   
   char userInput = '\0';
-  while (userInput != 'y')
-  {
+  while (userInput != 'y') {
     message = "Do you want to stop the readings on the pin? Enter 'y' for yes:";
     cout << RainbowText(message, "Blue") << endl;
     cin >> userInput;

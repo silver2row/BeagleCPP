@@ -49,11 +49,9 @@ ADC::ADC(int adcPin)
   Protected method to get the ADC value on pin 
   @return int: The pin's value between 0 - 4095
 */
-int ADC::GetADC()
-{
+int ADC::GetADC() {
   adcValue = ReadFile(path);
-  if ( adcValue == -1)
-  {
+  if ( adcValue == -1) {
     perror("Error trying to read the ADC on the pin");
     throw ADC_Exception("Error in the 'ReadADC' method");
   }
@@ -65,8 +63,7 @@ int ADC::GetADC()
    Public method to get the ADC value on pin 
    @return int: The pin's value between 0 - 4095
 */
-void ADC::ReadADC(int &adcValueOut)
-{
+void ADC::ReadADC(int &adcValueOut) {
   adcValueOut = GetADC();
 }
 
@@ -75,8 +72,7 @@ void ADC::ReadADC(int &adcValueOut)
   @param int: Reference output for the ADC value between 0 - 4095
   @param int: The time interval between each sample
 */
-void ADC::ReadADC(int &adcValueOut, int timeInterval)
-{
+void ADC::ReadADC(int &adcValueOut, int timeInterval) {
   ReadADC(adcValueOut);
   Delayms(timeInterval);
 }
@@ -86,10 +82,8 @@ void ADC::ReadADC(int &adcValueOut, int timeInterval)
   @param int: Reference output for the ADC value between 0 - 4095
   @param int: The time interval between each sample
 */
-void ADC::ReadADC(int &adcValueOut, int timeInterval, bool runInBackground)
-{
-  if (runInBackground == true)
-  {
+void ADC::ReadADC(int &adcValueOut, int timeInterval, bool runInBackground) {
+  if (runInBackground == true) {
     std::string message = "Read ADC input has been activated";
     cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
     ReadADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval);
@@ -100,10 +94,8 @@ void ADC::ReadADC(int &adcValueOut, int timeInterval, bool runInBackground)
   Private method that contains the routine to make the ADC read 
   @param int: A reference variable to store The pin's value between 0 - 4095
 */
-void ADC::MakeReadADC(int &adcValueOut, int timeInterval)
-{
-  while (stopReadADCFlag == false)
-  {
+void ADC::MakeReadADC(int &adcValueOut, int timeInterval) {
+  while (stopReadADCFlag == false) {
     ReadADC(adcValueOut);
     std::string message = "ADC value on pin " + idMap[id] + ": " + to_string(adcValueOut);
     cout << RainbowText(message, "Violet") << endl;
@@ -144,8 +136,7 @@ void ADC::ReadVoltage(float &voltageOut, int timeInterval)
   @param float: Reference output for the ADC value between 0 - 1.8
   @param int: The time interval between each sample
 */
-void ADC::ReadVoltage(float &voltageOut, int timeInterval, bool runInBackground)
-{
+void ADC::ReadVoltage(float &voltageOut, int timeInterval, bool runInBackground) {
   std::string  message = "Read voltage in a thread has been activated";
   cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
   ReadVoltageThread = std::thread(&ADC::MakeReadVoltage, this, std::ref(voltageOut),timeInterval);
@@ -155,10 +146,8 @@ void ADC::ReadVoltage(float &voltageOut, int timeInterval, bool runInBackground)
   Private method that contains the routine to make the ADC read 
   @param int: A reference variable to store The pin's value between 0 - 4095
 */
-void ADC::MakeReadVoltage(float &voltageOut, int timeInterval)
-{
-  while (stopReadVoltageFlag == false)
-  {
+void ADC::MakeReadVoltage(float &voltageOut, int timeInterval) {
+  while (stopReadVoltageFlag == false) {
     ReadVoltage(voltageOut);
     std::string message = "Voltage on pin " + idMap[id] + ": " + to_string(voltageOut);
     cout << RainbowText(message, "Violet") << endl;
@@ -169,8 +158,7 @@ void ADC::MakeReadVoltage(float &voltageOut, int timeInterval)
 /*
   Public method to stop reading the voltage 
 */
-void ADC::StopReadVoltage()
-{
+void ADC::StopReadVoltage() {
   stopReadVoltageFlag = true;
 }
 
@@ -180,8 +168,7 @@ void ADC::StopReadVoltage()
   @return int: 1 the user function was called      
 */
 
-int ADC::DoUserFunction (callbackType callbackFunction)
-{
+int ADC::DoUserFunction (callbackType callbackFunction) {
   std::string message = "'UserFunction' method has been activated!";
   cout << RainbowText(message, "Violet", "Default", "Bold") << endl;
 
@@ -191,8 +178,7 @@ int ADC::DoUserFunction (callbackType callbackFunction)
 }
 
 // Destructor
-ADC::~ADC() 
-{
+ADC::~ADC() {
   if (ReadADCThread.joinable()) ReadADCThread.join();
   if (ReadVoltageThread.joinable()) ReadVoltageThread.join();
 

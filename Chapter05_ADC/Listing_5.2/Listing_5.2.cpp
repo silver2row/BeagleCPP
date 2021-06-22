@@ -21,10 +21,8 @@ bool stopAnalogRead = false;
 int adcValueOut = 0;
 float adcVoltageOut = 0.0;
 
-int AnalogRead()
-{
-  while (stopAnalogRead == false)
-  {
+int AnalogRead() {
+  while (stopAnalogRead == false) {
     adcPin.ReadADC(adcValueOut);
     cout << "ADC value on pin: " << adcValueOut << " / ";
     adcPin.ReadVoltage(adcVoltageOut);
@@ -44,8 +42,7 @@ int main()
   adcPin.DoUserFunction(&AnalogRead);
 
   char userInput = '\0';
-  while (userInput != 'y')
-  {
+  while (userInput != 'y') {
     message = "Do you want to stop the readings on the pin? Enter 'y' for yes: ";
     cout << RainbowText(message, "Blue")  << endl;
     cin >> userInput;

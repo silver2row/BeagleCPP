@@ -18,16 +18,13 @@ using namespace std;
 // Global pin declaration
 BUTTON redButtonPin(P8_08);
 
-int UserCallBackFunction_ButtonRed() 
-{
-  cout << "Hello, I am a USER defined callback function!" << endl; 
+int UserCallBackFunction_ButtonRed() {
+  cout << "Hello, I am a USER defined callback function!\n"; 
   cout << "The red button was pressed!!!" << endl;
-    
   return 0;   
 }
 
-int main()
-{
+int main() {
   string message = "Main function starting here...";
   cout << endl << RainbowText(message,"Blue", "White", "Bold") << endl;
   
@@ -35,7 +32,10 @@ int main()
         << " if a press on a button occurs" << endl;
 
   redButtonPin.AddEventDetection(RISING, &UserCallBackFunction_ButtonRed);
-  Delayms(5000);
+  for (int i = 0; i < 5; i++) {
+    cout << 5-i << endl;
+    Delayms(1000);
+  }
 
   message = "Main function ends here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl << endl;
