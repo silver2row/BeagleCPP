@@ -10,31 +10,29 @@ using namespace std;
 
 // Declaring the pins and the HC_SR04 object
 GPIO triggerPin(P9_15, OUTPUT);
-GPIO echoPin(P9_17,INPUT);
+GPIO echoPin(P9_17, INPUT);
 
-double DistanceMeasurement()
-{
+double DistanceMeasurement() {
   triggerPin.DigitalWrite(HIGH);
-  this_thread::sleep_for(chrono::milliseconds(500));
+  Delayms(5);
   triggerPin.DigitalWrite(LOW);
 
-  const chrono::time_point<std::chrono::steady_clock> initialTime = chrono::steady_clock::now();
-  auto startTime = chrono::steady_clock::now();
-  auto endTime = chrono::steady_clock::now();
+  // const chrono::time_point<std::chrono::steady_clock> is the explit declare time objects
+  auto pulseStart = chrono::steady_clock::now();
+  auto pulseEnd = chrono::steady_clock::now();
 
-  while (echoPin.DigitalRead() == LOW){
-    startTime = std::chrono::steady_clock::now();
-    //cout << "in echoPin LOW: " << chrono::duration_cast<std::chrono::microseconds>(startTime - initialTime).count() << "µs\n";
+  while (echoPin.DigitalRead() == LOW) {
+    pulseStart = std::chrono::steady_clock::now();
+    //cout << "in echoPin LOW: " << chrono::duration_cast<std::chrono::microseconds>(pulseEnd - pulseStart).count() << "µs\n";
   }
     
-  
-  while (echoPin.DigitalRead() == HIGH){
-    endTime = chrono::steady_clock::now();
-    //cout << "in echoPin HIGH: " << chrono::duration_cast<std::chrono::microseconds>(endTime - initialTime).count() << "µs\n";
+  while (echoPin.DigitalRead() == HIGH) {
+    pulseEnd = chrono::steady_clock::now();
+    //cout << "in echoPin LOW: " << chrono::duration_cast<std::chrono::microseconds>(pulseEnd - pulseStart).count() << "µs\n";
   }
   
-  chrono::duration<double> pulseDuration = (endTime-startTime);
-  double distance = pulseDuration.count() * 34300 / 2;
+  chrono::duration<double> pulseDuration = (pulseEnd-pulseStart);
+  double distance = pulseDuration.count() * 17150;
   return distance;
 }
 
@@ -42,13 +40,14 @@ int main() {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
-  while (true) {
-    triggerPin.DigitalWrite(HIGH);
-    Delayus(250);
-    triggerPin.DigitalWrite(LOW);
-    Delayus(250);
+  // Security before start the readings
+  triggerPin.DigitalWrite(LOW);
+  Delayms(500);
 
-    // double distance = DistanceMeasurement();
+  for (size_t i = 0; i < 10; i++) {
+    double distance = DistanceMeasurement();
+    cout << "Distance reading: " << i << " = " << distance << "cm\n";
+    Delayms(1000);
   }
   
   message = "Main program finishes here...";
