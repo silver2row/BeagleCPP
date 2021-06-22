@@ -1,7 +1,17 @@
+/******************************************************************************
+Listing_5.5.cpp
+@wgaonar
+22/06/2021
+https://github.com/wgaonar/BeagleCPP
+
+Make and show 20 distance readings each second
+
+Class: HC_SR04
+******************************************************************************/
+
 #include <iostream>
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::milliseconds
-#include <unistd.h>       // usleep()
 
 #include "../../Sources/GPIO.h"
 #include "../../Sources/BUTTON.h"
@@ -17,18 +27,16 @@ double DistanceMeasurement() {
   Delayms(5);
   triggerPin.DigitalWrite(LOW);
 
-  // const chrono::time_point<std::chrono::steady_clock> is the explit declare time objects
+  // chrono::time_point<std::chrono::steady_clock> is the explit sentences to declare time objects
   auto pulseStart = chrono::steady_clock::now();
   auto pulseEnd = chrono::steady_clock::now();
 
   while (echoPin.DigitalRead() == LOW) {
-    pulseStart = std::chrono::steady_clock::now();
-    //cout << "in echoPin LOW: " << chrono::duration_cast<std::chrono::microseconds>(pulseEnd - pulseStart).count() << "µs\n";
+    pulseStart = chrono::steady_clock::now();
   }
     
   while (echoPin.DigitalRead() == HIGH) {
     pulseEnd = chrono::steady_clock::now();
-    //cout << "in echoPin LOW: " << chrono::duration_cast<std::chrono::microseconds>(pulseEnd - pulseStart).count() << "µs\n";
   }
   
   chrono::duration<double> pulseDuration = (pulseEnd-pulseStart);
@@ -44,7 +52,7 @@ int main() {
   triggerPin.DigitalWrite(LOW);
   Delayms(500);
 
-  for (size_t i = 0; i < 10; i++) {
+  for (size_t i = 0; i < 20; i++) {
     double distance = DistanceMeasurement();
     cout << "Distance reading: " << i << " = " << distance << "cm\n";
     Delayms(1000);
