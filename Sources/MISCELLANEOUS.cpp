@@ -62,8 +62,7 @@ unsigned long Micros() {
   the Beagle board began running the current program
   @return unsigned long: the elapse time
 */
-unsigned long Nanos()
-{
+unsigned long Nanos() {
   // Retrieve the  Unix Time (UTC), Thursday, 1 January 1970.
   time_point<system_clock> UTCTime = time_point<system_clock>{};
 

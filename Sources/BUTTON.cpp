@@ -32,10 +32,8 @@ STATE BUTTON::ReadButton()
                 RISING option is the default 
   @return bool: true if an edge was detected, false if not.
 */
-bool BUTTON::WaitForEdge(EDGE newEdge)
-{
-  switch (newEdge)
-  {
+bool BUTTON::WaitForEdge(EDGE newEdge) {
+  switch (newEdge) {
     case RISING:
       WriteFile(path, "edge", "rising");
       while (this->DigitalRead() != LOW);

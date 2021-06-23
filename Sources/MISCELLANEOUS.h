@@ -15,7 +15,7 @@ unsigned long Millis();
 // Count the actual running time in microseconds
 unsigned long Micros();
 
-// Count the actual running time in microseconds
+// Count the actual running time in nanoseconds
 unsigned long Nanos();
 
 #endif // MISCELLANEOUS_H
