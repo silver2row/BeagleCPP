@@ -4,7 +4,7 @@ HC_SR04_1.1.cpp
 22/06/2021
 https://github.com/wgaonar/BeagleCPP
 
-Make and show 20 distance readings each second
+Make and show 20 distance readings each half second
 
 Class: HC_SR04
 ******************************************************************************/
@@ -14,22 +14,22 @@ Class: HC_SR04
 #include <chrono>         // std::chrono::milliseconds
 
 #include "../../../Sources/GPIO.h"
-#include "../../../Sources/BUTTON.h"
 #include "../../../Sources/HC_SR04.h"
 
 using namespace std;
 
 // Declaring the pins and the HC_SR04 object
-HC_SR04 Sensor1 (P9_15, P9_17);
+HC_SR04 distanceSensor (P9_15, P9_17);
 
 int main() {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
+  double distance = 0.0;
   for (size_t i = 0; i < 20; i++) {
-    Sensor1.MeasureDistanceCm();
-    cout << "Distance reading: " << i << " = " << Sensor1.distanceCm << "cm\n";
-    Delayms(1000);
+    distance = distanceSensor.MeasureDistanceCm();
+    cout << "Distance reading: " << i << " = " << distance << "cm\n";
+    Delayms(500);
   }
   
   message = "Main program finishes here...";

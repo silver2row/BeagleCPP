@@ -3,12 +3,19 @@
 
 #include "HC_SR04.h"
 
-// Overload Constructor
+// Overload Constructor with trigger and echo pins
 HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) :
         triggerPin(newTriggerPin), echoPin(newEchoPin) { 
   soundSpeed = 343.0 * 100; // Units in cm/s
-  timeTravel = 0.0;
-  distanceCm = 0.0;
+
+  InitSensor();
+  std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") << std::endl;
+}
+
+// Overload Constructor with temperature for sound speed correction 
+HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin, double temperature) :
+        triggerPin(newTriggerPin), echoPin(newEchoPin) { 
+  this->soundSpeed = 33130 + 60.6 * temperature; // Units in cm/s and ºC
 
   InitSensor();
   std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") << std::endl;
@@ -24,13 +31,11 @@ void HC_SR04::InitSensor() {
   triggerPin.DigitalWrite(LOW);
   Delayms(500);
 }
-
-int HC_SR04::MeasureDistanceCm() {
-  // Send the pulse and keep it for at least 5ms in HIGH state
-  triggerPin.DigitalWrite(HIGH);
-  Delayms(5);
-  triggerPin.DigitalWrite(LOW);
-
+/*
+  Private method to count the pulse duration
+  @return double: The duration of pulse in seconds
+*/
+double HC_SR04::PulseDuration() {
   auto pulseStart = std::chrono::steady_clock::now();
   auto pulseEnd = std::chrono::steady_clock::now();
 
@@ -42,11 +47,29 @@ int HC_SR04::MeasureDistanceCm() {
     pulseEnd = std::chrono::steady_clock::now();
   }
   
-  std::chrono::duration<double> pulseDuration = (pulseEnd-pulseStart);
-  this->distanceCm = pulseDuration.count() * soundSpeed / 2.0;
-  return 1; 
+  std::chrono::duration<double> duration = (pulseEnd-pulseStart);
+  return duration.count();
 }
 
-HC_SR04::~HC_SR04()
-{
+/*
+  Public method to calculate the distance
+  @return double: the measured distance in cm
+*/
+double HC_SR04::MeasureDistanceCm() {
+  // Send the pulse and keep it for at least 5ms in HIGH state
+  triggerPin.DigitalWrite(HIGH);
+  Delayms(5);
+  triggerPin.DigitalWrite(LOW);
+
+  double distanceCm = this->PulseDuration() * soundSpeed / 2.0;
+  
+  if (distanceCm == 0 || distanceCm > 400) {
+    return -1.0;
+  }
+  else { 
+    return distanceCm;
+  } 
 }
+
+// Destructor
+HC_SR04::~HC_SR04() {}

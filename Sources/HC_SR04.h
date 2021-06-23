@@ -9,18 +9,23 @@ private:
   GPIO triggerPin;
   GPIO echoPin;
   double soundSpeed;
-  double timeTravel;
 
   // Initialize the GPIO pin with the data provided by the constructor
   void InitSensor();
 
-public:
-  double distanceCm;
+  // Private method to count the pulse duration
+  double PulseDuration();
 
-  // Overload constructor
+public:
+
+  // Overload constructor with trigger and echo pins
   HC_SR04(GPIO, GPIO);
 
-  int MeasureDistanceCm();
+  // Overload constructor with temperature for sound speed correction
+  HC_SR04 (GPIO, GPIO, double); 
+
+  // Public method to calculate the distance
+  double MeasureDistanceCm();
 
   // Destructor
   ~HC_SR04();

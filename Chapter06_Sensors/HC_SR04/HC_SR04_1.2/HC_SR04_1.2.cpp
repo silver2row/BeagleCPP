@@ -10,28 +10,37 @@ Class: HC_SR04
 ******************************************************************************/
 
 #include <iostream>
-#include <thread>         // std::this_thread::sleep_for
-#include <chrono>         // std::chrono::milliseconds
 
 #include "../../../Sources/GPIO.h"
-#include "../../../Sources/BUTTON.h"
 #include "../../../Sources/HC_SR04.h"
 
 using namespace std;
 
+GPIO triggerPin(P9_15);
+GPIO echoPin(P9_17);
+
 // Declaring the pins and the HC_SR04 object
-HC_SR04 Sensor1 (P9_15, P9_17);
+HC_SR04 distanceSensor (triggerPin, echoPin);
 
 int main() {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
-  for (size_t i = 0; i < 20; i++) {
-    Sensor1.MeasureDistanceCm();
-    cout << "Distance reading: " << i << " = " << Sensor1.distanceCm << "cm\n";
-    Delayms(1000);
+  double distance = distanceSensor.MeasureDistanceCm();
+  int count = 0;
+  while (true) {
+    cout << "Distance reading: " << count << " = " << distance << "cm\n";
+    count++;
+    Delayms(250);
+    if (distance <= 5) {
+      cout << "Too close! Exiting...\n";
+      break;
+    }
+    else {
+      distance = distanceSensor.MeasureDistanceCm();
+    }
   }
-  
+
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
 
