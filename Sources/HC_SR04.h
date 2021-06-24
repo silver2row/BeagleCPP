@@ -9,6 +9,7 @@ private:
   GPIO triggerPin;
   GPIO echoPin;
   double soundSpeed;
+  double offset;
 
   // Initialize the GPIO pin with the data provided by the constructor
   void InitSensor();
@@ -22,10 +23,13 @@ public:
   HC_SR04(GPIO, GPIO);
 
   // Overload constructor with temperature for sound speed correction
-  HC_SR04 (GPIO, GPIO, double); 
+  HC_SR04 (GPIO, GPIO, double, double); 
 
-  // Public method to calculate the distance
+  // Public method to get and calculate the distance
   double MeasureDistanceCm();
+
+  // Public method to get, calculate and filter the distance
+  double MeasureDistanceCmWithMedian(int);
 
   // Destructor
   ~HC_SR04();
