@@ -4,7 +4,8 @@ HC_SR04_1.2.cpp
 22/06/2021
 https://github.com/wgaonar/BeagleCPP
 
-Uses a Median filter for the sensor readings 
+Uses a Median filter for the sensor readings, if detected distance 
+is less than 5cm the program finishes 
 
 Class: HC_SR04
 ******************************************************************************/
