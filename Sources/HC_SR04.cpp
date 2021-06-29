@@ -11,7 +11,13 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) :
   offset = 0.0;
   soundSpeed = 343.0 * 100; // Units in cm/s
   InitSensor();
-  std::cout << RainbowText("\nHC-SR04: Sensor object with trigger and echo pins was created\n", "Violet");
+
+  std::string message;
+  message = "\nHC-SR04: Sensor object with trigger pin: " +
+            this->triggerPin.GetPinHeaderId() + " / echo pin: " +
+            this->echoPin.GetPinHeaderId() + 
+            " was created\n";
+  std::cout << RainbowText(message, "Violet");
 }
 
 // Overload Constructor with offset and temperature for correction 
@@ -21,7 +27,13 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin, double newOffset, double t
   this->offset = newOffset; 
   this->soundSpeed = 33130 + 60.6 * temperature; // Units in cm/s and ºC
   InitSensor();
-  std::cout << RainbowText("\nHC-SR04: Sensor object with trigger and echo pins was created\n", "Violet");
+
+  std::string message;
+  message = "\nHC-SR04: Sensor object with trigger pin: " +
+            this->triggerPin.GetPinHeaderId() + " / echo pin: " +
+            this->echoPin.GetPinHeaderId() + 
+            " was created\n";
+  std::cout << RainbowText(message, "Violet");
 }
 
 // Private method to initialize the Pins
