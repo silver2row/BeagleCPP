@@ -16,7 +16,7 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) :
   message = "\nHC-SR04: Sensor object with trigger pin: " +
             this->triggerPin.GetPinHeaderId() + " / echo pin: " +
             this->echoPin.GetPinHeaderId() + 
-            " was created\n";
+            " was created!\n";
   std::cout << RainbowText(message, "Violet");
 }
 
@@ -32,7 +32,7 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin, double newOffset, double t
   message = "\nHC-SR04: Sensor object with trigger pin: " +
             this->triggerPin.GetPinHeaderId() + " / echo pin: " +
             this->echoPin.GetPinHeaderId() + 
-            " was created\n";
+            " was created!\n";
   std::cout << RainbowText(message, "Violet");
 }
 
