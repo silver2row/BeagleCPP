@@ -6,24 +6,27 @@
 
 // Overload Constructor with trigger and echo pins
 HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) :
-        triggerPin(newTriggerPin), echoPin(newEchoPin) { 
+        triggerPin(newTriggerPin), echoPin(newEchoPin) 
+{ 
   offset = 0.0;
   soundSpeed = 343.0 * 100; // Units in cm/s
   InitSensor();
-  std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") << std::endl;
+  std::cout << RainbowText("\nHC-SR04: Sensor object with trigger and echo pins was created\n", "Violet");
 }
 
 // Overload Constructor with offset and temperature for correction 
 HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin, double newOffset, double temperature) :
-        triggerPin(newTriggerPin), echoPin(newEchoPin) {
+        triggerPin(newTriggerPin), echoPin(newEchoPin) 
+{
   this->offset = newOffset; 
   this->soundSpeed = 33130 + 60.6 * temperature; // Units in cm/s and ºC
   InitSensor();
-  std::cout << RainbowText("HC-SR04: Trigger and Echo pins created", "Light Green") << std::endl;
+  std::cout << RainbowText("\nHC-SR04: Sensor object with trigger and echo pins was created\n", "Violet");
 }
 
 // Private method to initialize the Pins
-void HC_SR04::InitSensor() {
+void HC_SR04::InitSensor() 
+{
   // Set the right modes for the pins
   triggerPin.SetMode(OUTPUT);
   echoPin.SetMode(INPUT);
@@ -36,7 +39,8 @@ void HC_SR04::InitSensor() {
   Private method to count the pulse duration
   @return double: The duration of pulse in seconds
 */
-double HC_SR04::PulseDuration() {
+double HC_SR04::PulseDuration() 
+{
   auto pulseStart = std::chrono::steady_clock::now();
   auto pulseEnd = std::chrono::steady_clock::now();
 
@@ -54,7 +58,8 @@ double HC_SR04::PulseDuration() {
   Public method to calculate and get the distance
   @return double: the measured distance in cm
 */
-double HC_SR04::MeasureDistanceCm() {
+double HC_SR04::MeasureDistanceCm() 
+{
   // Send the pulse and keep it for at least 5ms in HIGH state
   triggerPin.DigitalWrite(HIGH);
   Delayms(5);
@@ -75,8 +80,8 @@ double HC_SR04::MeasureDistanceCm() {
   @param int: the window size
   @return double: the measured distance in cm
 */
-double HC_SR04::MeasureDistanceCmWithMedian(int windowSize) {
-  
+double HC_SR04::MeasureDistanceCmWithMedian(int windowSize)
+{
   // Check for unreasonable window sizes values
   if (windowSize < 3)
     windowSize = 3;

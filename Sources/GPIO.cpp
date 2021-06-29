@@ -46,8 +46,7 @@ void GPIO::InitGPIOPin()
   InitPinIdMap();
   name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
-  std::cout << std::endl
-            << RainbowText("Trying to set the GPIO pin: ","Green") 
+  std::cout << RainbowText("\nTrying to set the GPIO pin: ","Green") 
             << RainbowText(blackPinIdMap.at(id), "Green", "Default", "Bold") 
             << std::endl;
   
@@ -56,8 +55,7 @@ void GPIO::InitGPIOPin()
     UnexportGPIO();
     ExportGPIO();
   }
-  std::cout << RainbowText("The GPIO pin's system folder was created!", "Green") 
-            << std::endl;
+  std::cout << RainbowText("The GPIO pin's system folder was created!\n", "Green");
 }
 
 // Public method to initialize the Map of GPIO pin with its name
@@ -111,28 +109,27 @@ std::string GPIO::GetPinHeaderId() {
   @param int: The desired mode 0/1 for OUTPUT/INPUT
   @return int: 1 set Mode has succeeded / throw an exception if not
 */
-int GPIO::SetMode(MODE newMode) 
-{
+int GPIO::SetMode(MODE newMode) {
   mode = newMode;
   std::string message;
   switch (mode) 
   {
     case OUTPUT:
-      if (WriteFile(path, "direction", "out") != 1)
+      if (WriteFile(path, "direction", "out") != 1) 
       {
         perror("Error trying to set the direction OUT on the pin");
         throw GPIO_Exception("Error in the 'SetMode' method");
       }
-      message = "Set direction for " + blackPinIdMap.at(id) + " pin as DIGITAL OUTPUT";
+      message = "\nSet direction for " + blackPinIdMap.at(id) + " pin as DIGITAL OUTPUT";
       std::cout << RainbowText(message, "Gray") << std::endl;
       break;
     case INPUT:
-      if (WriteFile(path, "direction", "in") != 1)
+      if (WriteFile(path, "direction", "in") != 1) 
       {
         perror("Error trying to set the direction IN on the pin");
         throw GPIO_Exception("Error in the 'SetMode' method");
       }
-      message = "Set direction for " + blackPinIdMap.at(id) + " pin as DIGITAL INPUT";
+      message = "\nSet direction for " + blackPinIdMap.at(id) + " pin as DIGITAL INPUT";
       std::cout << RainbowText(message, "Gray") << std::endl;
       break;   
   }

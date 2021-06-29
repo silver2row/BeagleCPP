@@ -29,7 +29,7 @@ public:
   double MeasureDistanceCm();
 
   // Public method to get, calculate and filter the distance
-  double MeasureDistanceCmWithMedian(int);
+  double MeasureDistanceCmWithMedian(int windowSize = 5);
 
   // Destructor
   ~HC_SR04();

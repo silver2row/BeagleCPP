@@ -1,7 +1,7 @@
 /******************************************************************************
 HC_SR04_1.2.cpp
 @wgaonar
-22/06/2021
+28/06/2021
 https://github.com/wgaonar/BeagleCPP
 
 Uses a Median filter for the sensor readings, if detected distance 
@@ -18,33 +18,34 @@ Class: HC_SR04
 
 using namespace std;
 
+// Declaring the pins
 GPIO triggerPin(P9_15);
 GPIO echoPin(P9_17);
 
-// Declaring the pins and the HC_SR04 object
+// Declaring the HC_SR04 object
 HC_SR04 distanceSensor (triggerPin, echoPin);
 
 
 int main() {
-  string message = "Main program starting here...";
+  string message = "\nMain program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   double distance = distanceSensor.MeasureDistanceCmWithMedian(7);
   int count = 0;
-  while (true) {
+  while (true) 
+  {
     cout << "Distance reading: " << count << " = " << distance << "cm\n";
     count++;
     Delayms(250);
-    if (distance <= 5) {
+    if (distance <= 5) 
+    {
       cout << "Too close! Exiting...\n";
       break;
     }
-    else {
-      distance = distanceSensor.MeasureDistanceCmWithMedian(7);
-    }
+    else distance = distanceSensor.MeasureDistanceCmWithMedian(7);
   }
 
-  message = "Main program finishes here...";
+  message = "\nMain program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
 
   return 0;
