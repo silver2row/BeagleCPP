@@ -11,7 +11,7 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin) :
         triggerPin(newTriggerPin), echoPin(newEchoPin) 
 { 
   offset = 0.0;
-  soundSpeed = 343.0 * 100; // Units in cm/s
+  soundSpeed = 34300.0; // Units in cm/s
   InitSensor();
 
   std::string message;
