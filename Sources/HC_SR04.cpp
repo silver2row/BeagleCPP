@@ -43,7 +43,7 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin, double newOffset, double t
   std::cout << RainbowText(streamSoundSpeed.str(), "Violet") << std::endl;
   
   std::stringstream streamOffset;
-  std::cout << RainbowText("The offset that will be used is: ","Violet");
+  std::cout << RainbowText("The distance offset that will be used is: ","Violet");
   streamOffset << std::fixed << std::setprecision(2) << this->offset;
   std::cout << RainbowText(streamOffset.str(), "Violet") << std::endl; 
 }
