@@ -1,7 +1,7 @@
 /******************************************************************************
 HC_SR04_1.3.cpp
 @wgaonar
-24/06/2021
+29/06/2021
 https://github.com/wgaonar/BeagleCPP
 
 Uses a Median filter for each one of the 10 sensor readings each second. 
