@@ -1,5 +1,7 @@
 #include <iostream>
 #include <chrono> // chrono::milliseconds()
+#include <sstream> //stringstream
+#include <iomanip> //setprecision()
 #include <list>
 
 #include "HC_SR04.h"
@@ -34,6 +36,16 @@ HC_SR04::HC_SR04(GPIO newTriggerPin, GPIO newEchoPin, double newOffset, double t
             this->echoPin.GetPinHeaderId() + 
             " was created!\n";
   std::cout << RainbowText(message, "Violet");
+  
+  std::stringstream streamSoundSpeed;
+  std::cout << RainbowText("The sound speed that will be used is: ", "Violet");
+  streamSoundSpeed << std::fixed << std::setprecision(2) << this->soundSpeed;
+  std::cout << RainbowText(streamSoundSpeed.str(), "Violet") << std::endl;
+  
+  std::stringstream streamOffset;
+  std::cout << RainbowText("The offset that will be used is: ","Violet");
+  streamOffset << std::fixed << std::setprecision(2) << this->offset;
+  std::cout << RainbowText(streamOffset.str(), "Violet") << std::endl; 
 }
 
 // Private method to initialize the Pins
