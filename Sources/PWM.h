@@ -51,6 +51,9 @@ class PWM : public SYSFILEACCESS
     // Initialize the PWM pin with the data provided by the constructor
     void InitPWMPin();
 
+    // Accessor method to get the header pin's name
+    virtual std::string GetPinHeaderId();
+
     // Interface method to get the period
     virtual int GetPeriod();
 
