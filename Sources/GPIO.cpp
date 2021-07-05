@@ -46,8 +46,8 @@ void GPIO::InitGPIOPin()
   InitPinIdMap();
   name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
-  std::cout << RainbowText("\nTrying to set the GPIO pin: ","Green") 
-            << RainbowText(blackPinIdMap.at(id), "Green", "Default", "Bold") 
+  std::cout << RainbowText("Trying to set the GPIO pin: ","Green") 
+            << RainbowText(this->GetPinHeaderId(), "Green", "Default", "Bold") 
             << std::endl;
   
   // Repeat two times to ensure the pin's folder was created
@@ -55,7 +55,7 @@ void GPIO::InitGPIOPin()
     UnexportGPIO();
     ExportGPIO();
   }
-  std::cout << RainbowText("The GPIO pin's system folder was created!\n", "Green");
+  std::cout << RainbowText("The GPIO pin's system folder was created!\n\n", "Green");
 }
 
 // Public method to initialize the Map of GPIO pin with its name
@@ -120,8 +120,8 @@ int GPIO::SetMode(MODE newMode) {
         perror("Error trying to set the direction OUT on the pin");
         throw GPIO_Exception("Error in the 'SetMode' method");
       }
-      message = "\nSet direction for " + blackPinIdMap.at(id) + " pin as DIGITAL OUTPUT";
-      std::cout << RainbowText(message, "Gray") << std::endl;
+      message = "Set direction for " + this->GetPinHeaderId() + " pin as DIGITAL OUTPUT\n";
+      std::cout << RainbowText(message, "Gray");
       break;
     case INPUT:
       if (WriteFile(path, "direction", "in") != 1) 
@@ -129,8 +129,8 @@ int GPIO::SetMode(MODE newMode) {
         perror("Error trying to set the direction IN on the pin");
         throw GPIO_Exception("Error in the 'SetMode' method");
       }
-      message = "\nSet direction for " + blackPinIdMap.at(id) + " pin as DIGITAL INPUT";
-      std::cout << RainbowText(message, "Gray") << std::endl;
+      message = "Set direction for " + this->GetPinHeaderId() + " pin as DIGITAL INPUT\n";
+      std::cout << RainbowText(message, "Gray");
       break;   
   }
   return 1;

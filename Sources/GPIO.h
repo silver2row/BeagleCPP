@@ -55,7 +55,7 @@ class GPIO : public SYSFILEACCESS
     int GetPinKernelId();
 
     // Accessor method to get the header pin's name
-    std::string GetPinHeaderId();
+    virtual std::string GetPinHeaderId();
 
     // Mutator method to set the pin's mode
     int SetMode(MODE);
