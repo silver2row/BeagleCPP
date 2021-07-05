@@ -26,10 +26,13 @@ PWM::PWM() {}
 PWM::PWM(PWM_ID newPWMPin) {
   id = newPWMPin;
   period = 500000;
+
   InitPWMPin();
+
+  std::cout << "\033[F"; // Move the cursor one line up
   std::cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
         << RainbowText("500000", "Pink") 
-        << RainbowText("ns was a success!", "Pink") << std::endl; 
+        << RainbowText("ns was a success!\n\n", "Pink"); 
 }
 
 // Overload constructor with pin's id and period
@@ -37,10 +40,17 @@ PWM::PWM(PWM_ID pwmPin, int newPeriod) {
   id = pwmPin;
   if (newPeriod > 0)
     period = newPeriod;
+  else if (newPeriod < 0)
+    period = -1 * newPeriod;
+  else
+    period = 500000;
+
   InitPWMPin();
+
+  std::cout << "\033[F"; // Move the cursor one line up
   std::cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
-        << RainbowText(std::to_string(GetPeriod()), "Pink") 
-        << RainbowText("ns was a success!", "Pink") << std::endl; 
+        << RainbowText(std::to_string(this->GetPeriod()), "Pink") 
+        << RainbowText("ns was a success!\n\n", "Pink"); 
 }
 
 // Public method to initialize the PWM pin
@@ -78,11 +88,15 @@ void PWM::InitPWMPin()
   }
   path = PWM_PATH + name;
 
-  std::cout  << RainbowText("Trying to enable the PWM pin: ","Pink") 
-        << RainbowText(idMap[id], "Pink", "Default", "Bold") << std::endl;
-  std::string commandString = "config-pin " + idMap[id] + " pwm";
+  std::string message;
+  message = "Trying to enable the PWM pin: " + 
+            this->GetPinHeaderId() + "\n" + "\033[F";
+  std::cout << RainbowText(message, "Pink");
+
+  std::string commandString = "config-pin " + this->GetPinHeaderId() + " pwm";
   const char* command = commandString.c_str();
   system(command);
+  
   SetPeriod(period);
   Enable();
 }
@@ -117,6 +131,14 @@ int PWM::Disable()
   }
   else 
     return 1;
+}
+
+/*
+  Public method to get the pin's header name
+  @return std::string: The pin's header name, e.g. "P8_08"
+*/
+std::string PWM::GetPinHeaderId() {
+  return idMap[id];
 }
 
 /*

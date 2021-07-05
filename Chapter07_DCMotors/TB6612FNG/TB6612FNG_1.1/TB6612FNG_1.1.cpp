@@ -1,3 +1,14 @@
+/******************************************************************************
+TB6612FNG_1.1.cpp
+@wgaonar
+02/07/2021
+https://github.com/wgaonar/BeagleCPP
+
+- Move the motor each second increasing the speed 10% each time and then reversing it.
+- Move the motor in the other direction increasing the speed 10% and then reversing it.
+
+Class: HC_SR04
+******************************************************************************/
 #include <iostream>
 #include "../../../Sources/TB6612FNG.h"
 
