@@ -6,8 +6,8 @@
 TB6612FNG::TB6612FNG (GPIO newInput1Pin, 
                       GPIO newInput2Pin,
                       PWM newPWMPin, 
-                      bool newSwapSpin, 
-                      GPIO newStandByPin) :
+                      GPIO newStandByPin,
+                      bool newSwapSpin) : 
                       input1Pin(newInput1Pin), 
                       input2Pin(newInput2Pin),
                       pwmPin(newPWMPin), 
@@ -22,12 +22,11 @@ TB6612FNG::TB6612FNG (GPIO newInput1Pin,
   InitTB6612FNGPins();
 
   std::string message;
-  message  = "\nTB6612FNG object with the next parameters / pins:\n" +
+  message  = "\nTB6612FNG object with the next parameters / pins was created:\n" +
             std::string("\tIN1: ") + this->input1Pin.GetPinHeaderId() + "\n" + 
             std::string("\tIN2: ") + this->input2Pin.GetPinHeaderId() + "\n" + 
             std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n" +
-            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n" +
-            "was created!\n\n";
+            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n";
   std::cout << RainbowText(message, "Light Red");
 }
 
@@ -45,11 +44,10 @@ TB6612FNG::TB6612FNG (GPIO newInput1Pin,
   InitTB6612FNGPins();
 
   std::string message;
-  message = "\nTB6612FNG object with the next parameters / pins:\n" +
+  message = "\nTB6612FNG object with the next parameters / pins was created:\n" +
             std::string("\tIN1: ") + this->input1Pin.GetPinHeaderId() + "\n" + 
             std::string("\tIN2: ") + this->input2Pin.GetPinHeaderId() + "\n" + 
-            std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n" +
-            "was created!\n\n";
+            std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n\n";
   std::cout << RainbowText(message, "Light Red");
 }
 
@@ -119,8 +117,8 @@ void TB6612FNG::SetStopMode()
 */
 void TB6612FNG::SetStandByMode()
 {
-  if (standByMode == true)
-    standByPin.DigitalWrite(LOW);
+  // if (standByMode == true)
+  //  standByPin.DigitalWrite(LOW);
 }
 
 /*
@@ -214,14 +212,13 @@ void TB6612FNG::MakeDriveThread(int speed, int duration)
   Delayms(duration);
 }
 
-
 TB6612FNG::~TB6612FNG() 
 {
   SetSpeed(0);
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
-  if (standByMode == true)
-    standByPin.DigitalWrite(LOW);
+  //if (standByMode == true)
+  //  standByPin.DigitalWrite(LOW);
 
   for (std::thread & th : vectorDriveThreads)
   {
@@ -230,6 +227,11 @@ TB6612FNG::~TB6612FNG()
   }
 }
 
+/******************************************************************************
+PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
+******************************************************************************/
+
+// Functions to drive a robot with a couple of motors attached
 /*
   Function to drive FORWARD a robot with a couple of motors
   @param TB6612FNG: The left motor of the robot

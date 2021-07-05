@@ -12,8 +12,8 @@ class TB6612FNG : public GPIO, public PWM
 private:
   GPIO input1Pin;
   GPIO input2Pin;
-  GPIO standByPin;
   PWM pwmPin;
+  GPIO standByPin;
   bool standByMode;
   bool swapSpin;
   int swapSpinMotor;
@@ -33,7 +33,7 @@ private:
 public:
 
   // Overload constructor WITH standby pin
-  TB6612FNG(GPIO, GPIO, PWM, bool, GPIO);
+  TB6612FNG(GPIO, GPIO, PWM, GPIO, bool);
   
   // Overload constructor WITHOUT standby pin
   TB6612FNG(GPIO, GPIO, PWM, bool);
@@ -68,6 +68,10 @@ public:
   // Destructor
   ~TB6612FNG();
 };
+
+/******************************************************************************
+PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
+******************************************************************************/
 
 // Functions to drive a robot with a couple of motors attached
 void Forward (TB6612FNG, TB6612FNG, int);
