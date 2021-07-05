@@ -30,9 +30,9 @@ PWM::PWM(PWM_ID newPWMPin) {
   InitPWMPin();
 
   std::cout << "\033[F"; // Move the cursor one line up
-  std::cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
-        << RainbowText("500000", "Pink") 
-        << RainbowText("ns was a success!\n\n", "Pink"); 
+  std::cout << RainbowText("Setting the PWM pin with a period of ", "Pink")
+            << RainbowText("500000", "Pink") 
+            << RainbowText("ns was a success!\n\n", "Pink"); 
 }
 
 // Overload constructor with pin's id and period
@@ -48,9 +48,9 @@ PWM::PWM(PWM_ID pwmPin, int newPeriod) {
   InitPWMPin();
 
   std::cout << "\033[F"; // Move the cursor one line up
-  std::cout  << RainbowText("Setting the PWM pin with a period of ", "Pink")
-        << RainbowText(std::to_string(this->GetPeriod()), "Pink") 
-        << RainbowText("ns was a success!\n\n", "Pink"); 
+  std::cout << RainbowText("Setting the PWM pin with a period of ", "Pink")
+            << RainbowText(std::to_string(this->GetPeriod()), "Pink") 
+            << RainbowText("ns was a success!\n\n", "Pink"); 
 }
 
 // Public method to initialize the PWM pin
@@ -90,7 +90,7 @@ void PWM::InitPWMPin()
 
   std::string message;
   message = "Trying to enable the PWM pin: " + 
-            this->GetPinHeaderId() + "\n" + "\033[F";
+            this->GetPinHeaderId() + "\n";
   std::cout << RainbowText(message, "Pink");
 
   std::string commandString = "config-pin " + this->GetPinHeaderId() + " pwm";
