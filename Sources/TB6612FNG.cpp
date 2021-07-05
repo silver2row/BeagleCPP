@@ -2,37 +2,64 @@
 
 #include "TB6612FNG.h"
 
-// Overload Constructor WITHOUT standby pin
-TB6612FNG::TB6612FNG (GPIO newInput1Pin, GPIO newInput2Pin,
-  PWM newPWMPin, bool newSwapSpin) :
-  input1Pin(newInput1Pin), input2Pin(newInput2Pin),
-  pwmPin(newPWMPin), swapSpin(newSwapSpin)
+// Overload Constructor WITH standby pin
+TB6612FNG::TB6612FNG (GPIO newInput1Pin, 
+                      GPIO newInput2Pin,
+                      PWM newPWMPin, 
+                      bool newSwapSpin, 
+                      GPIO newStandByPin) :
+                      input1Pin(newInput1Pin), 
+                      input2Pin(newInput2Pin),
+                      pwmPin(newPWMPin), 
+                      swapSpin(newSwapSpin), 
+                      standByPin(newStandByPin)
 {
-  InitTB6612Pins();
-  std::cout << RainbowText("TB6612FNG was created!", "Light Red") << std::endl;
+  standByMode = true;
+  // Avoid standby mode in the module
+  standByPin.SetMode(OUTPUT);
+  standByPin.DigitalWrite(HIGH);
+
+  InitTB6612FNGPins();
+
+  std::string message;
+  message  = "\nTB6612FNG object with the next parameters / pins:\n" +
+            std::string("\tIN1: ") + this->input1Pin.GetPinHeaderId() + "\n" + 
+            std::string("\tIN2: ") + this->input2Pin.GetPinHeaderId() + "\n" + 
+            std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n" +
+            "was created!\n\n";
+  std::cout << RainbowText(message, "Light Red");
 }
 
-// Overload Constructor WITH standby pin
-TB6612FNG::TB6612FNG (GPIO newInput1Pin, GPIO newInput2Pin,
-  PWM newPWMPin, bool newSwapSpin, GPIO newStandByPin) :
-  input1Pin(newInput1Pin), input2Pin(newInput2Pin),
-  pwmPin(newPWMPin), swapSpin(newSwapSpin), standByPin(newStandByPin)
+// Overload Constructor WITHOUT standby pin
+TB6612FNG::TB6612FNG (GPIO newInput1Pin, 
+                      GPIO newInput2Pin,
+                      PWM newPWMPin, 
+                      bool newSwapSpin) :
+                      input1Pin(newInput1Pin), 
+                      input2Pin(newInput2Pin),
+                      pwmPin(newPWMPin), 
+                      swapSpin(newSwapSpin)
 {
-  standByPin.SetMode(OUTPUT);
-  InitTB6612Pins();
-  std::cout << RainbowText("TB6612FNG was created!", "Light Red") << std::endl;
+  standByMode = false;
+  InitTB6612FNGPins();
+
+  std::string message;
+  message = "\nTB6612FNG object with the next parameters / pins:\n" +
+            std::string("\tIN1: ") + this->input1Pin.GetPinHeaderId() + "\n" + 
+            std::string("\tIN2: ") + this->input2Pin.GetPinHeaderId() + "\n" + 
+            std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n" +
+            "was created!\n\n";
+  std::cout << RainbowText(message, "Light Red");
 }
 
 // Public method to initialize the Pins
-void TB6612FNG::InitTB6612Pins()
+void TB6612FNG::InitTB6612FNGPins()
 {
   // Set the right modes for the pins
   input1Pin.SetMode(OUTPUT);
   input2Pin.SetMode(OUTPUT);
  
-  // Avoid set standby mode in the motor
-  standByPin.DigitalWrite(HIGH);
-
   // Set a integer variable to signal a change in the direction of motor rotation  
   if (swapSpin == true)
     swapSpinMotor = -1;
@@ -59,36 +86,6 @@ void TB6612FNG::SetCCWMode()
 }
 
 /*
-  Private method to do a SHORT BRAKE on the motor    
-*/
-void TB6612FNG::ShortBrakeMode()
-{
-  input1Pin.DigitalWrite(HIGH);
-  input2Pin.DigitalWrite(HIGH);
-  SetSpeed(0);
-  standByPin.DigitalWrite(HIGH);
-}
-
-/*
-  Private method to set the STOP mode in the  motor    
-*/
-void TB6612FNG::StopMode()
-{
-  input1Pin.DigitalWrite(LOW);
-  input2Pin.DigitalWrite(LOW);
-  SetSpeed(maxSpeed);
-  standByPin.DigitalWrite(HIGH);
-}
-
-/*
-  Private method to set the STANDBY mode in the  motor    
-*/
-void TB6612FNG::StandByMode()
-{
-  standByPin.DigitalWrite(LOW);
-}
-
-/*
   Public method to set the speed rotation
   @param int: the desired speed (-100,100)     
 */
@@ -98,21 +95,47 @@ void TB6612FNG::SetSpeed(int speed)
 }
 
 /*
+  Public method to do a SHORT BRAKE on the motor    
+*/
+void TB6612FNG::SetShortBrakeMode()
+{
+  input1Pin.DigitalWrite(HIGH);
+  input2Pin.DigitalWrite(HIGH);
+  SetSpeed(0);
+}
+
+/*
+  Public method to set the STOP mode in the  motor    
+*/
+void TB6612FNG::SetStopMode()
+{
+  input1Pin.DigitalWrite(LOW);
+  input2Pin.DigitalWrite(LOW);
+  SetSpeed(maxSpeed);
+}
+
+/*
+  Public method to set the STANDBY mode in the  motor    
+*/
+void TB6612FNG::SetStandByMode()
+{
+  if (standByMode == true)
+    standByPin.DigitalWrite(LOW);
+}
+
+/*
   Public method to drive the motor
   @param int: the desired speed (-100,100)     
 */
 void TB6612FNG::Drive(int speed)
 {
-  // Avoid the StandBy Mode
-  standByPin.DigitalWrite(HIGH);
-
   // If it is desired, swap the turning direction 
   speed *= swapSpinMotor;
 
   // Verify and limit the speed
   if (speed >= maxSpeed)
     speed = maxSpeed;
-  else if (speed <= -maxSpeed)
+  if (speed <= -maxSpeed)
     speed = -maxSpeed;
 
   // Select and set the correct turn direction
@@ -121,14 +144,14 @@ void TB6612FNG::Drive(int speed)
   {
     message = "Turning motor CW with speed: ";
     std::cout << RainbowText(message, "Light Red", "Default", "Bold") 
-              << speed << std::endl;
+              << speed << "%\n";
     SetCWMode();
   }
   else
   {
     message = "Turning motor CCW with speed: ";
     std::cout << RainbowText(message, "Light Red", "Default", "Bold") 
-              << speed << std::endl;
+              << speed << "%\n";
     SetCCWMode();
     speed *= -1;
   }
@@ -166,7 +189,7 @@ void TB6612FNG::Drive(int speed, int duration, bool stopMotor)
   Delayms(duration);
   
   if (stopMotor == true)
-    Brake();
+    this->SetStopMode();
 }
 
 /*
@@ -191,35 +214,19 @@ void TB6612FNG::MakeDriveThread(int speed, int duration)
   Delayms(duration);
 }
 
-/*
-  Public method to brake the motor with short brake mode
-*/
-
-void TB6612FNG::Brake()
-{
-  ShortBrakeMode();
-}
-
-/*
-  Public method to do a delay in milliseconds
-  @param int: duration of the delay
-*/
-void TB6612FNG::Delayms(int millisecondsToSleep) 
-{
-  std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToSleep));
-}
 
 TB6612FNG::~TB6612FNG() 
 {
   SetSpeed(0);
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
-  standByPin.DigitalWrite(LOW);
+  if (standByMode == true)
+    standByPin.DigitalWrite(LOW);
 
   for (std::thread & th : vectorDriveThreads)
   {
     if (th.joinable())
-        th.join();
+      th.join();
   }
 }
 
@@ -352,8 +359,8 @@ void TurnRight (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int durati
   @param TB6612FNG: The left motor of the robot
   @param TB6612FNG: The right motor of the robot
 */ 
-void Brake (TB6612FNG motorLeft, TB6612FNG motorRight)
+void Stop (TB6612FNG motorLeft, TB6612FNG motorRight)
 {
-  motorLeft.Brake();
-  motorRight.Brake();
+  motorLeft.SetStopMode();
+  motorRight.SetStopMode();
 }
