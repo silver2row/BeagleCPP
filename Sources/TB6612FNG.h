@@ -14,17 +14,28 @@ private:
   GPIO input1Pin;
   GPIO input2Pin;
   PWM pwmPin;
-  GPIO standByPin;
-  bool standByMode;
+
   bool swapSpin;
   int swapSpinMotor;
   const int maxSpeed = 100;
+
+  // Initialize the GPIO pins with the data provided by the constructor
+  void InitTB6612FNGPins();
+
+  // Method to set the rotation speed
+  virtual void SetSpeed(int);
 
   // Method to set CW the direction of motor rotation 
   virtual void SetCWMode();
   
   // Method to set CCW the direction of motor rotation 
   virtual void SetCCWMode();
+
+  // Method to do a short brake on the motor
+  virtual void SetShortBrakeMode();
+
+  // Method to stop the motor
+  virtual void SetStopMode();
 
   // Method to drive the motor with duration in a thread
   virtual void MakeDriveThread(int, int);
@@ -33,26 +44,8 @@ private:
 
 public:
 
-  // Overload constructor WITH standby pin
-  TB6612FNG(GPIO, GPIO, PWM, GPIO, bool);
-  
   // Overload constructor WITHOUT standby pin
   TB6612FNG(GPIO, GPIO, PWM, bool);
-
-  // Initialize the GPIO pins with the data provided by the constructor
-  void InitTB6612FNGPins();
-
-  // Interface method to set the rotation speed
-  virtual void SetSpeed(int);
-
-    // Method to do a short brake on the motor
-  virtual void SetShortBrakeMode();
-
-  // Method to stop the motor
-  virtual void SetStopMode();
-
-  // Method to set the standby mode in the motor
-  virtual void SetStandByMode();
 
   // Interface method to drive the motor 
   virtual void Drive (int);
@@ -66,6 +59,12 @@ public:
   // Interface method to drive the motor in a thread
   virtual void DriveThread(int, int);
 
+  // Interface method to stop the motor
+  virtual void Stop ();
+  
+  // Interface method to brake the motor
+  virtual void Brake ();
+  
   // Destructor
   ~TB6612FNG();
 };
@@ -74,19 +73,25 @@ public:
 PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
 
+// Function to activate the module
+void ActivateTB6612FNG(GPIO &standByPin);
+
+// Function to deactivate the module
+void DeactivateTB6612FNG(GPIO &standByPin); 
+
 // Functions to drive a robot with a couple of motors attached
 void Forward (TB6612FNG &, TB6612FNG &, int);
-void Forward (TB6612FNG, TB6612FNG, int, int);
+void Forward (TB6612FNG &, TB6612FNG &, int, int);
 
 void Backward (TB6612FNG &, TB6612FNG &, int);
-void Backward (TB6612FNG, TB6612FNG, int, int);
+void Backward (TB6612FNG &, TB6612FNG &, int, int);
 
-void TurnLeft (TB6612FNG, TB6612FNG, int);
-void TurnLeft (TB6612FNG, TB6612FNG, int, int);
+void TurnLeft (TB6612FNG &, TB6612FNG &, int);
+void TurnLeft (TB6612FNG &, TB6612FNG &, int, int);
 
-void TurnRight (TB6612FNG, TB6612FNG, int);
-void TurnRight (TB6612FNG, TB6612FNG, int, int);
+void TurnRight (TB6612FNG &, TB6612FNG &, int);
+void TurnRight (TB6612FNG &, TB6612FNG &, int, int);
 
-void Stop (TB6612FNG, TB6612FNG);
+void Brake (TB6612FNG &, TB6612FNG &);
 
-#endif // HC-SR04_H
+#endif // TB6612FNG_H

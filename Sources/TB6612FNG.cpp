@@ -2,36 +2,7 @@
 
 #include "TB6612FNG.h"
 
-// Overload Constructor WITH standby pin
-TB6612FNG::TB6612FNG (GPIO newInput1Pin, 
-                      GPIO newInput2Pin,
-                      PWM newPWMPin, 
-                      GPIO newStandByPin,
-                      bool newSwapSpin) : 
-                      input1Pin(newInput1Pin), 
-                      input2Pin(newInput2Pin),
-                      pwmPin(newPWMPin), 
-                      standByPin(newStandByPin),
-                      swapSpin(newSwapSpin) 
-{
-  standByMode = true;
-  // Avoid standby mode in the module
-  if (this->standByPin.GetMode() != OUTPUT)
-    standByPin.SetMode(OUTPUT);
-  standByPin.DigitalWrite(HIGH);
-
-  InitTB6612FNGPins();
-
-  std::string message;
-  message  = "\nTB6612FNG object with the next parameters / pins was created:\n" +
-            std::string("\tIN1: ") + this->input1Pin.GetPinHeaderId() + "\n" + 
-            std::string("\tIN2: ") + this->input2Pin.GetPinHeaderId() + "\n" + 
-            std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n" +
-            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n";
-  std::cout << RainbowText(message, "Light Red");
-}
-
-// Overload Constructor WITHOUT standby pin
+// Overload Constructor
 TB6612FNG::TB6612FNG (GPIO newInput1Pin, 
                       GPIO newInput2Pin,
                       PWM newPWMPin, 
@@ -41,7 +12,6 @@ TB6612FNG::TB6612FNG (GPIO newInput1Pin,
                       pwmPin(newPWMPin), 
                       swapSpin(newSwapSpin)
 {
-  standByMode = false;
   InitTB6612FNGPins();
 
   std::string message;
@@ -52,7 +22,7 @@ TB6612FNG::TB6612FNG (GPIO newInput1Pin,
   std::cout << RainbowText(message, "Light Red");
 }
 
-// Public method to initialize the Pins
+// Private method to initialize the Pins
 void TB6612FNG::InitTB6612FNGPins()
 {
   // Set the right modes for the pins
@@ -64,6 +34,15 @@ void TB6612FNG::InitTB6612FNGPins()
     swapSpinMotor = -1;
   else
     swapSpinMotor = 1;
+}
+
+/*
+  Private method to set the speed rotation
+  @param int: the desired speed (-100,100)     
+*/
+void TB6612FNG::SetSpeed(int speed)
+{
+  pwmPin.SetDutyCycle(speed);
 }
 
 /*
@@ -85,16 +64,7 @@ void TB6612FNG::SetCCWMode()
 }
 
 /*
-  Public method to set the speed rotation
-  @param int: the desired speed (-100,100)     
-*/
-void TB6612FNG::SetSpeed(int speed)
-{
-  pwmPin.SetDutyCycle(speed);
-}
-
-/*
-  Public method to do a SHORT BRAKE on the motor    
+  Private method to do a SHORT BRAKE on the motor    
 */
 void TB6612FNG::SetShortBrakeMode()
 {
@@ -104,22 +74,13 @@ void TB6612FNG::SetShortBrakeMode()
 }
 
 /*
-  Public method to set the STOP mode in the  motor    
+  Private method to set the STOP mode in the  motor    
 */
 void TB6612FNG::SetStopMode()
 {
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
   SetSpeed(maxSpeed);
-}
-
-/*
-  Public method to set the STANDBY mode in the  motor    
-*/
-void TB6612FNG::SetStandByMode()
-{
-  // if (standByMode == true)
-  //  standByPin.DigitalWrite(LOW);
 }
 
 /*
@@ -215,6 +176,22 @@ void TB6612FNG::MakeDriveThread(int speed, int duration)
   Delayms(duration);
 }
 
+/*
+  Public method to stop the motor with SHORT BRAKE mode   
+*/
+void TB6612FNG::Stop()
+{
+  this->SetShortBrakeMode();
+}
+
+/*
+  Public method to brake the motor with STOP mode   
+*/
+void TB6612FNG::Brake()
+{
+  this->SetStopMode();
+}
+
 
 TB6612FNG::~TB6612FNG() 
 {
@@ -234,6 +211,22 @@ TB6612FNG::~TB6612FNG()
 /******************************************************************************
 PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
+
+// Function to activate the module setting the StandBy pin
+void ActivateTB6612FNG (GPIO &standByPin)
+{
+  if (standByPin.GetMode() != OUTPUT)
+    standByPin.SetMode(OUTPUT);
+  standByPin.DigitalWrite(HIGH);
+}
+
+// Function to deactivate the module unsetting the StandBy pin
+void DeactivateTB6612FNG (GPIO &standByPin)
+{
+  if (standByPin.GetMode() != OUTPUT)
+    standByPin.SetMode(OUTPUT);
+  standByPin.DigitalWrite(LOW);
+}
 
 // Functions to drive a robot with a couple of motors attached
 /*
@@ -259,7 +252,7 @@ void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
               the user enters a negative value.
   @param int: The desired duration in milliseconds. 
 */
-void Forward (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int duration)
+void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration)
 {
   if (speed < 0)
     speed *= -1;
@@ -290,7 +283,7 @@ void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
               the user enters a negative value.
   @param int: The desired duration in milliseconds. 
 */
-void Backward (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int duration)
+void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration)
 {
   if (speed > 0)
     speed *= -1;
@@ -305,7 +298,7 @@ void Backward (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int duratio
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value. 
 */
-void TurnLeft (TB6612FNG motorLeft, TB6612FNG motorRight, int speed)
+void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
 {
   if (speed < 0)
     speed *= -1;
@@ -321,7 +314,7 @@ void TurnLeft (TB6612FNG motorLeft, TB6612FNG motorRight, int speed)
               the user enters a negative value.
   @param int: The desired duration in milliseconds. 
 */
-void TurnLeft (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int duration)
+void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration)
 {
   if (speed < 0)
     speed *= -1;
@@ -336,7 +329,7 @@ void TurnLeft (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int duratio
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value. 
 */
-void TurnRight (TB6612FNG motorLeft, TB6612FNG motorRight, int speed)
+void TurnRight (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
 {
   if (speed < 0)
     speed *= -1;
@@ -352,7 +345,7 @@ void TurnRight (TB6612FNG motorLeft, TB6612FNG motorRight, int speed)
               the user enters a negative value.
   @param int: The desired duration in milliseconds. 
 */
-void TurnRight (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int duration)
+void TurnRight (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration)
 {
   if (speed < 0)
     speed *= -1;
@@ -365,8 +358,8 @@ void TurnRight (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int durati
   @param TB6612FNG: The left motor of the robot
   @param TB6612FNG: The right motor of the robot
 */ 
-void Stop (TB6612FNG motorLeft, TB6612FNG motorRight)
+void Brake (TB6612FNG &motorLeft, TB6612FNG &motorRight)
 {
-  motorLeft.SetStopMode();
-  motorRight.SetStopMode();
+  motorLeft.Brake();
+  motorRight.Brake();
 }
