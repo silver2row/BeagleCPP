@@ -14,7 +14,7 @@ Class: TB6612FNG
 using namespace std;
 
 // Declare the pin to activate / deactivate the TB6612FNG module
-GPIO standByPin(P8_16, OUTPUT);
+GPIO standByPin(P8_16);
 
 // Declaring the pins for motor 1 
 GPIO AIN1 (P8_12);
@@ -26,17 +26,11 @@ GPIO BIN1 (P8_17);
 GPIO BIN2 (P8_18);
 PWM PWMB (P8_19);
 
-// Declare the motor 1 object
+// Declare the object for motor 1
 TB6612FNG MotorA (AIN1, AIN2, PWMA, false);
 
-// Declare the motor 2 object
+// Declare the object for motor 2 
 TB6612FNG MotorB (BIN1, BIN2, PWMB, true);
-
-void ForwardLocal(int speed) 
-{
-  MotorA.Drive(speed);
-  MotorB.Drive(speed);
-}
 
 int main()
 {
@@ -44,7 +38,7 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   // Activate the module
-  standByPin.DigitalWrite(HIGH);
+  ActivateTB6612FNG(standByPin);
 
   message = "If you want to stop the program, enter 'y' for yes";
   cout << RainbowText(message, "Blue") << endl;
@@ -59,6 +53,7 @@ int main()
     cout << RainbowText(message, "Blue");
     cin >> userInput;
 
+    // Update the motor's speed
     switch (userInput)
     {
     case 'w':
@@ -70,20 +65,22 @@ int main()
       motorSpeed -= 10;
       if (motorSpeed <= -100)
         motorSpeed = -100;
-      //MotorA.Drive(motorSpeed);
-      //MotorB.Drive(motorSpeed);
       break;
     default:
       break;
     }
+
+    // Move the motors
     if (motorSpeed > 0)
       Forward(MotorA, MotorB, motorSpeed);
-    else
+    else if (motorSpeed < 0)
       Backward(MotorA, MotorB, motorSpeed);
+    else
+      Brake(MotorA, MotorB);
   }  
 
   // Deactivate the module
-  standByPin.DigitalWrite(LOW);
+  DeactivateTB6612FNG(standByPin);
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
