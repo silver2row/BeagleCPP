@@ -28,6 +28,7 @@ GPIO::GPIO (GPIO_ID newId)
 {
   id = newId;
   InitGPIOPin();
+  std::cout << RainbowText("Setting the GPIO pin was partially completed!\n\n", "Green");
 }
 
 // Overload constructor with the pin id and mode
@@ -37,7 +38,7 @@ GPIO::GPIO (GPIO_ID newId, MODE newMode)
   mode = newMode;
   InitGPIOPin();
   SetMode(mode);
-  std::cout << RainbowText("Setting the GPIO pin was complete!", "Green") << std::endl;
+  std::cout << RainbowText("Setting the GPIO pin was totally completed!\n\n", "Green");
 }
 
 // Public method to initialize the GPIO pin
@@ -55,7 +56,7 @@ void GPIO::InitGPIOPin()
     UnexportGPIO();
     ExportGPIO();
   }
-  std::cout << RainbowText("The GPIO pin's system folder was created!\n\n", "Green");
+  std::cout << RainbowText("The GPIO pin's system folder was created!\n", "Green");
 }
 
 // Public method to initialize the Map of GPIO pin with its name
@@ -102,6 +103,19 @@ int GPIO::GetPinKernelId() {
 */
 std::string GPIO::GetPinHeaderId() {
   return blackPinIdMap.at(id);
+}
+
+/*
+  Public method to get the pin's mode
+  @return MODE: The mode of the pin OUTPUT / INPUT
+*/
+MODE GPIO::GetMode() 
+{
+  std::string mode = ReadFile(path, "direction");
+  if (mode == "out")
+    return OUTPUT;
+  else
+    return INPUT;
 }
 
 /*
@@ -188,7 +202,7 @@ int GPIO::DigitalWrite(STATE newState)
 /*
   Overload public method to set/clear the pin value
   @param STATE: The desired value LOW / HIGH 
-  @param bool:A flag if the user wants to see messages on the terminal
+  @param bool: A flag if the user wants to see messages on the terminal
   @return int: 1 set value has succeeded
 */
 int GPIO::DigitalWrite(STATE newState, bool printingFlag) 

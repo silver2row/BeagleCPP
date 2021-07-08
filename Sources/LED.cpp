@@ -151,8 +151,12 @@ void LED::StopHeartBeat ()
 
 // Destructor
 LED::~LED() {
-  if(this->DigitalRead() == HIGH) this->DigitalWrite(LOW);
-  if (blinkThread.joinable()) blinkThread.join();
-  if (flashThread.joinable()) flashThread.join();
-  if (heartBeatThread.joinable()) heartBeatThread.join();
+  if(this->DigitalRead() == HIGH) 
+    this->DigitalWrite(LOW);
+  if (blinkThread.joinable()) 
+    blinkThread.join();
+  if (flashThread.joinable()) 
+    flashThread.join();
+  if (heartBeatThread.joinable()) 
+    heartBeatThread.join();
 }

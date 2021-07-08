@@ -22,7 +22,7 @@ class ADC_Exception : public exception
     }
 };
 
-// Overload constructor with 2 arguments
+// Default Constructor
 ADC::ADC(int adcPin)
 {
   id = adcPin;
