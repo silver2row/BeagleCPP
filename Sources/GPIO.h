@@ -33,7 +33,13 @@ class GPIO : public SYSFILEACCESS
     std::string path;   /* The full path to the GPIO e.g. /sys/class/gpio/gpio44 */
 
     /* Map to store the BeagleBone Black pin`s kernel number with its header name */
-    std::map <int, std::string> blackPinIdMap; 
+    std::map <int, std::string> blackPinIdMap;
+
+    // Initialize the GPIO pin with the data provided by the constructor
+    void InitGPIOPin();
+
+    // Initialize the GPIO pin id map kernel's number -> header's name
+    void InitPinIdMap();  
 
   public:
     // Default constructor
@@ -45,14 +51,8 @@ class GPIO : public SYSFILEACCESS
     // Overload constructor with the pin id and mode
     GPIO (GPIO_ID, MODE);
 
-    // Initialize the GPIO pin with the data provided by the constructor
-    void InitGPIOPin();
-
-    // Initialize the GPIO pin id map kernel's number -> header's name
-    void InitPinIdMap(); 
-
     // Accessor method to get the kernel pin's number
-    int GetPinKernelId();
+    virtual int GetPinKernelId();
 
     // Accessor method to get the header pin's name
     virtual std::string GetPinHeaderId();

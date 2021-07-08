@@ -28,7 +28,7 @@ GPIO::GPIO (GPIO_ID newId)
 {
   id = newId;
   InitGPIOPin();
-  std::cout << RainbowText("Setting the GPIO pin was partially completed!\n\n", "Green");
+  std::cout << RainbowText("Setting the GPIO pin was a success!\n\n", "Green");
 }
 
 // Overload constructor with the pin id and mode
@@ -38,10 +38,10 @@ GPIO::GPIO (GPIO_ID newId, MODE newMode)
   mode = newMode;
   InitGPIOPin();
   SetMode(mode);
-  std::cout << RainbowText("Setting the GPIO pin was totally completed!\n\n", "Green");
+  std::cout << RainbowText("Setting the GPIO pin with direction (I/O) was a success!\n\n", "Green");
 }
 
-// Public method to initialize the GPIO pin
+// Private method to initialize the GPIO pin
 void GPIO::InitGPIOPin()
 {
   InitPinIdMap();
@@ -59,7 +59,7 @@ void GPIO::InitGPIOPin()
   std::cout << RainbowText("The GPIO pin's system folder was created!\n", "Green");
 }
 
-// Public method to initialize the Map of GPIO pin with its name
+// Private method to initialize the Map of GPIO pin with its name
 void GPIO::InitPinIdMap()
 {
   blackPinIdMap[P8_07] = "P8_07";
