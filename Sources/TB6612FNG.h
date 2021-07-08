@@ -10,6 +10,7 @@
 class TB6612FNG : public GPIO, public PWM
 {
 private:
+
   GPIO input1Pin;
   GPIO input2Pin;
   PWM pwmPin;
@@ -29,7 +30,7 @@ private:
   virtual void MakeDriveThread(int, int);
 
   std::vector<std::thread> vectorDriveThreads;
-  
+
 public:
 
   // Overload constructor WITH standby pin
@@ -74,10 +75,10 @@ PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
 
 // Functions to drive a robot with a couple of motors attached
-void Forward (TB6612FNG, TB6612FNG, int);
+void Forward (TB6612FNG &, TB6612FNG &, int);
 void Forward (TB6612FNG, TB6612FNG, int, int);
 
-void Backward (TB6612FNG, TB6612FNG, int);
+void Backward (TB6612FNG &, TB6612FNG &, int);
 void Backward (TB6612FNG, TB6612FNG, int, int);
 
 void TurnLeft (TB6612FNG, TB6612FNG, int);

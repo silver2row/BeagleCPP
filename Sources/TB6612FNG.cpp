@@ -11,12 +11,13 @@ TB6612FNG::TB6612FNG (GPIO newInput1Pin,
                       input1Pin(newInput1Pin), 
                       input2Pin(newInput2Pin),
                       pwmPin(newPWMPin), 
-                      swapSpin(newSwapSpin), 
-                      standByPin(newStandByPin)
+                      standByPin(newStandByPin),
+                      swapSpin(newSwapSpin) 
 {
   standByMode = true;
   // Avoid standby mode in the module
-  standByPin.SetMode(OUTPUT);
+  if (this->standByPin.GetMode() != OUTPUT)
+    standByPin.SetMode(OUTPUT);
   standByPin.DigitalWrite(HIGH);
 
   InitTB6612FNGPins();
@@ -147,11 +148,11 @@ void TB6612FNG::Drive(int speed)
   }
   else
   {
+    speed *= -1;
     message = "Turning motor CCW with speed: ";
     std::cout << RainbowText(message, "Light Red", "Default", "Bold") 
               << speed << "%\n";
     SetCCWMode();
-    speed *= -1;
   }
 
   // Set the motor speed
@@ -195,9 +196,10 @@ void TB6612FNG::Drive(int speed, int duration, bool stopMotor)
   @param int: the desired speed (-100,100)
   @param int: the desired duration in milliseconds     
 */
+
 void TB6612FNG::DriveThread(int speed, int duration)
 {
-  vectorDriveThreads.push_back(std::thread(&TB6612FNG::MakeDriveThread, this, speed, duration));
+  vectorDriveThreads.push_back(std::move(std::thread(&TB6612FNG::MakeDriveThread, this, speed, duration)));
 }
 
 /*
@@ -206,11 +208,13 @@ void TB6612FNG::DriveThread(int speed, int duration)
   @param int: the desired speed (-100,100)
   @param int: the desired duration in milliseconds     
 */
+
 void TB6612FNG::MakeDriveThread(int speed, int duration)
 {
   Drive(speed);
   Delayms(duration);
 }
+
 
 TB6612FNG::~TB6612FNG() 
 {
@@ -219,12 +223,12 @@ TB6612FNG::~TB6612FNG()
   input2Pin.DigitalWrite(LOW);
   //if (standByMode == true)
   //  standByPin.DigitalWrite(LOW);
-
+ 
   for (std::thread & th : vectorDriveThreads)
   {
     if (th.joinable())
       th.join();
-  }
+  } 
 }
 
 /******************************************************************************
@@ -239,7 +243,7 @@ PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value. 
 */
-void Forward (TB6612FNG motorLeft, TB6612FNG motorRight, int speed)
+void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
 {
   if (speed < 0)
     speed *= -1;
@@ -270,7 +274,7 @@ void Forward (TB6612FNG motorLeft, TB6612FNG motorRight, int speed, int duration
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value. 
 */
-void Backward (TB6612FNG motorLeft, TB6612FNG motorRight, int speed)
+void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
 {
   if (speed > 0)
     speed *= -1;
