@@ -1,11 +1,10 @@
 /******************************************************************************
-TB6612FNG_1.3.cpp
+TB6612FNG_1.4.cpp
 @wgaonar
-03/07/2021
+08/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Drive a motor in a thread and printing messages in the terminal at the same 
-  time
+- Move forward and backward 2 motors with the same speed
 
 Class: TB6612FNG
 ******************************************************************************/
@@ -17,13 +16,21 @@ using namespace std;
 // Declare the pin to activate / deactivate the TB6612FNG module
 GPIO standByPin(P8_16);
 
-// Declaring the pins for motor
+// Declaring the pins for motor 1 
 GPIO AIN1 (P8_12);
 GPIO AIN2 (P8_14);
 PWM PWMA (P8_13);
 
-// Declare the motor object
+// Declaring the  pins for motor 2
+GPIO BIN1 (P8_17);
+GPIO BIN2 (P8_18);
+PWM PWMB (P8_19);
+
+// Declare the object for motor 1
 TB6612FNG MotorA (AIN1, AIN2, PWMA, false);
+
+// Declare the object for motor 2 
+TB6612FNG MotorB (BIN1, BIN2, PWMB, true);
 
 int main()
 {
@@ -46,28 +53,34 @@ int main()
     cout << RainbowText(message, "Blue");
     cin >> userInput;
 
-    // Drive the motors and printing menssages on the terminal
+    // Update the motor's speed
     switch (userInput)
     {
     case 'w':
       motorSpeed += 10;
-      MotorA.DriveThread(motorSpeed,5000);
-      for(int i = 0; i < 100; i++)
-        cout << "Doing something else while the motor is running" << endl;
+      if (motorSpeed >= 100)
+        motorSpeed = 100;
       break;
     case 's':
       motorSpeed -= 10;
-      MotorA.DriveThread(motorSpeed,5000);
-      for(int i = 0; i < 100; i++)
-        cout << "Doing something else while the motor is running" << endl;
+      if (motorSpeed <= -100)
+        motorSpeed = -100;
       break;
     default:
       break;
     }
-  }
+
+    // Move the motors
+    if (motorSpeed > 0)
+      Forward(MotorA, MotorB, motorSpeed);
+    else if (motorSpeed < 0)
+      Backward(MotorA, MotorB, motorSpeed);
+    else
+      Brake(MotorA, MotorB);
+  }  
 
   // Deactivate the module
-  DeactivateTB6612FNG(standByPin);  
+  DeactivateTB6612FNG(standByPin);
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

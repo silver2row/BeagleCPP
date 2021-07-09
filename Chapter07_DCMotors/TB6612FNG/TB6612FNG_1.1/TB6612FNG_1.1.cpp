@@ -26,8 +26,8 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
-  // Activate the module
-  standByPin.DigitalWrite(HIGH);
+   // Activate the module
+  ActivateTB6612FNG(standByPin);
   
   for (size_t i = 0; i < 100; i+=10)
     MotorA.Drive(i,1000);
@@ -40,7 +40,7 @@ int main()
     MotorA.Drive(-i,1000);
 
   // Deactivate the module
-  standByPin.DigitalWrite(LOW);
+  DeactivateTB6612FNG(standByPin);
   
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

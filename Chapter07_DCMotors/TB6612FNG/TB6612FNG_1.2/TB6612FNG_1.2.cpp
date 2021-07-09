@@ -14,18 +14,21 @@ Class: TB6612FNG
 
 using namespace std;
 
-// Declaring the header pin's names
-GPIO AIN1(P8_12);
-GPIO AIN2(P8_14);
-PWM PWMA(P8_13);
-GPIO STBY(P8_16);
+// Declare the pin to activate / deactivate the TB6612FNG module
+GPIO standByPin(P8_16);
+
+// Declaring the pins for motor
+GPIO AIN1 (P8_12);
+GPIO AIN2 (P8_14);
+PWM PWMA (P8_13);
 
 // Declare the motor object
-TB6612FNG MotorA (AIN1, AIN2, PWMA, STBY, false);
+TB6612FNG MotorA (AIN1, AIN2, PWMA, false);
 
 int main()
 {
-  //TB6612FNG MotorA (P8_12, P8_14, P8_13, P8_16, false);
+  // Activate the module
+  ActivateTB6612FNG(standByPin);
 
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
@@ -49,18 +52,22 @@ int main()
       motorSpeed += 10;
       if (motorSpeed >= 100)
         motorSpeed = 100;
-      MotorA.Drive(motorSpeed);
       break;
     case 's':
       motorSpeed -= 10;
       if (motorSpeed <= -100)
         motorSpeed = -100;
-      MotorA.Drive(motorSpeed);
       break;
     default:
       break;
     }
-  }  
+
+    // Move the motor
+    MotorA.Drive(motorSpeed);
+  }
+
+  // Deactivate the module
+  DeactivateTB6612FNG(standByPin);  
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
