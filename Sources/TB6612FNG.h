@@ -38,7 +38,7 @@ private:
   virtual void SetStopMode();
 
   // Method to drive the motor with duration in a thread
-  virtual void MakeDriveThread(int, int);
+  virtual void MakeDriveThread(int, int, bool);
 
   std::vector<std::thread> vectorDriveThreads;
 
@@ -50,14 +50,12 @@ public:
   // Interface method to drive the motor 
   virtual void Drive (int);
 
-  // Overloaded interface method to drive the motor during a certain time 
-  virtual void Drive (int, int);
-
-  // Overloaded interface method to drive and brake the motor after certain time 
+  // Overloaded interface method to drive and brake / stop 
+  // the motor after certain time 
   virtual void Drive (int, int, bool);
 
   // Interface method to drive the motor in a thread
-  virtual void DriveThread(int, int);
+  virtual void DriveThread(int, int, bool);
 
   // Interface method to stop the motor
   virtual void Stop ();
@@ -81,10 +79,14 @@ void DeactivateTB6612FNG(GPIO &standByPin);
 
 // Functions to drive a robot with a couple of motors attached
 void Forward (TB6612FNG &, TB6612FNG &, int);
-void Forward (TB6612FNG &, TB6612FNG &, int, int);
+void Forward (TB6612FNG &, TB6612FNG &, int, int, bool);
+void Forward (std::vector<TB6612FNG *>, int);
+void Forward (std::vector<TB6612FNG *>, int, int, bool);
 
 void Backward (TB6612FNG &, TB6612FNG &, int);
-void Backward (TB6612FNG &, TB6612FNG &, int, int);
+void Backward (TB6612FNG &, TB6612FNG &, int, int, bool);
+void Backward (std::vector<TB6612FNG *>, int);
+void Backward (std::vector<TB6612FNG *>, int, int, bool);
 
 void TurnLeft (TB6612FNG &, TB6612FNG &, int);
 void TurnLeft (TB6612FNG &, TB6612FNG &, int, int);
@@ -93,5 +95,6 @@ void TurnRight (TB6612FNG &, TB6612FNG &, int);
 void TurnRight (TB6612FNG &, TB6612FNG &, int, int);
 
 void Brake (TB6612FNG &, TB6612FNG &);
+void Brake (std::vector<TB6612FNG *>);
 
 #endif // TB6612FNG_H
