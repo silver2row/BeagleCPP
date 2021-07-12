@@ -124,43 +124,43 @@ void TB6612FNG::Drive(int speed)
   Public method to drive and brake / Stop the motor after certain time
   @param int: The desired speed (-100,100)
   @param int: The desired duration in milliseconds
-  @param bool: Confirm to brake or stop the motor after driving it.     
+  @param ACTION: Confirm to brake or stop the motor after driving it.     
 */
-void TB6612FNG::Drive(int speed, int duration, bool brakeMotor)
+void TB6612FNG::Drive(int speed, int duration, ACTION action)
 {
   if (duration < 0) 
     duration *= -1;
 
   Drive(speed);
   Delayms(duration);
-  if (brakeMotor == true)
+  if (action == brake)
     this->SetStopMode();
-  else
+  else if (action == stop)
     this->SetShortBrakeMode();
 }
 
 /*
   Public method to drive the motor during a certain time inside a thread
   @param int: the desired speed (-100,100)
-  @param int: the desired duration in milliseconds
-  @param bool: Confirm to brake or stop the motor after driving it.      
+  @param int: The desired duration in milliseconds
+  @param ACTION: Confirm to brake / stop / Nothing the motor after driving it.    
 */
 
-void TB6612FNG::DriveThread(int speed, int duration, bool brakeMotor)
+void TB6612FNG::DriveThread(int speed, int duration, ACTION action)
 {
-  vectorDriveThreads.push_back(std::move(std::thread(&TB6612FNG::MakeDriveThread, this, speed, duration, brakeMotor)));
+  std::thread motorThread = std::thread(&TB6612FNG::MakeDriveThread, this, speed, duration, action);
+  vectorDriveThreads.push_back(std::move(motorThread));
 }
 
 /*
   Private method that contains the routine to drive 
   the motor during a certain time
-  @param int: the desired speed (-100,100)
-  @param int: the desired duration in milliseconds     
+  @param int: the desired speed (-100,100)  
 */
 
-void TB6612FNG::MakeDriveThread(int speed, int duration, bool brakeMotor)
+void TB6612FNG::MakeDriveThread(int speed, int duration, ACTION action)
 {
-  Drive(speed, duration, brakeMotor);
+  Drive(speed, duration, action);
 }
 
 /*
@@ -237,14 +237,14 @@ void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
   @param int: The desired duration in milliseconds.
-  @param bool: Confirm to brake or stop the motor after driving it. 
+  @param ACTION: Confirm to brake or stop the motor after driving it. 
 */
-void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, bool brakeMotor)
+void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, ACTION action)
 {
   if (speed < 0)
     speed *= -1;
-  motorLeft.DriveThread(speed, duration, brakeMotor);
-  motorRight.DriveThread(speed, duration, brakeMotor);
+  motorLeft.DriveThread(speed, duration, action);
+  motorRight.DriveThread(speed, duration, action);
 }
 
 /*
@@ -268,14 +268,14 @@ void Forward (std::vector<TB6612FNG *> vectorOfMotors, int speed)
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
   @param int: The desired duration in milliseconds.
-  @param bool: Confirm to brake or stop the motor after driving it.  
+  @param ACTION: Confirm to brake or stop the motor after driving it.  
 */
-void Forward (std::vector<TB6612FNG *> vectorOfMotors, int speed, int duration, bool brakeMotor)
+void Forward (std::vector<TB6612FNG *> vectorOfMotors, int speed, int duration, ACTION action)
 {
   if (speed < 0)
     speed *= -1;
   for (auto motor : vectorOfMotors)
-    motor->DriveThread(speed, duration, brakeMotor);
+    motor->DriveThread(speed, duration, action);
 }
 
 /*
@@ -301,14 +301,14 @@ void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
   @param int: The desired duration in milliseconds.
-  @param bool: Confirm to brake or stop the motor after driving it.  
+  @param ACTION: Confirm to brake or stop the motor after driving it.  
 */
-void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, bool brakeMotor)
+void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, ACTION action)
 {
   if (speed > 0)
     speed *= -1;
-  motorLeft.DriveThread(speed, duration, brakeMotor);
-  motorRight.DriveThread(speed, duration, brakeMotor);
+  motorLeft.DriveThread(speed, duration, action);
+  motorRight.DriveThread(speed, duration, action);
 }
 
 /*
@@ -332,14 +332,14 @@ void Backward (std::vector<TB6612FNG *> vectorOfMotors, int speed)
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
   @param int: The desired duration in milliseconds.
-  @param bool: Confirm to brake or stop the motor after driving it.  
+  @param ACTION: Confirm to brake or stop the motor after driving it.  
 */
-void Backward (std::vector<TB6612FNG *> vectorOfMotors, int speed, int duration, bool brakeMotor)
+void Backward (std::vector<TB6612FNG *> vectorOfMotors, int speed, int duration, ACTION action)
 {
   if (speed > 0)
     speed *= -1;
   for (auto motor : vectorOfMotors)
-    motor->DriveThread(speed, duration, brakeMotor);
+    motor->DriveThread(speed, duration, action);
 }
 
 /*
@@ -365,12 +365,12 @@ void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
               the user enters a negative value.
   @param int: The desired duration in milliseconds. 
 */
-void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, bool brakeMotor)
+void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, ACTION action)
 {
   if (speed < 0)
     speed *= -1;
-  motorLeft.Drive(-speed, duration, brakeMotor);
-  motorRight.Drive(speed, duration, brakeMotor);
+  motorLeft.Drive(-speed, duration, action);
+  motorRight.Drive(speed, duration, action);
 }
 
 /*
@@ -395,14 +395,14 @@ void TurnRight (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
   @param int: The desired duration in milliseconds
-  @param bool: Confirm to brake or stop the motor after driving it.  
+  @param ACTION: Confirm to brake or stop the motor after driving it.  
 */
-void TurnRight (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, bool brakeMotor)
+void TurnRight (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, ACTION action)
 {
   if (speed < 0)
     speed *= -1;
-  motorLeft.Drive(speed, duration, brakeMotor);
-  motorRight.Drive(-speed, duration, brakeMotor);
+  motorLeft.Drive(speed, duration, action);
+  motorRight.Drive(-speed, duration, action);
 }
 
 /*

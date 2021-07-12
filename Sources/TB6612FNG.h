@@ -7,6 +7,12 @@
 #include "GPIO.h"
 #include "PWM.h"
 
+/* The numeric mode for ACTION on the motor: e.g. 0/1 for Brake/Stop */
+enum ACTION {
+  brake = 0,
+  stop = 1,
+};
+
 class TB6612FNG : public GPIO, public PWM
 {
 private:
@@ -38,13 +44,13 @@ private:
   virtual void SetStopMode();
 
   // Method to drive the motor with duration in a thread
-  virtual void MakeDriveThread(int, int, bool);
+  virtual void MakeDriveThread(int, int, ACTION);
 
   std::vector<std::thread> vectorDriveThreads;
 
 public:
 
-  // Overload constructor WITHOUT standby pin
+  // Overload constructor
   TB6612FNG(GPIO, GPIO, PWM, bool);
 
   // Interface method to drive the motor 
@@ -52,10 +58,10 @@ public:
 
   // Overloaded interface method to drive and brake / stop 
   // the motor after certain time 
-  virtual void Drive (int, int, bool);
+  virtual void Drive (int, int, ACTION);
 
   // Interface method to drive the motor in a thread
-  virtual void DriveThread(int, int, bool);
+  virtual void DriveThread(int, int, ACTION);
 
   // Interface method to stop the motor
   virtual void Stop ();
@@ -79,14 +85,14 @@ void DeactivateTB6612FNG(GPIO &standByPin);
 
 // Functions to drive a robot with a couple of motors attached
 void Forward (TB6612FNG &, TB6612FNG &, int);
-void Forward (TB6612FNG &, TB6612FNG &, int, int, bool);
+void Forward (TB6612FNG &, TB6612FNG &, int, int, ACTION);
 void Forward (std::vector<TB6612FNG *>, int);
-void Forward (std::vector<TB6612FNG *>, int, int, bool);
+void Forward (std::vector<TB6612FNG *>, int, int, ACTION);
 
 void Backward (TB6612FNG &, TB6612FNG &, int);
-void Backward (TB6612FNG &, TB6612FNG &, int, int, bool);
+void Backward (TB6612FNG &, TB6612FNG &, int, int, ACTION);
 void Backward (std::vector<TB6612FNG *>, int);
-void Backward (std::vector<TB6612FNG *>, int, int, bool);
+void Backward (std::vector<TB6612FNG *>, int, int, ACTION);
 
 void TurnLeft (TB6612FNG &, TB6612FNG &, int);
 void TurnLeft (TB6612FNG &, TB6612FNG &, int, int);
