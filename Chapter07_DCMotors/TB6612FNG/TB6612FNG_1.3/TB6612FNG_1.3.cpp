@@ -51,13 +51,13 @@ int main()
     {
     case 'w':
       motorSpeed += 10;
-      MotorA.DriveThread(motorSpeed,5000);
+      MotorA.DriveThread(motorSpeed,5000, stop);
       for(int i = 0; i < 100; i++)
         cout << "Doing something else while the motor is running" << endl;
       break;
     case 's':
       motorSpeed -= 10;
-      MotorA.DriveThread(motorSpeed,5000);
+      MotorA.DriveThread(motorSpeed,5000, stop);
       for(int i = 0; i < 100; i++)
         cout << "Doing something else while the motor is running" << endl;
       break;

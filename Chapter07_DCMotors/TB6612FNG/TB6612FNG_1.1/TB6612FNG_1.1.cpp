@@ -30,14 +30,14 @@ int main()
   ActivateTB6612FNG(standByPin);
   
   for (size_t i = 0; i < 100; i+=10)
-    MotorA.Drive(i,1000);
+    MotorA.Drive(i,1000,stop);
   for (size_t i = 100; i > 0; i-=10)
-    MotorA.Drive(i,1000);
+    MotorA.Drive(i,1000,stop);
 
   for (size_t i = 0; i < 100; i+=10)
-    MotorA.Drive(-i,1000);
+    MotorA.Drive(-i,1000,stop);
   for (size_t i = 100; i > 0; i-=10)
-    MotorA.Drive(-i,1000);
+    MotorA.Drive(-i,1000,stop);
 
   // Deactivate the module
   DeactivateTB6612FNG(standByPin);
