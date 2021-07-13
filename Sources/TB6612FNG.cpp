@@ -131,7 +131,7 @@ void TB6612FNG::Drive(int speed, int duration, ACTION action)
   if (duration < 0) 
     duration *= -1;
 
-  Drive(speed);
+  this->Drive(speed);
   Delayms(duration);
   if (action == brake)
     this->SetStopMode();

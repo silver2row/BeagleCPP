@@ -78,10 +78,10 @@ PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
 
 // Function to activate the module
-void ActivateTB6612FNG(GPIO &standByPin);
+void ActivateTB6612FNG(GPIO &);
 
 // Function to deactivate the module
-void DeactivateTB6612FNG(GPIO &standByPin); 
+void DeactivateTB6612FNG(GPIO &); 
 
 // Functions to drive a robot with a couple of motors attached
 void Forward (TB6612FNG &, TB6612FNG &, int);
