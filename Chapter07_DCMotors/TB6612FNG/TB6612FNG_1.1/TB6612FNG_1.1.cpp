@@ -22,7 +22,6 @@ TB6612FNG MotorA (P8_12, P8_14, P8_13, false);
 
 int main()
 {
-
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
