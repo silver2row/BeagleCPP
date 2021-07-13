@@ -26,7 +26,7 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
-   // Activate the module
+  // Activate the module
   ActivateTB6612FNG(standByPin);
   
   for (size_t i = 0; i < 100; i+=10)

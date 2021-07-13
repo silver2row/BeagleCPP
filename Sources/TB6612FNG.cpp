@@ -121,7 +121,7 @@ void TB6612FNG::Drive(int speed)
 }
 
 /*
-  Public method to drive and brake / Stop the motor after certain time
+  Public method to drive and brake / stop the motor after certain time
   @param int: The desired speed (-100,100)
   @param int: The desired duration in milliseconds
   @param ACTION: Confirm to brake or stop the motor after driving it.     
