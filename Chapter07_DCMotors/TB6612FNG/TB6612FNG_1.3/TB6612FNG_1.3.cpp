@@ -46,7 +46,7 @@ int main()
     cout << RainbowText(message, "Blue");
     cin >> userInput;
 
-    // Drive the motors and printing menssages on the terminal
+    // Drive the motors and printing messages on the terminal
     switch (userInput)
     {
     case 'w':

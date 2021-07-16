@@ -145,7 +145,6 @@ void TB6612FNG::Drive(int speed, int duration, ACTION action)
   @param int: The desired duration in milliseconds
   @param ACTION: Confirm to brake / stop / Nothing the motor after driving it.    
 */
-
 void TB6612FNG::DriveThread(int speed, int duration, ACTION action)
 {
   std::thread motorThread = std::thread(&TB6612FNG::MakeDriveThread, this, speed, duration, action);
@@ -157,7 +156,6 @@ void TB6612FNG::DriveThread(int speed, int duration, ACTION action)
   the motor during a certain time
   @param int: the desired speed (-100,100)  
 */
-
 void TB6612FNG::MakeDriveThread(int speed, int duration, ACTION action)
 {
   Drive(speed, duration, action);
