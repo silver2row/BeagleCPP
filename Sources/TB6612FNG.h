@@ -10,7 +10,7 @@
 /* The numeric mode for ACTION on the motor: e.g. 0/1 for Brake/Stop */
 enum ACTION {
   brake = 0,
-  stop = 1,
+  stop = 1
 };
 
 class TB6612FNG : public GPIO, public PWM

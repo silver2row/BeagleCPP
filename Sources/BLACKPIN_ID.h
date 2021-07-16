@@ -27,7 +27,7 @@ enum GPIO_ID {
   P9_27 = 115,
   P9_30 = 112,
   P9_41 = 20,
-  P9_42 = 7,
+  P9_42 = 7
 };
 
 /* The pwm internal class number of the pin*/
@@ -37,7 +37,7 @@ enum PWM_ID {
   P9_14 = 2,
   P9_16 = 3,
   P9_21 = 4,
-  P9_22 = 5, 
+  P9_22 = 5
 };
 
 /* The pwm class internal number of the pin*/
@@ -48,7 +48,7 @@ enum ADC_ID {
   P9_38 = 3,
   P9_33 = 4,
   P9_36 = 5,
-  P9_35 = 6,
+  P9_35 = 6
 };
 
 #endif // BLACKPIN_ID_H
