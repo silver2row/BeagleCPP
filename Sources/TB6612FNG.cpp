@@ -247,7 +247,7 @@ void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int durati
 
 /*
   Overload function to drive FORWARD a robot with ANY number of motors
-  @param std::vector<TB6612FNG *>: The pointer vector of motors 
+  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
 */
@@ -262,7 +262,7 @@ void Forward (std::vector<TB6612FNG *> vectorOfMotors, int speed)
 /*
   Overload function to drive FORWARD and simultaneously a robot 
   with ANY number of motors during certain time
-  @param std::vector<TB6612FNG *>: The pointer vector of motors 
+  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
   @param int: The desired duration in milliseconds.
@@ -311,7 +311,7 @@ void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int durat
 
 /*
   Overload function to drive BACKWARD a robot with ANY number of motors
-  @param std::vector<TB6612FNG *>: The pointer vector of motors 
+  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
 */
@@ -326,7 +326,7 @@ void Backward (std::vector<TB6612FNG *> vectorOfMotors, int speed)
 /*
   Overload function to drive BACKWARD and simultaneously a robot 
   with ANY number of motors during certain time
-  @param std::vector<TB6612FNG *>: The pointer vector of motors 
+  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
   @param int: The desired duration in milliseconds.

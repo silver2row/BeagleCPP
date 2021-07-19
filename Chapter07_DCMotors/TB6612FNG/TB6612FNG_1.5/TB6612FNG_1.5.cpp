@@ -32,6 +32,7 @@ TB6612FNG MotorA (AIN1, AIN2, PWMA, false);
 // Declare the object for motor 2 
 TB6612FNG MotorB (BIN1, BIN2, PWMB, true);
 
+// Declare the vector of pointers to TB6612FNG objects
 vector<TB6612FNG *> vectorOfMotors = {&MotorA, &MotorB};
 
 int main()
