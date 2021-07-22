@@ -25,7 +25,8 @@ bool stopBrightLed = false;
 int adcValueOut = 0;
 int pwmValue = 0;
 
-int BrightLed() {
+int BrightLed()
+{
   while (stopBrightLed == false) {
     adcPin.ReadADC(adcValueOut);
     cout << "ADC value on pin: " << adcValueOut << " / ";
@@ -49,8 +50,10 @@ int main()
   while (userInput != 'y') {
     message = "Do you want to stop the readings on the pin? Enter 'y' for yes:";
     cout << RainbowText(message, "Blue") << endl;
+    
     cin >> userInput;
-    if (userInput == 'y') stopBrightLed = true;
+    if (userInput == 'y') 
+      stopBrightLed = true;
   }
 
   // Clean the pwm value on pin

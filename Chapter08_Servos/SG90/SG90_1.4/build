@@ -1,4 +1,4 @@
 #!/bin/bash
 echo "Building BeagleBone Application..."
-g++ -std=c++17 ../../../Sources/RAINBOWCOLORS.cpp ../../../Sources/SYSFILEACCESS.cpp ../../../Sources/MISCELLANEOUS.cpp  ../../../Sources/PWM.cpp ../../../Sources/SG90.cpp SG90_1.3.cpp -lpthread -o SG90_1.3.out
+g++ -std=c++17 ../../../Sources/RAINBOWCOLORS.cpp ../../../Sources/SYSFILEACCESS.cpp ../../../Sources/MISCELLANEOUS.cpp  ../../../Sources/PWM.cpp ../../../Sources/ADC.cpp ../../../Sources/SG90.cpp SG90_1.4.cpp -lpthread -o SG90_1.4.out
 echo "Finished"
