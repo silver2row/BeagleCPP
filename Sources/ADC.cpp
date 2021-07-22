@@ -60,11 +60,15 @@ int ADC::GetADC() {
 }
 
 /*
-   Public method to get the ADC value on pin 
-   @return int: The pin's value between 0 - 4095
+  Public method to get the ADC value on pin 
+  @param int: Reference output for the ADC value between 0 - 4095
 */
 void ADC::ReadADC(int &adcValueOut) {
   adcValueOut = GetADC();
+
+  std::string message;
+  message = "ADC value: " + std::to_string(adcValueOut) + " \n";
+  std::cout << RainbowText(message, "Violet");
 }
 
 /*
