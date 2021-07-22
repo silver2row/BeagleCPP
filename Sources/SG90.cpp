@@ -5,18 +5,11 @@
 // Overload Constructor
 SG90::SG90 (PWM newPWMPin) : pwmPin(newPWMPin)
 {
-  // Set the period of SG90 in ns
-  pwmPin.SetPeriod(SG90Period);
-  
   angle = 0;
   minimumPulseWidth = 500000;
   maximumPulseWidth = 2500000;
 
-  std::string message;
-  message = "\nSG90 object with the next parameters / pins was created:\n" +
-            std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n" +
-            std::string("\tPWM: ") + std::to_string(this->pwmPin.GetPeriod()) + "\n\n";
-  std::cout << RainbowText(message, "Light Blue");
+  this->InitSG90();
 }
 
 // Overload Constructor
@@ -26,16 +19,28 @@ SG90::SG90 (PWM newPWMPin,
             pwmPin(newPWMPin),
             minimumPulseWidth(newMinimumPulseWidth),
             maximumPulseWidth(newMaximumPulseWidth)
+{ 
+  angle = 0;
+
+  this->InitSG90();
+}
+
+// Private method to set the SG90 period for the PWM pin 
+void SG90::InitSG90()
 {
   // Set the period of SG90 in ns
   pwmPin.SetPeriod(SG90Period);
-  
-  angle = 0;
 
   std::string message;
   message = "\nSG90 object with the next parameters / pins was created:\n" +
-            std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n" +
-            std::string("\tPWM: ") + std::to_string(this->pwmPin.GetPeriod()) + "\n\n";
+            std::string("\tPWM Pin: ") + 
+            this->pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\tPWM Period: ") + 
+            std::to_string(this->pwmPin.GetPeriod()) + "ns\n" +
+            std::string("\tMinimum Pulse Width: ") + 
+            std::to_string(this->GetMinimumPulseWidth()) + "ns\n" +
+            std::string("\tMaximum Pulse Width: ") + 
+            std::to_string(this->GetMaximumPulseWidth()) + "ns\n\n";
   std::cout << RainbowText(message, "Light Blue");
 }
 
@@ -64,9 +69,14 @@ int SG90::GetMaximumPulseWidth()
 void SG90::SetAngle(int newAngle)
 {
   angle = newAngle;
-  int pulseWidth = static_cast<int>((maximumPulseWidth-minimumPulseWidth)/180.0 * angle + minimumPulseWidth);
+  double mapping = (maximumPulseWidth-minimumPulseWidth)/180.0 * angle + minimumPulseWidth;
+  int pulseWidth = static_cast<int>(mapping);
   pwmPin.SetDutyCycleByPeriod(pulseWidth);
-  std::cout << "angle: " << angle << " -> pulse width: " << pulseWidth << std::endl;
+
+  std::string message;
+  message = "angle: " + std::to_string(angle) + " -> pulse width: " +
+            std::to_string(pulseWidth) + "ns\n";
+  std::cout << RainbowText(message, "Light Blue"); 
 }
 
 SG90::~SG90() {}

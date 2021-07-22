@@ -14,6 +14,9 @@ private:
   int minimumPulseWidth;  // Minimum pulse width in ns
   int maximumPulseWidth;  // Minimum pulse width in ns
 
+  // Set the SG90 period for the PWM pin  
+  virtual void InitSG90();
+
 public:
 
   // Overload constructor
