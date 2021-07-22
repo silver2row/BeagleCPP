@@ -1,9 +1,10 @@
 /******************************************************************************
-SG90_1.2.cpp
+SG90_1.3.cpp
 @wgaonar
 22/07/2021
 https://github.com/wgaonar/BeagleCPP
 
+- Declare a SG90 object with customized minimum and maximun pulse width  
 - Change the servomotor angle with the keyboard entry  
 
 Class: SG90
@@ -14,7 +15,7 @@ Class: SG90
 using namespace std;
 
 // Declare the SG90 object
-SG90 myServo(P8_13);
+SG90 myServo(P8_13, 700000, 2300000);
 
 int main()
 {
@@ -53,6 +54,7 @@ int main()
     }
 
     myServo.SetAngle(angle);
+    cout << "Angle: " << angle << endl;
   }
   
   message = "Main program finishes here...";

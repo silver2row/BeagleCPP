@@ -13,7 +13,7 @@ Class: SG90
 
 using namespace std;
 
-// Declare the pin to activate / deactivate the TB6612FNG module
+// Declare the SG90 object
 SG90 myServo(P8_13);
 
 int main()
@@ -25,14 +25,14 @@ int main()
   for (int angle = 0; angle <= 180; angle += 10)
   {
     myServo.SetAngle(angle);
-    Delayms(100);  // Wait 100ms for the servo to reach the position
+    Delayms(1000);  // Wait 1000ms for the servo to reach the position
   }
 
   // Sweep from 180-0
   for (int angle = 180; angle >= 0; angle -= 10)
   {
     myServo.SetAngle(angle);
-    Delayms(100);  // Wait 100ms for the servo to reach the position
+    Delayms(1000);  // Wait 1000ms for the servo to reach the position
   }
   
   message = "Main program finishes here...";
