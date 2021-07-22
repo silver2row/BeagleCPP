@@ -173,14 +173,19 @@ int PWM::SetPeriod(int newPeriod)
   }
   else 
     return 1;
+
+  std::cout << RainbowText("A new period of ", "Pink")
+            << RainbowText(std::to_string(this->GetPeriod()), "Pink") 
+            << RainbowText("ns was a set!\n", "Pink"); 
 }
 
 /*
-   Public method to set the duty cycle of the PWM
-   @param int: The desired duty cycle in pertentage: 0-100
-   @return  int: 1 set duty cycle has succeeded / throw an exception if not
+  Public method to set the duty cycle of the PWM
+  @param int: The desired duty cycle in percentage: 0-100
+  @return int: 1 set duty cycle has succeeded / throw an exception if not
 */
-int PWM::SetDutyCycle(int newDutyCycle) {
+int PWM::SetDutyCycle(int newDutyCycle) 
+{
   if (newDutyCycle >= 0 && newDutyCycle <= 100)
     dutyCycle = static_cast<int>(newDutyCycle / 100.0 * period);
   else if (newDutyCycle < 0)
@@ -188,6 +193,28 @@ int PWM::SetDutyCycle(int newDutyCycle) {
   else
     dutyCycle = 100;
   
+  if (WriteFile(path, "duty_cycle", dutyCycle) != 1) {
+    perror("Error setting the PWM duty cycle for the pin");
+    throw PWM_Exception("Error in WritePWMDutyCycle method");
+  }
+  else 
+    return 1;
+}
+
+/*
+  Public method to set the duty cycle of the PWM
+  @param int: The desired duty cycle in ns: 0-period
+  @return int: 1 set duty cycle has succeeded / throw an exception if not
+*/
+int PWM::SetDutyCycleByPeriod(int newDutyCycle) 
+{
+  if (newDutyCycle >= 0 && newDutyCycle <= period)
+    dutyCycle = newDutyCycle;
+  else if (newDutyCycle < 0)
+    dutyCycle = 0;
+  else
+    dutyCycle = period;
+
   if (WriteFile(path, "duty_cycle", dutyCycle) != 1) {
     perror("Error setting the PWM duty cycle for the pin");
     throw PWM_Exception("Error in WritePWMDutyCycle method");

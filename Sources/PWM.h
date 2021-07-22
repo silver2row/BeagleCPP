@@ -65,6 +65,9 @@ class PWM : public SYSFILEACCESS
 
     // Interface method to set the duty cycle
     virtual int SetDutyCycle(int);
+
+    // Interface method to set the duty cycle by period
+    virtual int SetDutyCycleByPeriod(int);
     
     // Method to execute an user function
     virtual int DoUserFunction(callbackType);
