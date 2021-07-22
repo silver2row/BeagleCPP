@@ -26,7 +26,7 @@ private:
   const int maxSpeed = 100;
 
   // Initialize the GPIO pins with the data provided by the constructor
-  void InitTB6612FNGPins();
+  virtual void InitTB6612FNGPins();
 
   // Method to set the rotation speed
   virtual void SetSpeed(int);
