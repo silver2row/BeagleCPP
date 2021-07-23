@@ -19,8 +19,6 @@ using callbackType = int (*)();
 
 const std::string ADC_PATH = "/sys/bus/iio/devices/iio:device0/";
 
-
-
 class ADC : public SYSFILEACCESS
 {
   private:
@@ -39,31 +37,30 @@ class ADC : public SYSFILEACCESS
     void MakeReadADC(int &, int);
     void MakeReadVoltage(float &, int);
 
-  protected:
     // Helper method to get the ADC value on pin
     virtual int GetADC();
 
   public:
     // Default constructor
-    ADC(int);
+    ADC(ADC_ID);
 
     // Interface method to read one time the ADC value on the pin
-    virtual void ReadADC(int &);
+    virtual int ReadADC();
 
     // Overload interface method to read the ADC value with an interval time
-    virtual void ReadADC(int &, int);
+    virtual int ReadADC(int);
 
     // Interface method for reading the ADC in background
-    virtual void ReadADC(int &, int, bool);
+    virtual void ReadADC(int &, int);
 
     // Interface method to read one time the voltage on the pin
-    virtual void ReadVoltage(float &);
+    virtual float ReadVoltage();
 
     // Overload interface method to read the voltage with an interval time
-    virtual void ReadVoltage(float &, int);
+    virtual float ReadVoltage(int);
 
     // Interface method for reading the voltage in background
-    virtual void ReadVoltage(float &, int, bool);
+    virtual void ReadVoltage(float &, int);
     
     // Method to do execute an user function
     virtual int DoUserFunction(callbackType);

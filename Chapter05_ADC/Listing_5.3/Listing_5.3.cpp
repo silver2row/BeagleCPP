@@ -13,28 +13,29 @@ Class: ADC
 
 using namespace std;
 
+// Global ADC pin declaration 
+ADC adcPin(P9_39);
+
+// Global variables
+int adcValueOut = 0;
+int intervalTime = 100;
+ 
 int main()
 {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
-  message = "Setting ADC mode on a pin";
-  cout << RainbowText(message, "Blue") << endl;
-  ADC adcPin(P9_39);
+  // Call the method to read the aDC value in background
+  adcPin.ReadADC(adcValueOut, intervalTime);
 
-  message = "Read continuously the ADC value on pin";
-  cout << RainbowText(message, "Blue") << endl;
-
-  int adcValueOut = 0;
-  int intervalTime = 100;
-  adcPin.ReadADC(adcValueOut, intervalTime, true);
-  
   char userInput = '\0';
-  while (userInput != 'y') {
+  while (userInput != 'y') 
+  {
     message = "Do you want to stop the readings on the pin? Enter 'y' for yes:";
     cout << RainbowText(message, "Blue")  << endl;
     cin >> userInput;
-    if (userInput == 'y') adcPin.StopReadADC();
+    if (userInput == 'y') 
+      adcPin.StopReadADC();
   }
 
   message = "Main program finishes here...";

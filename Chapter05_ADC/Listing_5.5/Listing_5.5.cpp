@@ -27,9 +27,9 @@ int pwmValue = 0;
 
 int BrightLed()
 {
-  while (stopBrightLed == false) {
-    adcPin.ReadADC(adcValueOut);
-    cout << "ADC value on pin: " << adcValueOut << " / ";
+  while (stopBrightLed == false) 
+  {
+    adcValueOut = adcPin.ReadADC();
     pwmValue = adcValueOut / 4095.0 * 100; 
     cout << "PWM value: " << pwmValue << endl;
     pwmBlueLedPin.SetDutyCycle(pwmValue);
@@ -43,11 +43,12 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
-  // Call the function to read the pin
+  // Call the function to do something while it is reading the pin
   adcPin.DoUserFunction(&BrightLed);
 
   char userInput = '\0';
-  while (userInput != 'y') {
+  while (userInput != 'y') 
+  {
     message = "Do you want to stop the readings on the pin? Enter 'y' for yes:";
     cout << RainbowText(message, "Blue") << endl;
     

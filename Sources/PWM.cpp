@@ -89,8 +89,7 @@ void PWM::InitPWMPin()
   path = PWM_PATH + name;
 
   std::string message;
-  message = "Trying to enable the PWM pin: " + 
-            this->GetPinHeaderId() + "\n";
+  message = "Trying to enable the PWM pin: " + this->GetPinHeaderId() + "\n";
   std::cout << RainbowText(message, "Pink");
 
   std::string commandString = "config-pin " + this->GetPinHeaderId() + " pwm";

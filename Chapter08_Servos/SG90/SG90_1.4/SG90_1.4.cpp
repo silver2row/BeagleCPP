@@ -4,7 +4,7 @@ SG90_1.4.cpp
 22/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Move a servo with a potentiometer 
+- Move a servo with the readings from a potentiometer 
 
 Class: SG90
 ******************************************************************************/
@@ -31,7 +31,7 @@ int MoveServo()
   while (stopMoveServo == false)
   {
     // Read the analog converted value
-    adcPin.ReadADC(adcValueOut);
+    adcValueOut = adcPin.ReadADC();
 
     // Map the adc value to the angle
     angle = adcValueOut / 4095.0 * 180;

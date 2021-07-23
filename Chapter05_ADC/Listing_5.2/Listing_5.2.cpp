@@ -16,17 +16,16 @@ using namespace std;
 // Global ADC pin declaration 
 ADC adcPin(P9_39);
 
-// Global variables
+// Global Variables
 bool stopAnalogRead = false;
 int adcValueOut = 0;
 float adcVoltageOut = 0.0;
 
 int AnalogRead() {
-  while (stopAnalogRead == false) {
-    adcPin.ReadADC(adcValueOut);
-    cout << "ADC value on pin: " << adcValueOut << " / ";
-    adcPin.ReadVoltage(adcVoltageOut);
-    cout << "Voltage on the pin: " << adcVoltageOut << " / ";
+  while (stopAnalogRead == false) 
+  {
+    adcValueOut = adcPin.ReadADC();
+    adcVoltageOut = adcPin.ReadVoltage();
     cout << "'y' for exit" << endl;
     Delayms(250);
   }
@@ -38,15 +37,18 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
-  // Call the function to read the pin
+  // Call the function to do something while it is reading the pin
   adcPin.DoUserFunction(&AnalogRead);
 
   char userInput = '\0';
-  while (userInput != 'y') {
+  while (userInput != 'y') 
+  {
     message = "Do you want to stop the readings on the pin? Enter 'y' for yes: ";
     cout << RainbowText(message, "Blue")  << endl;
+    
     cin >> userInput;
-    if (userInput == 'y') stopAnalogRead = true;
+    if (userInput == 'y') 
+      stopAnalogRead = true;
   }
 
   message = "Main program finishes here...";

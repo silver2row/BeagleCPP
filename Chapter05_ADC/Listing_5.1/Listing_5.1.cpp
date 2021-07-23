@@ -25,12 +25,11 @@ int main()
   message = "Read an analog value and wait 100 milliseconds between each read";
   cout << RainbowText(message, "Blue") << endl;
 
-  int adcValueOut = 0;
+  int adcValue = 0;
   int intervalTime = 100;
   for (int i = 0; i < 100; i++) {
-    adcPin.ReadADC(adcValueOut, intervalTime);
-    cout << "Reading " << i+1 << " of " << " 100: ";
-    cout << adcValueOut << endl;
+    adcValue = adcPin.ReadADC(intervalTime);
+    cout << "Reading " << i+1 << " of " << "100: ";
   }
 
   message = "Main program finishes here...";

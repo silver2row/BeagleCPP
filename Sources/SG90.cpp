@@ -6,7 +6,7 @@
 SG90::SG90 (PWM newPWMPin) : pwmPin(newPWMPin)
 {
   angle = 0;
-  minimumPulseWidth = 500000;
+  minimumPulseWidth = 544444;
   maximumPulseWidth = 2500000;
 
   this->InitSG90();
