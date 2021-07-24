@@ -69,7 +69,7 @@ int SG90::GetMaximumPulseWidth()
 void SG90::SetAngle(int newAngle)
 {
   angle = newAngle;
-  double mapping = (maximumPulseWidth-minimumPulseWidth)/180.0 * angle + minimumPulseWidth;
+  double mapping = (maximumPulseWidth-minimumPulseWidth) * angle / 180.0  + minimumPulseWidth;
   int pulseWidth = static_cast<int>(mapping);
   pwmPin.SetDutyCycleByPeriod(pulseWidth);
 
