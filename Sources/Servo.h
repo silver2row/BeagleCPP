@@ -1,12 +1,12 @@
-#ifndef SG90_H
-#define SG90_H
+#ifndef Servo_H
+#define Servo_H
 
 #include "PWM.h"
 
 /* The numeric mode for ACTION on the motor: e.g. 0/1 for Brake/Stop */
-const int SG90Period = 20000000;
+const int ServoPeriod = 20000000;
 
-class SG90 : public PWM
+class Servo : public PWM
 {
 private:
   PWM pwmPin;
@@ -14,16 +14,16 @@ private:
   int minimumPulseWidth;  // Minimum pulse width in ns
   int maximumPulseWidth;  // Minimum pulse width in ns
 
-  // Set the SG90 period for the PWM pin  
-  virtual void InitSG90();
+  // Set the Servo period for the PWM pin  
+  virtual void InitServo();
 
 public:
 
   // Overload constructor
-  SG90(PWM);
+  Servo(PWM);
 
   // Overload constructor with min and max pulse width in ns
-  SG90(PWM, int, int);
+  Servo(PWM, int, int);
 
   // Accessor method the minimum pulse width
   virtual int GetMinimumPulseWidth();
@@ -35,7 +35,7 @@ public:
   virtual void SetAngle (int);
   
   // Destructor
-  ~SG90();
+  ~Servo();
 };
 
-#endif // SG90_H
+#endif // Servo_H

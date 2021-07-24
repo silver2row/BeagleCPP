@@ -9,12 +9,12 @@ https://github.com/wgaonar/BeagleCPP
 Class: SG90
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/SG90.h"
+#include "../../../Sources/Servo.h"
 
 using namespace std;
 
-// Declare the SG90 object
-SG90 myServo(P8_13);
+// Declare the Servo object
+Servo myServo(P8_13);
 
 int main()
 {
