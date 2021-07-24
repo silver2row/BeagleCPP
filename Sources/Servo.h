@@ -3,7 +3,7 @@
 
 #include "PWM.h"
 
-/* The numeric mode for ACTION on the motor: e.g. 0/1 for Brake/Stop */
+/* The standard period of 20ms to control any servo */
 const int ServoPeriod = 20000000;
 
 class Servo : public PWM
