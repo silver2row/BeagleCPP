@@ -6,7 +6,7 @@ https://github.com/wgaonar/BeagleCPP
 
 - Sweep a Servomotor 
 
-Class: SG90
+Class: Servo
 ******************************************************************************/
 #include <iostream>
 #include "../../../Sources/Servo.h"
