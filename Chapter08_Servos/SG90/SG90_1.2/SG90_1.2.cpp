@@ -13,10 +13,10 @@ Class: Servo
 
 using namespace std;
 
-// Declare the SG90 object
+// Declare the Servo object
 PWM pwmPin(P8_13);
 
-// Declare the SG90 object
+// Declare the Servo object
 Servo myServo(pwmPin);
 
 int main()
