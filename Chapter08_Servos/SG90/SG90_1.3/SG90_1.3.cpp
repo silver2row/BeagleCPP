@@ -17,8 +17,8 @@ using namespace std;
 // Declare the Servo object
 Servo myServo(P8_13);
 
-// Global ADC pin declaration 
-ADC adcPin(P9_39);
+// Declare the ADC pin to attach the potentiometer
+ADC myPotentiometer(P9_39);
 
 // Global variables
 bool stopMoveServo = false;
@@ -31,7 +31,7 @@ int MoveServo()
   while (stopMoveServo == false)
   {
     // Read the analog converted value
-    adcValueOut = adcPin.ReadADC();
+    adcValueOut = myPotentiometer.ReadADC();
 
     // Map the adc value to the angle
     angle = adcValueOut / 4095.0 * 180;
@@ -50,7 +50,7 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   // Activate the ADC object's callback function
-  adcPin.DoUserFunction(&MoveServo);
+  myPotentiometer.DoUserFunction(&MoveServo);
 
   char userInput = '\0';
   while (userInput != 'y')
