@@ -33,7 +33,7 @@ int MoveServo()
     // Read the analog converted value
     adcValueOut = myPotentiometer.ReadADC();
 
-    // Map the adc value to the angle
+    // Map the adc value to the speed
     speed = (adcValueOut - 2048) / 4095.0 * 200;
 
     // Move the servo
