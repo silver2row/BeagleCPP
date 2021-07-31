@@ -4,7 +4,7 @@ SM-S2309S_1.1.cpp
 28/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Declare a SG90 object with customized minimum and maximun pulse width  
+- Declare a Servo object with customized minimum and maximun pulse width  
 - Change the servomotor angle with the keyboard entry  
 
 Class: Servo
