@@ -35,7 +35,7 @@ public:
   // Interface method to set the angle 
   virtual void SetAngle (int);
 
-  // Interface method to set the speed for a continuos servo 
+  // Interface method to set the speed for a continuous servo 
   virtual void SetSpeed (int);
   
   // Destructor

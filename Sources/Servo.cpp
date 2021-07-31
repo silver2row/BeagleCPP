@@ -80,7 +80,7 @@ void Servo::SetAngle(int newAngle)
 }
 
 /*
-  Public method to set the speed for a continuos servo
+  Public method to set the speed for a continuous servo
   @param int: the desired angle (-100-100)     
 */
 void Servo::SetSpeed(int newSpeed)

@@ -4,7 +4,7 @@ SM-S4303R_1.1.cpp
 31/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Move a continuos rotation servo with the readings from a potentiometer
+- Move a continuous rotation servo with the readings from a potentiometer
 
 Class: Servo
 ******************************************************************************/
