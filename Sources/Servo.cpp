@@ -21,7 +21,7 @@ Servo::Servo (PWM newPWMPin,
             maximumPulseWidth(newMaximumPulseWidth)
 { 
   angle = 0;
-
+  speed = 0;
   this->InitServo();
 }
 
@@ -63,8 +63,8 @@ int Servo::GetMaximumPulseWidth()
 }
 
 /*
-  Public method to set the speed rotation
-  @param int: the desired angle (-90,00)     
+  Public method to set the angle
+  @param int: the desired angle (0-180)     
 */
 void Servo::SetAngle(int newAngle)
 {
@@ -75,6 +75,24 @@ void Servo::SetAngle(int newAngle)
 
   std::string message;
   message = "angle: " + std::to_string(angle) + " -> pulse width: " +
+            std::to_string(pulseWidth) + "ns\n";
+  std::cout << RainbowText(message, "Light Blue"); 
+}
+
+/*
+  Public method to set the speed for a continuos servo
+  @param int: the desired angle (-100-100)     
+*/
+void Servo::SetSpeed(int newSpeed)
+{
+  speed = newSpeed;
+  int averagePulseWidth = (maximumPulseWidth-minimumPulseWidth) / 2 + minimumPulseWidth;
+  double mapping = (maximumPulseWidth-minimumPulseWidth)/200.0 * speed + averagePulseWidth;
+  int pulseWidth = static_cast<int>(mapping);
+  pwmPin.SetDutyCycleByPeriod(pulseWidth);
+
+  std::string message;
+  message = "speed: " + std::to_string(speed) + " -> pulse width: " +
             std::to_string(pulseWidth) + "ns\n";
   std::cout << RainbowText(message, "Light Blue"); 
 }

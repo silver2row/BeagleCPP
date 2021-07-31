@@ -10,9 +10,10 @@ class Servo : public PWM
 {
 private:
   PWM pwmPin;
-  int angle;              // Desired angle in degrees
   int minimumPulseWidth;  // Minimum pulse width in ns
   int maximumPulseWidth;  // Minimum pulse width in ns
+  int angle;              // Desired angle in degrees
+  int speed;              // Desired speed in percentage for a continuos servo
 
   // Set the Servo period for the PWM pin  
   virtual void InitServo();
@@ -31,8 +32,11 @@ public:
   // Accessor method the maximum pulse width
   virtual int GetMaximumPulseWidth();
 
-  // Interface method to drive the motor 
+  // Interface method to set the angle 
   virtual void SetAngle (int);
+
+  // Interface method to set the speed for a continuos servo 
+  virtual void SetSpeed (int);
   
   // Destructor
   ~Servo();
