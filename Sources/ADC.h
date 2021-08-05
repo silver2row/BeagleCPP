@@ -2,6 +2,7 @@
 #define ADC_H
 
 #include <string>
+#include <vector>
 #include <thread>
 
 #include "SYSFILEACCESS.h"
@@ -30,19 +31,22 @@ class ADC : public SYSFILEACCESS
 
     bool stopReadADCFlag = false;
     bool stopReadVoltageFlag = false;
-
-    std::thread ReadADCThread;
-    std::thread ReadVoltageThread;
-
+    
     void MakeReadADC(int &, int);
-    void MakeReadVoltage(float &, int);
+    void MakeReadVoltage(double &, int);
 
     // Helper method to get the ADC value on pin
     virtual int GetADC();
 
   public:
     // Default constructor
+    ADC();
+
+    // Overload constructor
     ADC(ADC_ID);
+
+    // Accessor method to get the header pin's name
+    virtual std::string GetPinHeaderId();
 
     // Interface method to read one time the ADC value on the pin
     virtual int ReadADC();
@@ -54,13 +58,13 @@ class ADC : public SYSFILEACCESS
     virtual void ReadADC(int &, int);
 
     // Interface method to read one time the voltage on the pin
-    virtual float ReadVoltage();
+    virtual double ReadVoltage();
 
     // Overload interface method to read the voltage with an interval time
-    virtual float ReadVoltage(int);
+    virtual double ReadVoltage(int);
 
     // Interface method for reading the voltage in background
-    virtual void ReadVoltage(float &, int);
+    virtual void ReadVoltage(double &, int);
     
     // Method to do execute an user function
     virtual int DoUserFunction(callbackType);

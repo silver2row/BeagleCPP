@@ -1,10 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <chrono> // chrono::milliseconds()
-#include <thread> // this_thread::sleep_for()
 #include <exception>
-#include <mutex>
 
 #include "ADC.h"
 
@@ -20,7 +16,10 @@ class ADC_Exception : public std::exception
     }
 };
 
-// Default Constructor
+// Default constructor
+ADC::ADC() {}
+
+// Overload Constructor
 ADC::ADC(ADC_ID newADCPin)
 {
   id = newADCPin;
@@ -44,6 +43,14 @@ ADC::ADC(ADC_ID newADCPin)
 
   message = "Setting the ADC pin was a success!\n\n";
   std::cout << RainbowText(message, "Violet"); 
+}
+
+/*
+  Public method to get the pin's header name
+  @return std::string: The pin's header name, e.g. "P9_39"
+*/
+std::string ADC::GetPinHeaderId() {
+  return idMap[id];
 }
 
 /*
@@ -96,8 +103,8 @@ void ADC::ReadADC(int &adcValueOut, int timeInterval)
 {
   std::string message = "Read ADC value in a THREAD has been activated\n";
   std::cout << RainbowText(message, "Violet", "Default", "Bold") << std::endl;
-  ReadADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval);
-
+  std::thread readADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval);
+  readADCThread.detach();
 }
 
 /*
@@ -126,9 +133,9 @@ void ADC::StopReadADC()
   Public method to get the voltage on the pin
   @return float: Output for the ADC voltage between 0 - 1.8
 */
-float ADC::ReadVoltage()
+double ADC::ReadVoltage()
 {
-  float voltageOut = GetADC() * 1.8 / 4095;
+  double voltageOut = GetADC() * 1.8 / 4095;
 
   std::string message;
   message = "Voltage on pin " + idMap[id] + ": " + std::to_string(voltageOut) + " \n";
@@ -139,11 +146,11 @@ float ADC::ReadVoltage()
 
 /*
   Public method to get the voltage on the pin
-  @param float: Output for the ADC voltage between 0 - 1.8
+  @param double: Output for the ADC voltage between 0 - 1.8
   @param int: The time interval between each sample
 
 */
-float ADC::ReadVoltage(int timeInterval)
+double ADC::ReadVoltage(int timeInterval)
 {
   float voltageOut = ReadVoltage();
   Delayms(timeInterval);
@@ -152,14 +159,15 @@ float ADC::ReadVoltage(int timeInterval)
 
 /*
   Public method to get continuosly the voltage on the pin 
-  @param float: Reference output for the ADC voltage between 0 - 1.8
+  @param double: Reference output for the ADC voltage between 0 - 1.8
   @param int: The time interval between each sample
 */
-void ADC::ReadVoltage(float &voltageOut, int timeInterval) 
+void ADC::ReadVoltage(double &voltageOut, int timeInterval) 
 {
   std::string  message = "Read voltage in a THREAD has been activated\n";
   std::cout << RainbowText(message, "Violet", "Default", "Bold");
-  ReadVoltageThread = std::thread(&ADC::MakeReadVoltage, this, std::ref(voltageOut),timeInterval);
+  std::thread readVoltageThread = std::thread(&ADC::MakeReadVoltage, this, std::ref(voltageOut),timeInterval);
+  readVoltageThread.detach();
 }
 
 /*
@@ -167,7 +175,7 @@ void ADC::ReadVoltage(float &voltageOut, int timeInterval)
   @param int: A reference variable to store The pin's value between 0 - 4095
   @param int: The time interval between each sample
 */
-void ADC::MakeReadVoltage(float &voltageOut, int timeInterval) 
+void ADC::MakeReadVoltage(double &voltageOut, int timeInterval) 
 {
   while (stopReadVoltageFlag == false) 
   {
@@ -200,9 +208,6 @@ int ADC::DoUserFunction (callbackType callbackFunction) {
 
 // Destructor
 ADC::~ADC() {
-  if (ReadADCThread.joinable()) ReadADCThread.join();
-  if (ReadVoltageThread.joinable()) ReadVoltageThread.join();
-
   // Waiting for the last reading on the pin
   Delayms(10);
 }
