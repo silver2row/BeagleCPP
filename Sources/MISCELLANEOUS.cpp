@@ -19,7 +19,7 @@ void Delayms(int millisecondsToSleep) {
   Function to do a delay in microseconds
   @param int: duration of the delay
 */
-void Delayus(int microsecondsToSleep) {
+void DelayMicroseconds(int microsecondsToSleep) {
   std::this_thread::sleep_for(microseconds(microsecondsToSleep));
 }
 

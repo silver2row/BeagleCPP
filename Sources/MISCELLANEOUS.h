@@ -7,7 +7,7 @@
 void Delayms(int);
 
 // Delay method in microseconds
-void Delayus(int);
+void DelayMicroseconds(int);
 
 // Count the actual running time in milliseconds
 unsigned long Millis();
