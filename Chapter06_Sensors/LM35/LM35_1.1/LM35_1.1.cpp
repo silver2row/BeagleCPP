@@ -6,7 +6,7 @@ https://github.com/wgaonar/BeagleCPP
 
 Make and show 20 distance readings each half second
 
-Class: DHT
+Class: LM35
 ******************************************************************************/
 
 #include <iostream>
