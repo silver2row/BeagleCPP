@@ -22,7 +22,7 @@ public:
   LM35(ADC);
 
   // Public method to read the Temperature in °C
-  double ReadTemperatureCelsius();   
+  double ReadTemperatureCelsius();
   
   // Public method to read the Temperature in °F
   double ReadTemperatureFahrenheit();
