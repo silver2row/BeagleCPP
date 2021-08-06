@@ -18,11 +18,11 @@ private:
 
 public:
 
-  // Overload constructor with trigger and echo pins
+  // Overload constructor with ADC pin
   LM35(ADC);
 
   // Public method to read the Temperature in °C
-  double ReadTemperatureCelsius();
+  double ReadTemperatureCelsius();   
   
   // Public method to read the Temperature in °F
   double ReadTemperatureFahrenheit();
