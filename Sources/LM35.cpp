@@ -24,7 +24,6 @@ void LM35::InitSensor()
   Delayms(100);
 }
 
-
 /*
   Private method to read and store the data from the sensor
 */
@@ -35,7 +34,6 @@ void LM35::ReadDataFromSensor()
   temperatureCelsius = voltageFromSensor * 100;
   temperatureFahrenheit = temperatureCelsius * 1.8 + 32;
 }
-
 
 /*
   Public method to get the temperature in °C
