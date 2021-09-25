@@ -41,7 +41,7 @@ GPIO::GPIO (GPIO_ID newId, MODE newMode)
   std::cout << RainbowText("Setting the GPIO pin with direction (I/O) was a success!\n\n", "Green");
 }
 
-// Private method to initialize the GPIO pin
+// Protected method to initialize the GPIO pin
 void GPIO::InitGPIOPin()
 {
   InitPinIdMap();
@@ -59,7 +59,7 @@ void GPIO::InitGPIOPin()
   std::cout << RainbowText("The GPIO pin's system folder was created!\n", "Green");
 }
 
-// Private method to initialize the Map of GPIO pin with its name
+// Protected method to initialize the Map of GPIO pin with its name
 void GPIO::InitPinIdMap()
 {
   blackPinIdMap[P8_07] = "P8_07";

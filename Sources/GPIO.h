@@ -13,13 +13,15 @@
 const std::string GPIO_PATH("/sys/class/gpio/");
 
 /* The numeric mode for MODE: e.g. 0/1 for OUTPUT/INPUT */
-enum MODE {
+enum MODE 
+{
   OUTPUT = 0,
   INPUT = 1,
 };
 
 /* The numeric value for VALUE: e.g. 0/1 for LOW/HIGH */
-enum STATE {
+enum STATE 
+{
   LOW = 0,
   HIGH = 1,
 };
