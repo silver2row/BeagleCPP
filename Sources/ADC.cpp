@@ -187,7 +187,8 @@ void ADC::MakeReadVoltage(double &voltageOut, int timeInterval)
 /*
   Public method to stop reading the voltage 
 */
-void ADC::StopReadVoltage() {
+void ADC::StopReadVoltage() 
+{
   stopReadVoltageFlag = true;
 }
 
