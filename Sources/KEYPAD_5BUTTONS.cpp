@@ -80,7 +80,26 @@ COMMAND KEYPAD_5BUTTONS::ReadPushedButton()
 
   std::string message;
   message = "The command read is: " + idCommandName[command] + "\n";
-  std::cout << RainbowText(message, "Neon Green");
+  switch (command)
+  {
+  case FORWARD:
+    std::cout << RainbowText(message, "Blue");
+    break;
+  case LEFT:
+    std::cout << RainbowText(message, "Red");
+    break;
+  case BACKWARD:
+    std::cout << RainbowText(message, "Yellow");
+    break;
+  case GO:
+    std::cout << RainbowText(message, "White");
+    break;
+  case RIGHT:
+    std::cout << RainbowText(message, "Green");
+    break;
+  default:
+    break;
+  }
 
   return command; 
 }
