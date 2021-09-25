@@ -12,10 +12,7 @@ class LED: protected GPIO
     bool stopFlashFlag = false;
     bool stopHeartBeatFlag = false;
     
-    std::thread blinkThread;
-    std::thread flashThread;
-    std::thread heartBeatThread;
-    
+    void MakeTurnOn(int); 
     void MakeBlink(int); 
     void MakeFlash(int, int);
     void MakeHeartBeat(int, int);
@@ -29,6 +26,9 @@ class LED: protected GPIO
 
     // Method to turn on the Led
     void TurnOn();
+
+    // Overload method to turn on the Led for a certain time
+    void TurnOn(int);
 
     // Method to turn off the Led
     void TurnOff();
