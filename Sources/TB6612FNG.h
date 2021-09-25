@@ -16,7 +16,6 @@ enum ACTION {
 class TB6612FNG : public GPIO, public PWM
 {
 private:
-
   GPIO input1Pin;
   GPIO input2Pin;
   PWM pwmPin;
