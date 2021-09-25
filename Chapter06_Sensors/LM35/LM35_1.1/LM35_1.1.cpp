@@ -14,7 +14,7 @@ Class: LM35
 
 using namespace std;
 
-// Global ADC pin declaration 
+// Global LM35 object instantiation
 LM35 mySensor(P9_40);
 
 // Global Variables
