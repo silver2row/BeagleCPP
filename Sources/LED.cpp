@@ -114,6 +114,7 @@ void LED::Flash(int timeOn, int period)
   };
   std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl;
   std::thread flashThread = std::thread(&LED::MakeFlash, this, timeOn, period);
+  flashThread.detach();
 }
 
 /*
@@ -155,6 +156,7 @@ void LED::HeartBeat(int timeOn, int period)
   };
   std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl;
   std::thread heartBeatThread = std::thread(&LED::MakeHeartBeat, this, timeOn, period);
+  heartBeatThread.detach();
 }
 
 /*
