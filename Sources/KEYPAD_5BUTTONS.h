@@ -18,18 +18,24 @@ enum COMMAND
 class KEYPAD_5BUTTONS : public ADC, public LED
 {
 private:
-  LED ledBluePin;
-  LED ledRedPin;
-  LED ledYellowPin;
-  LED ledGreenPin;
+  LED blueLedPin;
+  LED redLedPin;
+  LED yellowLedPin;
+  LED greenLedPin;
   ADC ADCPin;
-  COMMAND command;
-  std::string idCommandName[6]; /* An array to store the commands in string format*/
   
+  COMMAND command;
+  int ledDuration;
+  std::string idCommandName[6]; /* Array to store the commands in string format */
+
+
   // Initialize the sensor with the data provided by the constructor
   virtual void InitKeyPad();
 
 public:
+
+  // Default constructor
+  KEYPAD_5BUTTONS();
 
   // Overload constructor with ADC pin and LED pins
   KEYPAD_5BUTTONS(ADC, LED, LED, LED, LED);
