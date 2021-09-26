@@ -25,7 +25,8 @@ int main()
     greenLedPin.HeartBeat(100,1000);
 
     char userInput = '\0';
-    while (userInput != 'y') {
+    while (userInput != 'y') 
+    {
       message = "Do you want to stop the heart beat patterns? Enter 'y' for yes: ";
       cout << RainbowText(message, "Violet");
       cin >> userInput;

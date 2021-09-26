@@ -27,7 +27,8 @@ int main() {
   ledPinYellow.Blink(100);
 
   char userInput = '\0';
-  while (userInput != 'y') {
+  while (userInput != 'y') 
+  {
     message = "Do you want to stop blinking? Enter 'y' for yes: ";
     cout << RainbowText(message, "Violet");
     cin >> userInput;

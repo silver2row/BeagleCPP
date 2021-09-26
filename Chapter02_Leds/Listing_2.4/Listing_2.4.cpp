@@ -23,7 +23,8 @@ int main()
   cout <<  "Starting a cycle to Toggle a led 10 times" << endl;
   ledPin.TurnOn();
 
-  for (size_t i = 0; i < 10; i++) {
+  for (size_t i = 0; i < 10; i++) 
+  {
     ledPin.Toggle();
     Delayms(500);
   }

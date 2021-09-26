@@ -28,7 +28,8 @@ int main()
   ledPinWhite.Flash(50, 250);
 
   char userInput = '\0';
-  while (userInput != 'y') {
+  while (userInput != 'y') 
+  {
     message = "Do you want to stop flashing? Enter 'y' for yes: ";
     cout << RainbowText(message, "Violet");
     cin >> userInput;
