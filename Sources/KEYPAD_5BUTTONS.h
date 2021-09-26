@@ -10,8 +10,8 @@ enum COMMAND
   FORWARD = 0,
   LEFT = 1,
   BACKWARD = 2,
-  RIGHT = 3,
-  GO = 4,
+  GO = 3,
+  RIGHT = 4,
   NOT_IDENTIFIED = 5,
 };
 
@@ -26,8 +26,9 @@ private:
   
   COMMAND command;
   int ledDuration;
-  std::string idCommandName[6]; /* Array to store the commands in string format */
-
+  
+  /* Map to store the commands numeric value with its string name */
+  std::map <COMMAND, std::string> commandNameMap; 
 
   // Initialize the sensor with the data provided by the constructor
   virtual void InitKeyPad();
@@ -42,6 +43,9 @@ public:
 
   // Public method to determine the pushed button
   COMMAND ReadPushedButton();
+
+  // Accessor method to get the command's name
+  virtual std::string GetCommandName(COMMAND); 
   
   // Destructor
   ~KEYPAD_5BUTTONS();

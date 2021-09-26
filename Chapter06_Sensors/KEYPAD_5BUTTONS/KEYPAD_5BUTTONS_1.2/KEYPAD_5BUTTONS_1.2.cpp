@@ -4,12 +4,14 @@ KEYPAD_5BUTTONS_1.2.cpp
 24/09/2021
 https://github.com/wgaonar/BeagleCPP
 
-Read the pushed button and store this in a vector
+Read the pushed button while it is different from GO and store these in a vector
 
 Class: KEYPAD_5BUTTONS
 ******************************************************************************/
 
 #include <iostream>
+#include <vector>
+
 #include "../../../Sources/KEYPAD_5BUTTONS.h"
 
 using namespace std;
@@ -27,34 +29,29 @@ KEYPAD_5BUTTONS myKeyPad (VoutPin, blueLedPin, redLedPin, yellowLedPin, greenLed
 // Global Variables
 bool stopReadKeyPad = false;
 COMMAND command = NOT_IDENTIFIED;
-
-int ReadKeyPad() {
-  while (stopReadKeyPad == false) 
-  {
-    command = myKeyPad.ReadPushedButton();
-    cout << "'y' for exit" << endl;
-    Delayms(250);
-  }
-  return 0;
-}
+vector<COMMAND> movements;
 
 int main()
 {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
-  // Call the function to read the temperature
-  myKeyPad.DoUserFunction(&ReadKeyPad);
-
-  char userInput = '\0';
-  while (userInput != 'y') 
+  command = myKeyPad.ReadPushedButton();
+  while (command != GO)
   {
-    message = "Do you want to stop the readings on the pin? Enter 'y' for yes: ";
-    cout << RainbowText(message, "Blue")  << endl;
-    
-    cin >> userInput;
-    if (userInput == 'y') 
-      stopReadKeyPad = true;
+    if (command != NOT_IDENTIFIED)
+      movements.push_back(command);
+    Delayms(250);
+    command = myKeyPad.ReadPushedButton();
+  }
+
+  cout << "The entered sequence of movements was: \n";
+  for (int index = 0; index < movements.size(); ++index)
+  {
+    cout << "Movement[" << index << "] = ";
+    cout  << movements.at(index) 
+          << " (" << myKeyPad.GetCommandName(movements.at(index)) << ")" 
+          << endl;
   }
 
   message = "Main program finishes here...";

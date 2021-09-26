@@ -25,7 +25,7 @@ KEYPAD_5BUTTONS::KEYPAD_5BUTTONS (ADC newADCPin,
   message = "KEYPAD_5BUTTONS object with Vout signal on pin: " +
             this->ADCPin.GetPinHeaderId() +
             " was created!\n\n";
-  std::cout << RainbowText(message, "Violet");
+  std::cout << RainbowText(message, "Gray");
 }
 
 /*
@@ -34,20 +34,21 @@ KEYPAD_5BUTTONS::KEYPAD_5BUTTONS (ADC newADCPin,
 void KEYPAD_5BUTTONS::InitKeyPad() 
 {
   ledDuration = 250;
-  idCommandName[FORWARD] = "Forward";
-  idCommandName[LEFT] = "Left";
-  idCommandName[BACKWARD] = "Backward";
-  idCommandName[RIGHT] = "Right";
-  idCommandName[GO] = "Go";
-  idCommandName[NOT_IDENTIFIED] = "Not Pressed / Not Identified";
+
+  commandNameMap[FORWARD] = "Forward";
+  commandNameMap[LEFT] = "Left";
+  commandNameMap[BACKWARD] = "Backward";
+  commandNameMap[GO] = "Go";
+  commandNameMap[RIGHT] = "Right";
+  commandNameMap[NOT_IDENTIFIED] = "Not Pressed / Not Identified";
 
   // Security before start the reading
   Delayms(100);
 }
 
 /*
-  Public method to get the temperature in °C
-  @return COMMAND: The determined command:
+  Public method to read the pushed button
+  @return COMMAND: The chosen command according to the pushed button
 */
 COMMAND KEYPAD_5BUTTONS::ReadPushedButton() 
 {
@@ -83,7 +84,7 @@ COMMAND KEYPAD_5BUTTONS::ReadPushedButton()
     this->command = NOT_IDENTIFIED;   
 
   std::string message;
-  message = "The command read is: " + idCommandName[command] + "\n";
+  message = "The command read is: " + commandNameMap.at(command) + "\n";
   switch (command)
   {
   case FORWARD:
@@ -106,6 +107,16 @@ COMMAND KEYPAD_5BUTTONS::ReadPushedButton()
   }
 
   return command; 
+}
+
+/*
+  Public method to get the command's name
+  @param COMMAND: The numeric value of the command 
+  @return string: The command's name
+*/
+std::string KEYPAD_5BUTTONS::GetCommandName(COMMAND command)
+{
+  return commandNameMap.at(command);
 }
 
 // Destructor
