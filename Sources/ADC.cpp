@@ -198,7 +198,8 @@ void ADC::StopReadVoltage()
   @return int: 1 the user function was called      
 */
 
-int ADC::DoUserFunction (callbackType callbackFunction) {
+int ADC::DoUserFunction (callbackType callbackFunction) 
+{
   std::string message = "'UserFunction' method has been activated!";
   std::cout << RainbowText(message, "Violet", "Default", "Bold") << std::endl;
 

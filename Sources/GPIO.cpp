@@ -93,7 +93,8 @@ void GPIO::InitPinIdMap()
   Public method to get the pin's kernel number id
   @return int: The pin's kernel number, e.g. 67
 */
-int GPIO::GetPinKernelId() {
+int GPIO::GetPinKernelId() 
+{
   return id;
 }
 
@@ -101,7 +102,8 @@ int GPIO::GetPinKernelId() {
   Public method to get the pin's header name
   @return std::string: The pin's header name, e.g. "P8_08"
 */
-std::string GPIO::GetPinHeaderId() {
+std::string GPIO::GetPinHeaderId() 
+{
   return blackPinIdMap.at(id);
 }
 
