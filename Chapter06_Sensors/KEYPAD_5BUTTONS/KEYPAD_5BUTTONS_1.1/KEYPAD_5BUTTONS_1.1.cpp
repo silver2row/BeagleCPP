@@ -21,7 +21,8 @@ KEYPAD_5BUTTONS myKeyPad(P9_38, P9_11, P9_12, P9_13, P9_18);
 bool stopReadKeyPad = false;
 COMMAND command = NOT_IDENTIFIED;
 
-int ReadKeyPad() {
+int ReadKeyPad() 
+{
   while (stopReadKeyPad == false) 
   {
     command = myKeyPad.ReadPushedButton();
