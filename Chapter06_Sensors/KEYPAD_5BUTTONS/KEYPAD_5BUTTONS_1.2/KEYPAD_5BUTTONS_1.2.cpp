@@ -1,10 +1,10 @@
 /******************************************************************************
 KEYPAD_5BUTTONS_1.2.cpp
 @wgaonar
-24/09/2021
+24/10/2021
 https://github.com/wgaonar/BeagleCPP
 
-Read the pushed button while it is different from GO and store these in a vector
+Read and store the keypad pressed buttons sequence in a vector.
 
 Class: KEYPAD_5BUTTONS
 ******************************************************************************/
@@ -19,15 +19,14 @@ using namespace std;
 // Global pin objects instantiation
 ADC VoutPin(P9_38);
 LED blueLedPin(P9_11);
-LED redLedPin(P9_12);
+LED redLedPin(P9_18);
 LED yellowLedPin(P9_13);
-LED greenLedPin(P9_18);
+LED greenLedPin(P9_12);
 
 // Global KEYPAD_5BUTTONS object instantiation
 KEYPAD_5BUTTONS myKeyPad (VoutPin, blueLedPin, redLedPin, yellowLedPin, greenLedPin);
 
 // Global Variables
-bool stopReadKeyPad = false;
 COMMAND command = NOT_IDENTIFIED;
 vector<COMMAND> movements;
 
