@@ -230,8 +230,8 @@ void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
 /*
   Overload function to drive FORWARD and simultaneously a robot 
   with a couple of motors during certain time
-  @param TB6612FNG &: The reference to the motor of the robot
-  @param TB6612FNG &: The reference to the motor of the robot
+  @param TB6612FNG &: The reference to left the motor of the robot
+  @param TB6612FNG &: The reference to right the motor of the robot
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
   @param int: The desired duration in milliseconds.
@@ -278,8 +278,8 @@ void Forward (std::vector<TB6612FNG *> vectorOfMotors, int speed, int duration, 
 
 /*
   Function to drive BACKWARD a robot with a couple of motors
-  @param TB6612FNG &: The reference to the motor of the robot
-  @param TB6612FNG &: The reference to the motor of the robot
+  @param TB6612FNG &: The reference to left the motor of the robot
+  @param TB6612FNG &: The reference to right the motor of the robot
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value. 
 */
@@ -294,8 +294,8 @@ void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
 /*
   Overload function to drive BACKWARD and simultaneously a robot 
   with a couple of motors during certain time
-  @param TB6612FNG &: The reference to the motor of the robot
-  @param TB6612FNG &: The reference to the motor of the robot
+  @param TB6612FNG &: The reference to left the motor of the robot
+  @param TB6612FNG &: The reference to right the motor of the robot
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
   @param int: The desired duration in milliseconds.
@@ -342,8 +342,8 @@ void Backward (std::vector<TB6612FNG *> vectorOfMotors, int speed, int duration,
 
 /*
   Function to make a turn to the LEFT on a robot with a couple of motors
-  @param TB6612FNG &: The reference to the motor of the robot
-  @param TB6612FNG &: The reference to the motor of the robot
+  @param TB6612FNG &: The reference to left the motor of the robot
+  @param TB6612FNG &: The reference to right the motor of the robot
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value. 
 */
@@ -357,11 +357,12 @@ void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
 
 /*
   Overload to make a turn to the LEFT on a robot with a couple of motors
-  @param TB6612FNG &: The reference to the motor of the robot
-  @param TB6612FNG &: The reference to the motor of the robot
+  @param TB6612FNG &: The reference to left the motor of the robot
+  @param TB6612FNG &: The reference to right the motor of the robot
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
-  @param int: The desired duration in milliseconds. 
+  @param int: The desired duration in milliseconds.
+  @param ACTION: Confirm to brake or stop the motor after driving it. 
 */
 void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, ACTION action)
 {
@@ -373,8 +374,8 @@ void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int durat
 
 /*
   Function to make a turn to the RIGHT a robot with a couple of motors
-  @param TB6612FNG &: The reference to the motor of the robot
-  @param TB6612FNG &: The reference to the motor of the robot
+  @param TB6612FNG &: The reference to left the motor of the robot
+  @param TB6612FNG &: The reference to right the motor of the robot
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value. 
 */
@@ -388,8 +389,8 @@ void TurnRight (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
 
 /*
   Overload to make a turn to the RIGHT on a robot with a couple of motors
-  @param TB6612FNG &: The reference to the motor of the robot
-  @param TB6612FNG &: The reference to the motor of the robot
+  @param TB6612FNG &: The reference to left the motor of the robot
+  @param TB6612FNG &: The reference to right the motor of the robot
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
   @param int: The desired duration in milliseconds
