@@ -30,7 +30,7 @@ int DoStairs(PWM pwmPin)
   for (int pwmValue = 0; pwmValue <= 100; pwmValue += 10) {
     cout << "Setting a duty cycle of: " << pwmValue << endl;
     pwmPin.SetDutyCycle(pwmValue);
-    Delayms(50);
+    DelayMilliseconds(50);
   }
   cout << endl;
 
@@ -40,7 +40,7 @@ int DoStairs(PWM pwmPin)
   for (int pwmValue = 100; pwmValue >= 0; pwmValue -= 10) {
     cout << "Setting a duty cycle of: " << pwmValue << endl;
     pwmPin.SetDutyCycle(pwmValue);
-    Delayms(50);
+    DelayMilliseconds(50);
   }
   cout << endl;
     

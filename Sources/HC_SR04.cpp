@@ -63,7 +63,7 @@ void HC_SR04::InitSensor()
 
   // Security before start the readings
   triggerPin.DigitalWrite(LOW);
-  Delayms(500);
+  DelayMilliseconds(500);
 }
 /*
   Private method to count the pulse duration
@@ -92,7 +92,7 @@ double HC_SR04::MeasureDistanceCm()
 {
   // Send the pulse and keep it for at least 5ms in HIGH state
   triggerPin.DigitalWrite(HIGH);
-  Delayms(5);
+  DelayMilliseconds(5);
   triggerPin.DigitalWrite(LOW);
 
   double distanceCm = (this->PulseDuration() * soundSpeed / 2.0) + this->offset;

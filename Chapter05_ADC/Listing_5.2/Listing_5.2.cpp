@@ -27,7 +27,7 @@ int AnalogRead() {
     adcValueOut = adcPin.ReadADC();
     adcVoltageOut = adcPin.ReadVoltage();
     cout << "'y' for exit" << endl;
-    Delayms(250);
+    DelayMilliseconds(250);
   }
   return 0;
 }

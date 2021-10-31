@@ -36,7 +36,7 @@ int main() {
   {
     cout << "Distance reading: " << count << " = " << distance << "cm\n";
     count++;
-    Delayms(250);
+    DelayMilliseconds(250);
     if (distance <= 5) 
     {
       cout << "Too close! Exiting...\n";

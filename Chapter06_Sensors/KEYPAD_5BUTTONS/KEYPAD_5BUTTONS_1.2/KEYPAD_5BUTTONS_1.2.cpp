@@ -40,7 +40,7 @@ int main()
   {
     if (command != NOT_IDENTIFIED)
       movements.push_back(command);
-    Delayms(250);
+    DelayMilliseconds(250);
     command = myKeyPad.ReadPushedButton();
   }
 

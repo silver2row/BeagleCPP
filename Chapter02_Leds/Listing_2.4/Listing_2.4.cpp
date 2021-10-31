@@ -26,7 +26,7 @@ int main()
   for (size_t i = 0; i < 10; i++) 
   {
     ledPin.Toggle();
-    Delayms(500);
+    DelayMilliseconds(500);
   }
   
   message = "Main program finishes here...";

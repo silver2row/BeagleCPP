@@ -11,7 +11,7 @@ using namespace std::chrono;
   Function to do a delay in milliseconds
   @param int: duration of the delay
 */
-void Delayms(int millisecondsToSleep) {
+void DelayMilliseconds(int millisecondsToSleep) {
   std::this_thread::sleep_for(milliseconds(millisecondsToSleep));
 }
 

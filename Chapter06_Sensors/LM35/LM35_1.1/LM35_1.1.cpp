@@ -28,7 +28,7 @@ int ReadTemperature() {
     temperatureCelsius = mySensor.ReadTemperatureCelsius();
     temperatureFahrenheit = mySensor.ReadTemperatureFahrenheit();
     cout << "'y' for exit" << endl;
-    Delayms(250);
+    DelayMilliseconds(250);
   }
   return 0;
 }

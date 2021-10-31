@@ -25,14 +25,14 @@ int main()
   for (int angle = 0; angle <= 180; angle += 10)
   {
     myServo.SetAngle(angle);
-    Delayms(1000);  // Wait 1000ms for the servo to reach the position
+    DelayMilliseconds(1000);  // Wait 1000ms for the servo to reach the position
   }
 
   // Sweep from 180-0
   for (int angle = 180; angle >= 0; angle -= 10)
   {
     myServo.SetAngle(angle);
-    Delayms(1000);  // Wait 1000ms for the servo to reach the position
+    DelayMilliseconds(1000);  // Wait 1000ms for the servo to reach the position
   }
   
   message = "Main program finishes here...";

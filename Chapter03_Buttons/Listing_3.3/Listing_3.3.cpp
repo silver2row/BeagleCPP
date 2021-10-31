@@ -34,7 +34,7 @@ int main() {
   redButtonPin.AddEventDetection(RISING, &UserCallBackFunction_ButtonRed);
   for (int i = 0; i < 5; i++) {
     cout << 5-i << endl;
-    Delayms(1000);
+    DelayMilliseconds(1000);
   }
 
   message = "Main function ends here...";

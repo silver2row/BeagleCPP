@@ -27,7 +27,7 @@ int ReadKeyPad()
   {
     command = myKeyPad.ReadPushedButton();
     cout << "'y' for exit" << endl;
-    Delayms(250);
+    DelayMilliseconds(250);
   }
   return 0;
 }

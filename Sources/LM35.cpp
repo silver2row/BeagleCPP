@@ -21,7 +21,7 @@ LM35::LM35 (ADC newADCPin) :
 void LM35::InitSensor() 
 {
   // Security before start the reading
-  Delayms(100);
+  DelayMilliseconds(100);
 }
 
 /*

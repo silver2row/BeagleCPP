@@ -90,7 +90,7 @@ int ADC::ReadADC()
 int ADC::ReadADC(int timeInterval) 
 {
   int adcValueOut = ReadADC();
-  Delayms(timeInterval);
+  DelayMilliseconds(timeInterval);
   return adcValueOut;
 }
 
@@ -117,7 +117,7 @@ void ADC::MakeReadADC(int &adcValueOut, int timeInterval)
   while (stopReadADCFlag == false) 
   {
     adcValueOut = ReadADC();
-    Delayms(timeInterval);
+    DelayMilliseconds(timeInterval);
   }
 }
 
@@ -153,7 +153,7 @@ double ADC::ReadVoltage()
 double ADC::ReadVoltage(int timeInterval)
 {
   float voltageOut = ReadVoltage();
-  Delayms(timeInterval);
+  DelayMilliseconds(timeInterval);
   return voltageOut;
 }
 
@@ -180,7 +180,7 @@ void ADC::MakeReadVoltage(double &voltageOut, int timeInterval)
   while (stopReadVoltageFlag == false) 
   {
     voltageOut = ReadVoltage();
-    Delayms(timeInterval);
+    DelayMilliseconds(timeInterval);
   }
 }
 
@@ -211,5 +211,5 @@ int ADC::DoUserFunction (callbackType callbackFunction)
 // Destructor
 ADC::~ADC() {
   // Waiting for the last reading on the pin
-  Delayms(10);
+  DelayMilliseconds(10);
 }

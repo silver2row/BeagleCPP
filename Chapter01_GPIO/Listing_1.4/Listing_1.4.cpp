@@ -4,7 +4,7 @@ Listing_1.4.cpp
 28/03/2021
 https://github.com/wgaonar/BeagleCPP
 
-Blink a LED in milliseconds without Delayms()
+Blink a LED in milliseconds without DelayMilliseconds()
 
 Class: GPIO
 ************************************************************************/

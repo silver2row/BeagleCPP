@@ -39,7 +39,7 @@ int MoveServo()
     // Move the servo
     myServo.SetSpeed(speed);
 
-    Delayms(250);
+    DelayMilliseconds(250);
   }
   return 0;
 }

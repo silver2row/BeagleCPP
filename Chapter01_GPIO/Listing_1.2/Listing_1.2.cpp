@@ -31,10 +31,10 @@ int main()
     ledPin.DigitalWrite(HIGH);
     
     while (buttonPin.DigitalRead() == HIGH) 
-      Delayms(10);
+      DelayMilliseconds(10);
     cout << "The button was released, turning the led OFF" << endl << endl;
     ledPin.DigitalWrite(LOW);
-    Delayms(10);
+    DelayMilliseconds(10);
   }
   
   message = "Main program finishes here...";

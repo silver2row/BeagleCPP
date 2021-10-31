@@ -73,7 +73,7 @@ int main()
 
   redButtonPin.AddEventDetection(RISING, &RedButtonFunction);
   yellowButtonPin.AddEventDetection(FALLING, &YellowButtonFunction);
-  Delayms(10000);
+  DelayMilliseconds(10000);
 
   // Stop the processes on the Buttons and Leds
   greenLedPin.StopBlink();

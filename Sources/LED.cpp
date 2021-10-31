@@ -38,7 +38,7 @@ void LED::TurnOn(int duration)
 void LED::MakeTurnOn(int duration)
 {
   this->DigitalWrite(HIGH);
-  Delayms(duration);
+  DelayMilliseconds(duration);
   this->DigitalWrite(LOW);
 }
 
@@ -85,9 +85,9 @@ void LED::MakeBlink(int duration)
   while (this->stopBlinkFlag == false) 
   {
     this->DigitalWrite(HIGH);
-    Delayms(duration);
+    DelayMilliseconds(duration);
     this->DigitalWrite(LOW);
-    Delayms(duration);
+    DelayMilliseconds(duration);
   }
 }
 
@@ -127,9 +127,9 @@ void LED::MakeFlash(int timeOn, int period)
   while (this->stopFlashFlag == false) 
   {
     this->DigitalWrite(HIGH);
-    Delayms(timeOn);
+    DelayMilliseconds(timeOn);
     this->DigitalWrite(LOW);
-    Delayms(period - timeOn);
+    DelayMilliseconds(period - timeOn);
   }
 }
 
@@ -171,11 +171,11 @@ void LED::MakeHeartBeat(int timeOn, int period)
     for (int i = 0; i < 2; i++) 
     {
       this->DigitalWrite(HIGH);
-      Delayms(timeOn);
+      DelayMilliseconds(timeOn);
       this->DigitalWrite(LOW);
-      Delayms(timeOn);
+      DelayMilliseconds(timeOn);
     }
-    Delayms(period - 4 * timeOn);
+    DelayMilliseconds(period - 4 * timeOn);
   }
 }
 

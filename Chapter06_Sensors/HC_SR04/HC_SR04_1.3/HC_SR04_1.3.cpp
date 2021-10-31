@@ -33,7 +33,7 @@ int main() {
   for (size_t i = 0; i < 10; i++) {
     distance = distanceSensor.MeasureDistanceCmWithMedian(5);;
     cout << "Distance reading: " << i << " = " << distance << "cm\n";
-    Delayms(1000);
+    DelayMilliseconds(1000);
   }
 
   message = "Main program finishes here...";

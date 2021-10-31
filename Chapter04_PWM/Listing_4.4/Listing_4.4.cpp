@@ -26,7 +26,7 @@ int PulseLed()
     {
       float out = sin(in) * 50 + 50;
       pwmWhiteLedPin.SetDutyCycle(out);
-      Delayms(10);
+      DelayMilliseconds(10);
     }
   }
   return 0;

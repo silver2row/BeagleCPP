@@ -43,7 +43,7 @@ void KEYPAD_5BUTTONS::InitKeyPad()
   commandNameMap[NOT_IDENTIFIED] = "Not Pressed / Not Identified";
 
   // Security before start the reading
-  Delayms(100);
+  DelayMilliseconds(100);
 }
 
 /*

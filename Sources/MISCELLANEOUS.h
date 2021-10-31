@@ -4,7 +4,7 @@
 // A file that holds some usefull functions
 
 // Delay method in milliseconds
-void Delayms(int);
+void DelayMilliseconds(int);
 
 // Delay method in microseconds
 void DelayMicroseconds(int);

@@ -29,7 +29,7 @@ int main() {
   for (size_t i = 0; i < 20; i++) {
     distance = distanceSensor.MeasureDistanceCm();
     cout << "Distance reading: " << i << " = " << distance << "cm\n";
-    Delayms(500);
+    DelayMilliseconds(500);
   }
   
   message = "Main program finishes here...";

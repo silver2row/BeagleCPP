@@ -31,40 +31,40 @@ int main()
   {
     int time = 100;
     blueLed1.DigitalWrite(HIGH);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     redLed.DigitalWrite(HIGH);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     yellowLed.DigitalWrite(HIGH);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     greenLed.DigitalWrite(HIGH);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     whiteLed.DigitalWrite(HIGH);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     blueLed2.DigitalWrite(HIGH);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     blueLed2.DigitalWrite(LOW);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     whiteLed.DigitalWrite(LOW);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     greenLed.DigitalWrite(LOW);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     yellowLed.DigitalWrite(LOW);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     redLed.DigitalWrite(LOW);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     blueLed1.DigitalWrite(LOW);
-    Delayms(time);
+    DelayMilliseconds(time);
 
     cout << "Enter 'y', to finish the program: " << endl;
     cin >> userInput;

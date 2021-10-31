@@ -25,10 +25,10 @@ int main()
     cout << "Blinking " << i+1 << " times of " << 10 <<  endl;
     
     ledPin.DigitalWrite(HIGH);
-    Delayms(1000);
+    DelayMilliseconds(1000);
 
     ledPin.DigitalWrite(LOW);
-    Delayms(1000);
+    DelayMilliseconds(1000);
   }
 
   message = "Main program finishes here...";
