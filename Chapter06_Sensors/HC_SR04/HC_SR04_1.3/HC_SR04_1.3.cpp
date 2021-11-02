@@ -4,7 +4,7 @@ HC_SR04_1.3.cpp
 29/06/2021
 https://github.com/wgaonar/BeagleCPP
 
-Uses a Median filter for each one of the 10 sensor readings each second. 
+Uses a Median filter with a window size of 5 readings for 10 processed readings with a delay of one second. 
 The sensor object is constructed with offset and temperature correction factors
 
 Class: HC_SR04
