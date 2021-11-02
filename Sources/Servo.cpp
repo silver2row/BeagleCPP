@@ -2,13 +2,17 @@
 
 #include "Servo.h"
 
+// Default constructor
+Servo::Servo() {}
+
 // Overload Constructor
 Servo::Servo (PWM newPWMPin) : pwmPin(newPWMPin)
 {
   angle = 0;
+  speed = 0;
   minimumPulseWidth = 544444;
   maximumPulseWidth = 2500000;
-
+  averagePulseWidth = (maximumPulseWidth-minimumPulseWidth) / 2 + minimumPulseWidth;
   this->InitServo();
 }
 
@@ -22,6 +26,7 @@ Servo::Servo (PWM newPWMPin,
 { 
   angle = 0;
   speed = 0;
+  averagePulseWidth = (maximumPulseWidth-minimumPulseWidth) / 2 + minimumPulseWidth;
   this->InitServo();
 }
 
@@ -40,7 +45,9 @@ void Servo::InitServo()
             std::string("\tMinimum Pulse Width: ") + 
             std::to_string(this->GetMinimumPulseWidth()) + "ns\n" +
             std::string("\tMaximum Pulse Width: ") + 
-            std::to_string(this->GetMaximumPulseWidth()) + "ns\n\n";
+            std::to_string(this->GetMaximumPulseWidth()) + "ns\n" +
+            std::string("\tAverage Pulse Width: ") + 
+            std::to_string(this->GetAveragePulseWidth()) + "ns\n\n";
   std::cout << RainbowText(message, "Light Blue");
 }
 
@@ -63,6 +70,15 @@ int Servo::GetMaximumPulseWidth()
 }
 
 /*
+  Public method to get the average pulse width
+  @return int: the average pulse width  
+*/
+int Servo::GetAveragePulseWidth()
+{
+  return averagePulseWidth;
+}
+
+/*
   Public method to set the angle
   @param int: the desired angle (0-180)     
 */
@@ -81,12 +97,11 @@ void Servo::SetAngle(int newAngle)
 
 /*
   Public method to set the speed for a continuous servo
-  @param int: the desired angle (-100-100)     
+  @param int: the desired speed (-100 to +100)     
 */
 void Servo::SetSpeed(int newSpeed)
 {
   speed = newSpeed;
-  int averagePulseWidth = (maximumPulseWidth-minimumPulseWidth) / 2 + minimumPulseWidth;
   double mapping = (maximumPulseWidth-minimumPulseWidth)/200.0 * speed + averagePulseWidth;
   int pulseWidth = static_cast<int>(mapping);
   pwmPin.SetDutyCycleByPeriod(pulseWidth);
@@ -97,4 +112,7 @@ void Servo::SetSpeed(int newSpeed)
   std::cout << RainbowText(message, "Light Blue"); 
 }
 
-Servo::~Servo() {}
+Servo::~Servo() 
+{
+  pwmPin.Disable();
+} 

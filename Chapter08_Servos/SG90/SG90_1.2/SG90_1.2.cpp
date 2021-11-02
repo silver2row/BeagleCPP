@@ -4,7 +4,7 @@ SG90_1.2.cpp
 26/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Change the servomotor angle with the keyboard entry  
+- Change a SG90 servomotor angle with the keyboard entry  
 
 Class: Servo
 ******************************************************************************/
@@ -14,7 +14,7 @@ Class: Servo
 using namespace std;
 
 // Declare the Servo object
-PWM pwmPin(P8_13);
+PWM pwmPin(P9_14);
 
 // Declare the Servo object
 Servo myServo(pwmPin);
@@ -29,6 +29,9 @@ int main()
   message = "Or enter 'w' for increase angle or 's' for decrease it";
   cout << RainbowText(message, "Blue") << endl;
   
+  // Move my servo to is initial position
+  myServo.SetAngle(0);
+
   int angle = 0;
   int incrementAngle = 5;
 

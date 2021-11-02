@@ -23,7 +23,8 @@ class PWM_Exception : public std::exception {
 PWM::PWM() {}
 
 // Overload constructor with the pin's id
-PWM::PWM(PWM_ID newPWMPin) {
+PWM::PWM(PWM_ID newPWMPin) 
+{
   id = newPWMPin;
   period = 500000;
 
@@ -36,7 +37,8 @@ PWM::PWM(PWM_ID newPWMPin) {
 }
 
 // Overload constructor with pin's id and period
-PWM::PWM(PWM_ID pwmPin, int newPeriod) {
+PWM::PWM(PWM_ID pwmPin, int newPeriod) 
+{
   id = pwmPin;
   if (newPeriod > 0)
     period = newPeriod;
@@ -96,14 +98,14 @@ void PWM::InitPWMPin()
   const char* command = commandString.c_str();
   system(command);
   
-  SetPeriod(period);
-  Enable();
+  this->SetPeriod(period);
+  this->Enable();
 }
 
 /*
    Private method to enable the PWM on the pin.
    It is used in the constructor
-   @return int: 1 set duty cycle has succeeded / throw an exception if not
+   @return int: 1 enable has succeeded / throw an exception if not
 */
 int PWM::Enable()
 {
@@ -119,7 +121,7 @@ int PWM::Enable()
 /*
    Private method to disable the PWM on the pin.
    It is used in the constructor
-   @return int: 1 set duty cycle has succeeded / throw an exception if not
+   @return int: 1 disable has succeeded / throw an exception if not
 */
 int PWM::Disable()
 {
@@ -153,7 +155,8 @@ int PWM::GetPeriod()
    Public method to get the period 
    @return int: The pin's duty cycle
 */
-int PWM::GetDutyCycle() {
+int PWM::GetDutyCycle() 
+{
   return dutyCycle;
 }
 
@@ -170,12 +173,13 @@ int PWM::SetPeriod(int newPeriod)
     perror("Error setting the PWM period for the pin");
     throw PWM_Exception("Error in the 'SetPeriod' method");
   }
-  else 
-    return 1;
-
-  std::cout << RainbowText("A new period of ", "Pink")
+  else
+  {
+    std::cout << RainbowText("A new period of ", "Pink")
             << RainbowText(std::to_string(this->GetPeriod()), "Pink") 
             << RainbowText("ns was a set!\n", "Pink"); 
+  } 
+  return 1;
 }
 
 /*

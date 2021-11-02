@@ -4,7 +4,7 @@ SG90_1.1.cpp
 21/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Sweep a Servomotor 
+- Sweep a SG90 servomotor each second.
 
 Class: Servo
 ******************************************************************************/

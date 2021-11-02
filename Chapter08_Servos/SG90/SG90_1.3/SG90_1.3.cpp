@@ -4,7 +4,7 @@ SG90_1.3.cpp
 28/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Move a servo with the readings from a potentiometer 
+- Move a SG90 servomotor with the readings from a potentiometer 
 
 Class:Servo
 ******************************************************************************/

@@ -31,12 +31,9 @@ class PWM : public SYSFILEACCESS
     std::string path;   /* The full path to the PWM e.g. /sys/class/pwm/pwm-6:1 */
     int period;
     int dutyCycle;
-    
-    // Helper method to enable the pwm on the pin
-    virtual int Enable();
 
-    // Helper method to enable the pwm on the pin
-    virtual int Disable();
+    // Initialize the PWM pin with the data provided by the constructor
+    void InitPWMPin();
 
   public:
     // Default constructor
@@ -48,8 +45,11 @@ class PWM : public SYSFILEACCESS
     // Overload constructor with the pin id and period
     PWM(PWM_ID, int);
 
-    // Initialize the PWM pin with the data provided by the constructor
-    void InitPWMPin();
+    // Helper method to enable the pwm on the pin
+    virtual int Enable();
+
+    // Helper method to disable the pwm on the pin
+    virtual int Disable();
 
     // Accessor method to get the header pin's name
     virtual std::string GetPinHeaderId();
