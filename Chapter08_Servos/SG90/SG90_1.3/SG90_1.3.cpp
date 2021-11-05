@@ -6,16 +6,16 @@ https://github.com/wgaonar/BeagleCPP
 
 - Move a SG90 servomotor with the readings from a potentiometer 
 
-Class:Servo
+Class:SERVO
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/Servo.h"
+#include "../../../Sources/SERVO.h"
 #include "../../../Sources/ADC.h"
 
 using namespace std;
 
 // Declare the Servo object
-Servo myServo(P8_13);
+SERVO myServo(P8_13);
 
 // Declare the ADC pin to attach the potentiometer
 ADC myPotentiometer(P9_39);

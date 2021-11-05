@@ -1,12 +1,12 @@
-#ifndef Servo_H
-#define Servo_H
+#ifndef SERVO_H
+#define SERVO_H
 
 #include "PWM.h"
 
 /* The standard period of 20ms to control any servo */
 const int ServoPeriod = 20000000;
 
-class Servo : public PWM
+class SERVO : public PWM
 {
 private:
   PWM pwmPin;
@@ -21,13 +21,13 @@ private:
 
 public:
   // Default constructor
-  Servo();
+  SERVO();
 
   // Overload constructor
-  Servo(PWM);
+  SERVO(PWM);
 
   // Overload constructor with min and max pulse width in ns
-  Servo(PWM, int, int);
+  SERVO(PWM, int, int);
 
   // Accessor method to get the minimum pulse width
   virtual int GetMinimumPulseWidth();
@@ -45,7 +45,7 @@ public:
   virtual void SetSpeed (int);
   
   // Destructor
-  ~Servo();
+  ~SERVO();
 };
 
-#endif // Servo_H
+#endif // SERVO_H

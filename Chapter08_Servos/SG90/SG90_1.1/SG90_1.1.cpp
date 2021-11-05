@@ -6,15 +6,15 @@ https://github.com/wgaonar/BeagleCPP
 
 - Sweep a SG90 servomotor each second.
 
-Class: Servo
+Class: SERVO
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/Servo.h"
+#include "../../../Sources/SERVO.h"
 
 using namespace std;
 
 // Declare the Servo object
-Servo myServo(P8_13);
+SERVO myServo(P8_13);
 
 int main()
 {

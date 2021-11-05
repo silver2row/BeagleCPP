@@ -1,12 +1,12 @@
 #include <iostream>
 
-#include "Servo.h"
+#include "SERVO.h"
 
 // Default constructor
-Servo::Servo() {}
+SERVO::SERVO() {}
 
 // Overload Constructor
-Servo::Servo (PWM newPWMPin) : pwmPin(newPWMPin)
+SERVO::SERVO (PWM newPWMPin) : pwmPin(newPWMPin)
 {
   angle = 0;
   speed = 0;
@@ -17,7 +17,7 @@ Servo::Servo (PWM newPWMPin) : pwmPin(newPWMPin)
 }
 
 // Overload Constructor
-Servo::Servo (PWM newPWMPin, 
+SERVO::SERVO (PWM newPWMPin, 
             int newMinimumPulseWidth,
             int newMaximumPulseWidth) : 
             pwmPin(newPWMPin),
@@ -31,7 +31,7 @@ Servo::Servo (PWM newPWMPin,
 }
 
 // Private method to set the Servo period for the PWM pin 
-void Servo::InitServo()
+void SERVO::InitServo()
 {
   // Set the period of Servo in ns
   pwmPin.SetPeriod(ServoPeriod);
@@ -55,7 +55,7 @@ void Servo::InitServo()
   Public method to get the minimum pulse width
   @return int: the minimum pulse width     
 */
-int Servo::GetMinimumPulseWidth()
+int SERVO::GetMinimumPulseWidth()
 {
   return minimumPulseWidth;
 }
@@ -64,7 +64,7 @@ int Servo::GetMinimumPulseWidth()
   Public method to get the maximum pulse width
   @return int: the maximum pulse width  
 */
-int Servo::GetMaximumPulseWidth()
+int SERVO::GetMaximumPulseWidth()
 {
   return maximumPulseWidth;
 }
@@ -73,7 +73,7 @@ int Servo::GetMaximumPulseWidth()
   Public method to get the average pulse width
   @return int: the average pulse width  
 */
-int Servo::GetAveragePulseWidth()
+int SERVO::GetAveragePulseWidth()
 {
   return averagePulseWidth;
 }
@@ -82,7 +82,7 @@ int Servo::GetAveragePulseWidth()
   Public method to set the angle
   @param int: the desired angle (0-180)     
 */
-void Servo::SetAngle(int newAngle)
+void SERVO::SetAngle(int newAngle)
 {
   angle = newAngle;
   double mapping = (maximumPulseWidth-minimumPulseWidth)/180.0 * angle + minimumPulseWidth;
@@ -99,7 +99,7 @@ void Servo::SetAngle(int newAngle)
   Public method to set the speed for a continuous servo
   @param int: the desired speed (-100 to +100)     
 */
-void Servo::SetSpeed(int newSpeed)
+void SERVO::SetSpeed(int newSpeed)
 {
   speed = newSpeed;
   double mapping = (maximumPulseWidth-minimumPulseWidth)/200.0 * speed + averagePulseWidth;
@@ -112,7 +112,7 @@ void Servo::SetSpeed(int newSpeed)
   std::cout << RainbowText(message, "Light Blue"); 
 }
 
-Servo::~Servo() 
+SERVO::~SERVO() 
 {
   pwmPin.Disable();
 } 

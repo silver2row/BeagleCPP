@@ -7,15 +7,15 @@ https://github.com/wgaonar/BeagleCPP
 - Declare a Servo object with customized minimum and maximun pulse width  
 - Change the servomotor angle with the keyboard entry  
 
-Class: Servo
+Class: SERVO
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/Servo.h"
+#include "../../../Sources/SERVO.h"
 
 using namespace std;
 
 // Declare the Servo object
-Servo myServo(P8_13, 900000, 2100000);
+SERVO myServo(P8_13, 900000, 2100000);
 
 int main()
 {
