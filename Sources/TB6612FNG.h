@@ -13,7 +13,7 @@ enum ACTION {
   stop = 1
 };
 
-class TB6612FNG : public GPIO, public PWM
+class Motor : public GPIO, public PWM
 {
 private:
   GPIO input1Pin;
@@ -25,7 +25,7 @@ private:
   const int maxSpeed = 100;
 
   // Initialize the GPIO pins with the data provided by the constructor
-  virtual void InitTB6612FNGPins();
+  void InitMotorPins();
 
   // Method to set the rotation speed
   virtual void SetSpeed(int);
@@ -45,12 +45,12 @@ private:
   // Method to drive the motor with duration in a thread
   virtual void MakeDriveThread(int, int, ACTION);
 
-  std::vector<std::thread> vectorDriveThreads;
-
 public:
+  // Default constructor
+  Motor();
 
   // Overload constructor
-  TB6612FNG(GPIO, GPIO, PWM, bool);
+  Motor(GPIO, GPIO, PWM, bool);
 
   // Interface method to drive the motor 
   virtual void Drive (int);
@@ -69,37 +69,75 @@ public:
   virtual void Brake ();
   
   // Destructor
-  ~TB6612FNG();
+  virtual ~Motor();
+};
+
+class TB6612FNG
+{
+private:
+  GPIO standByPin;
+public:
+  Motor MotorA, MotorB;
+
+  // Overload constructor from pins
+  TB6612FNG(GPIO, GPIO, PWM, bool, GPIO);
+
+  // Overload constructor from pins
+  TB6612FNG(GPIO, GPIO, PWM, bool, GPIO, GPIO, PWM, bool, GPIO);
+
+  // Overload construnctor from Motor object
+  TB6612FNG(Motor&, GPIO);
+
+  // Overload constructor from Motor objects
+  TB6612FNG(Motor&, Motor&, GPIO);
+
+  // Interface method to activate the module
+  virtual void Activate ();
+
+  // Interface method to deactivate the module
+  virtual void Deactivate (); 
+
+  // Interface method to drive both motors forward
+  virtual void Forward (int);
+
+  // Interface method to drive both motors forward during certain time
+  virtual void Forward (int, int, ACTION);
+
+  // Interface method to drive  both motors backward
+  virtual void Backward (int);
+
+  // Interface method to drive both motors backward during certain time
+  virtual void Backward (int, int, ACTION);
+
+  // Interface method to drive in opposite direction both motors
+  virtual void TurnLeft (int);
+
+  // Interface method to drive in opposite direction both motors during 
+  // certain time
+  virtual void TurnLeft (int, int, ACTION);
+
+  // Interface method to drive in the another opposite direction both motors
+  virtual void TurnRight (int);
+
+  // Interface method to drive in the another opposite direction both motors during 
+  // certain time
+  virtual void TurnRight(int, int, ACTION);
+
+  // Interface method to brake the both motors
+  virtual void Brake();
+
+  // Destructor
+  virtual ~TB6612FNG();
 };
 
 /******************************************************************************
-PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
+PUBLIC FUNCTIONS TO RUN ONLY MOTOR OBJECTS
 ******************************************************************************/
 
-// Function to activate the module
-void ActivateTB6612FNG(GPIO &);
-
-// Function to deactivate the module
-void DeactivateTB6612FNG(GPIO &); 
-
-// Functions to drive a robot with a couple of motors attached
-void Forward (TB6612FNG &, TB6612FNG &, int);
-void Forward (TB6612FNG &, TB6612FNG &, int, int, ACTION);
-void Forward (std::vector<TB6612FNG *>, int);
-void Forward (std::vector<TB6612FNG *>, int, int, ACTION);
-
-void Backward (TB6612FNG &, TB6612FNG &, int);
-void Backward (TB6612FNG &, TB6612FNG &, int, int, ACTION);
-void Backward (std::vector<TB6612FNG *>, int);
-void Backward (std::vector<TB6612FNG *>, int, int, ACTION);
-
-void TurnLeft (TB6612FNG &, TB6612FNG &, int);
-void TurnLeft (TB6612FNG &, TB6612FNG &, int, int);
-
-void TurnRight (TB6612FNG &, TB6612FNG &, int);
-void TurnRight (TB6612FNG &, TB6612FNG &, int, int);
-
-void Brake (TB6612FNG &, TB6612FNG &);
-void Brake (std::vector<TB6612FNG *>);
+void Forward (std::vector <Motor *>, int);
+void Forward (std::vector <Motor *>, int, int, ACTION);
+void Backward (std::vector <Motor *>, int);
+void Backward (std::vector <Motor *>, int, int, ACTION);
+void Brake (std::vector <Motor *>);
 
 #endif // TB6612FNG_H
