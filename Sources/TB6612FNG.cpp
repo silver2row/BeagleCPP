@@ -138,7 +138,7 @@ void Motor::Drive(int speed, int duration, ACTION action)
     duration *= -1;
 
   this->Drive(speed);
-  Delayms(duration);
+  DelayMilliseconds(duration);
 
   if (action == brake)
     this->SetStopMode();
