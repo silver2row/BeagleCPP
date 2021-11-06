@@ -10,13 +10,13 @@ Motor::Motor() {}
 
 // Overload Constructor
 Motor::Motor (GPIO newInput1Pin, 
-                      GPIO newInput2Pin,
-                      PWM newPWMPin, 
-                      bool newSwapSpin) :
-                      input1Pin(newInput1Pin), 
-                      input2Pin(newInput2Pin),
-                      pwmPin(newPWMPin), 
-                      swapSpin(newSwapSpin)
+              GPIO newInput2Pin,
+              PWM newPWMPin, 
+              bool newSwapSpinFlag) :
+              input1Pin(newInput1Pin), 
+              input2Pin(newInput2Pin),
+              pwmPin(newPWMPin), 
+              swapSpinFlag(newSwapSpinFlag)
 {
   InitMotorPins();
 
@@ -36,7 +36,7 @@ void Motor::InitMotorPins()
   input2Pin.SetMode(OUTPUT);
  
   // Set a integer variable to signal a change in the direction of motor rotation  
-  if (swapSpin == true)
+  if (swapSpinFlag == true)
     swapSpinMotor = -1;
   else
     swapSpinMotor = 1;

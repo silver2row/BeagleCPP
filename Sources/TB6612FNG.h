@@ -20,7 +20,7 @@ private:
   GPIO input2Pin;
   PWM pwmPin;
 
-  bool swapSpin;
+  bool swapSpinFlag;
   int swapSpinMotor;
   const int maxSpeed = 100;
 
