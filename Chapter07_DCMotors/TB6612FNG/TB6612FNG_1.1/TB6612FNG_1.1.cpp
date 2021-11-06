@@ -26,15 +26,17 @@ int main()
   // Activate the module
   myTB6612FNGModule.Activate();
   
-  for (size_t i = 0; i < 100; i+=10)
-    myTB6612FNGModule.MotorA.Drive(i,1000,stop);
-  for (size_t i = 100; i > 0; i-=10)
-    myTB6612FNGModule.MotorA.Drive(i,1000,stop);
+  // Turn the motor in CW direction
+  for (int speed = 0; speed < 100; speed += 10)
+    myTB6612FNGModule.MotorA.Drive(speed,1000);
+  for (int speed = 100; speed > 0; speed -= 10)
+    myTB6612FNGModule.MotorA.Drive(speed,1000);
 
-  for (size_t i = 0; i < 100; i+=10)
-    myTB6612FNGModule.MotorA.Drive(i,1000,stop);
-  for (size_t i = 100; i > 0; i-=10)
-    myTB6612FNGModule.MotorA.Drive(i,1000,stop);
+  // Turn the motor in CCW direction
+  for (int speed = 0; speed > -100; speed -= 10)
+    myTB6612FNGModule.MotorA.Drive(speed,1000);
+  for (int speed = -100; speed < 0; speed+=10)
+    myTB6612FNGModule.MotorA.Drive(speed,1000);
 
   // Deactivate the module
   myTB6612FNGModule.Deactivate();
