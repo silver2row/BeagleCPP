@@ -23,12 +23,15 @@ GPIO AIN2 (P8_14);
 PWM PWMA (P8_13);
 
 // Declare the motor object
-TB6612FNG MotorA (AIN1, AIN2, PWMA, false);
+Motor MotorLeft (AIN1, AIN2, PWMA, false);
+
+// Declare the TB6612FNG Module
+TB6612FNG Module (MotorLeft, standByPin);
 
 int main()
 {
   // Activate the module
-  ActivateTB6612FNG(standByPin);
+  Module.Activate();
 
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
@@ -63,11 +66,11 @@ int main()
     }
 
     // Move the motor
-    MotorA.Drive(motorSpeed);
+    Module.MotorA.Drive(motorSpeed);
   }
 
   // Deactivate the module
-  DeactivateTB6612FNG(standByPin);  
+  Module.Deactivate();  
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
