@@ -15,7 +15,7 @@ enum ACTION {
 
 class Motor : public GPIO, public PWM
 {
-private:
+public:
   GPIO input1Pin;
   GPIO input2Pin;
   PWM pwmPin;
@@ -55,12 +55,11 @@ public:
   // Interface method to drive the motor 
   virtual void Drive (int);
 
-  // Overloaded interface method to drive and brake / stop 
-  // the motor after certain time 
-  virtual void Drive (int, int, ACTION);
+  // Overloaded interface method to drive the motor during certain time and taking and action after the movement. Value stop as a default action 
+  virtual void Drive (int, int, ACTION = stop);
 
-  // Interface method to drive the motor in a thread
-  virtual void DriveThread(int, int, ACTION);
+  // Interface method to drive the motor in a thread during certain time and taking and action after the movement. Value stop as a default action
+  virtual void DriveThread(int, int, ACTION = stop);
 
   // Interface method to stop the motor
   virtual void Stop ();

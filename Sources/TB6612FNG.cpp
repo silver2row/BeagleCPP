@@ -127,10 +127,10 @@ void Motor::Drive(int speed)
 }
 
 /*
-  Public method to drive and brake / stop the motor after certain time
+  Public method to drive and brake / stop the motor after certain time.
   @param int: The desired speed (-100,100)
   @param int: The desired duration in milliseconds
-  @param ACTION: Confirm to brake or stop the motor after driving it.     
+  @param ACTION: Confirm to brake or stop the motor after driving it. (Default value: stop)     
 */
 void Motor::Drive(int speed, int duration, ACTION action)
 {
@@ -150,13 +150,12 @@ void Motor::Drive(int speed, int duration, ACTION action)
   Public method to drive the motor during a certain time inside a thread
   @param int: the desired speed (-100,100)
   @param int: The desired duration in milliseconds
-  @param ACTION: Confirm to brake / stop / Nothing the motor after driving it.    
+  @param ACTION: Confirm to brake or stop the motor after driving it. (Default value: stop)     
 */
 
 void Motor::DriveThread(int speed, int duration, ACTION action)
 {
   std::thread motorThread = std::thread(&Motor::MakeDriveThread, this, speed, duration, action);
-  //vectorDriveThreads.push_back(std::move(motorThread));
   motorThread.detach();
 }
 
@@ -210,7 +209,12 @@ TB6612FNG::TB6612FNG (GPIO newInput1PinMotorA, GPIO newInput2PinMotorA,
 {
   standByPin.SetMode(OUTPUT);
   std::string message;
-  message = "\nTB6612FNG driver module with the next parameters / pins was created:\n";
+  message = "\nTB6612FNG driver module with the next components was created:\n" +
+            std::string("\tMotorA:\n") +
+            std::string("\t\tAIN1: ") + this->MotorA.input1Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tAIN2: ") + this->MotorA.input2Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tPWMA: ") + this->MotorA.pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\tStandBy: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
   std::cout << RainbowText(message, "Light Red");
 }
 
