@@ -16,7 +16,7 @@ Class: TB6612FNG
 using namespace std;
 
 // Declare the motor object directly with the header pin's names
-TB6612FNG Module (P8_12, P8_14, P8_13, false, P8_16);
+TB6612FNG myTB6612FNGModule (P8_12, P8_14, P8_13, false, P8_16);
 
 int main()
 {
@@ -24,20 +24,20 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
   // Activate the module
-  Module.Activate();
+  myTB6612FNGModule.Activate();
   
   for (size_t i = 0; i < 100; i+=10)
-    Module.MotorA.Drive(i,1000,stop);
+    myTB6612FNGModule.MotorA.Drive(i,1000,stop);
   for (size_t i = 100; i > 0; i-=10)
-    Module.MotorA.Drive(i,1000,stop);
+    myTB6612FNGModule.MotorA.Drive(i,1000,stop);
 
   for (size_t i = 0; i < 100; i+=10)
-    Module.MotorA.Drive(i,1000,stop);
+    myTB6612FNGModule.MotorA.Drive(i,1000,stop);
   for (size_t i = 100; i > 0; i-=10)
-    Module.MotorA.Drive(i,1000,stop);
+    myTB6612FNGModule.MotorA.Drive(i,1000,stop);
 
   // Deactivate the module
-  Module.Deactivate();
+  myTB6612FNGModule.Deactivate();
   
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
