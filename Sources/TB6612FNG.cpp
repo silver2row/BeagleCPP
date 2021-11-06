@@ -2,8 +2,14 @@
 
 #include "TB6612FNG.h"
 
+/******************************************************************************
+MOTOR CLASS DEFINITION
+******************************************************************************/
+// Default constructor
+Motor::Motor() {}
+
 // Overload Constructor
-TB6612FNG::TB6612FNG (GPIO newInput1Pin, 
+Motor::Motor (GPIO newInput1Pin, 
                       GPIO newInput2Pin,
                       PWM newPWMPin, 
                       bool newSwapSpin) :
@@ -12,10 +18,10 @@ TB6612FNG::TB6612FNG (GPIO newInput1Pin,
                       pwmPin(newPWMPin), 
                       swapSpin(newSwapSpin)
 {
-  InitTB6612FNGPins();
+  InitMotorPins();
 
   std::string message;
-  message = "\nTB6612FNG object with the next parameters / pins was created:\n" +
+  message = "\nMotor object with the next parameters / pins was created:\n" +
             std::string("\tIN1: ") + this->input1Pin.GetPinHeaderId() + "\n" + 
             std::string("\tIN2: ") + this->input2Pin.GetPinHeaderId() + "\n" + 
             std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n\n";
@@ -23,7 +29,7 @@ TB6612FNG::TB6612FNG (GPIO newInput1Pin,
 }
 
 // Private method to initialize the Pins
-void TB6612FNG::InitTB6612FNGPins()
+void Motor::InitMotorPins()
 {
   // Set the right modes for the pins
   input1Pin.SetMode(OUTPUT);
@@ -40,7 +46,7 @@ void TB6612FNG::InitTB6612FNGPins()
   Private method to set the speed rotation
   @param int: the desired speed (-100,100)     
 */
-void TB6612FNG::SetSpeed(int speed)
+void Motor::SetSpeed(int speed)
 {
   pwmPin.SetDutyCycle(speed);
 }
@@ -48,7 +54,7 @@ void TB6612FNG::SetSpeed(int speed)
 /*
   Private method to set CW the direction of motor rotation     
 */
-void TB6612FNG::SetCWMode()
+void Motor::SetCWMode()
 {
   input1Pin.DigitalWrite(HIGH);
   input2Pin.DigitalWrite(LOW);
@@ -57,7 +63,7 @@ void TB6612FNG::SetCWMode()
 /*
   Private method to set CCW the direction of motor rotation     
 */
-void TB6612FNG::SetCCWMode()
+void Motor::SetCCWMode()
 {
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(HIGH);
@@ -66,7 +72,7 @@ void TB6612FNG::SetCCWMode()
 /*
   Private method to do a SHORT BRAKE on the motor    
 */
-void TB6612FNG::SetShortBrakeMode()
+void Motor::SetShortBrakeMode()
 {
   input1Pin.DigitalWrite(HIGH);
   input2Pin.DigitalWrite(HIGH);
@@ -76,7 +82,7 @@ void TB6612FNG::SetShortBrakeMode()
 /*
   Private method to set the STOP mode in the  motor    
 */
-void TB6612FNG::SetStopMode()
+void Motor::SetStopMode()
 {
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
@@ -87,7 +93,7 @@ void TB6612FNG::SetStopMode()
   Public method to drive the motor
   @param int: the desired speed (-100,100)     
 */
-void TB6612FNG::Drive(int speed)
+void Motor::Drive(int speed)
 {
   // If it is desired, swap the turning direction 
   speed *= swapSpinMotor;
@@ -126,18 +132,19 @@ void TB6612FNG::Drive(int speed)
   @param int: The desired duration in milliseconds
   @param ACTION: Confirm to brake or stop the motor after driving it.     
 */
-void TB6612FNG::Drive(int speed, int duration, ACTION action)
+void Motor::Drive(int speed, int duration, ACTION action)
 {
   if (duration < 0) 
     duration *= -1;
 
   this->Drive(speed);
-  DelayMilliseconds(duration);
+  Delayms(duration);
+
   if (action == brake)
     this->SetStopMode();
   if (action == stop)
     this->SetShortBrakeMode();
-}
+} 
 
 /*
   Public method to drive the motor during a certain time inside a thread
@@ -145,26 +152,31 @@ void TB6612FNG::Drive(int speed, int duration, ACTION action)
   @param int: The desired duration in milliseconds
   @param ACTION: Confirm to brake / stop / Nothing the motor after driving it.    
 */
-void TB6612FNG::DriveThread(int speed, int duration, ACTION action)
+
+void Motor::DriveThread(int speed, int duration, ACTION action)
 {
-  std::thread motorThread = std::thread(&TB6612FNG::MakeDriveThread, this, speed, duration, action);
-  vectorDriveThreads.push_back(std::move(motorThread));
+  std::thread motorThread = std::thread(&Motor::MakeDriveThread, this, speed, duration, action);
+  //vectorDriveThreads.push_back(std::move(motorThread));
+  motorThread.detach();
 }
+
 
 /*
   Private method that contains the routine to drive 
   the motor during a certain time
   @param int: the desired speed (-100,100)  
 */
-void TB6612FNG::MakeDriveThread(int speed, int duration, ACTION action)
+
+void Motor::MakeDriveThread(int speed, int duration, ACTION action)
 {
   Drive(speed, duration, action);
 }
 
+
 /*
   Public method to stop the motor with SHORT BRAKE mode   
 */
-void TB6612FNG::Stop()
+void Motor::Stop()
 {
   this->SetShortBrakeMode();
 }
@@ -172,86 +184,222 @@ void TB6612FNG::Stop()
 /*
   Public method to brake the motor with STOP mode   
 */
-void TB6612FNG::Brake()
+void Motor::Brake()
 {
   this->SetStopMode();
 }
 
 
-TB6612FNG::~TB6612FNG() 
+Motor::~Motor() 
 {
   SetSpeed(0);
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
- 
-  for (std::thread & th : vectorDriveThreads)
-  {
-    if (th.joinable())
-      th.join();
-  } 
 }
+
+/******************************************************************************
+TB6612FNG CLASS DEFINITION
+******************************************************************************/
+// Overload Constructor from pins and for ONLY the MotorA
+TB6612FNG::TB6612FNG (GPIO newInput1PinMotorA, GPIO newInput2PinMotorA,
+                      PWM newPWMPinMotorA, bool newSwapSpinMotorA,
+                      GPIO newStandByPin) :
+                      MotorA (newInput1PinMotorA, newInput2PinMotorA,
+                              newPWMPinMotorA, newSwapSpinMotorA),
+                      standByPin(newStandByPin)
+{
+  standByPin.SetMode(OUTPUT);
+  std::string message;
+  message = "\nTB6612FNG driver module with the next parameters / pins was created:\n";
+  std::cout << RainbowText(message, "Light Red");
+}
+
+// Overload Constructor from pins and for MotorA and MotorB
+TB6612FNG::TB6612FNG (GPIO newInput1PinMotorA, GPIO newInput2PinMotorA,
+                      PWM newPWMPinMotorA, bool newSwapSpinMotorA,
+                      GPIO newInput1PinMotorB, GPIO newInput2PinMotorB,
+                      PWM newPWMPinMotorB, bool newSwapSpinMotorB,
+                      GPIO newStandByPin) :
+                      MotorA (newInput1PinMotorA, newInput2PinMotorA,
+                              newPWMPinMotorA, newSwapSpinMotorA),
+                      MotorB (newInput1PinMotorB, newInput2PinMotorB,
+                      newPWMPinMotorB, newSwapSpinMotorB),
+                      standByPin(newStandByPin)
+{
+  standByPin.SetMode(OUTPUT);
+  std::string message;
+  message = "\nTB6612FNG driver module with the next parameters / pins was created:\n";
+  std::cout << RainbowText(message, "Light Red");
+}
+
+// Overload constructor from Motor object and for ONLY the MotorA
+TB6612FNG::TB6612FNG (Motor& newMotorA, GPIO newStandByPin) :
+                      MotorA (newMotorA), standByPin(newStandByPin)
+{
+  standByPin.SetMode(OUTPUT);
+  std::string message;
+  message = "\nTB6612FNG driver module with the next parameters / pins was created:\n";
+  std::cout << RainbowText(message, "Light Red");
+}
+
+// Overload constructor from Motor objects and for MotorA and MotorB
+TB6612FNG::TB6612FNG (Motor& newMotorA, Motor& newMotorB,
+                      GPIO newStandByPin) :
+                      MotorA (newMotorA), MotorB (newMotorB), 
+                      standByPin(newStandByPin)
+{
+  standByPin.SetMode(OUTPUT);
+  std::string message;
+  message = "\nTB6612FNG driver module with the next parameters / pins was created:\n";
+  std::cout << RainbowText(message, "Light Red");
+}
+
+// Interface method to activate the module setting the StandBy pin
+void TB6612FNG::Activate()
+{ 
+  standByPin.DigitalWrite(HIGH);
+}
+
+// Interface method to deactivate the module unsetting the StandBy pin
+void TB6612FNG::Deactivate ()
+{
+  standByPin.DigitalWrite(LOW);
+}
+
+/*
+  Interface method to drive FORWARD both motors
+  @param int: The desired speed (0,100). It set up the correct value if
+              the user enters a negative value.    
+*/
+void TB6612FNG::Forward(int speed)
+{
+  if (speed < 0)
+    speed *= -1;
+  MotorA.Drive(speed);
+  MotorB.Drive(speed);
+}
+
+/*
+  Overload interface method to drive FORWARD both motors during certain time
+  @param int: The desired speed (0,100). It set up the correct value if
+              the user enters a negative value.
+  @param int: The desired duration in milliseconds.
+  @param ACTION: Confirm to brake or stop the motor after driving it. 
+*/
+void TB6612FNG::Forward (int speed, int duration, ACTION action)
+{
+  if (speed < 0)
+    speed *= -1;
+  MotorA.Drive(speed, duration, action);
+  MotorB.Drive(speed, duration, action);
+}
+
+/*
+  Interface method to drive BACKWARD both motors
+  @param int: The desired speed (-100,0). It set up the correct value if
+              the user enters a positive value. 
+*/
+void TB6612FNG::Backward (int speed)
+{
+  if (speed > 0)
+    speed *= -1;
+  MotorA.Drive(speed);
+  MotorB.Drive(speed);
+}
+
+/*
+  Interface method to drive BACKWARD both motors during certain time
+  @param int: The desired speed (-100,0). It set up the correct value if
+              the user enters a positive value.
+  @param int: The desired duration in milliseconds.
+  @param ACTION: Confirm to brake or stop the motor after driving it.  
+*/
+void TB6612FNG::Backward (int speed, int duration, ACTION action)
+{
+  if (speed > 0)
+    speed *= -1;
+  MotorA.Drive(speed, duration, action);
+  MotorB.Drive(speed, duration, action);
+}
+
+/*
+  Interface method to make a turn to the LEFT on a robot with a couple of motors
+  @param int: The desired speed (0,100). It set up the correct value if
+              the user enters a negative value. 
+*/
+void TB6612FNG::TurnLeft (int speed)
+{
+  if (speed < 0)
+    speed *= -1;
+  MotorA.Drive(-speed);
+  MotorB.Drive(speed);
+}
+
+/*
+  Interface method to drive in opposite direction both motors during certain time
+  @param int: The desired speed (0,100). It set up the correct value if
+              the user enters a negative value.
+  @param int: The desired duration in milliseconds.
+  @param ACTION: Confirm to brake or stop the motor after driving it.  
+*/
+void TB6612FNG::TurnLeft (int speed, int duration, ACTION action)
+{
+  if (speed < 0)
+    speed *= -1;
+  MotorA.Drive(-speed, duration, action);
+  MotorB.Drive(speed, duration, action);
+}
+
+/*
+  Interface method to make a turn to the RIGHT a robot with a couple of motors
+  @param int: The desired speed (0,100). It set up the correct value if
+              the user enters a negative value. 
+*/
+void TB6612FNG::TurnRight (int speed)
+{
+  if (speed < 0)
+    speed *= -1;
+  MotorA.Drive(speed);
+  MotorB.Drive(-speed);
+}
+
+/*
+  Interface method to drive in the another opposite direction both motors during certain time
+  @param int: The desired speed (0,100). It set up the correct value if
+              the user enters a negative value.
+  @param int: The desired duration in milliseconds.
+  @param ACTION: Confirm to brake or stop the motor after driving it.  
+*/
+void TB6612FNG::TurnRight (int speed, int duration, ACTION action)
+{
+  if (speed < 0)
+    speed *= -1;
+  MotorA.Drive(speed, duration, action);
+  MotorB.Drive(-speed, duration, action);
+}
+
+/*
+  Interface method to BRAKE a robot with a couple of motors
+*/ 
+void TB6612FNG::Brake ()
+{
+  MotorA.Brake();
+  MotorB.Brake();
+}
+
+// Destructor
+TB6612FNG::~TB6612FNG() {} 
 
 /******************************************************************************
 PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
-
-// Function to activate the module setting the StandBy pin
-void ActivateTB6612FNG (GPIO &standByPin)
-{
-  if (standByPin.GetMode() != OUTPUT)
-    standByPin.SetMode(OUTPUT);
-  standByPin.DigitalWrite(HIGH);
-}
-
-// Function to deactivate the module unsetting the StandBy pin
-void DeactivateTB6612FNG (GPIO &standByPin)
-{
-  if (standByPin.GetMode() != OUTPUT)
-    standByPin.SetMode(OUTPUT);
-  standByPin.DigitalWrite(LOW);
-}
-
-// Functions to drive a robot with a couple of motors attached
-/*
-  Function to drive FORWARD a robot with a couple of motors
-  @param TB6612FNG &: The reference to the left motor of the robot
-  @param TB6612FNG &: The reference to the right motor of the robot
-  @param int: The desired speed (0,100). It set up the correct value if
-              the user enters a negative value.    
-*/
-void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
-{
-  if (speed < 0)
-    speed *= -1;
-  motorLeft.Drive(speed);
-  motorRight.Drive(speed);
-}
-
-/*
-  Overload function to drive FORWARD and simultaneously a robot 
-  with a couple of motors during certain time
-  @param TB6612FNG &: The reference to left the motor of the robot
-  @param TB6612FNG &: The reference to right the motor of the robot
-  @param int: The desired speed (0,100). It set up the correct value if
-              the user enters a negative value.
-  @param int: The desired duration in milliseconds.
-  @param ACTION: Confirm to brake or stop the motor after driving it. 
-*/
-void Forward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, ACTION action)
-{
-  if (speed < 0)
-    speed *= -1;
-  motorLeft.DriveThread(speed, duration, action);
-  motorRight.DriveThread(speed, duration, action);
-}
-
 /*
   Overload function to drive FORWARD a robot with ANY number of motors
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
+  @param std::vector<Motor *>: The vector of pointers to Motor objects 
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
 */
-void Forward (std::vector<TB6612FNG *> vectorOfMotors, int speed)
+void Forward (std::vector<Motor *> vectorOfMotors, int speed)
 {
   if (speed < 0)
     speed *= -1;
@@ -260,62 +408,29 @@ void Forward (std::vector<TB6612FNG *> vectorOfMotors, int speed)
 }
 
 /*
-  Overload function to drive FORWARD and simultaneously a robot 
+  Overload function to drive FORWARD a robot 
   with ANY number of motors during certain time
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
+  @param std::vector<Motor *>: The vector of pointers to Motor objects 
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
   @param int: The desired duration in milliseconds.
   @param ACTION: Confirm to brake or stop the motor after driving it.  
 */
-void Forward (std::vector<TB6612FNG *> vectorOfMotors, int speed, int duration, ACTION action)
+void Forward (std::vector<Motor *> vectorOfMotors, int speed, int duration, ACTION action)
 {
   if (speed < 0)
     speed *= -1;
   for (auto motor : vectorOfMotors)
-    motor->DriveThread(speed, duration, action);
-}
-
-/*
-  Function to drive BACKWARD a robot with a couple of motors
-  @param TB6612FNG &: The reference to left the motor of the robot
-  @param TB6612FNG &: The reference to right the motor of the robot
-  @param int: The desired speed (-100,0). It set up the correct value if
-              the user enters a positive value. 
-*/
-void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
-{
-  if (speed > 0)
-    speed *= -1;
-  motorLeft.Drive(speed);
-  motorRight.Drive(speed);
-}
-
-/*
-  Overload function to drive BACKWARD and simultaneously a robot 
-  with a couple of motors during certain time
-  @param TB6612FNG &: The reference to left the motor of the robot
-  @param TB6612FNG &: The reference to right the motor of the robot
-  @param int: The desired speed (-100,0). It set up the correct value if
-              the user enters a positive value.
-  @param int: The desired duration in milliseconds.
-  @param ACTION: Confirm to brake or stop the motor after driving it.  
-*/
-void Backward (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, ACTION action)
-{
-  if (speed > 0)
-    speed *= -1;
-  motorLeft.DriveThread(speed, duration, action);
-  motorRight.DriveThread(speed, duration, action);
+    motor->Drive(speed, duration, action);
 }
 
 /*
   Overload function to drive BACKWARD a robot with ANY number of motors
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
+  @param std::vector<Motor *>: The vector of pointers to Motor objects 
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
 */
-void Backward (std::vector<TB6612FNG *> vectorOfMotors, int speed)
+void Backward (std::vector<Motor *> vectorOfMotors, int speed)
 {
   if (speed > 0)
     speed *= -1;
@@ -324,102 +439,27 @@ void Backward (std::vector<TB6612FNG *> vectorOfMotors, int speed)
 }
 
 /*
-  Overload function to drive BACKWARD and simultaneously a robot 
+  Overload function to drive BACKWARD a robot 
   with ANY number of motors during certain time
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
+  @param std::vector<Motor *>: The vector of pointers to Motor objects 
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
   @param int: The desired duration in milliseconds.
   @param ACTION: Confirm to brake or stop the motor after driving it.  
 */
-void Backward (std::vector<TB6612FNG *> vectorOfMotors, int speed, int duration, ACTION action)
+void Backward (std::vector<Motor *> vectorOfMotors, int speed, int duration, ACTION action)
 {
   if (speed > 0)
     speed *= -1;
   for (auto motor : vectorOfMotors)
-    motor->DriveThread(speed, duration, action);
-}
-
-/*
-  Function to make a turn to the LEFT on a robot with a couple of motors
-  @param TB6612FNG &: The reference to left the motor of the robot
-  @param TB6612FNG &: The reference to right the motor of the robot
-  @param int: The desired speed (0,100). It set up the correct value if
-              the user enters a negative value. 
-*/
-void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
-{
-  if (speed < 0)
-    speed *= -1;
-  motorLeft.Drive(-speed);
-  motorRight.Drive(speed);
-}
-
-/*
-  Overload to make a turn to the LEFT on a robot with a couple of motors
-  @param TB6612FNG &: The reference to left the motor of the robot
-  @param TB6612FNG &: The reference to right the motor of the robot
-  @param int: The desired speed (0,100). It set up the correct value if
-              the user enters a negative value.
-  @param int: The desired duration in milliseconds.
-  @param ACTION: Confirm to brake or stop the motor after driving it. 
-*/
-void TurnLeft (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, ACTION action)
-{
-  if (speed < 0)
-    speed *= -1;
-  motorLeft.Drive(-speed, duration, action);
-  motorRight.Drive(speed, duration, action);
-}
-
-/*
-  Function to make a turn to the RIGHT a robot with a couple of motors
-  @param TB6612FNG &: The reference to left the motor of the robot
-  @param TB6612FNG &: The reference to right the motor of the robot
-  @param int: The desired speed (0,100). It set up the correct value if
-              the user enters a negative value. 
-*/
-void TurnRight (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed)
-{
-  if (speed < 0)
-    speed *= -1;
-  motorLeft.Drive(speed);
-  motorRight.Drive(-speed);
-}
-
-/*
-  Overload to make a turn to the RIGHT on a robot with a couple of motors
-  @param TB6612FNG &: The reference to left the motor of the robot
-  @param TB6612FNG &: The reference to right the motor of the robot
-  @param int: The desired speed (0,100). It set up the correct value if
-              the user enters a negative value.
-  @param int: The desired duration in milliseconds
-  @param ACTION: Confirm to brake or stop the motor after driving it.  
-*/
-void TurnRight (TB6612FNG &motorLeft, TB6612FNG &motorRight, int speed, int duration, ACTION action)
-{
-  if (speed < 0)
-    speed *= -1;
-  motorLeft.Drive(speed, duration, action);
-  motorRight.Drive(-speed, duration, action);
-}
-
-/*
-  Function to BRAKE a robot with a couple of motors
-  @param TB6612FNG &: The reference to the motor of the robot
-  @param TB6612FNG &: The reference to the motor of the robot
-*/ 
-void Brake (TB6612FNG &motorLeft, TB6612FNG &motorRight)
-{
-  motorLeft.Brake();
-  motorRight.Brake();
+    motor->Drive(speed, duration, action);
 }
 
 /*
   Overload function BRAKE a robot with ANY number of motors
-  @param std::vector<TB6612FNG *>: The pointer vector of motors 
+  @param std::vector<Motor *>: The pointer vector of motors 
 */
-void Brake (std::vector<TB6612FNG *> vectorOfMotors)
+void Brake (std::vector<Motor *> vectorOfMotors)
 {
   for (auto motor : vectorOfMotors)
     motor->Brake();
