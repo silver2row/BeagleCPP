@@ -9,16 +9,14 @@ https://github.com/wgaonar/BeagleCPP
 
 Class: TB6612FNG
 ******************************************************************************/
+
 #include <iostream>
 #include "../../../Sources/TB6612FNG.h"
 
 using namespace std;
 
-// Declare the pin to activate / deactivate the TB6612FNG module
-GPIO standByPin(P8_16, OUTPUT);
-
 // Declare the motor object directly with the header pin's names
-TB6612FNG MotorA (P8_12, P8_14, P8_13, false);
+TB6612FNG Module (P8_12, P8_14, P8_13, false, P8_16);
 
 int main()
 {
@@ -26,20 +24,20 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
   // Activate the module
-  ActivateTB6612FNG(standByPin);
+  Module.Activate();
   
   for (size_t i = 0; i < 100; i+=10)
-    MotorA.Drive(i,1000,stop);
+    Module.MotorA.Drive(i,1000,stop);
   for (size_t i = 100; i > 0; i-=10)
-    MotorA.Drive(i,1000,stop);
+    Module.MotorA.Drive(i,1000,stop);
 
   for (size_t i = 0; i < 100; i+=10)
-    MotorA.Drive(-i,1000,stop);
+    Module.MotorA.Drive(i,1000,stop);
   for (size_t i = 100; i > 0; i-=10)
-    MotorA.Drive(-i,1000,stop);
+    Module.MotorA.Drive(i,1000,stop);
 
   // Deactivate the module
-  DeactivateTB6612FNG(standByPin);
+  Module.Deactivate();
   
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
