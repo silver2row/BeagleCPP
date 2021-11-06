@@ -27,13 +27,16 @@ GPIO BIN2 (P8_18);
 PWM PWMB (P8_19);
 
 // Declare the object for motor 1
-TB6612FNG MotorA (AIN1, AIN2, PWMA, false);
+Motor Motor1 (AIN1, AIN2, PWMA, false);
 
 // Declare the object for motor 2 
-TB6612FNG MotorB (BIN1, BIN2, PWMB, true);
+Motor Motor2 (BIN1, BIN2, PWMB, true);
+
+// Declare the object for motor 1
+TB6612FNG Module (Motor1, Motor2, standByPin);
 
 // Declare the vector of pointers to TB6612FNG objects
-vector<TB6612FNG *> vectorOfMotors = {&MotorA, &MotorB};
+vector<Motor *> vectorOfMotors = {&Motor1, &Motor2};
 
 int main()
 {
@@ -41,7 +44,7 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   // Activate the module
-  ActivateTB6612FNG(standByPin);
+  Module.Activate();
 
   message = "If you want to stop the program, enter 'y' for yes";
   cout << RainbowText(message, "Blue") << endl;
@@ -83,7 +86,7 @@ int main()
   }
 
   // Deactivate the module
-  DeactivateTB6612FNG(standByPin);  
+  Module.Deactivate();  
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
