@@ -137,7 +137,7 @@ int GPIO::SetMode(MODE newMode) {
         throw GPIO_Exception("Error in the 'SetMode' method");
       }
       message = "Set direction for " + this->GetPinHeaderId() + " pin as DIGITAL OUTPUT\n";
-      std::cout << RainbowText(message, "Gray");
+      std::cout << RainbowText(message, "Apple Green");
       break;
     case INPUT:
       if (WriteFile(path, "direction", "in") != 1) 
@@ -146,7 +146,7 @@ int GPIO::SetMode(MODE newMode) {
         throw GPIO_Exception("Error in the 'SetMode' method");
       }
       message = "Set direction for " + this->GetPinHeaderId() + " pin as DIGITAL INPUT\n";
-      std::cout << RainbowText(message, "Gray");
+      std::cout << RainbowText(message, "Apple Green");
       break;   
   }
   return 1;
