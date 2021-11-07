@@ -14,10 +14,10 @@ public:
   DCMotor MotorB;
 
   // Overload constructor from pins
-  TB6612FNG(GPIO, GPIO, PWM, bool, GPIO);
+  TB6612FNG(GPIO, GPIO, PWM, GPIO, bool = false);
 
   // Overload constructor from pins
-  TB6612FNG(GPIO, GPIO, PWM, bool, GPIO, GPIO, PWM, bool, GPIO);
+  TB6612FNG(GPIO, GPIO, PWM, GPIO, GPIO, PWM, GPIO, bool = false, bool = false);
 
   // Overload constructor from one DCMotor object
   TB6612FNG(DCMotor&, GPIO);

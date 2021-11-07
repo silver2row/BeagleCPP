@@ -3,61 +3,116 @@
 #include "TB6612FNG.h"
 
 // Overload Constructor from pins and for ONLY the MotorA
-TB6612FNG::TB6612FNG (GPIO newInput1PinMotorA, GPIO newInput2PinMotorA,
-                      PWM newPWMPinMotorA, bool newSwapSpinMotorA,
-                      GPIO newStandByPin) :
-                      MotorA (newInput1PinMotorA, newInput2PinMotorA,
-                              newPWMPinMotorA, newSwapSpinMotorA),
+TB6612FNG::TB6612FNG (GPIO newInput1PinMotorA, 
+                      GPIO newInput2PinMotorA,
+                      PWM newPWMPinMotorA,
+                      GPIO newStandByPin, 
+                      bool newSwapSpinMotorA) :
+                      MotorA (newInput1PinMotorA, 
+                              newInput2PinMotorA,
+                              newPWMPinMotorA, 
+                              newSwapSpinMotorA),
                       standByPin(newStandByPin)
 {
   standByPin.SetMode(OUTPUT);
+
   std::string message;
+  std::string swapStringMotorA {this->MotorA.swapSpinFlag ? "True" : "False"};
   message = "\nTB6612FNG driver module with the next components / pins was created:\n" +
             std::string("\tMotorA:\n") +
             std::string("\t\tAIN1: ") + this->MotorA.input1Pin.GetPinHeaderId() + "\n" + 
             std::string("\t\tAIN2: ") + this->MotorA.input2Pin.GetPinHeaderId() + "\n" + 
             std::string("\t\tPWMA: ") + this->MotorA.pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\t\tSwap Spin: ") + swapStringMotorA + "\n" +
             std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
   std::cout << RainbowText(message, "Light Red");
 }
 
-// Overload Constructor from pins and for MotorA and MotorB
-TB6612FNG::TB6612FNG (GPIO newInput1PinMotorA, GPIO newInput2PinMotorA,
-                      PWM newPWMPinMotorA, bool newSwapSpinMotorA,
-                      GPIO newInput1PinMotorB, GPIO newInput2PinMotorB,
-                      PWM newPWMPinMotorB, bool newSwapSpinMotorB,
-                      GPIO newStandByPin) :
-                      MotorA (newInput1PinMotorA, newInput2PinMotorA,
-                              newPWMPinMotorA, newSwapSpinMotorA),
-                      MotorB (newInput1PinMotorB, newInput2PinMotorB,
-                      newPWMPinMotorB, newSwapSpinMotorB),
+// Overload Constructor from pins for MotorA and MotorB
+TB6612FNG::TB6612FNG (GPIO newInput1PinMotorA, 
+                      GPIO newInput2PinMotorA,
+                      PWM newPWMPinMotorA, 
+                      GPIO newInput1PinMotorB, 
+                      GPIO newInput2PinMotorB,
+                      PWM newPWMPinMotorB,
+                      GPIO newStandByPin, 
+                      bool newSwapSpinMotorA,
+                      bool newSwapSpinMotorB) :
+                      MotorA (newInput1PinMotorA, 
+                              newInput2PinMotorA,
+                              newPWMPinMotorA, 
+                              newSwapSpinMotorA),
+                      MotorB (newInput1PinMotorB, 
+                              newInput2PinMotorB,
+                              newPWMPinMotorB, 
+                              newSwapSpinMotorB),
                       standByPin(newStandByPin)
 {
   standByPin.SetMode(OUTPUT);
+
   std::string message;
-  message = "\nTB6612FNG driver module with the next parameters / pins was created:\n";
+  std::string swapStringMotorA {this->MotorA.swapSpinFlag ? "True" : "False"};
+  std::string swapStringMotorB {this->MotorB.swapSpinFlag ? "True" : "False"};
+  message = "\nTB6612FNG driver module with the next components / pins was created:\n" +
+            std::string("\tMotorA:\n") +
+            std::string("\t\tAIN1: ") + this->MotorA.input1Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tAIN2: ") + this->MotorA.input2Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tPWMA: ") + this->MotorA.pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\t\tSwap Spin: ") + swapStringMotorA + "\n" +
+            std::string("\tMotorB:\n") +
+            std::string("\t\tBIN1: ") + this->MotorB.input1Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tBIN2: ") + this->MotorB.input2Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tPWMB: ") + this->MotorB.pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\t\tSwap Spin: ") + swapStringMotorB + "\n" +
+            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
   std::cout << RainbowText(message, "Light Red");
 }
 
-// Overload constructor from DCMotor object and for ONLY the MotorA
-TB6612FNG::TB6612FNG (DCMotor& newMotorA, GPIO newStandByPin) :
-                      MotorA (newMotorA), standByPin(newStandByPin)
+// Overload constructor from DCMotor object for ONLY the MotorA
+TB6612FNG::TB6612FNG (DCMotor& newMotorA, 
+                      GPIO newStandByPin) :
+                      MotorA (newMotorA), 
+                      standByPin(newStandByPin)
 {
   standByPin.SetMode(OUTPUT);
+  
   std::string message;
-  message = "\nTB6612FNG driver module with the next parameters / pins was created:\n";
+  std::string swapStringMotorA {this->MotorA.swapSpinFlag ? "True" : "False"};
+  message = "\nTB6612FNG driver module with the next components / pins was created:\n" +
+            std::string("\tMotorA:\n") +
+            std::string("\t\tAIN1: ") + this->MotorA.input1Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tAIN2: ") + this->MotorA.input2Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tPWMA: ") + this->MotorA.pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\t\tSwap Spin: ") + swapStringMotorA + "\n" +
+            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
   std::cout << RainbowText(message, "Light Red");
 }
 
 // Overload constructor from DCMotor objects and for MotorA and MotorB
-TB6612FNG::TB6612FNG (DCMotor& newMotorA, DCMotor& newMotorB,
+TB6612FNG::TB6612FNG (DCMotor& newMotorA, 
+                      DCMotor& newMotorB,
                       GPIO newStandByPin) :
-                      MotorA (newMotorA), MotorB (newMotorB), 
+                      MotorA (newMotorA), 
+                      MotorB (newMotorB), 
                       standByPin(newStandByPin)
 {
   standByPin.SetMode(OUTPUT);
+
   std::string message;
-  message = "\nTB6612FNG driver module with the next parameters / pins was created:\n";
+  std::string swapStringMotorA {this->MotorA.swapSpinFlag ? "True" : "False"};
+  std::string swapStringMotorB {this->MotorB.swapSpinFlag ? "True" : "False"};
+  message = "\nTB6612FNG driver module with the next components / pins was created:\n" +
+            std::string("\tMotorA:\n") +
+            std::string("\t\tAIN1: ") + this->MotorA.input1Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tAIN2: ") + this->MotorA.input2Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tPWMA: ") + this->MotorA.pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\t\tSwap Spin: ") + swapStringMotorA + "\n" +
+            std::string("\tMotorB:\n") +
+            std::string("\t\tBIN1: ") + this->MotorB.input1Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tBIN2: ") + this->MotorB.input2Pin.GetPinHeaderId() + "\n" + 
+            std::string("\t\tPWMB: ") + this->MotorB.pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\t\tSwap Spin: ") + swapStringMotorB + "\n" +
+            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
   std::cout << RainbowText(message, "Light Red");
 }
 

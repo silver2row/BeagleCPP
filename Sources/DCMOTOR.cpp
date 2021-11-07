@@ -7,21 +7,23 @@ DCMotor::DCMotor() {}
 
 // Overload Constructor
 DCMotor::DCMotor (GPIO newInput1Pin, 
-              GPIO newInput2Pin,
-              PWM newPWMPin, 
-              bool newSwapSpinFlag) :
-              input1Pin(newInput1Pin), 
-              input2Pin(newInput2Pin),
-              pwmPin(newPWMPin), 
-              swapSpinFlag(newSwapSpinFlag)
+                  GPIO newInput2Pin,
+                  PWM newPWMPin, 
+                  bool newSwapSpinFlag) :
+                  input1Pin(newInput1Pin), 
+                  input2Pin(newInput2Pin),
+                  pwmPin(newPWMPin), 
+                  swapSpinFlag(newSwapSpinFlag)
 {
   InitMotorPins();
 
   std::string message;
+  std::string swapString {this->swapSpinFlag ? "True" : "False"};
   message = "\nMotor object with the next parameters / pins was created:\n" +
             std::string("\tIN1: ") + this->input1Pin.GetPinHeaderId() + "\n" + 
             std::string("\tIN2: ") + this->input2Pin.GetPinHeaderId() + "\n" + 
-            std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n\n";
+            std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n" +
+            std::string("\tSwap Spin: ") + swapString + "\n\n";
   std::cout << RainbowText(message, "Gray");
 }
 
@@ -31,7 +33,6 @@ void DCMotor::InitMotorPins()
   // Set the right modes for the pins
   input1Pin.SetMode(OUTPUT);
   input2Pin.SetMode(OUTPUT);
- 
 }
 
 /*
@@ -101,17 +102,16 @@ void DCMotor::Drive(int speed)
   std::string message;
   if (speed >= 0)
   {
-    message = "Turning motor CW with speed: ";
-    std::cout << RainbowText(message, "Light Red", "Default", "Bold") 
-              << speed << "%\n";
+    message = "Turning motor CW with speed: " + std::to_string(speed) + "%\n";
+    std::cout << RainbowText(message, "Light Red", "Default", "Bold");
     this->SetCWMode();
   }
   else
   {
     speed *= -1;
     message = "Turning motor CCW with speed: ";
-    std::cout << RainbowText(message, "Light Red", "Default", "Bold") 
-              << speed << "%\n";
+    message = "Turning motor CW with speed: " + std::to_string(speed) + "%\n";
+    std::cout << RainbowText(message, "Light Red", "Default", "Bold");
     this->SetCCWMode();
   }
 

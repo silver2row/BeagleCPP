@@ -51,7 +51,7 @@ public:
   DCMotor();
 
   // Overload constructor
-  DCMotor(GPIO, GPIO, PWM, bool);
+  DCMotor(GPIO, GPIO, PWM, bool = false);
 
   // Interface method to drive the motor 
   virtual void Drive (int);
