@@ -35,7 +35,7 @@ int main()
   // Turn the motor in CCW direction
   for (int speed = 0; speed > -100; speed -= 10)
     myTB6612FNGModule.MotorA.Drive(speed,1000);
-  for (int speed = -100; speed < 0; speed+=10)
+  for (int speed = -100; speed < 0; speed += 10)
     myTB6612FNGModule.MotorA.Drive(speed,1000);
 
   // Deactivate the module

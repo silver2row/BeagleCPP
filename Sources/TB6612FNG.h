@@ -13,9 +13,12 @@ enum ACTION {
   stop = 1
 };
 
-class Motor : public GPIO, public PWM
+class DCMotor : public GPIO, public PWM
 {
-public:
+private:
+  // Declare TB6612FNG class as friend to allow access to private date members
+  friend class TB6612FNG;
+
   GPIO input1Pin;
   GPIO input2Pin;
   PWM pwmPin;
@@ -47,18 +50,18 @@ public:
 
 public:
   // Default constructor
-  Motor();
+  DCMotor();
 
   // Overload constructor
-  Motor(GPIO, GPIO, PWM, bool);
+  DCMotor(GPIO, GPIO, PWM, bool);
 
   // Interface method to drive the motor 
   virtual void Drive (int);
 
-  // Overloaded interface method to drive the motor during certain time and taking and action after the movement. Value stop as a default action 
+  // Overloaded interface method to drive the motor during certain time and taking and action after the movement with <stop> as a default action. 
   virtual void Drive (int, int, ACTION = stop);
 
-  // Interface method to drive the motor in a thread during certain time and taking and action after the movement. Value stop as a default action
+  // Interface method to drive the motor in a thread during certain time and taking and action after the movement with <stop> as a default action. 
   virtual void DriveThread(int, int, ACTION = stop);
 
   // Interface method to stop the motor
@@ -68,15 +71,17 @@ public:
   virtual void Brake ();
   
   // Destructor
-  virtual ~Motor();
+  virtual ~DCMotor();
 };
 
 class TB6612FNG
 {
 private:
   GPIO standByPin;
+
 public:
-  Motor MotorA, MotorB;
+  DCMotor MotorA;
+  DCMotor MotorB;
 
   // Overload constructor from pins
   TB6612FNG(GPIO, GPIO, PWM, bool, GPIO);
@@ -84,11 +89,11 @@ public:
   // Overload constructor from pins
   TB6612FNG(GPIO, GPIO, PWM, bool, GPIO, GPIO, PWM, bool, GPIO);
 
-  // Overload construnctor from Motor object
-  TB6612FNG(Motor&, GPIO);
+  // Overload constructor from one DCMotor object
+  TB6612FNG(DCMotor&, GPIO);
 
-  // Overload constructor from Motor objects
-  TB6612FNG(Motor&, Motor&, GPIO);
+  // Overload constructor from DCMotor objects
+  TB6612FNG(DCMotor&, DCMotor&, GPIO);
 
   // Interface method to activate the module
   virtual void Activate ();
@@ -99,28 +104,26 @@ public:
   // Interface method to drive both motors forward
   virtual void Forward (int);
 
-  // Interface method to drive both motors forward during certain time
-  virtual void Forward (int, int, ACTION);
+  // Interface method to drive both motors forward during certain time with <stop> as a default action. 
+  virtual void Forward (int, int, ACTION = stop);
 
   // Interface method to drive  both motors backward
   virtual void Backward (int);
 
-  // Interface method to drive both motors backward during certain time
-  virtual void Backward (int, int, ACTION);
+  // Interface method to drive both motors backward during certain time with <stop> as a default action. 
+  virtual void Backward (int, int, ACTION = stop);
 
   // Interface method to drive in opposite direction both motors
   virtual void TurnLeft (int);
 
-  // Interface method to drive in opposite direction both motors during 
-  // certain time
-  virtual void TurnLeft (int, int, ACTION);
+  // Interface method to drive in opposite direction both motors during certain time with <stop> as a default action. 
+  virtual void TurnLeft (int, int, ACTION = stop);
 
   // Interface method to drive in the another opposite direction both motors
   virtual void TurnRight (int);
 
-  // Interface method to drive in the another opposite direction both motors during 
-  // certain time
-  virtual void TurnRight(int, int, ACTION);
+  // Interface method to drive in the another opposite direction both motors during certain time with <stop> as a default action. 
+  virtual void TurnRight(int, int, ACTION = stop);
 
   // Interface method to brake the both motors
   virtual void Brake();
@@ -133,10 +136,10 @@ public:
 PUBLIC FUNCTIONS TO RUN ONLY MOTOR OBJECTS
 ******************************************************************************/
 
-void Forward (std::vector <Motor *>, int);
-void Forward (std::vector <Motor *>, int, int, ACTION);
-void Backward (std::vector <Motor *>, int);
-void Backward (std::vector <Motor *>, int, int, ACTION);
-void Brake (std::vector <Motor *>);
+void Forward (std::vector <DCMotor *>, int);
+void Forward (std::vector <DCMotor *>, int, int, ACTION);
+void Backward (std::vector <DCMotor *>, int);
+void Backward (std::vector <DCMotor *>, int, int, ACTION);
+void Brake (std::vector <DCMotor *>);
 
 #endif // TB6612FNG_H

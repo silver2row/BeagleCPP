@@ -6,10 +6,10 @@
 MOTOR CLASS DEFINITION
 ******************************************************************************/
 // Default constructor
-Motor::Motor() {}
+DCMotor::DCMotor() {}
 
 // Overload Constructor
-Motor::Motor (GPIO newInput1Pin, 
+DCMotor::DCMotor (GPIO newInput1Pin, 
               GPIO newInput2Pin,
               PWM newPWMPin, 
               bool newSwapSpinFlag) :
@@ -25,11 +25,11 @@ Motor::Motor (GPIO newInput1Pin,
             std::string("\tIN1: ") + this->input1Pin.GetPinHeaderId() + "\n" + 
             std::string("\tIN2: ") + this->input2Pin.GetPinHeaderId() + "\n" + 
             std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n\n";
-  std::cout << RainbowText(message, "Light Red");
+  std::cout << RainbowText(message, "Gray");
 }
 
 // Private method to initialize the Pins
-void Motor::InitMotorPins()
+void DCMotor::InitMotorPins()
 {
   // Set the right modes for the pins
   input1Pin.SetMode(OUTPUT);
@@ -46,7 +46,7 @@ void Motor::InitMotorPins()
   Private method to set the speed rotation
   @param int: the desired speed (-100,100)     
 */
-void Motor::SetSpeed(int speed)
+void DCMotor::SetSpeed(int speed)
 {
   pwmPin.SetDutyCycle(speed);
 }
@@ -54,7 +54,7 @@ void Motor::SetSpeed(int speed)
 /*
   Private method to set CW the direction of motor rotation     
 */
-void Motor::SetCWMode()
+void DCMotor::SetCWMode()
 {
   input1Pin.DigitalWrite(HIGH);
   input2Pin.DigitalWrite(LOW);
@@ -63,7 +63,7 @@ void Motor::SetCWMode()
 /*
   Private method to set CCW the direction of motor rotation     
 */
-void Motor::SetCCWMode()
+void DCMotor::SetCCWMode()
 {
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(HIGH);
@@ -72,7 +72,7 @@ void Motor::SetCCWMode()
 /*
   Private method to do a SHORT BRAKE on the motor    
 */
-void Motor::SetShortBrakeMode()
+void DCMotor::SetShortBrakeMode()
 {
   input1Pin.DigitalWrite(HIGH);
   input2Pin.DigitalWrite(HIGH);
@@ -82,7 +82,7 @@ void Motor::SetShortBrakeMode()
 /*
   Private method to set the STOP mode in the  motor    
 */
-void Motor::SetStopMode()
+void DCMotor::SetStopMode()
 {
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
@@ -93,7 +93,7 @@ void Motor::SetStopMode()
   Public method to drive the motor
   @param int: the desired speed (-100,100)     
 */
-void Motor::Drive(int speed)
+void DCMotor::Drive(int speed)
 {
   // If it is desired, swap the turning direction 
   speed *= swapSpinMotor;
@@ -132,7 +132,7 @@ void Motor::Drive(int speed)
   @param int: The desired duration in milliseconds
   @param ACTION: Confirm to brake or stop the motor after driving it. (Default value: stop)     
 */
-void Motor::Drive(int speed, int duration, ACTION action)
+void DCMotor::Drive(int speed, int duration, ACTION action)
 {
   if (duration < 0) 
     duration *= -1;
@@ -153,9 +153,9 @@ void Motor::Drive(int speed, int duration, ACTION action)
   @param ACTION: Confirm to brake or stop the motor after driving it. (Default value: stop)     
 */
 
-void Motor::DriveThread(int speed, int duration, ACTION action)
+void DCMotor::DriveThread(int speed, int duration, ACTION action)
 {
-  std::thread motorThread = std::thread(&Motor::MakeDriveThread, this, speed, duration, action);
+  std::thread motorThread = std::thread(&DCMotor::MakeDriveThread, this, speed, duration, action);
   motorThread.detach();
 }
 
@@ -166,7 +166,7 @@ void Motor::DriveThread(int speed, int duration, ACTION action)
   @param int: the desired speed (-100,100)  
 */
 
-void Motor::MakeDriveThread(int speed, int duration, ACTION action)
+void DCMotor::MakeDriveThread(int speed, int duration, ACTION action)
 {
   Drive(speed, duration, action);
 }
@@ -175,7 +175,7 @@ void Motor::MakeDriveThread(int speed, int duration, ACTION action)
 /*
   Public method to stop the motor with SHORT BRAKE mode   
 */
-void Motor::Stop()
+void DCMotor::Stop()
 {
   this->SetShortBrakeMode();
 }
@@ -183,13 +183,13 @@ void Motor::Stop()
 /*
   Public method to brake the motor with STOP mode   
 */
-void Motor::Brake()
+void DCMotor::Brake()
 {
   this->SetStopMode();
 }
 
 
-Motor::~Motor() 
+DCMotor::~DCMotor() 
 {
   SetSpeed(0);
   input1Pin.DigitalWrite(LOW);
@@ -209,12 +209,12 @@ TB6612FNG::TB6612FNG (GPIO newInput1PinMotorA, GPIO newInput2PinMotorA,
 {
   standByPin.SetMode(OUTPUT);
   std::string message;
-  message = "\nTB6612FNG driver module with the next components was created:\n" +
+  message = "\nTB6612FNG driver module with the next components / pins was created:\n" +
             std::string("\tMotorA:\n") +
             std::string("\t\tAIN1: ") + this->MotorA.input1Pin.GetPinHeaderId() + "\n" + 
             std::string("\t\tAIN2: ") + this->MotorA.input2Pin.GetPinHeaderId() + "\n" + 
             std::string("\t\tPWMA: ") + this->MotorA.pwmPin.GetPinHeaderId() + "\n" +
-            std::string("\tStandBy: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
+            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
   std::cout << RainbowText(message, "Light Red");
 }
 
@@ -236,8 +236,8 @@ TB6612FNG::TB6612FNG (GPIO newInput1PinMotorA, GPIO newInput2PinMotorA,
   std::cout << RainbowText(message, "Light Red");
 }
 
-// Overload constructor from Motor object and for ONLY the MotorA
-TB6612FNG::TB6612FNG (Motor& newMotorA, GPIO newStandByPin) :
+// Overload constructor from DCMotor object and for ONLY the MotorA
+TB6612FNG::TB6612FNG (DCMotor& newMotorA, GPIO newStandByPin) :
                       MotorA (newMotorA), standByPin(newStandByPin)
 {
   standByPin.SetMode(OUTPUT);
@@ -246,8 +246,8 @@ TB6612FNG::TB6612FNG (Motor& newMotorA, GPIO newStandByPin) :
   std::cout << RainbowText(message, "Light Red");
 }
 
-// Overload constructor from Motor objects and for MotorA and MotorB
-TB6612FNG::TB6612FNG (Motor& newMotorA, Motor& newMotorB,
+// Overload constructor from DCMotor objects and for MotorA and MotorB
+TB6612FNG::TB6612FNG (DCMotor& newMotorA, DCMotor& newMotorB,
                       GPIO newStandByPin) :
                       MotorA (newMotorA), MotorB (newMotorB), 
                       standByPin(newStandByPin)
@@ -399,11 +399,11 @@ PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
 /*
   Overload function to drive FORWARD a robot with ANY number of motors
-  @param std::vector<Motor *>: The vector of pointers to Motor objects 
+  @param std::vector<DCMotor *>: The vector of pointers to DCMotor objects 
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
 */
-void Forward (std::vector<Motor *> vectorOfMotors, int speed)
+void Forward (std::vector<DCMotor *> vectorOfMotors, int speed)
 {
   if (speed < 0)
     speed *= -1;
@@ -414,13 +414,13 @@ void Forward (std::vector<Motor *> vectorOfMotors, int speed)
 /*
   Overload function to drive FORWARD a robot 
   with ANY number of motors during certain time
-  @param std::vector<Motor *>: The vector of pointers to Motor objects 
+  @param std::vector<DCMotor *>: The vector of pointers to DCMotor objects 
   @param int: The desired speed (0,100). It set up the correct value if
               the user enters a negative value.
   @param int: The desired duration in milliseconds.
   @param ACTION: Confirm to brake or stop the motor after driving it.  
 */
-void Forward (std::vector<Motor *> vectorOfMotors, int speed, int duration, ACTION action)
+void Forward (std::vector<DCMotor *> vectorOfMotors, int speed, int duration, ACTION action)
 {
   if (speed < 0)
     speed *= -1;
@@ -430,11 +430,11 @@ void Forward (std::vector<Motor *> vectorOfMotors, int speed, int duration, ACTI
 
 /*
   Overload function to drive BACKWARD a robot with ANY number of motors
-  @param std::vector<Motor *>: The vector of pointers to Motor objects 
+  @param std::vector<DCMotor *>: The vector of pointers to DCMotor objects 
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
 */
-void Backward (std::vector<Motor *> vectorOfMotors, int speed)
+void Backward (std::vector<DCMotor *> vectorOfMotors, int speed)
 {
   if (speed > 0)
     speed *= -1;
@@ -445,13 +445,13 @@ void Backward (std::vector<Motor *> vectorOfMotors, int speed)
 /*
   Overload function to drive BACKWARD a robot 
   with ANY number of motors during certain time
-  @param std::vector<Motor *>: The vector of pointers to Motor objects 
+  @param std::vector<DCMotor *>: The vector of pointers to DCMotor objects 
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
   @param int: The desired duration in milliseconds.
   @param ACTION: Confirm to brake or stop the motor after driving it.  
 */
-void Backward (std::vector<Motor *> vectorOfMotors, int speed, int duration, ACTION action)
+void Backward (std::vector<DCMotor *> vectorOfMotors, int speed, int duration, ACTION action)
 {
   if (speed > 0)
     speed *= -1;
@@ -461,9 +461,9 @@ void Backward (std::vector<Motor *> vectorOfMotors, int speed, int duration, ACT
 
 /*
   Overload function BRAKE a robot with ANY number of motors
-  @param std::vector<Motor *>: The pointer vector of motors 
+  @param std::vector<DCMotor *>: The pointer vector of motors 
 */
-void Brake (std::vector<Motor *> vectorOfMotors)
+void Brake (std::vector<DCMotor *> vectorOfMotors)
 {
   for (auto motor : vectorOfMotors)
     motor->Brake();
