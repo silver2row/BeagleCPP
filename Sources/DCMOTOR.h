@@ -23,7 +23,6 @@ private:
   PWM pwmPin;
 
   bool swapSpinFlag;
-  int swapSpinMotor;
   const int maxSpeed = 100;
 
   // Initialize the GPIO pins with the data provided by the constructor
@@ -39,10 +38,10 @@ private:
   virtual void SetCCWMode();
 
   // Method to do a short brake on the motor
-  virtual void SetShortBrakeMode();
+  virtual void SetStopMode();
 
   // Method to stop the motor
-  virtual void SetStopMode();
+  virtual void SetBrakeMode();
 
   // Method to drive the motor with duration in a thread
   virtual void MakeDriveThread(int, int, ACTION);

@@ -32,11 +32,6 @@ void DCMotor::InitMotorPins()
   input1Pin.SetMode(OUTPUT);
   input2Pin.SetMode(OUTPUT);
  
-  // Set a integer variable to signal a change in the direction of motor rotation  
-  if (swapSpinFlag == true)
-    swapSpinMotor = -1;
-  else
-    swapSpinMotor = 1;
 }
 
 /*
@@ -67,22 +62,22 @@ void DCMotor::SetCCWMode()
 }
 
 /*
-  Private method to do a SHORT BRAKE on the motor    
-*/
-void DCMotor::SetShortBrakeMode()
-{
-  input1Pin.DigitalWrite(HIGH);
-  input2Pin.DigitalWrite(HIGH);
-  SetSpeed(0);
-}
-
-/*
-  Private method to set the STOP mode in the  motor    
+  Private method to set the motor in STOP mode   
 */
 void DCMotor::SetStopMode()
 {
   input1Pin.DigitalWrite(LOW);
   input2Pin.DigitalWrite(LOW);
+  SetSpeed(maxSpeed);
+}
+
+/*
+  Private method to set the motor in BRAKE mode  
+*/
+void DCMotor::SetBrakeMode()
+{
+  input1Pin.DigitalWrite(HIGH);
+  input2Pin.DigitalWrite(HIGH);
   SetSpeed(maxSpeed);
 }
 
@@ -93,7 +88,8 @@ void DCMotor::SetStopMode()
 void DCMotor::Drive(int speed)
 {
   // If it is desired, swap the turning direction 
-  speed *= swapSpinMotor;
+  if (swapSpinFlag == true)
+    speed *= -1;
 
   // Verify and limit the speed
   if (speed >= maxSpeed)
@@ -124,7 +120,7 @@ void DCMotor::Drive(int speed)
 }
 
 /*
-  Public method to drive and brake / stop the motor after certain time.
+  Overload public method to drive and stop / brake the motor after certain time.
   @param int: The desired speed (-100,100)
   @param int: The desired duration in milliseconds
   @param ACTION: Confirm to brake or stop the motor after driving it. (Default value: stop)     
@@ -138,9 +134,9 @@ void DCMotor::Drive(int speed, int duration, ACTION action)
   DelayMilliseconds(duration);
 
   if (action == brake)
-    this->SetStopMode();
+    this->SetBrakeMode();
   if (action == stop)
-    this->SetShortBrakeMode();
+    this->SetStopMode();
 } 
 
 /*
@@ -170,19 +166,19 @@ void DCMotor::MakeDriveThread(int speed, int duration, ACTION action)
 
 
 /*
-  Public method to stop the motor with SHORT BRAKE mode   
+  Public method to set the motor in STOP mode   
 */
 void DCMotor::Stop()
 {
-  this->SetShortBrakeMode();
+  this->SetStopMode();
 }
 
 /*
-  Public method to brake the motor with STOP mode   
+  Public method to set the motor in BRAKE mode  
 */
 void DCMotor::Brake()
 {
-  this->SetStopMode();
+  this->SetBrakeMode();
 }
 
 DCMotor::~DCMotor() 
