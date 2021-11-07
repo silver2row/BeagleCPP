@@ -4,7 +4,7 @@ TB6612FNG_1.4.cpp
 08/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Move forward and backward 2 motors with the same speed
+- Move TWO motors forward, backward, turning left or right at max speed
 
 Class: TB6612FNG
 ******************************************************************************/
@@ -16,24 +16,27 @@ using namespace std;
 // Declare the pin to activate / deactivate the TB6612FNG module
 GPIO standByPin(P8_16);
 
-// Declaring the pins for motor 1 
+// Declaring the pins for MotorA 
 GPIO AIN1 (P8_12);
 GPIO AIN2 (P8_14);
 PWM PWMA (P8_13);
 
-// Declare the motor 1
-Motor Motor1 (AIN1, AIN2, PWMA, false);
+// Declare the MotorA
+DCMotor MotorLeft (AIN1, AIN2, PWMA);
 
-// Declaring the  pins for motor 2
+// Declaring the  pins for MotorB
 GPIO BIN1 (P8_17);
 GPIO BIN2 (P8_18);
 PWM PWMB (P8_19);
 
-// Declare the motor 2
-Motor Motor2 (BIN1, BIN2, PWMB, true);
+// Declare the MotorB
+DCMotor MotorRight (BIN1, BIN2, PWMB, true);
 
-// Declare the object for motor 1
-TB6612FNG Module (Motor1, Motor2, standByPin);
+// Declare the TB6612FNG Module
+TB6612FNG myTB6612FNGModule (MotorLeft, MotorRight, standByPin);
+
+// Alternative TB6612FNG Module declaration using the pins directly
+//TB6612FNG myTB6612FNGModule (AIN1, AIN2, PWMA, BIN1, BIN2, PWMB, standByPin);
 
 int main()
 {
@@ -41,14 +44,14 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   // Activate the module
-  Module.Activate();
+  myTB6612FNGModule.Activate();
 
   message = "If you want to stop the program, enter 'y' for yes";
-  cout << RainbowText(message, "Blue") << endl;
+  cout << RainbowText(message, "Yellow") << endl;
   message = "Or enter 'w' to move forward 's' to move to backward";
-  cout << RainbowText(message, "Blue") << endl;
+  cout << RainbowText(message, "Yellow") << endl;
   message = "Or enter 'a' to move to the left or 'd' to move to the right";
-  cout << RainbowText(message, "Blue") << endl;
+  cout << RainbowText(message, "Yellow") << endl;
 
   int motorSpeed = 100;
   char userInput = '\0';
@@ -62,16 +65,16 @@ int main()
     switch (userInput)
     {
     case 'w':
-      Module.Forward(motorSpeed);
+      myTB6612FNGModule.Forward(motorSpeed);
       break;
     case 's':
-      Module.Backward(motorSpeed);
+      myTB6612FNGModule.Backward(motorSpeed);
       break;
     case 'a':
-      Module.TurnLeft(motorSpeed);
+      myTB6612FNGModule.TurnLeft(motorSpeed);
       break;
     case 'd':
-      Module.TurnRight(motorSpeed);
+      myTB6612FNGModule.TurnRight(motorSpeed);
       break;
     default:
       break;
@@ -79,10 +82,11 @@ int main()
   }  
 
   // Brake the motors
-  Module.Brake();
+  cout << "Breaking the motors...\n";
+  myTB6612FNGModule.Brake();
 
   // Deactivate the module
-  Module.Deactivate();
+  myTB6612FNGModule.Deactivate();
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

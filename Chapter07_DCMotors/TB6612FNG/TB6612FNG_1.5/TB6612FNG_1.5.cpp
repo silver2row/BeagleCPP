@@ -16,27 +16,27 @@ using namespace std;
 // Declare the pin to activate / deactivate the TB6612FNG module
 GPIO standByPin(P8_16);
 
-// Declaring the pins for motor 1 
+// Declaring the pins for MotorA 
 GPIO AIN1 (P8_12);
 GPIO AIN2 (P8_14);
 PWM PWMA (P8_13);
 
-// Declaring the  pins for motor 2
+// Declare the MotorA
+DCMotor MotorLeft (AIN1, AIN2, PWMA);
+
+// Declaring the  pins for MotorB
 GPIO BIN1 (P8_17);
 GPIO BIN2 (P8_18);
 PWM PWMB (P8_19);
 
-// Declare the object for motor 1
-Motor Motor1 (AIN1, AIN2, PWMA, false);
+// Declare the MotorB
+DCMotor MotorRight (BIN1, BIN2, PWMB, true);
 
-// Declare the object for motor 2 
-Motor Motor2 (BIN1, BIN2, PWMB, true);
-
-// Declare the object for motor 1
-TB6612FNG Module (Motor1, Motor2, standByPin);
+// Declare the TB6612FNG Module
+TB6612FNG myTB6612FNGModule (MotorLeft, MotorRight, standByPin);
 
 // Declare the vector of pointers to TB6612FNG objects
-vector<Motor *> vectorOfMotors = {&Motor1, &Motor2};
+vector<DCMotor *> vectorOfMotors = {&MotorLeft, &MotorRight};
 
 int main()
 {
@@ -44,7 +44,7 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   // Activate the module
-  Module.Activate();
+  myTB6612FNGModule.Activate();
 
   message = "If you want to stop the program, enter 'y' for yes";
   cout << RainbowText(message, "Blue") << endl;
@@ -86,7 +86,7 @@ int main()
   }
 
   // Deactivate the module
-  Module.Deactivate();  
+  myTB6612FNGModule.Deactivate();  
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

@@ -23,10 +23,10 @@ GPIO AIN2 (P8_14);
 PWM PWMA (P8_13);
 
 // Declare the motor object
-Motor MotorLeft (AIN1, AIN2, PWMA, false);
+DCMotor MotorLeft (AIN1, AIN2, PWMA);
 
 // Declare the TB6612FNG Module
-TB6612FNG Module (MotorLeft, standByPin);
+TB6612FNG myTB6612FNGModule (MotorLeft, standByPin);
 
 int main()
 {
@@ -34,7 +34,7 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   // Activate the module
-  Module.Activate();
+  myTB6612FNGModule.Activate();
 
   message = "If you want to stop the program, enter 'y' for yes";
   cout << RainbowText(message, "Blue") << endl;
@@ -54,23 +54,28 @@ int main()
     {
     case 'w':
       motorSpeed += 10;
-      Module.MotorA.DriveThread(motorSpeed,2000, stop);
-      for(int i = 0; i < 100; i++)
-        cout << "Doing something else while the motor is running" << endl;
+      if (motorSpeed >= 100)
+        motorSpeed = 100;
       break;
     case 's':
       motorSpeed -= 10;
-      Module.MotorA.DriveThread(motorSpeed,2000, stop);
-      for(int i = 0; i < 100; i++)
-        cout << "Doing something else while the motor is running" << endl;
+      if (motorSpeed <= -100)
+        motorSpeed = -100;
       break;
     default:
       break;
     }
+
+    // Move the motor in a thread
+    myTB6612FNGModule.MotorA.DriveThread(motorSpeed, 2000);
+
+    // Doing other stuff
+    for(int i = 0; i < 100; i++)
+      cout << "Doing something else while the motor is running" << endl;
   }
 
   // Deactivate the module
-  Module.Deactivate();  
+  myTB6612FNGModule.Deactivate();  
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

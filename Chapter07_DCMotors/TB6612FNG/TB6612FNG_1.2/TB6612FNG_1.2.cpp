@@ -9,7 +9,6 @@ https://github.com/wgaonar/BeagleCPP
 Class: TB6612FNG
 ******************************************************************************/
 #include <iostream>
-
 #include "../../../Sources/TB6612FNG.h"
 
 using namespace std;
@@ -23,15 +22,15 @@ GPIO AIN2 (P8_14);
 PWM PWMA (P8_13);
 
 // Declare the motor object
-Motor MotorLeft (AIN1, AIN2, PWMA, false);
+DCMotor MotorLeft (AIN1, AIN2, PWMA);
 
 // Declare the TB6612FNG Module
-TB6612FNG Module (MotorLeft, standByPin);
+TB6612FNG myTB6612FNGModule (MotorLeft, standByPin);
 
 int main()
 {
   // Activate the module
-  Module.Activate();
+  myTB6612FNGModule.Activate();
 
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
@@ -66,11 +65,11 @@ int main()
     }
 
     // Move the motor
-    Module.MotorA.Drive(motorSpeed);
+    myTB6612FNGModule.MotorA.Drive(motorSpeed);
   }
 
   // Deactivate the module
-  Module.Deactivate();  
+  myTB6612FNGModule.Deactivate();  
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

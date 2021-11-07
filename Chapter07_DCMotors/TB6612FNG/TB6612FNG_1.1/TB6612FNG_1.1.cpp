@@ -16,7 +16,7 @@ Class: TB6612FNG
 using namespace std;
 
 // Declare the motor object directly with the header pin's names
-TB6612FNG myTB6612FNGModule (P8_12, P8_14, P8_13, false, P8_16);
+TB6612FNG myTB6612FNGModule (P8_12, P8_14, P8_13, P8_16);
 
 int main()
 {
