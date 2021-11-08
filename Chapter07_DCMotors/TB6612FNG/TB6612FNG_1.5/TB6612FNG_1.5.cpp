@@ -22,7 +22,7 @@ GPIO AIN2 (P8_14);
 PWM PWMA (P8_13);
 
 // Declare the MotorA
-DCMotor MotorLeft (AIN1, AIN2, PWMA);
+DCMotor MotorLeft (AIN1, AIN2, PWMA, true);
 
 // Declaring the  pins for MotorB
 GPIO BIN1 (P8_17);
@@ -30,7 +30,7 @@ GPIO BIN2 (P8_18);
 PWM PWMB (P8_19);
 
 // Declare the MotorB
-DCMotor MotorRight (BIN1, BIN2, PWMB, true);
+DCMotor MotorRight (BIN1, BIN2, PWMB);
 
 // Declare the TB6612FNG Module
 TB6612FNG myTB6612FNGModule (MotorLeft, MotorRight, standByPin);
@@ -79,11 +79,11 @@ int main()
 
     // Move the motors
     if (motorSpeed > 0)
-      Forward(vectorOfMotors, motorSpeed);
+      Forward(vectorOfTB6612FNG, motorSpeed);
     else if (motorSpeed < 0)
-      Backward(vectorOfMotors, motorSpeed);
+      Backward(vectorOfTB6612FNG, motorSpeed);
     else
-      Brake(vectorOfMotors);
+      Brake(vectorOfTB6612FNG);
   }
 
   // Deactivate ALL modules
