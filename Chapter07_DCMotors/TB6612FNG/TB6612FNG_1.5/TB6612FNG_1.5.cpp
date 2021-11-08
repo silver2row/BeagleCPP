@@ -36,15 +36,16 @@ DCMotor MotorRight (BIN1, BIN2, PWMB, true);
 TB6612FNG myTB6612FNGModule (MotorLeft, MotorRight, standByPin);
 
 // Declare the vector of pointers to TB6612FNG objects
-vector<DCMotor *> vectorOfMotors = {&MotorLeft, &MotorRight};
+vector<TB6612FNG *> vectorOfTB6612FNG = {&myTB6612FNGModule};
 
 int main()
 {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
-  // Activate the module
-  myTB6612FNGModule.Activate();
+  // Activate ALL modules
+  for (auto TB6612FNGModule : vectorOfTB6612FNG) 
+    TB6612FNGModule->Activate();
 
   message = "If you want to stop the program, enter 'y' for yes";
   cout << RainbowText(message, "Blue") << endl;
@@ -85,8 +86,9 @@ int main()
       Brake(vectorOfMotors);
   }
 
-  // Deactivate the module
-  myTB6612FNGModule.Deactivate();  
+  // Deactivate ALL modules
+  for (auto TB6612FNGModule : vectorOfTB6612FNG)
+    TB6612FNGModule->Deactivate();
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

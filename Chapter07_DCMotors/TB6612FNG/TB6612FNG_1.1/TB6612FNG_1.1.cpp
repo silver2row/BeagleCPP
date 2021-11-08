@@ -15,8 +15,19 @@ Class: TB6612FNG
 
 using namespace std;
 
-// Declare the motor object directly with the header pin's names
-TB6612FNG myTB6612FNGModule (P8_12, P8_14, P8_13, P8_16);
+// Declare the pin to activate / deactivate the TB6612FNG module
+GPIO standByPin(P8_16);
+
+// Declaring the pins for motor
+GPIO AIN1 (P8_12);
+GPIO AIN2 (P8_14);
+PWM PWMA (P8_13);
+
+// Declare the motor object
+DCMotor MotorLeft (AIN1, AIN2, PWMA);
+
+// Declare the TB6612FNG Module
+TB6612FNG myTB6612FNGModule (MotorLeft, standByPin);
 
 int main()
 {

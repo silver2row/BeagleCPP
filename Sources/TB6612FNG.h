@@ -13,12 +13,6 @@ public:
   DCMotor MotorA;
   DCMotor MotorB;
 
-  // Overload constructor from pins
-  TB6612FNG(GPIO, GPIO, PWM, GPIO, bool = false);
-
-  // Overload constructor from pins
-  TB6612FNG(GPIO, GPIO, PWM, GPIO, GPIO, PWM, GPIO, bool = false, bool = false);
-
   // Overload constructor from one DCMotor object
   TB6612FNG(DCMotor&, GPIO);
 
@@ -34,29 +28,32 @@ public:
   // Interface method to drive both motors forward
   virtual void Forward (int);
 
-  // Interface method to drive both motors forward during certain time with <stop> as a default action. 
-  virtual void Forward (int, int, ACTION = stop);
+  // Interface method to drive both motors forward during certain time with <idle> as a default action. 
+  virtual void Forward (int, int, ACTION = idle);
 
   // Interface method to drive  both motors backward
   virtual void Backward (int);
 
-  // Interface method to drive both motors backward during certain time with <stop> as a default action. 
-  virtual void Backward (int, int, ACTION = stop);
+  // Interface method to drive both motors backward during certain time with <idle> as a default action. 
+  virtual void Backward (int, int, ACTION = idle);
 
   // Interface method to drive in opposite direction both motors
   virtual void TurnLeft (int);
 
-  // Interface method to drive in opposite direction both motors during certain time with <stop> as a default action. 
-  virtual void TurnLeft (int, int, ACTION = stop);
+  // Interface method to drive in opposite direction both motors during certain time with <idle> as a default action. 
+  virtual void TurnLeft (int, int, ACTION = idle);
 
   // Interface method to drive in the another opposite direction both motors
   virtual void TurnRight (int);
 
-  // Interface method to drive in the another opposite direction both motors during certain time with <stop> as a default action. 
-  virtual void TurnRight(int, int, ACTION = stop);
+  // Interface method to drive in the another opposite direction both motors during certain time with <idle> as a default action. 
+  virtual void TurnRight(int, int, ACTION = idle);
 
   // Interface method to brake the both motors
   virtual void Brake();
+
+  // Interface method to idle the both motors
+  virtual void Idle();
 
   // Destructor
   virtual ~TB6612FNG();
@@ -66,10 +63,11 @@ public:
 PUBLIC FUNCTIONS TO RUN ONLY MOTOR OBJECTS
 ******************************************************************************/
 
-void Forward (std::vector <DCMotor *>, int);
-void Forward (std::vector <DCMotor *>, int, int, ACTION);
-void Backward (std::vector <DCMotor *>, int);
-void Backward (std::vector <DCMotor *>, int, int, ACTION);
-void Brake (std::vector <DCMotor *>);
+void Forward (std::vector <TB6612FNG *>, int);
+void Forward (std::vector <TB6612FNG *>, int, int, ACTION);
+void Backward (std::vector <TB6612FNG *>, int);
+void Backward (std::vector <TB6612FNG *>, int, int, ACTION);
+void Brake (std::vector <TB6612FNG *>);
+void Idle (std::vector <TB6612FNG *>);
 
 #endif // TB6612FNG_H

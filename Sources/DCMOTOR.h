@@ -9,7 +9,7 @@
 /* The numeric mode for ACTION on the motor: e.g. 0/1 for Brake/Stop */
 enum ACTION {
   brake = 0,
-  stop = 1
+  idle = 1
 };
 
 class DCMotor : public GPIO, public PWM
@@ -37,11 +37,11 @@ private:
   // Method to set CCW the direction of motor rotation 
   virtual void SetCCWMode();
 
-  // Method to do a short brake on the motor
-  virtual void SetStopMode();
-
-  // Method to stop the motor
+  // Method to brake the motor
   virtual void SetBrakeMode();
+
+  // Method to set the motor in idle mode (Free running)
+  virtual void SetIdleMode();
 
   // Method to drive the motor with duration in a thread
   virtual void MakeDriveThread(int, int, ACTION);
@@ -56,17 +56,17 @@ public:
   // Interface method to drive the motor 
   virtual void Drive (int);
 
-  // Overloaded interface method to drive the motor during certain time and taking and action after the movement with <stop> as a default action. 
-  virtual void Drive (int, int, ACTION = stop);
+  // Overloaded interface method to drive the motor during certain time and taking and action after the movement with <idle> as a default action. 
+  virtual void Drive (int, int, ACTION = idle);
 
-  // Interface method to drive the motor in a thread during certain time and taking and action after the movement with <stop> as a default action. 
-  virtual void DriveThread(int, int, ACTION = stop);
+  // Interface method to drive the motor in a thread during certain time and taking and action after the movement with <idle> as a default action. 
+  virtual void DriveThread(int, int, ACTION = idle);
 
-  // Interface method to stop the motor
-  virtual void Stop ();
-  
   // Interface method to brake the motor
   virtual void Brake ();
+
+  // Interface method to set the motor in idle mode (Free running)
+  virtual void Idle ();
   
   // Destructor
   virtual ~DCMotor();
