@@ -17,6 +17,8 @@ private:
   virtual void ReadDataFromSensor();
 
 public:
+  // Default constructor
+  LM35();
 
   // Overload constructor with ADC pin
   LM35(ADC);

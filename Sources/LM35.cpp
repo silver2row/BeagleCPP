@@ -2,6 +2,9 @@
 
 #include "LM35.h"
 
+// Default constructor
+LM35::LM35() {}
+
 // Overload Constructor with dataPin
 LM35::LM35 (ADC newADCPin) : 
             ADCPin(newADCPin)
