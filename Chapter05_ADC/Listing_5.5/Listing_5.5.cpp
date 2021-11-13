@@ -22,15 +22,15 @@ PWM pwmBlueLedPin(P8_13);
 
 // Global variables
 bool stopBrightLed = false;
-int adcValueOut = 0;
+int adcValue = 0;
 int pwmValue = 0;
 
 int BrightLed()
 {
   while (stopBrightLed == false) 
   {
-    adcValueOut = adcPin.ReadADC();
-    pwmValue = adcValueOut / 4095.0 * 100; 
+    adcValue = adcPin.ReadADC();
+    pwmValue = adcValue / 4095.0 * 100; 
     cout << "PWM value: " << pwmValue << endl;
     pwmBlueLedPin.SetDutyCycle(pwmValue);
     DelayMilliseconds(100);

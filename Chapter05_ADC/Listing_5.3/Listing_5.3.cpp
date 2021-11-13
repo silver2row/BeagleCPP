@@ -17,7 +17,7 @@ using namespace std;
 ADC adcPin(P9_39);
 
 // Global variables
-int adcValueOut = 0;
+int adcValue = 0;
 int intervalTime = 100;
  
 int main()
@@ -25,8 +25,8 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
-  // Call the method to read the aDC value in background and print the value
-  adcPin.ReadADC(adcValueOut, intervalTime, true);
+  // Call the method to read the ADC value in background and print the values
+  adcPin.ReadADC(adcValue, intervalTime, true);
 
   char userInput = '\0';
   while (userInput != 'y') 
