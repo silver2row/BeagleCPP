@@ -32,8 +32,8 @@ class ADC : public SYSFILEACCESS
     bool stopReadADCFlag = false;
     bool stopReadVoltageFlag = false;
     
-    void MakeReadADC(int &, int);
-    void MakeReadVoltage(double &, int);
+    void MakeReadADC(int &, int, bool);
+    void MakeReadVoltage(double &, int, bool);
 
     // Helper method to get the ADC value on pin
     virtual int GetADC();
@@ -48,23 +48,17 @@ class ADC : public SYSFILEACCESS
     // Accessor method to get the header pin's name
     virtual std::string GetPinHeaderId();
 
-    // Interface method to read one time the ADC value on the pin
-    virtual int ReadADC();
-
-    // Overload interface method to read the ADC value with an interval time
-    virtual int ReadADC(int);
+    // Interface method to read the ADC value on the pin
+    virtual int ReadADC(int = 0, bool = false);
 
     // Interface method for reading the ADC in background
-    virtual void ReadADC(int &, int);
+    virtual void ReadADC(int &, int, bool);
 
-    // Interface method to read one time the voltage on the pin
-    virtual double ReadVoltage();
-
-    // Overload interface method to read the voltage with an interval time
-    virtual double ReadVoltage(int);
+    // Interface method to read the voltage on the pin
+    virtual double ReadVoltage(int = 0, bool = false);
 
     // Interface method for reading the voltage in background
-    virtual void ReadVoltage(double &, int);
+    virtual void ReadVoltage(double &, int, bool);
     
     // Method to do execute an user function
     virtual int DoUserFunction(callbackType);

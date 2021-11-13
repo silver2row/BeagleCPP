@@ -57,9 +57,11 @@ std::string ADC::GetPinHeaderId() {
   Private method to get the ADC value on pin 
   @return int: The pin's value between 0 - 4095
 */
-int ADC::GetADC() {
+int ADC::GetADC() 
+{
   adcValue = ReadFile(path);
-  if ( adcValue == -1) {
+  if ( adcValue == -1) 
+  {
     perror("Error trying to read the ADC on the pin");
     throw ADC_Exception("Error in the 'ReadADC' method");
   }
@@ -68,29 +70,25 @@ int ADC::GetADC() {
 }
 
 /*
-  Public method to get the ADC value on pin 
+  Public method to get the ADC value on pin
+  @param int: If it is desired, the time interval between each sample. Default value: <0>
+  @param bool: Flag to print / no print the messages on the console. Default value: <false>  
   @return int: Output for the ADC value between 0 - 4095
 */
-int ADC::ReadADC() 
+int ADC::ReadADC(int timeInterval, bool print) 
 {
   int adcValueOut = GetADC();
 
-  std::string message;
-  message = "ADC value on pin " + idMap[id] + ": " + std::to_string(adcValueOut) + "\n";
-  std::cout << RainbowText(message, "Violet");
+  if (print == true)
+  { 
+    std::string message;
+    message = "ADC value on pin " + idMap[id] + ": " + std::to_string(adcValueOut) + "\n";
+    std::cout << RainbowText(message, "Violet");
+  }
 
-  return adcValueOut;
-}
+  if (timeInterval > 0)
+    DelayMilliseconds(timeInterval);
 
-/*
-  Public method to get one the ADC value on pin and wait a time Interval
-  @param int: The time interval between each sample
-  @return int: Output for the ADC value between 0 - 4095
-*/
-int ADC::ReadADC(int timeInterval) 
-{
-  int adcValueOut = ReadADC();
-  DelayMilliseconds(timeInterval);
   return adcValueOut;
 }
 
@@ -98,12 +96,13 @@ int ADC::ReadADC(int timeInterval)
   Public method to get continuosly the ADC value on pin 
   @param int: Reference output for the ADC value between 0 - 4095
   @param int: The time interval between each sample
+  @param bool: Flag to print / no print the messages on the console 
 */
-void ADC::ReadADC(int &adcValueOut, int timeInterval) 
+void ADC::ReadADC(int &adcValueOut, int timeInterval, bool print) 
 {
   std::string message = "Read ADC value in a THREAD has been activated\n";
   std::cout << RainbowText(message, "Violet", "Default", "Bold") << std::endl;
-  std::thread readADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval);
+  std::thread readADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval, print);
   readADCThread.detach();
 }
 
@@ -111,14 +110,12 @@ void ADC::ReadADC(int &adcValueOut, int timeInterval)
   Private method that contains the routine to make the ADC read 
   @param int: A reference variable to store The pin's value between 0 - 4095
   @param int: The time interval between each sample
+  @param bool: Flag to print / no print the messages on the console 
 */
-void ADC::MakeReadADC(int &adcValueOut, int timeInterval)
+void ADC::MakeReadADC(int &adcValueOut, int timeInterval, bool print)
 {
   while (stopReadADCFlag == false) 
-  {
-    adcValueOut = ReadADC();
-    DelayMilliseconds(timeInterval);
-  }
+    adcValueOut = this->ReadADC(timeInterval, print);
 }
 
 /*
@@ -131,29 +128,24 @@ void ADC::StopReadADC()
 
 /*
   Public method to get the voltage on the pin
-  @return float: Output for the ADC voltage between 0 - 1.8
+  @param int: If it is desired, the time interval between each sample. Default value: <0>
+  @param bool: Flag to print / no print the messages on the console. Default value: <false>  
+  @return double: Output for the ADC voltage between 0 - 1.8
 */
-double ADC::ReadVoltage()
+double ADC::ReadVoltage(int timeInterval, bool print)
 {
   double voltageOut = GetADC() * 1.8 / 4095;
+  
+  if (print == true)
+  { 
+    std::string message;
+    message = "Voltage on pin " + idMap[id] + ": " + std::to_string(voltageOut) + " \n";
+    std::cout << RainbowText(message, "Violet");
+  }
 
-  std::string message;
-  message = "Voltage on pin " + idMap[id] + ": " + std::to_string(voltageOut) + " \n";
-  std::cout << RainbowText(message, "Violet");
+  if (timeInterval > 0)
+    DelayMilliseconds(timeInterval);
 
-  return voltageOut;
-}
-
-/*
-  Public method to get the voltage on the pin
-  @param double: Output for the ADC voltage between 0 - 1.8
-  @param int: The time interval between each sample
-
-*/
-double ADC::ReadVoltage(int timeInterval)
-{
-  float voltageOut = ReadVoltage();
-  DelayMilliseconds(timeInterval);
   return voltageOut;
 }
 
@@ -161,12 +153,13 @@ double ADC::ReadVoltage(int timeInterval)
   Public method to get continuosly the voltage on the pin 
   @param double: Reference output for the ADC voltage between 0 - 1.8
   @param int: The time interval between each sample
+  @param bool: Flag to print / no print the messages on the console 
 */
-void ADC::ReadVoltage(double &voltageOut, int timeInterval) 
+void ADC::ReadVoltage(double &voltageOut, int timeInterval, bool print) 
 {
   std::string  message = "Read voltage in a THREAD has been activated\n";
   std::cout << RainbowText(message, "Violet", "Default", "Bold");
-  std::thread readVoltageThread = std::thread(&ADC::MakeReadVoltage, this, std::ref(voltageOut),timeInterval);
+  std::thread readVoltageThread = std::thread(&ADC::MakeReadVoltage, this, std::ref(voltageOut), timeInterval, print);
   readVoltageThread.detach();
 }
 
@@ -174,14 +167,12 @@ void ADC::ReadVoltage(double &voltageOut, int timeInterval)
   Private method that contains the routine to make the ADC read 
   @param int: A reference variable to store The pin's value between 0 - 4095
   @param int: The time interval between each sample
+  @param bool: Flag to print / no print the messages on the console 
 */
-void ADC::MakeReadVoltage(double &voltageOut, int timeInterval) 
+void ADC::MakeReadVoltage(double &voltageOut, int timeInterval, bool print) 
 {
   while (stopReadVoltageFlag == false) 
-  {
-    voltageOut = ReadVoltage();
-    DelayMilliseconds(timeInterval);
-  }
+    voltageOut = this->ReadVoltage(timeInterval, print);
 }
 
 /*
