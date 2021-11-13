@@ -86,8 +86,15 @@ void TB6612FNG::Forward(int speed, int duration, ACTION action)
 {
   if (speed < 0)
     speed *= -1;
-  MotorA.Drive(speed, duration, action);
-  MotorB.Drive(speed, duration, action);
+  MotorA.Drive(speed);
+  MotorB.Drive(speed);
+
+  DelayMilliseconds(duration);
+
+  if (action == idle)
+    this->Idle();
+  else
+    this->Brake();
 }
 
 /*
@@ -114,8 +121,15 @@ void TB6612FNG::Backward(int speed, int duration, ACTION action)
 {
   if (speed > 0)
     speed *= -1;
-  MotorA.Drive(speed, duration, action);
-  MotorB.Drive(speed, duration, action);
+  MotorA.Drive(speed);
+  MotorB.Drive(speed);
+
+  DelayMilliseconds(duration);
+  
+  if (action == idle)
+    this->Idle();
+  else
+    this->Brake();
 }
 
 /*

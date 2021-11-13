@@ -18,14 +18,19 @@ ADC adcPin(P9_39);
 
 // Global Variables
 bool stopAnalogRead = false;
-int adcValueOut = 0;
-float adcVoltageOut = 0.0;
+int adcValue = 0;
+float adcVoltage = 0.0;
 
 int AnalogRead() {
+
   while (stopAnalogRead == false) 
   {
-    adcValueOut = adcPin.ReadADC();
-    adcVoltageOut = adcPin.ReadVoltage();
+    // Read the ADC value, wait 0 milliseconds and print the values
+    adcValue = adcPin.ReadADC(0, true);
+
+    // Read the ADC voltage, wait 0 milliseconds and print the values
+    adcVoltage = adcPin.ReadVoltage(0, true);
+
     cout << "'y' for exit" << endl;
     DelayMilliseconds(250);
   }

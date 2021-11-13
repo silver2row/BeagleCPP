@@ -25,8 +25,8 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
   
-  // Call the method to read the aDC value in background
-  adcPin.ReadADC(adcValueOut, intervalTime);
+  // Call the method to read the aDC value in background and print the value
+  adcPin.ReadADC(adcValueOut, intervalTime, true);
 
   char userInput = '\0';
   while (userInput != 'y') 

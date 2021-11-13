@@ -85,5 +85,6 @@
     "PWMA",
     "STBY",
     "Vout"
-  ]
+  ],
+  "cmake.configureOnOpen": false
 }

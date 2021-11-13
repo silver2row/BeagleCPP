@@ -27,9 +27,10 @@ int main()
 
   int adcValue = 0;
   int intervalTime = 100;
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 100; i++) 
+  {
     adcValue = adcPin.ReadADC(intervalTime);
-    cout << "Reading " << i+1 << " of " << "100: ";
+    cout << "Reading " << i+1 << " of " << "100: " << adcValue << endl;
   }
 
   message = "Main program finishes here...";
