@@ -15,7 +15,7 @@ Class: KEYPAD_5BUTTONS
 using namespace std;
 
 // Global KEYPAD_5BUTTONS object instantiation
-KEYPAD_5BUTTONS myKeyPad(P9_39, P9_11, P9_18, P9_13, P9_12);
+KEYPAD_5BUTTONS myKeyPad(P9_39, P9_11, P9_12, P9_13, P9_18);
 
 // Global Variables
 bool stopReadKeyPad = false;
