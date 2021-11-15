@@ -6,8 +6,8 @@ CONTINUOUS_SERVO::CONTINUOUS_SERVO (PWM newPWMPin) : Servo(newPWMPin)
 {
   speed = 0;
   // Default Parameters
-  minimumPulseWidth = 500000;
-  maximumPulseWidth = 2500000;
+  this->Servo.minimumPulseWidth = 500000;
+  this->Servo.maximumPulseWidth = 2500000;
   this->InitContinuousServo();
 }
 

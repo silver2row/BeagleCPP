@@ -3,7 +3,7 @@
 
 #include "SERVO.h"
 
-class CONTINUOUS_SERVO: public SERVO
+class CONTINUOUS_SERVO
 {
 private:
   int speed;          // Desired speed in percentage
