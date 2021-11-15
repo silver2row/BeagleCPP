@@ -6,20 +6,20 @@ https://github.com/wgaonar/BeagleCPP
 
 - Move a continuous rotation servo with the readings from a potentiometer
 
-Class: SERVO
+Classes: CONTINUOUS_SERVO, ADC
 ******************************************************************************/
 
 #include <iostream>
-#include "../../../Sources/SERVO.h"
+#include "../../../Sources/CONTINUOUS_SERVO.h"
 #include "../../../Sources/ADC.h"
 
 using namespace std;
 
 // Declare the Servo object
-SERVO myServo(P8_13);
+CONTINUOUS_SERVO myServo(P8_13);
 
 // Declare the ADC pin to attach the potentiometer
-ADC myPotentiometer(P9_39);
+ADC myPotentiometer(P9_38);
 
 // Global variables
 bool stopMoveServo = false;

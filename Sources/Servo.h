@@ -9,12 +9,16 @@ const int ServoPeriod = 20000000;
 class SERVO : public PWM
 {
 private:
+  // Declare POSITION_SERVO class as friend to allow access to private date members
+  friend class POSITION_SERVO;
+
+  // Declare CONTINUOUS_SERVO class as friend to allow access to private date members
+  friend class CONTINUOUS_SERVO;
+
   PWM pwmPin;
   int minimumPulseWidth;  // Minimum pulse width in ns
   int averagePulseWidth;  // Average pulse width in ns
   int maximumPulseWidth;  // Maximun pulse width in ns
-  int angle;          // Desired angle in degrees
-  int speed;          // Desired speed in percentage for a continuos servo
 
   // Set the Servo period for the PWM pin  
   virtual void InitServo();
@@ -38,12 +42,6 @@ public:
   // Accessor method to get the average pulse width
   virtual int GetAveragePulseWidth();
 
-  // Interface method to set the angle 
-  virtual void SetAngle (int);
-
-  // Interface method to set the speed for a continuous servo 
-  virtual void SetSpeed (int);
-  
   // Destructor
   ~SERVO();
 };

@@ -6,18 +6,18 @@ https://github.com/wgaonar/BeagleCPP
 
 - Change a SG90 servomotor angle with the keyboard entry  
 
-Class: SERVO
+Class: POSITION_SERVO
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/SERVO.h"
+#include "../../../Sources/POSITION_SERVO.h"
 
 using namespace std;
 
 // Declare the Servo object
-PWM pwmPin(P9_14);
+PWM pwmPin(P8_13);
 
-// Declare the Servo object
-SERVO myServo(pwmPin);
+// Declare the POSITION_SERVO Object
+POSITION_SERVO myServo(pwmPin);
 
 int main()
 {

@@ -177,7 +177,7 @@ int PWM::SetPeriod(int newPeriod)
   {
     std::cout << RainbowText("A new period of ", "Pink")
             << RainbowText(std::to_string(this->GetPeriod()), "Pink") 
-            << RainbowText("ns was a set!\n", "Pink"); 
+            << RainbowText("ns was set!\n", "Pink"); 
   } 
   return 1;
 }

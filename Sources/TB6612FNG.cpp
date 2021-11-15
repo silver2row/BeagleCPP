@@ -293,6 +293,6 @@ void Brake (std::vector<TB6612FNG *> vectorOfTB6612FNG)
 */
 void Idle (std::vector<TB6612FNG *> vectorOfTB6612FNG)
 {
-   for (auto TB6612FNGModule : vectorOfTB6612FNG)
+  for (auto TB6612FNGModule : vectorOfTB6612FNG)
     TB6612FNGModule->MotorA.Idle();
 }

@@ -4,18 +4,18 @@ SM-S2309S_1.1.cpp
 28/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Declare a Servo object with customized minimum and maximun pulse width  
-- Change the servomotor angle with the keyboard entry  
+- Drive a SM-S2309-S Servomotor angle with the keyboard entry.  
+- It uses with customized minimum and maximun pulse width  
 
-Class: SERVO
+Class: POSITION_SERVO
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/SERVO.h"
+#include "../../../Sources/POSITION_SERVO.h"
 
 using namespace std;
 
-// Declare the Servo object
-SERVO myServo(P8_13, 900000, 2100000);
+// Declare the POSITION_SERVO object
+POSITION_SERVO myServo(P8_13, 900000, 2100000);
 
 int main()
 {
