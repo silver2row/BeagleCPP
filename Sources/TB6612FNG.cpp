@@ -152,8 +152,15 @@ void TB6612FNG::TurnLeft(int speed)
 */
 void TB6612FNG::TurnLeft(int speed, int duration, ACTION action)
 {
-  MotorA.Drive(-speed, duration, action);
-  MotorB.Drive(speed, duration, action);
+  MotorA.Drive(-speed);
+  MotorB.Drive(speed);
+
+  DelayMilliseconds(duration);
+  
+  if (action == idle)
+    this->Idle();
+  else
+    this->Brake();
 }
 
 /*
@@ -174,8 +181,15 @@ void TB6612FNG::TurnRight(int speed)
 */
 void TB6612FNG::TurnRight(int speed, int duration, ACTION action)
 {
-  MotorA.Drive(speed, duration, action);
-  MotorB.Drive(-speed, duration, action);
+  MotorA.Drive(speed);
+  MotorB.Drive(-speed);
+
+  DelayMilliseconds(duration);
+  
+  if (action == idle)
+    this->Idle();
+  else
+    this->Brake();
 
 }
 
@@ -235,9 +249,16 @@ void Forward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int duratio
     speed *= -1;
   for (auto TB6612FNGModule : vectorOfTB6612FNG)
   {
-    TB6612FNGModule->MotorA.Drive(speed, duration, action);
-    TB6612FNGModule->MotorB.Drive(speed, duration, action);
+    TB6612FNGModule->MotorA.Drive(speed);
+    TB6612FNGModule->MotorB.Drive(speed);
   }
+
+  DelayMilliseconds(duration);
+  
+  if (action == idle)
+    Idle(vectorOfTB6612FNG);
+  else
+    Brake(vectorOfTB6612FNG);
 }
 
 /*
@@ -272,9 +293,16 @@ void Backward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int durati
     speed *= -1;
   for (auto TB6612FNGModule : vectorOfTB6612FNG)
   {
-    TB6612FNGModule->MotorA.Drive(speed, duration, action);
-    TB6612FNGModule->MotorB.Drive(speed, duration, action);
+    TB6612FNGModule->MotorA.Drive(speed);
+    TB6612FNGModule->MotorB.Drive(speed);
   }
+
+  DelayMilliseconds(duration);
+  
+  if (action == idle)
+    Idle(vectorOfTB6612FNG);
+  else
+    Brake(vectorOfTB6612FNG);
 }
 
 /*
