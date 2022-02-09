@@ -15,7 +15,7 @@ enum ACTION {
 class DCMotor : public GPIO, public PWM
 {
 private:
-  // Declare TB6612FNG class as friend to allow access to private date members
+  // Declare TB6612FNG class as friend to allow access to private data members
   friend class TB6612FNG;
 
   GPIO input1Pin;
