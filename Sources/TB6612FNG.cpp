@@ -6,7 +6,7 @@
 TB6612FNG::TB6612FNG (DCMotor& newMotorA, 
                       GPIO newStandByPin) :
                       MotorA (newMotorA), 
-                      standByPin(newStandByPin)
+                      standByPin (newStandByPin)
 {
   standByPin.SetMode(OUTPUT);
   
