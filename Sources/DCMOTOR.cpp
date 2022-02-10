@@ -109,8 +109,7 @@ void DCMotor::Drive(int speed)
   else
   {
     speed *= -1;
-    message = "Turning motor CCW with speed: ";
-    message = "Turning motor CW with speed: " + std::to_string(speed) + "%\n";
+    message = "Turning motor CCW with speed: " + std::to_string(speed) + "%\n";
     std::cout << RainbowText(message, "Light Red");
     this->SetCCWMode();
   }
