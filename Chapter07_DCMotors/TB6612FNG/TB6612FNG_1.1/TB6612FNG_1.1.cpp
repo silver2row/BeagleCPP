@@ -4,8 +4,10 @@ TB6612FNG_1.1.cpp
 02/07/2021
 https://github.com/wgaonar/BeagleCPP
 
-- Move the motor each second increasing the speed 10% each time and then reversing it.
-- Move the motor in the other direction increasing the speed 10% and then reversing it.
+- Move the motor each 1000 milliseconds increasing the speed 10% 
+  each time and then reversing it.
+- Move the motor in the other direction each 1000 milliseconds increasing the
+  speed 10% and then reversing it.
 
 Class: TB6612FNG
 ******************************************************************************/

@@ -2,6 +2,9 @@
 
 #include "POSITION_SERVO.h"
 
+// No-args default constructor
+POSITION_SERVO::POSITION_SERVO () {}
+
 // Overload Constructor
 POSITION_SERVO::POSITION_SERVO (PWM newPWMPin) : Servo(newPWMPin)
 {

@@ -19,6 +19,9 @@ private:
 
 public:
 
+  // No-args default constructor
+  HC_SR04();
+
   // Overload constructor with trigger and echo pins
   HC_SR04(GPIO, GPIO);
 

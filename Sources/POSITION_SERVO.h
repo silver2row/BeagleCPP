@@ -14,6 +14,9 @@ private:
 public:
   SERVO Servo;
 
+  // No-args default constructor
+  POSITION_SERVO ();
+
   // Overload constructor with PWM pin
   POSITION_SERVO(PWM);
 

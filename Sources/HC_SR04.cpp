@@ -6,6 +6,9 @@
 
 #include "HC_SR04.h"
 
+// No-args default constructor
+HC_SR04::HC_SR04() {}
+
 // Overload Constructor with trigger and echo pins
 HC_SR04::HC_SR04 (GPIO newTriggerPin,
                   GPIO newEchoPin) :
