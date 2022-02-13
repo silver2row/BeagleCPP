@@ -197,10 +197,7 @@ void TB6612FNG::Idle()
 
 // Destructor
 TB6612FNG::~TB6612FNG() 
-{
-  // Deactivate the module
-  this->Deactivate();
-} 
+{} 
 
 /******************************************************************************
 PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
