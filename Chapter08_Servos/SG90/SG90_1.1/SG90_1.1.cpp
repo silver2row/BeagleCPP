@@ -14,7 +14,7 @@ Class: POSITION_SERVO
 using namespace std;
 
 // Declare the POSITION_SERVO Object
-POSITION_SERVO myServo(P8_13);
+POSITION_SERVO myServo {P8_13};
 
 int main()
 {
