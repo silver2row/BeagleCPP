@@ -28,32 +28,16 @@ public:
   // Interface method to deactivate the module
   virtual void Deactivate (); 
 
-  // Interface method to drive both motors forward
-  // virtual void Forward (int);
-
-  // Interface method to drive both motors forward during certain time with <idle> as a default action. 
-  // virtual void Forward (int, int, ACTION = idle);
+  // Interface method to drive both motors forward 
   virtual void Forward (int speed, int duration = 0, ACTION action = idle);
 
-  // Interface method to drive  both motors backward
-  // virtual void Backward (int);
-
-  // Interface method to drive both motors backward during certain time with <idle> as a default action. 
-  // virtual void Backward (int, int, ACTION = idle);
+  // Interface method to drive both motors backward 
   virtual void Backward (int speed, int duration = 0, ACTION action = idle);
 
-  // Interface method to drive in opposite direction both motors
-  // virtual void TurnLeft (int);
-
-  // Interface method to drive in opposite direction both motors during certain time with <idle> as a default action. 
-  // virtual void TurnLeft (int, int, ACTION = idle);
+  // Interface method to drive in opposite direction both motors 
   virtual void TurnLeft (int speed, int duration = 0, ACTION action = idle);
 
-  // Interface method to drive in the another opposite direction both motors
-  // virtual void TurnRight (int);
-
-  // Interface method to drive in the another opposite direction both motors during certain time with <idle> as a default action. 
-  // virtual void TurnRight(int, int, ACTION = idle);
+  // Interface method to drive in the another opposite direction both motors 
   virtual void TurnRight(int speed, int duration = 0, ACTION action = idle);
 
   // Interface method to brake the both motors

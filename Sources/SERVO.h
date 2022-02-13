@@ -24,7 +24,7 @@ private:
   virtual void InitServo();
 
 public:
-  // Default constructor
+  // No-args Default constructor
   SERVO();
 
   // Overload constructor

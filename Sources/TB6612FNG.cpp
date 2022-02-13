@@ -13,7 +13,7 @@ TB6612FNG::TB6612FNG (DCMotor& newMotorA,
 {
   // Set the standByPin's direction to control de modules's StandBy mode
   standByPin.SetMode(OUTPUT);
-  
+
   std::string message;
   std::string swapStringMotorA {this->MotorA.swapSpinFlag ? "True" : "False"};
   message = "\nTB6612FNG driver module with the next components / pins was created and activated:\n" +
@@ -59,30 +59,18 @@ TB6612FNG::TB6612FNG (DCMotor& newMotorA,
 void TB6612FNG::Activate()
 { 
   standByPin.DigitalWrite(HIGH);
+  std::cout << RainbowText("TB6612FNG has been activated!\n","Light Red");
 }
 
 // Interface method to deactivate the module unsetting the StandBy pin
 void TB6612FNG::Deactivate ()
 {
   standByPin.DigitalWrite(LOW);
+  std::cout << RainbowText("TB6612FNG has been deactivated!\n","Light Red");
 }
 
 /*
-  Interface method to drive FORWARD both motors
-  @param int: The desired speed (0,100). It set up the correct value if
-              the user enters a negative value.    
-*/
-/*
-void TB6612FNG::Forward(int speed)
-{
-  if (speed < 0)
-    speed *= -1;
-  MotorA.Drive(speed);
-  MotorB.Drive(speed);
-}
-*/
-/*
-  Overload interface method to drive FORWARD both motors during certain time
+  Overload interface method to drive FORWARD both motors
   @param int speed: The desired speed (0,100). It set up the correct value if
                     the user enters a negative value.
   @param int duration:  The desired duration in milliseconds with 0 as
@@ -110,21 +98,6 @@ void TB6612FNG::Forward(int speed, int duration, ACTION action)
 
 /*
   Interface method to drive BACKWARD both motors
-  @param int: The desired speed (-100,0). It set up the correct value if
-              the user enters a positive value. 
-*/
-/*
-void TB6612FNG::Backward(int speed)
-{
-  if (speed > 0)
-    speed *= -1;
-  MotorA.Drive(speed);
-  MotorB.Drive(speed);
-}
-*/
-
-/*
-  Interface method to drive BACKWARD both motors during certain time
   @param int speed: The desired speed (-100,0). It set up the correct value if
                     the user enters a positive value.
   @param int duration:  The desired duration in milliseconds with 0 as 
@@ -151,24 +124,13 @@ void TB6612FNG::Backward(int speed, int duration, ACTION action)
 }
 
 /*
-  Interface method to make a turn to the LEFT on a robot with a couple of motors
-  @param int: The desired speed (0,100). It set up the correct value if
-              the user enters a negative value. 
-*/
-/*
-void TB6612FNG::TurnLeft(int speed)
-{
-  MotorA.Drive(-speed);
-  MotorB.Drive(speed);
-}
-*/
-/*
-  Interface method to drive in opposite direction both motors during certain time
-  @param int speed :  The desired speed (0,100). It set up the correct value if
-                      the user enters a negative value.
-  @param int duration : The desired duration in milliseconds with 0 as
+  Interface method to DRIVE in OPPOSITE direction both motors
+  @param int speed: The desired speed (0,100). It set up the correct value if
+                    the user enters a positive value.
+  @param int duration:  The desired duration in milliseconds with 0 as 
                         default value
-  @param ACTION <brake / idle>: Action on the motor after driving it with <idle> as default action.  
+  @param ACTION action <brake / idle>:  Action on the motor after driving it with 
+                                        <idle> as default action.   
 */
 void TB6612FNG::TurnLeft(int speed, int duration, ACTION action)
 {
@@ -189,23 +151,13 @@ void TB6612FNG::TurnLeft(int speed, int duration, ACTION action)
 }
 
 /*
-  Interface method to make a turn to the RIGHT a robot with a couple of motors
-  @param int: The desired speed (0,100). It set up the correct value if the user enters a negative value. 
-*/
-/*
-void TB6612FNG::TurnRight(int speed)
-{
-  MotorA.Drive(speed);
-  MotorB.Drive(-speed);
-}
-*/
-/*
-  Interface method to drive in opposite direction both motors during certain time
-  @param int speed :  The desired speed (0,100). It set up the correct value if
-                      the user enters a negative value.
-  @param int duration : The desired duration in milliseconds with 0 as
+  Interface method to DRIVE in ANOTHER OPPOSITE direction both motors
+  @param int speed: The desired speed (0,100). It set up the correct value if
+                    the user enters a positive value.
+  @param int duration:  The desired duration in milliseconds with 0 as 
                         default value
-  @param ACTION <brake / idle>: Action on the motor after driving it with <idle> as default action.  
+  @param ACTION action <brake / idle>:  Action on the motor after driving it with 
+                                        <idle> as default action.   
 */
 void TB6612FNG::TurnRight(int speed, int duration, ACTION action)
 {
@@ -217,11 +169,11 @@ void TB6612FNG::TurnRight(int speed, int duration, ACTION action)
 
   if (duration > 0)
   {
-  DelayMilliseconds(duration);
-  if (action == idle)
-    this->Idle();
-  else
-    this->Brake();
+    DelayMilliseconds(duration);
+    if (action == idle)
+      this->Idle();
+    else
+      this->Brake();
   }
 }
 
@@ -246,13 +198,8 @@ void TB6612FNG::Idle()
 // Destructor
 TB6612FNG::~TB6612FNG() 
 {
-  // Brake the motors
-  this->Brake();
-  std::cout << "Motors were braked!\n";
-
   // Deactivate the module
   this->Deactivate();
-    std::cout << "TB6612FNG has been deactivated!\n";
 } 
 
 /******************************************************************************
