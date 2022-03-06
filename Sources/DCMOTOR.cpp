@@ -110,11 +110,12 @@ void DCMotor::Drive(int speed, int duration)
 /*
   Public method to drive the motor during a certain time inside a thread
   @param int: the desired speed (-100,100)
-  @param int: The desired duration in milliseconds  
+  @param int: The desired duration in milliseconds
+  @param STOPMODE <brake / idle>: ACtion on the motor after driving it with <idle> as a default action.     
 */
-void DCMotor::DriveThread(int speed, int duration)
+void DCMotor::DriveThread(int speed, int duration, STOPMODE action)
 {
-  std::thread motorThread = std::thread(&DCMotor::MakeDriveThread, this, speed, duration);
+  std::thread motorThread = std::thread(&DCMotor::MakeDriveThread, this, speed, duration, action);
   motorThread.detach();
 }
 
@@ -123,11 +124,19 @@ void DCMotor::DriveThread(int speed, int duration)
   Private method that contains the routine to drive 
   the motor during a certain time
   @param int: the desired speed (-100,100)
-  @param int: The desired duration in milliseconds   
+  @param int: The desired duration in milliseconds
+  @param STOPMODE <brake / idle>: Generic Stop Action on the motor after driving it with <idle> as a default action.      
 */
-void DCMotor::MakeDriveThread(int speed, int duration)
+void DCMotor::MakeDriveThread(int speed, int duration, STOPMODE action)
 {
+  // Move the motor
   Drive(speed, duration);
+
+  // Set the desired stop action
+  if (action == idle)
+    this->Stop(LOW, LOW, LOW);
+  else
+    this->Stop(HIGH, HIGH, HIGH);
 }
 
 /*

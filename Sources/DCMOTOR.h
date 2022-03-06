@@ -6,17 +6,18 @@
 #include "GPIO.h"
 #include "PWM.h"
 
-/* The numeric mode for ACTION on the motor: e.g. 0/1 for Brake/Stop */
-enum ACTION {
-  brake = 0,
-  idle = 1
+/* The numeric value for the stop mode on the motor: e.g. 0/1 for idle/brake */
+enum STOPMODE {
+  idle = 0,
+  brake = 1
 };
 
 class DCMotor : public GPIO, public PWM
 {
 private:
-  // Declare TB6612FNG class as friend to allow access to private data members
+  // Declare Motor modules classes as friends to allow access to private data members
   friend class TB6612FNG;
+  friend class L298N;
 
   GPIO input1Pin;
   GPIO input2Pin;
@@ -38,7 +39,7 @@ private:
   virtual void SetCCWMode();
 
   // Method to drive the motor with duration in a thread
-  virtual void MakeDriveThread(int, int);
+  virtual void MakeDriveThread(int, int, STOPMODE);
 
 public:
   // Default constructor
@@ -50,8 +51,8 @@ public:
   // Overloaded interface method to drive the motor and / or during certain time
   virtual void Drive (int speed = 0, int duration = 0);
 
-  // Interface method to drive the motor in a thread and / or during certain time
-  virtual void DriveThread(int speed = 0, int duration = 0);
+  // Interface method to drive the motor in a thread during certain time
+  virtual void DriveThread(int speed = 0, int duration = 0, STOPMODE action = idle);
 
   // Interface method to STOP the motor
   virtual void Stop (STATE in1 = LOW, STATE in2 = LOW, STATE pwmState = LOW);

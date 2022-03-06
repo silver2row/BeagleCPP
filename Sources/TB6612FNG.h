@@ -28,25 +28,27 @@ public:
   virtual void Activate ();
 
   // Interface method to deactivate the module
-  virtual void Deactivate (); 
-
-  // Interface method to drive both motors forward 
-  virtual void Forward (int speed, int duration = 0, ACTION action = idle);
-
-  // Interface method to drive both motors backward 
-  virtual void Backward (int speed, int duration = 0, ACTION action = idle);
-
-  // Interface method to drive in opposite direction both motors 
-  virtual void TurnLeft (int speed, int duration = 0, ACTION action = idle);
-
-  // Interface method to drive in the another opposite direction both motors 
-  virtual void TurnRight(int speed, int duration = 0, ACTION action = idle);
+  virtual void Deactivate ();
 
   // Interface method to brake the both motors
   virtual void Brake();
 
   // Interface method to idle the both motors
-  virtual void Idle();
+  virtual void Idle(); 
+
+  // Interface method to drive both motors forward 
+  virtual void Forward (int speed, int duration = 0, STOPMODE action = idle);
+
+  // Interface method to drive both motors backward 
+  virtual void Backward (int speed, int duration = 0, STOPMODE action = idle);
+
+  // Interface method to drive in opposite direction both motors 
+  virtual void TurnLeft (int speed, int duration = 0, STOPMODE action = idle);
+
+  // Interface method to drive in the another opposite direction both motors 
+  virtual void TurnRight(int speed, int duration = 0, STOPMODE action = idle);
+
+
 
   // Destructor
   virtual ~TB6612FNG();
@@ -57,9 +59,9 @@ PUBLIC FUNCTIONS TO RUN ONLY MOTOR OBJECTS
 ******************************************************************************/
 
 void Forward (std::vector <TB6612FNG *>, int);
-void Forward (std::vector <TB6612FNG *>, int, int, ACTION);
+void Forward (std::vector <TB6612FNG *>, int, int, STOPMODE);
 void Backward (std::vector <TB6612FNG *>, int);
-void Backward (std::vector <TB6612FNG *>, int, int, ACTION);
+void Backward (std::vector <TB6612FNG *>, int, int, STOPMODE);
 void Brake (std::vector <TB6612FNG *>);
 void Idle (std::vector <TB6612FNG *>);
 
