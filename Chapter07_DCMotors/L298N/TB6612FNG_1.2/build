@@ -1,4 +1,0 @@
-#!/bin/bash
-echo "Building BeagleBone Application..."
-g++ -std=c++17 ../../../Sources/RAINBOWCOLORS.cpp ../../../Sources/SYSFILEACCESS.cpp ../../../Sources/MISCELLANEOUS.cpp ../../../Sources/GPIO.cpp  ../../../Sources/PWM.cpp ../../../Sources/DCMOTOR.cpp ../../../Sources/TB6612FNG.cpp TB6612FNG_1.2.cpp -lpthread -o TB6612FNG_1.2.out
-echo "Finished"

@@ -6,15 +6,12 @@ https://github.com/wgaonar/BeagleCPP
 
 - Control de motor speed with 'w' and 's' keys while the user does not press 'y'
 
-Class: TB6612FNG
+Class: L298N
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/TB6612FNG.h"
+#include "../../../Sources/L298N.h"
 
 using namespace std;
-
-// Declare the pin to activate / deactivate the TB6612FNG module
-GPIO standByPin(P8_16);
 
 // Declaring the pins for motor
 GPIO AIN1 (P8_12);
@@ -24,14 +21,11 @@ PWM PWMA (P8_13);
 // Declare the motor object
 DCMotor MotorLeft (AIN1, AIN2, PWMA);
 
-// Declare the TB6612FNG Module
-TB6612FNG myTB6612FNGModule (MotorLeft, standByPin);
+// Declare the L298N Module
+L298N myL298NModule (MotorLeft);
 
 int main()
 {
-  // Activate the module
-  myTB6612FNGModule.Activate();
-
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
@@ -65,11 +59,8 @@ int main()
     }
 
     // Move the motor
-    myTB6612FNGModule.MotorA.Drive(motorSpeed);
+    myL298NModule.MotorA.Drive(motorSpeed);
   }
-
-  // Deactivate the module
-  myTB6612FNGModule.Deactivate();  
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
