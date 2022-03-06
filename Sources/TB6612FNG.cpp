@@ -14,6 +14,10 @@ TB6612FNG::TB6612FNG (DCMotor& newMotorA,
   // Set the standByPin's direction to control de modules's StandBy mode
   standByPin.SetMode(OUTPUT);
 
+  // Set the flags about which motors are used 
+  motorAisUsed = true;
+  motorBisUsed = false;
+
   std::string message;
   std::string swapStringMotorA {this->MotorA.swapSpinFlag ? "True" : "False"};
   message = "\nTB6612FNG driver module with the next components / pins was created and activated:\n" +
@@ -36,6 +40,10 @@ TB6612FNG::TB6612FNG (DCMotor& newMotorA,
 {
   // Set the standByPin's direction to control de modules's StandBy mode
   standByPin.SetMode(OUTPUT);
+
+    // Set the flags about which motors are used 
+  motorAisUsed = true;
+  motorBisUsed = true;
 
   std::string message;
   std::string swapStringMotorA {this->MotorA.swapSpinFlag ? "True" : "False"};
@@ -119,7 +127,7 @@ void TB6612FNG::Backward(int speed, int duration, ACTION action)
     if (action == idle)
       this->Idle();
     else
-    this->Brake();
+      this->Brake();
   }
 }
 
@@ -178,21 +186,31 @@ void TB6612FNG::TurnRight(int speed, int duration, ACTION action)
 }
 
 /*
-  Interface method to BRAKE a robot with a couple of motors
+  Interface method to BRAKE the attached motors to the module 
 */ 
 void TB6612FNG::Brake()
 {
-  MotorA.Brake();
-  MotorB.Brake();
+  // Set the motor A in brake mode
+  if (motorAisUsed)
+    this->MotorA.Stop(HIGH, HIGH, HIGH);
+
+  // Set the motor B in brake mode if it is used
+  if (motorBisUsed)
+    this->MotorB.Stop(HIGH, HIGH, HIGH);
 }
 
 /*
-  Interface method to IDLE a robot with a couple of motors
+  Interface method to IDLE the attached motors to the module 
 */ 
 void TB6612FNG::Idle()
 {
-  MotorA.Idle();
-  MotorB.Idle();
+    // Set the motor A in idle mode
+  if (motorAisUsed)
+    this->MotorA.Stop(LOW, LOW, HIGH);
+
+  // Set the motor B in idle mode if it is used
+  if (motorBisUsed)
+    this->MotorB.Stop(LOW, LOW, HIGH);
 }
 
 // Destructor
@@ -300,7 +318,7 @@ void Backward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int durati
 void Brake (std::vector<TB6612FNG *> vectorOfTB6612FNG)
 {
   for (auto TB6612FNGModule : vectorOfTB6612FNG)
-    TB6612FNGModule->MotorA.Brake();
+    TB6612FNGModule->Brake();
 }
 
 /*
@@ -310,5 +328,5 @@ void Brake (std::vector<TB6612FNG *> vectorOfTB6612FNG)
 void Idle (std::vector<TB6612FNG *> vectorOfTB6612FNG)
 {
   for (auto TB6612FNGModule : vectorOfTB6612FNG)
-    TB6612FNGModule->MotorA.Idle();
+    TB6612FNGModule->Idle();
 }

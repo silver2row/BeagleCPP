@@ -1,34 +1,23 @@
-#ifndef TB6612FNG_H
-#define TB6612FNG_H
+#ifndef L298N_H
+#define L298N_H
 
 #include <vector>
 #include "DCMOTOR.h"
 
-class TB6612FNG
+class L298N
 {
-private:
-  GPIO standByPin;
-  bool motorAisUsed;
-  bool motorBisUsed;
-
 public:
   DCMotor MotorA;
   DCMotor MotorB;
 
   // No-args default constructor
-  TB6612FNG();
+  L298N();
 
   // Overload constructor from one DCMotor object
-  TB6612FNG(DCMotor&, GPIO);
+  L298N(DCMotor&, GPIO);
 
   // Overload constructor from DCMotor objects
-  TB6612FNG(DCMotor&, DCMotor&, GPIO);
-
-  // Interface method to activate the module
-  virtual void Activate ();
-
-  // Interface method to deactivate the module
-  virtual void Deactivate (); 
+  L298N(DCMotor&, DCMotor&, GPIO);
 
   // Interface method to drive both motors forward 
   virtual void Forward (int speed, int duration = 0, ACTION action = idle);
@@ -49,18 +38,18 @@ public:
   virtual void Idle();
 
   // Destructor
-  virtual ~TB6612FNG();
+  virtual ~L298N();
 };
 
 /******************************************************************************
 PUBLIC FUNCTIONS TO RUN ONLY MOTOR OBJECTS
 ******************************************************************************/
 
-void Forward (std::vector <TB6612FNG *>, int);
-void Forward (std::vector <TB6612FNG *>, int, int, ACTION);
-void Backward (std::vector <TB6612FNG *>, int);
-void Backward (std::vector <TB6612FNG *>, int, int, ACTION);
-void Brake (std::vector <TB6612FNG *>);
-void Idle (std::vector <TB6612FNG *>);
+void Forward (std::vector <L298N *>, int);
+void Forward (std::vector <L298N *>, int, int, ACTION);
+void Backward (std::vector <L298N *>, int);
+void Backward (std::vector <L298N *>, int, int, ACTION);
+void Brake (std::vector <L298N *>);
+void Idle (std::vector <L298N *>);
 
-#endif // TB6612FNG_H
+#endif // L298N_H

@@ -37,14 +37,8 @@ private:
   // Method to set CCW the direction of motor rotation 
   virtual void SetCCWMode();
 
-  // Method to brake the motor
-  virtual void SetBrakeMode();
-
-  // Method to set the motor in idle mode (Free running)
-  virtual void SetIdleMode();
-
   // Method to drive the motor with duration in a thread
-  virtual void MakeDriveThread(int, int, ACTION);
+  virtual void MakeDriveThread(int, int);
 
 public:
   // Default constructor
@@ -53,20 +47,15 @@ public:
   // Overload constructor
   DCMotor(GPIO, GPIO, PWM, bool = false);
 
-  // Interface method to drive the motor 
-  virtual void Drive (int);
+  // Overloaded interface method to drive the motor and / or during certain time
+  virtual void Drive (int speed = 0, int duration = 0);
 
-  // Overloaded interface method to drive the motor during certain time and taking and action after the movement with <idle> as a default action. 
-  virtual void Drive (int, int, ACTION = idle);
+  // Interface method to drive the motor in a thread and / or during certain time
+  virtual void DriveThread(int speed = 0, int duration = 0);
 
-  // Interface method to drive the motor in a thread during certain time and taking and action after the movement with <idle> as a default action. 
-  virtual void DriveThread(int, int, ACTION = idle);
+  // Interface method to STOP the motor
+  virtual void Stop (STATE in1 = LOW, STATE in2 = LOW, STATE pwmState = LOW);
 
-  // Interface method to brake the motor
-  virtual void Brake ();
-
-  // Interface method to set the motor in idle mode (Free running)
-  virtual void Idle ();
   
   // Destructor
   virtual ~DCMotor();
