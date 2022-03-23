@@ -66,8 +66,9 @@ void DCMotor::SetCCWMode()
   Public method to drive the motor and / or during certain time
   @param int: the desired speed (-100,100)
   @param int: The desired duration in milliseconds      
+  @param bool: Print messages on console      
 */
-void DCMotor::Drive(int speed, int duration)
+void DCMotor::Drive(int speed, int duration, bool printMessages)
 {
   // If it is desired, swap the turning direction 
   if (swapSpinFlag == true)
@@ -83,16 +84,22 @@ void DCMotor::Drive(int speed, int duration)
   std::string message;
   if (speed >= 0)
   {
-    message = "Turning motor CW with speed: " + std::to_string(speed) + "%\n";
-    std::cout << RainbowText(message, "Light Red");
     this->SetCWMode();
+    if (printMessages == true)
+    {
+      message = "Turning motor CW with speed: " + std::to_string(speed) + "%\n";
+      std::cout << RainbowText(message, "Light Red");
+    }
   }
   else
   {
     speed *= -1;
-    message = "Turning motor CCW with speed: " + std::to_string(speed) + "%\n";
-    std::cout << RainbowText(message, "Light Red");
     this->SetCCWMode();
+    if (printMessages == true)
+    {
+      message = "Turning motor CCW with speed: " + std::to_string(speed) + "%\n";
+      std::cout << RainbowText(message, "Light Red");
+    }
   }
 
   // Set the motor speed

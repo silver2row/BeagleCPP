@@ -49,7 +49,7 @@ public:
   DCMotor(GPIO, GPIO, PWM, bool = false);
 
   // Overloaded interface method to drive the motor and / or during certain time
-  virtual void Drive (int speed = 0, int duration = 0);
+  virtual void Drive (int speed = 0, int duration = 0, bool printMessages = false);
 
   // Interface method to drive the motor in a thread during certain time
   virtual void DriveThread(int speed = 0, int duration = 0, STOPMODE action = idle);
