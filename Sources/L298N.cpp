@@ -1,19 +1,14 @@
 #include <iostream>
 
-#include "TB6612FNG.h"
+#include "L298N.h"
 
 // No-args default constructor
-TB6612FNG::TB6612FNG () {}
+L298N::L298N () {}
 
 // Overload constructor from DCMotor object for ONLY the MotorA
-TB6612FNG::TB6612FNG (DCMotor& newMotorA, 
-                      GPIO newStandByPin) :
-                      MotorA (newMotorA), 
-                      standByPin (newStandByPin)
+L298N::L298N (DCMotor& newMotorA) :
+              MotorA (newMotorA)
 {
-  // Set the standByPin's direction to control de modules's StandBy mode
-  this->standByPin.SetMode(OUTPUT);
-
   // Set the flags about which motors are used 
   motorAisUsed = true;
   motorBisUsed = false;
@@ -26,22 +21,17 @@ TB6612FNG::TB6612FNG (DCMotor& newMotorA,
             std::string("\t\tAIN2: ") + this->MotorA.input2Pin.GetPinHeaderId() + "\n" + 
             std::string("\t\tPWMA: ") + this->MotorA.pwmPin.GetPinHeaderId() + "\n" +
             std::string("\t\tSwap Spin: ") + swapStringMotorA + "\n" +
-            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
+            "\n\n"; 
   std::cout << RainbowText(message, "Light Red");
 }
 
 // Overload constructor from DCMotor objects and for MotorA and MotorB
-TB6612FNG::TB6612FNG (DCMotor& newMotorA, 
-                      DCMotor& newMotorB,
-                      GPIO newStandByPin) :
-                      MotorA (newMotorA), 
-                      MotorB (newMotorB), 
-                      standByPin(newStandByPin)
+L298N::L298N (DCMotor& newMotorA, 
+              DCMotor& newMotorB):
+              MotorA (newMotorA), 
+              MotorB (newMotorB)
 {
-  // Set the standByPin's direction to control de modules's StandBy mode
-  this->standByPin.SetMode(OUTPUT);
-
-    // Set the flags about which motors are used 
+  // Set the flags about which motors are used 
   motorAisUsed = true;
   motorBisUsed = true;
 
@@ -59,28 +49,14 @@ TB6612FNG::TB6612FNG (DCMotor& newMotorA,
             std::string("\t\tBIN2: ") + this->MotorB.input2Pin.GetPinHeaderId() + "\n" + 
             std::string("\t\tPWMB: ") + this->MotorB.pwmPin.GetPinHeaderId() + "\n" +
             std::string("\t\tSwap Spin: ") + swapStringMotorB + "\n" +
-            std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
+            "\n\n"; 
   std::cout << RainbowText(message, "Light Red");
-}
-
-// Interface method to activate the module setting the StandBy pin
-void TB6612FNG::Activate()
-{ 
-  this->standByPin.DigitalWrite(HIGH);
-  std::cout << RainbowText("TB6612FNG has been activated!\n","Light Red");
-}
-
-// Interface method to deactivate the module unsetting the StandBy pin
-void TB6612FNG::Deactivate ()
-{
-  this->standByPin.DigitalWrite(LOW);
-  std::cout << RainbowText("TB6612FNG has been deactivated!\n","Light Red");
 }
 
 /*
   Interface method to BRAKE the attached motors to the module 
 */ 
-void TB6612FNG::Brake()
+void L298N::Brake()
 {
   // Set the motor A in brake mode
   if (motorAisUsed)
@@ -94,15 +70,15 @@ void TB6612FNG::Brake()
 /*
   Interface method to IDLE the attached motors to the module 
 */ 
-void TB6612FNG::Idle()
+void L298N::Idle()
 {
     // Set the motor A in idle mode
   if (motorAisUsed)
-    this->MotorA.Stop(LOW, LOW, HIGH);
+    this->MotorA.Stop(LOW, LOW, LOW);
 
   // Set the motor B in idle mode if it is used
   if (motorBisUsed)
-    this->MotorB.Stop(LOW, LOW, HIGH);
+    this->MotorB.Stop(LOW, LOW, LOW);
 }
 
 /*
@@ -114,7 +90,7 @@ void TB6612FNG::Idle()
   @param STOPMODE action <brake / idle>:  Action on the motor after driving it, 
                                         with <idle> as default action. 
 */
-void TB6612FNG::Forward(int speed, int duration, STOPMODE action)
+void L298N::Forward(int speed, int duration, STOPMODE action)
 {
   if (speed < 0)
     speed *= -1;
@@ -141,7 +117,7 @@ void TB6612FNG::Forward(int speed, int duration, STOPMODE action)
   @param STOPMODE action <brake / idle>:  Action on the motor after driving it with 
                                         <idle> as default action.   
 */
-void TB6612FNG::Backward(int speed, int duration, STOPMODE action)
+void L298N::Backward(int speed, int duration, STOPMODE action)
 {
   if (speed > 0)
     speed *= -1;
@@ -168,7 +144,7 @@ void TB6612FNG::Backward(int speed, int duration, STOPMODE action)
   @param STOPMODE action <brake / idle>:  Action on the motor after driving it with 
                                         <idle> as default action.   
 */
-void TB6612FNG::TurnLeft(int speed, int duration, STOPMODE action)
+void L298N::TurnLeft(int speed, int duration, STOPMODE action)
 {
   if (speed < 0)
     speed *= -1;
@@ -195,7 +171,7 @@ void TB6612FNG::TurnLeft(int speed, int duration, STOPMODE action)
   @param STOPMODE action <brake / idle>:  Action on the motor after driving it with 
                                         <idle> as default action.   
 */
-void TB6612FNG::TurnRight(int speed, int duration, STOPMODE action)
+void L298N::TurnRight(int speed, int duration, STOPMODE action)
 {
   if (speed < 0)
     speed *= -1;
@@ -214,116 +190,115 @@ void TB6612FNG::TurnRight(int speed, int duration, STOPMODE action)
 }
 
 // Destructor
-TB6612FNG::~TB6612FNG() 
-{} 
+L298N::~L298N() {} 
 
 /******************************************************************************
 PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
 
 /*
-  Overload function to drive FORWARD a robot with ANY number of TB6612FNG drivers
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
+  Overload function to drive FORWARD a robot with ANY number of L298N drivers
+  @param std::vector<L298N *>: The vector of pointers to L298N objects 
   @param int: The desired speed (0,100). It set up the correct value if 
               the user enters a negative value.
 */
-void Forward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed)
+void Forward (std::vector<L298N *> vectorOfL298N, int speed)
 {
   if (speed < 0)
     speed *= -1;
-  for (auto TB6612FNGModule : vectorOfTB6612FNG)
+  for (auto L298NModule : vectorOfL298N)
   {
-    TB6612FNGModule->MotorA.Drive(speed);
-    TB6612FNGModule->MotorB.Drive(speed);
+    L298NModule->MotorA.Drive(speed);
+    L298NModule->MotorB.Drive(speed);
   }
 }
 
 /*
-  Overload function to drive FORWARD a robot with ANY number of TB6612FNG drivers 
+  Overload function to drive FORWARD a robot with ANY number of L298N drivers 
   during certain time
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects  
+  @param std::vector<L298N *>: The vector of pointers to L298N objects  
   @param int: The desired speed (0,100). It set up the correct value if the user enters a negative value.
   @param int: The desired duration in milliseconds.
   @param STOPMODE <brake / idle>: Action on the motor after driving it with <idle> as default action.   
 */
-void Forward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int duration, STOPMODE action)
+void Forward (std::vector<L298N *> vectorOfL298N, int speed, int duration, STOPMODE action)
 {
   if (speed < 0)
     speed *= -1;
-  for (auto TB6612FNGModule : vectorOfTB6612FNG)
+  for (auto L298NModule : vectorOfL298N)
   {
-    TB6612FNGModule->MotorA.Drive(speed);
-    TB6612FNGModule->MotorB.Drive(speed);
+    L298NModule->MotorA.Drive(speed);
+    L298NModule->MotorB.Drive(speed);
   }
 
   DelayMilliseconds(duration);
   
   if (action == idle)
-    Idle(vectorOfTB6612FNG);
+    Idle(vectorOfL298N);
   else
-    Brake(vectorOfTB6612FNG);
+    Brake(vectorOfL298N);
 }
 
 /*
-  Overload function to drive BACKWARD a robot with ANY number of TB6612FNG drivers
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
+  Overload function to drive BACKWARD a robot with ANY number of L298N drivers
+  @param std::vector<L298N *>: The vector of pointers to L298N objects 
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
 */
-void Backward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed)
+void Backward (std::vector<L298N *> vectorOfL298N, int speed)
 {
   if (speed > 0)
     speed *= -1;
-  for (auto TB6612FNGModule : vectorOfTB6612FNG)
+  for (auto L298NModule : vectorOfL298N)
   {
-    TB6612FNGModule->MotorA.Drive(speed);
-    TB6612FNGModule->MotorB.Drive(speed);
+    L298NModule->MotorA.Drive(speed);
+    L298NModule->MotorB.Drive(speed);
   }
 }
 
 /*
-  Overload function to drive BACKWARD a robot with ANY number of TB6612FNG drivers 
+  Overload function to drive BACKWARD a robot with ANY number of L298N drivers 
   during certain time
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects
+  @param std::vector<L298N *>: The vector of pointers to L298N objects
   @param int: The desired speed (-100,0). It set up the correct value if
               the user enters a positive value.
   @param int: The desired duration in milliseconds.
   @param STOPMODE <brake / idle>: Action on the motor after driving it with <idle> as default action.  
 */
-void Backward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int duration, STOPMODE action)
+void Backward (std::vector<L298N *> vectorOfL298N, int speed, int duration, STOPMODE action)
 {
   if (speed > 0)
     speed *= -1;
-  for (auto TB6612FNGModule : vectorOfTB6612FNG)
+  for (auto L298NModule : vectorOfL298N)
   {
-    TB6612FNGModule->MotorA.Drive(speed);
-    TB6612FNGModule->MotorB.Drive(speed);
+    L298NModule->MotorA.Drive(speed);
+    L298NModule->MotorB.Drive(speed);
   }
 
   DelayMilliseconds(duration);
   
   if (action == idle)
-    Idle(vectorOfTB6612FNG);
+    Idle(vectorOfL298N);
   else
-    Brake(vectorOfTB6612FNG);
+    Brake(vectorOfL298N);
 }
 
 /*
   Function to BRAKE a robot with ANY number of motors
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects
+  @param std::vector<L298N *>: The vector of pointers to L298N objects
 */
-void Brake (std::vector<TB6612FNG *> vectorOfTB6612FNG)
+void Brake (std::vector<L298N *> vectorOfL298N)
 {
-  for (auto TB6612FNGModule : vectorOfTB6612FNG)
-    TB6612FNGModule->Brake();
+  for (auto L298NModule : vectorOfL298N)
+    L298NModule->Brake();
 }
 
 /*
   Function to IDLE a robot with ANY number of motors
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
+  @param std::vector<L298N *>: The vector of pointers to L298N objects 
 */
-void Idle (std::vector<TB6612FNG *> vectorOfTB6612FNG)
+void Idle (std::vector<L298N *> vectorOfL298N)
 {
-  for (auto TB6612FNGModule : vectorOfTB6612FNG)
-    TB6612FNGModule->Idle();
+  for (auto L298NModule : vectorOfL298N)
+    L298NModule->Idle();
 }

@@ -63,30 +63,12 @@ void DCMotor::SetCCWMode()
 }
 
 /*
-  Private method to set the motor in BRAKE mode  
+  Public method to drive the motor and / or during certain time
+  @param int: the desired speed (-100,100)
+  @param int: The desired duration in milliseconds      
+  @param bool: Print messages on console      
 */
-void DCMotor::SetBrakeMode()
-{
-  input1Pin.DigitalWrite(HIGH);
-  input2Pin.DigitalWrite(HIGH);
-  SetSpeed(maxSpeed);
-}
-
-/*
-  Private method to set the motor in idle mode (Free running)
-*/
-void DCMotor::SetIdleMode()
-{
-  input1Pin.DigitalWrite(LOW);
-  input2Pin.DigitalWrite(LOW);
-  SetSpeed(maxSpeed);
-}
-
-/*
-  Public method to drive the motor
-  @param int: the desired speed (-100,100)     
-*/
-void DCMotor::Drive(int speed)
+void DCMotor::Drive(int speed, int duration, bool printMessages)
 {
   // If it is desired, swap the turning direction 
   if (swapSpinFlag == true)
@@ -102,50 +84,43 @@ void DCMotor::Drive(int speed)
   std::string message;
   if (speed >= 0)
   {
-    message = "Turning motor CW with speed: " + std::to_string(speed) + "%\n";
-    std::cout << RainbowText(message, "Light Red");
     this->SetCWMode();
+    if (printMessages == true)
+    {
+      message = "Turning motor CW with speed: " + std::to_string(speed) + "%\n";
+      std::cout << RainbowText(message, "Light Red");
+    }
   }
   else
   {
     speed *= -1;
-    message = "Turning motor CCW with speed: " + std::to_string(speed) + "%\n";
-    std::cout << RainbowText(message, "Light Red");
     this->SetCCWMode();
+    if (printMessages == true)
+    {
+      message = "Turning motor CCW with speed: " + std::to_string(speed) + "%\n";
+      std::cout << RainbowText(message, "Light Red");
+    }
   }
 
   // Set the motor speed
   this->SetSpeed(speed);
-}
 
-/*
-  Overload public method to drive and brake / idle the motor after certain time.
-  @param int: The desired speed (-100,100)
-  @param int: The desired duration in milliseconds
-  @param ACTION <brake / idle>: Action on the motor after driving it with <idle> as a default action.  
-*/
-void DCMotor::Drive(int speed, int duration, ACTION action)
-{
+  // Check the duration's value and correct it if is necessary
   if (duration < 0) 
     duration *= -1;
-
-  this->Drive(speed);
-  DelayMilliseconds(duration);
-
-  if (action == brake)
-    this->SetBrakeMode();
-  else if (action == idle)
-    this->SetIdleMode();
-} 
+  
+  // Set the duration of the motor's movement
+  if (duration > 0)
+    DelayMilliseconds(duration);
+}
 
 /*
   Public method to drive the motor during a certain time inside a thread
   @param int: the desired speed (-100,100)
   @param int: The desired duration in milliseconds
-  @param ACTION <brake / idle>: ACtion on the motor after driving it with <idle> as a default action.    
+  @param STOPMODE <brake / idle>: ACtion on the motor after driving it with <idle> as a default action.     
 */
-
-void DCMotor::DriveThread(int speed, int duration, ACTION action)
+void DCMotor::DriveThread(int speed, int duration, STOPMODE action)
 {
   std::thread motorThread = std::thread(&DCMotor::MakeDriveThread, this, speed, duration, action);
   motorThread.detach();
@@ -155,33 +130,40 @@ void DCMotor::DriveThread(int speed, int duration, ACTION action)
 /*
   Private method that contains the routine to drive 
   the motor during a certain time
-  @param int: the desired speed (-100,100)  
+  @param int: the desired speed (-100,100)
+  @param int: The desired duration in milliseconds
+  @param STOPMODE <brake / idle>: Generic Stop Action on the motor after driving it with <idle> as a default action.      
 */
-
-void DCMotor::MakeDriveThread(int speed, int duration, ACTION action)
+void DCMotor::MakeDriveThread(int speed, int duration, STOPMODE action)
 {
-  Drive(speed, duration, action);
+  // Move the motor
+  Drive(speed, duration);
+
+  // Set the desired stop action
+  if (action == idle)
+    this->Stop(LOW, LOW, LOW);
+  else
+    this->Stop(HIGH, HIGH, HIGH);
 }
 
 /*
-  Public method to set the motor in BRAKE mode  
+  Public method to STOP the motor.
 */
-void DCMotor::Brake()
+void DCMotor::Stop(STATE in1, STATE in2, STATE pwmState)
 {
-  this->SetBrakeMode();
-}
-
-/*
-  Public method to set the motor in idle mode (Free running)  
-*/
-void DCMotor::Idle()
-{
-  this->SetIdleMode();
+  this->input1Pin.DigitalWrite(in1);
+  this->input2Pin.DigitalWrite(in2);
+  
+  // Verify and limit the speed value 
+  if (pwmState == HIGH)
+    this->SetSpeed(maxSpeed);
+  else
+    this->SetSpeed(0);
 }
 
 DCMotor::~DCMotor() 
 {
-  SetSpeed(0);
-  input1Pin.DigitalWrite(LOW);
-  input2Pin.DigitalWrite(LOW);
+  this->SetSpeed(0);
+  this->input1Pin.DigitalWrite(LOW);
+  this->input2Pin.DigitalWrite(LOW);
 }
