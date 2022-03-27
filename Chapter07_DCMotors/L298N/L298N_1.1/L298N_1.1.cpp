@@ -9,7 +9,7 @@ https://github.com/wgaonar/BeagleCPP
 - Move the motor in the other direction each 1000 milliseconds increasing the
   speed 10% and then reversing it.
 
-Class: TB6612FNG
+Class: L298N
 ******************************************************************************/
 
 #include <iostream>

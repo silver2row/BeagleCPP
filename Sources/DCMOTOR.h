@@ -57,7 +57,6 @@ public:
   // Interface method to STOP the motor
   virtual void Stop (STATE in1 = LOW, STATE in2 = LOW, STATE pwmState = LOW);
 
-  
   // Destructor
   virtual ~DCMotor();
 };

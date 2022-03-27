@@ -1,20 +1,17 @@
 /******************************************************************************
 TB6612FNG_1.4.cpp
 @wgaonar
-08/07/2021
+26/03/2022
 https://github.com/wgaonar/BeagleCPP
 
 - Move TWO motors forward, backward, turning left or right at max speed
 
-Class: TB6612FNG
+Class: L298N
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/TB6612FNG.h"
+#include "../../../Sources/L298N.h"
 
 using namespace std;
-
-// Declare the pin to activate / deactivate the TB6612FNG module
-GPIO standByPin(P8_16);
 
 // Declaring the pins for MotorA 
 GPIO AIN1 (P8_12);
@@ -32,16 +29,13 @@ PWM PWMB (P8_19);
 // Declare the MotorB
 DCMotor MotorRight (BIN1, BIN2, PWMB);
 
-// Declare the TB6612FNG Module
-TB6612FNG myTB6612FNGModule (MotorLeft, MotorRight, standByPin);
+// Declare the L298N Module
+L298N myL298NModule (MotorLeft, MotorRight);
 
 int main()
 {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
-
-  // Activate the module
-  myTB6612FNGModule.Activate();
 
   message = "If you want to stop the program, enter 'y' for yes";
   cout << RainbowText(message, "Yellow") << endl;
@@ -62,16 +56,16 @@ int main()
     switch (userInput)
     {
     case 'w':
-      myTB6612FNGModule.Forward(motorSpeed);
+      myL298NModule.Forward(motorSpeed);
       break;
     case 's':
-      myTB6612FNGModule.Backward(motorSpeed);
+      myL298NModule.Backward(motorSpeed);
       break;
     case 'a':
-      myTB6612FNGModule.TurnLeft(motorSpeed);
+      myL298NModule.TurnLeft(motorSpeed);
       break;
     case 'd':
-      myTB6612FNGModule.TurnRight(motorSpeed);
+      myL298NModule.TurnRight(motorSpeed);
       break;
     default:
       break;
@@ -80,10 +74,7 @@ int main()
 
   // Brake the motors
   cout << "Breaking the motors...\n";
-  myTB6612FNGModule.Brake();
-
-  // Deactivate the module
-  myTB6612FNGModule.Deactivate();
+  myL298NModule.Brake();
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

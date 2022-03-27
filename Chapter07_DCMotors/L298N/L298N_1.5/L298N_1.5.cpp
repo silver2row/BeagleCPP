@@ -1,20 +1,17 @@
 /******************************************************************************
-TB6612FNG_1.5.cpp
+L298N_1.5.cpp
 @wgaonar
-09/07/2021
+26/03/2022
 https://github.com/wgaonar/BeagleCPP
 
 - Drive a 2 or more motors through a vector
 
-Class: TB6612FNG
+Class: L298N
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/TB6612FNG.h"
+#include "../../../Sources/L298N.h"
 
 using namespace std;
-
-// Declare the pin to activate / deactivate the TB6612FNG module
-GPIO standByPin(P8_16);
 
 // Declaring the pins for MotorA 
 GPIO AIN1 (P8_12);
@@ -32,20 +29,16 @@ PWM PWMB (P8_19);
 // Declare the MotorB
 DCMotor MotorRight (BIN1, BIN2, PWMB);
 
-// Declare the TB6612FNG Module
-TB6612FNG myTB6612FNGModule (MotorLeft, MotorRight, standByPin);
+// Declare the L298N Module
+L298N myL298NModule (MotorLeft, MotorRight);
 
-// Declare the vector of pointers to TB6612FNG objects
-vector<TB6612FNG *> vectorOfTB6612FNG = {&myTB6612FNGModule};
+// Declare the vector of pointers to L298N objects
+vector<L298N *> vectorOfL298N = {&myL298NModule};
 
 int main()
 {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
-
-  // Activate ALL modules
-  for (auto TB6612FNGModule : vectorOfTB6612FNG) 
-    TB6612FNGModule->Activate();
 
   message = "If you want to stop the program, enter 'y' for yes";
   cout << RainbowText(message, "Blue") << endl;
@@ -79,16 +72,12 @@ int main()
 
     // Move the motors
     if (motorSpeed > 0)
-      Forward(vectorOfTB6612FNG, motorSpeed);
+      Forward(vectorOfL298N, motorSpeed);
     else if (motorSpeed < 0)
-      Backward(vectorOfTB6612FNG, motorSpeed);
+      Backward(vectorOfL298N, motorSpeed);
     else
-      Brake(vectorOfTB6612FNG);
+      Brake(vectorOfL298N);
   }
-
-  // Deactivate ALL modules
-  for (auto TB6612FNGModule : vectorOfTB6612FNG)
-    TB6612FNGModule->Deactivate();
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

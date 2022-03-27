@@ -1,21 +1,18 @@
 /******************************************************************************
-TB6612FNG_1.3.cpp
+L298N_1.3.cpp
 @wgaonar
-03/07/2021
+26/03/2022
 https://github.com/wgaonar/BeagleCPP
 
 - Drive a motor in a thread and printing messages in the terminal at the same 
   time
 
-Class: TB6612FNG
+Class: L298N
 ******************************************************************************/
 #include <iostream>
-#include "../../../Sources/TB6612FNG.h"
+#include "../../../Sources/L298N.h"
 
 using namespace std;
-
-// Declare the pin to activate / deactivate the TB6612FNG module
-GPIO standByPin(P8_16);
 
 // Declaring the pins for motor
 GPIO AIN1 (P8_12);
@@ -25,16 +22,13 @@ PWM PWMA (P8_13);
 // Declare the motor object
 DCMotor MotorLeft (AIN1, AIN2, PWMA);
 
-// Declare the TB6612FNG Module
-TB6612FNG myTB6612FNGModule (MotorLeft, standByPin);
+// Declare the L298N Module
+L298N myL298NModule (MotorLeft);
 
 int main()
 {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
-
-  // Activate the module
-  myTB6612FNGModule.Activate();
 
   message = "If you want to stop the program, enter 'y' for yes";
   cout << RainbowText(message, "Blue") << endl;
@@ -67,15 +61,12 @@ int main()
     }
 
     // Move the motor in a thread
-    myTB6612FNGModule.MotorA.DriveThread(motorSpeed, 2000);
+    myL298NModule.MotorA.DriveThread(motorSpeed, 2000);
 
     // Doing other stuff
     for(int i = 0; i < 100; i++)
       cout << "Doing something else while the motor is running" << endl;
   }
-
-  // Deactivate the module
-  myTB6612FNGModule.Deactivate();  
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
