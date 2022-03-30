@@ -175,39 +175,12 @@ int GPIO::UnexportGPIO()
 }
 
 /*
-  Public method to set/clear the pin value
-  @param STATE: The desired value LOW / HIGH 
-  @return int: 1 set value has succeeded
-*/
-int GPIO::DigitalWrite(STATE newState) 
-{
-  switch (newState) 
-  {
-    case HIGH:
-      if (WriteFile(path, "value", "1") != 1)
-      {
-        perror("Error trying to set the value HIGH on the pin");
-        throw GPIO_Exception("Error in the 'DigitalWrite' method");
-      }
-      break;
-    case LOW:
-      if (WriteFile(path, "value", "0") != 1)
-      {
-        perror("Error trying to set the value LOW on the pin");
-        throw GPIO_Exception("Error in the 'DigitalWrite' method");
-      }
-      break;
-  }   
-  return 1;
-}
-
-/*
   Overload public method to set/clear the pin value
   @param STATE: The desired value LOW / HIGH 
   @param bool: A flag if the user wants to see messages on the terminal
   @return int: 1 set value has succeeded
 */
-int GPIO::DigitalWrite(STATE newState, bool printingFlag) 
+int GPIO::DigitalWrite(STATE newState, bool printMessages) 
 {
   switch (newState) 
   {
@@ -217,7 +190,7 @@ int GPIO::DigitalWrite(STATE newState, bool printingFlag)
         perror("Error trying to set the value HIGH on the pin");
         throw GPIO_Exception("Error in the 'DigitalWrite' method");
       }
-      if (printingFlag == true)
+      if (printMessages == true)
         std::cout << "Setting the pin value as: " << "HIGH" << std::endl;
       break;
     case LOW:
@@ -226,7 +199,7 @@ int GPIO::DigitalWrite(STATE newState, bool printingFlag)
         perror("Error trying to set the value LOW on the pin");
         throw GPIO_Exception("Error in the 'DigitalWrite' method");
       }
-      if (printingFlag == true)
+      if (printMessages == true)
         std::cout << "Setting the pin value as: " << "LOW" << std::endl;
       break;
   }   

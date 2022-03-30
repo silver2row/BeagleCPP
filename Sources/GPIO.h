@@ -70,12 +70,9 @@ class GPIO : public SYSFILEACCESS
 
     // Method to unexport the GPIO pin
     virtual int UnexportGPIO();
-
+    
     // Interface method to set the GPIO pin state
-    virtual int DigitalWrite(STATE);
-
-    // Overload Interface method to set the GPIO pin state and printing the value
-    virtual int DigitalWrite(STATE, bool);
+    virtual int DigitalWrite(STATE, bool printMessages = false);
 
     // Interface method to get the GPIO pin state
     virtual STATE DigitalRead();
