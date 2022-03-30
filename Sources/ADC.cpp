@@ -75,11 +75,11 @@ int ADC::GetADC()
   @param bool: Flag to print / no print the messages on the console. Default value: <false>  
   @return int: Output for the ADC value between 0 - 4095
 */
-int ADC::ReadADC(int timeInterval, bool print) 
+int ADC::ReadADC(int timeInterval, bool printMessages) 
 {
   int adcValueOut = GetADC();
 
-  if (print == true)
+  if (printMessages == true)
   { 
     std::string message;
     message = "ADC value on pin " + idMap[id] + ": " + std::to_string(adcValueOut) + "\n";
@@ -98,11 +98,11 @@ int ADC::ReadADC(int timeInterval, bool print)
   @param int: The time interval between each sample
   @param bool: Flag to print / no print the messages on the console 
 */
-void ADC::ReadADC(int &adcValueOut, int timeInterval, bool print) 
+void ADC::ReadADC(int &adcValueOut, int timeInterval, bool printMessages) 
 {
   std::string message = "Read ADC value in a THREAD has been activated\n";
   std::cout << RainbowText(message, "Violet", "Default", "Bold") << std::endl;
-  std::thread readADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval, print);
+  std::thread readADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval, printMessages);
   readADCThread.detach();
 }
 
@@ -112,10 +112,10 @@ void ADC::ReadADC(int &adcValueOut, int timeInterval, bool print)
   @param int: The time interval between each sample
   @param bool: Flag to print / no print the messages on the console 
 */
-void ADC::MakeReadADC(int &adcValueOut, int timeInterval, bool print)
+void ADC::MakeReadADC(int &adcValueOut, int timeInterval, bool printMessages)
 {
   while (stopReadADCFlag == false) 
-    adcValueOut = this->ReadADC(timeInterval, print);
+    adcValueOut = this->ReadADC(timeInterval, printMessages);
 }
 
 /*
