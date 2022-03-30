@@ -96,7 +96,7 @@ int ADC::ReadADC(int timeInterval, bool printMessages)
   Public method to get continuosly the ADC value on pin 
   @param int: Reference output for the ADC value between 0 - 4095
   @param int: The time interval between each sample
-  @param bool: Flag to print / no print the messages on the console 
+  @param bool: Flag to print / no print the messages on the console. Default value: <false> 
 */
 void ADC::ReadADC(int &adcValueOut, int timeInterval, bool printMessages) 
 {
@@ -110,7 +110,7 @@ void ADC::ReadADC(int &adcValueOut, int timeInterval, bool printMessages)
   Private method that contains the routine to make the ADC read 
   @param int: A reference variable to store The pin's value between 0 - 4095
   @param int: The time interval between each sample
-  @param bool: Flag to print / no print the messages on the console 
+  @param bool: Flag to print / no print the messages on the console. Default value: <false> 
 */
 void ADC::MakeReadADC(int &adcValueOut, int timeInterval, bool printMessages)
 {
@@ -132,11 +132,11 @@ void ADC::StopReadADC()
   @param bool: Flag to print / no print the messages on the console. Default value: <false>  
   @return double: Output for the ADC voltage between 0 - 1.8
 */
-double ADC::ReadVoltage(int timeInterval, bool print)
+double ADC::ReadVoltage(int timeInterval, bool printMessages)
 {
   double voltageOut = GetADC() * 1.8 / 4095;
   
-  if (print == true)
+  if (printMessages == true)
   { 
     std::string message;
     message = "Voltage on pin " + idMap[id] + ": " + std::to_string(voltageOut) + " \n";
@@ -153,13 +153,13 @@ double ADC::ReadVoltage(int timeInterval, bool print)
   Public method to get continuosly the voltage on the pin 
   @param double: Reference output for the ADC voltage between 0 - 1.8
   @param int: The time interval between each sample
-  @param bool: Flag to print / no print the messages on the console 
+  @param bool: Flag to print / no print the messages on the console. Default value: <false>
 */
-void ADC::ReadVoltage(double &voltageOut, int timeInterval, bool print) 
+void ADC::ReadVoltage(double &voltageOut, int timeInterval, bool printMessages) 
 {
   std::string  message = "Read voltage in a THREAD has been activated\n";
   std::cout << RainbowText(message, "Violet", "Default", "Bold");
-  std::thread readVoltageThread = std::thread(&ADC::MakeReadVoltage, this, std::ref(voltageOut), timeInterval, print);
+  std::thread readVoltageThread = std::thread(&ADC::MakeReadVoltage, this, std::ref(voltageOut), timeInterval, printMessages);
   readVoltageThread.detach();
 }
 

@@ -58,7 +58,7 @@ class ADC : public SYSFILEACCESS
     virtual double ReadVoltage(int = 0, bool printMessages = false);
 
     // Interface method for reading the voltage in background
-    virtual void ReadVoltage(double &, int, bool);
+    virtual void ReadVoltage(double &, int, bool printMessages = false);
     
     // Method to do execute an user function
     virtual int DoUserFunction(callbackType);

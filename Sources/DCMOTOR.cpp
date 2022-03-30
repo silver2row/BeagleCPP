@@ -66,7 +66,7 @@ void DCMotor::SetCCWMode()
   Public method to drive the motor and / or during certain time
   @param int: the desired speed (-100,100)
   @param int: The desired duration in milliseconds      
-  @param bool: Print messages on console      
+  @param bool: Flag to print / no print the messages on the console. Default value: <false>     
 */
 void DCMotor::Drive(int speed, int duration, bool printMessages)
 {
