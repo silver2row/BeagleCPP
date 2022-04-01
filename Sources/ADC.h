@@ -49,13 +49,13 @@ class ADC : public SYSFILEACCESS
     virtual std::string GetPinHeaderId();
 
     // Interface method to read the ADC value on the pin
-    virtual int ReadADC(int = 0, bool printMessages = false);
+    virtual int ReadADC(int timeInterval = 0, bool printMessages = false);
 
     // Interface method for reading the ADC in background
     virtual void ReadADC(int &, int, bool printMessages = false);
 
     // Interface method to read the voltage on the pin
-    virtual double ReadVoltage(int = 0, bool printMessages = false);
+    virtual double ReadVoltage(int timeInterval = 0, bool printMessages = false);
 
     // Interface method for reading the voltage in background
     virtual void ReadVoltage(double &, int, bool printMessages = false);

@@ -41,8 +41,6 @@ public:
   // Interface method to drive in the another opposite direction both motors 
   virtual void TurnRight(int speed, int duration = 0, STOPMODE action = idle);
 
-
-
   // Destructor
   virtual ~L298N();
 };
