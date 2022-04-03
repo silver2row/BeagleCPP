@@ -7,7 +7,8 @@
 #include "PWM.h"
 
 /* The numeric value for the stop mode on the motor: e.g. 0/1 for idle/brake */
-enum STOPMODE {
+enum STOPMODE 
+{
   idle = 0,
   brake = 1
 };
@@ -27,7 +28,7 @@ private:
   const int maxSpeed = 100;
 
   // Initialize the GPIO pins with the data provided by the constructor
-  void InitMotorPins();
+  virtual void InitMotorPins();
 
   // Method to set the rotation speed
   virtual void SetSpeed(int);
@@ -48,7 +49,7 @@ public:
   // Overload constructor
   DCMotor(GPIO, GPIO, PWM, bool = false);
 
-  // Overloaded interface method to drive the motor and / or during certain time
+  // Interface method to drive the motor and / or during certain time
   virtual void Drive (int speed = 0, int duration = 0, bool printMessages = false);
 
   // Interface method to drive the motor in a thread during certain time
