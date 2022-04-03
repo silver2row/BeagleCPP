@@ -22,6 +22,7 @@ std::map <std::string, std::string> mapForegroundColor =
   { "Pink", "38;5;161" },
   { "Black", "38;5;0" },
   { "Gray", "38;5;246" },
+  { "Light Gray", "38;5;251" },
   { "White", "38;5;15" },
   { "Default", "39" }
 };
@@ -46,6 +47,7 @@ std::map <std::string, std::string> mapBackgroundColor =
   { "Pink", "48;5;161" },
   { "Black", "48;5;0" },
   { "Gray", "48;5;246" },
+  { "Light Gray", "48;5;251" },
   { "White", "48;5;15" },
   { "Default", "49" }
 };
@@ -112,10 +114,10 @@ std::string RainbowText (   std::string src,
   return formattedText;
 }
 
-std::string RainbowText (   std::string src,
-                            std::string foregroundColor = "Default",
-                            std::string backgroundColor = "Default",
-                            std::string format = "Default"
+std::string RainbowText ( std::string src,
+                          std::string foregroundColor = "Default",
+                          std::string backgroundColor = "Default",
+                          std::string format = "Default"
                         )
 {
   auto pairFound = mapForegroundColor.find(foregroundColor);
