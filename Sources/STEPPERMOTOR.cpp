@@ -1,21 +1,21 @@
 #include <iostream>
 
-#include "DCMOTOR.h"
+#include "STEPPERMOTOR.h"
 
 // Default constructor
 StepperMotor::StepperMotor() {}
 
 // Overload Constructor
 StepperMotor::StepperMotor (GPIO newmotorPin1, 
-                            GPIO newmotorPin3,
                             GPIO newmotorPin2,
+                            GPIO newmotorPin3,
                             GPIO newmotorPin4,
                             STEPPER_MODE newControlMode,
                             size_t newStepsPerRevolution,
                             size_t newMaxSpeed) :
                             motorPin1 (newMotorPin1),
-                            motorPin3 (newMotorPin3),
                             motorPin2 (newMotorPin2),
+                            motorPin3 (newMotorPin3),
                             motorPin4 (newMotorPin4),
                             controlMode (newControlMode),
                             stepsPerRevolution (newStepsPerRevolution),
@@ -24,7 +24,6 @@ StepperMotor::StepperMotor (GPIO newmotorPin1,
   InitMotorPins();
   currentStep = 0;
 
-  std::string message;
   std::string modeString; 
   switch (controlMode)
   {
@@ -38,11 +37,18 @@ StepperMotor::StepperMotor (GPIO newmotorPin1,
       modeString = "Full step with 2 coils\n"; 
       break;
   }
-  message = "\nStepperMotor object with the next parameters / pins was created:\n" +
-            std::string("\tMotorPin1: ") + this->motorPin1.GetPinHeaderId() + "\n" + 
-            std::string("\tMotorPin3: ") + this->motorPin3.GetPinHeaderId() + "\n" + 
-            std::string("\tMotorPin2: ") + this->motorPin2.GetPinHeaderId() + "\n" +
-            std::string("\tMotorPin4: ") + this->motorPin4.GetPinHeaderId() + "\n" +
+
+  std::string message;
+  message = "\nStepperMotor object with the next parameters / pins was created:" +
+            "\n" + 
+            std::string("\tMotorPin1: ") + this->motorPin1.GetPinHeaderId() + 
+            "\n" + 
+            std::string("\tMotorPin2: ") + this->motorPin2.GetPinHeaderId() + 
+            "\n" + 
+            std::string("\tMotorPin3: ") + this->motorPin3.GetPinHeaderId() + 
+            "\n" +
+            std::string("\tMotorPin4: ") + this->motorPin4.GetPinHeaderId() + 
+            "\n" +
             std::string("\tControl Mode: ") + modeString + "\n"; +
             std::string("\tMax speed: ") + std::to_string(maxSpeed) + "\n\n";
   std::cout << RainbowText(message, "Light Gray");
@@ -77,10 +83,22 @@ void StepperMotor::Turn1StepCW()
       }
       break;
     case halfStep:
-      modeString = "Half step\n"; 
+      for (size_t i = 0; i < halfStepVector.size(); i++)
+      {
+        motorPin1.DigitalWrite(halfStepVector.at(i)(0));
+        motorPin2.DigitalWrite(halfStepVector.at(i)(1));
+        motorPin3.DigitalWrite(halfStepVector.at(i)(2));
+        motorPin4.DigitalWrite(halfStepVector.at(i)(3));
+      } 
       break;
     case fullStep2Coils:
-      modeString = "Full step with 2 coils\n"; 
+      for (size_t i = 0; i < fullStep2CoilsVector.size(); i++)
+      {
+        motorPin1.DigitalWrite(fullStep2CoilsVector.at(i)(0));
+        motorPin2.DigitalWrite(fullStep2CoilsVector.at(i)(1));
+        motorPin3.DigitalWrite(fullStep2CoilsVector.at(i)(2));
+        motorPin4.DigitalWrite(fullStep2CoilsVector.at(i)(3));
+      } 
       break;
   }
 }
@@ -102,10 +120,22 @@ void StepperMotor::Turn1StepCCW()
       }
       break;
     case halfStep:
-      modeString = "Half step\n"; 
+      for (size_t i = halfStepVector.size(); i > 0; i--)
+      {
+        motorPin1.DigitalWrite(halfStepVector.at(i)(0));
+        motorPin2.DigitalWrite(halfStepVector.at(i)(1));
+        motorPin3.DigitalWrite(halfStepVector.at(i)(2));
+        motorPin4.DigitalWrite(halfStepVector.at(i)(3));
+      } 
       break;
     case fullStep2Coils:
-      modeString = "Full step with 2 coils\n"; 
+      for (size_t i = fullStep2CoilsVector.size(); i > 0; i--)
+      {
+        motorPin1.DigitalWrite(fullStep2CoilsVector.at(i)(0));
+        motorPin2.DigitalWrite(fullStep2CoilsVector.at(i)(1));
+        motorPin3.DigitalWrite(fullStep2CoilsVector.at(i)(2));
+        motorPin4.DigitalWrite(fullStep2CoilsVector.at(i)(3));
+      } 
       break;
   }
 
@@ -130,12 +160,12 @@ void StepperMotor::SetCurrentStep(int desiredCurrentStep)
 }
 
 /*
-  Public method to drive the motor and / or during certain time
+  Public method to turn the motor by steps
   @param int: the desired step [-1000,1000]
   @param int: The rotation's speed in steps/sec     
   @param bool: Flag to print / no print the messages on the console. Default value: <false>     
 */
-void StepperMotor::Drive(desiredStep, int speed, bool printMessages)
+void StepperMotor::TurnBySteps(desiredSteps, int speed, bool printMessages)
 {
   // Verify and limit the speed
   if (speed >= maxSpeed)
@@ -144,15 +174,15 @@ void StepperMotor::Drive(desiredStep, int speed, bool printMessages)
     speed = -maxSpeed;
 
   // Select and set the correct turn direction
-  std::string message;
   if (speed >= 0)
   {
     if (printMessages == true)
     {
-      message = "Turning stepper motor CW with speed: " + std::to_string(speed) + "%\n";
-      std::cout << RainbowText(message, "Light Red");
+      std::string message = "Turning stepper motor CW with speed: " + 
+      std::to_string(speed) + "steps/second\n";
+      std::cout << RainbowText(message, "Light Gray");
     }
-    for (int i = currentStep; i < desiredStep; i++)
+    for (int i = currentStep; i < desiredSteps; i++)
     {
       this->Turn1StepCW();
       DelayMicroseconds(static_cast<int>(1000000/speed));
@@ -162,8 +192,8 @@ void StepperMotor::Drive(desiredStep, int speed, bool printMessages)
   {
     if (printMessages == true)
     {
-      message = "Turning stepper motor CCW with speed: " + std::to_string(speed) + "%\n";
-      std::cout << RainbowText(message, "Light Red");
+      std::string message = "Turning stepper motor CCW with speed: " + std::to_string(speed) + "steps/second\n";
+      std::cout << RainbowText(message, "Light Gray");
     }
     for (int i = currentStep; i < desiredStep; i++)
     {
@@ -174,38 +204,46 @@ void StepperMotor::Drive(desiredStep, int speed, bool printMessages)
 }
 
 /*
-  Public method to drive the motor during a certain time inside a thread
-  @param int: the desired speed (-100,100)
-  @param int: The desired duration in milliseconds
-  @param STOPMODE <brake / idle>: ACtion on the motor after driving it with <idle> as a default action.     
+  Public method to turn the motor continuously inside a thread
+  @param int: The desired speed [-1000,1000] steps/second
+  @param bool: Flag to print / no print the messages on the console. Default value: <false> 
 */
-void DCMotor::DriveThread(int speed, int duration, STOPMODE action)
+void StepperMotor::ContinuosRotation(int speed, int duration, bool printMessages)
 {
-  std::thread motorThread = std::thread(&DCMotor::MakeDriveThread, this, speed, duration, action);
+  if (printMessages == true)
+  {
+    std::string message = "Continuous rotation on the stepper motor" +
+                          "has been activated with a speed of : " + 
+                          std::to_string(speed) + "steps/second\n";
+    std::cout << RainbowText(message, "Light Gray");
+  }
+  std::thread continuousRotationThread = std::thread(&StepperMotor::MakeContinuosRotation, this, speed);
   motorThread.detach();
 }
 
 
 /*
-  Private method that contains the routine to drive 
-  the motor during a certain time
-  @param int: the desired speed (-100,100)
-  @param int: The desired duration in milliseconds
-  @param STOPMODE <brake / idle>: Generic Stop Action on the motor after driving it with <idle> as a default action.      
+  Private method that contains the routine to turn the motor continuously
+  @param int: The desired speed [-1000,1000] steps/second     
 */
-void DCMotor::MakeDriveThread(int speed, int duration, STOPMODE action)
+void StepperMotor::MakeContinuosRotation(int speed)
 {
-  // Move the motor
-  Drive(speed, duration);
-
-  // Set the desired stop action
-  if (action == idle)
-    this->Stop(LOW, LOW, LOW);
-  else
-    this->Stop(HIGH, HIGH, HIGH);
+  while(this->stopContinuousRotation == false)
+  {
+    // Turn the motor 1 revolution
+    TurnBySteps(stepsPerRevolution, speed);
+  }
 }
 
-DCMotor::~DCMotor() 
+/*
+  Public method to stop the continuous rotation 
+*/
+void LED::StopContinuousRotation () 
+{
+  this->stopContinuosRotation = true;
+}
+
+StepperMotor::~StepperMotor() 
 {
   motorPin1.DigitalWrite(LOW);
   motorPin2.DigitalWrite(LOW);

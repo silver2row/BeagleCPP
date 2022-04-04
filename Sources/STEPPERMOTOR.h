@@ -35,6 +35,26 @@ private:
     {0, 0, 0, 1}
   };
 
+  vector <vector<bool>> halfStepVector 
+  {   
+    {1, 0, 0, 0},
+    {1, 1, 0, 0},
+    {0, 1, 0, 1},
+    {0, 1, 1, 0},
+    {0, 0, 1, 0},
+    {0, 0, 1, 1},
+    {0, 0, 0, 1},
+    {1, 0, 0, 1},
+  };
+
+  vector <vector<bool>> fullStep2CoilsVector 
+  {   
+    {1, 1, 0, 0},
+    {0, 1, 1, 0},
+    {0, 0, 1, 1},
+    {1, 0, 0, 1}
+  };
+
   // Initialize the GPIO pins with the data provided by the constructor
   virtual void InitMotorPins();
 
@@ -44,15 +64,18 @@ private:
   // Method to activate 1 step the coils in CCW direction  
   virtual void Turn1StepCCW();
 
-  // Method to drive the motor with duration in a thread
-  virtual void MakeDriveThread(int, int, STOPMODE);
+  // Method to turn the motor continuously in a thread
+  virtual void MakeContinuosRotation(int);
+
+  // Variable for stopping the continuous rotation
+  bool stopContinuosRotation = false;
 
 public:
   // Default constructor
   StepperMotor();
 
   // Overload constructor
-  StepperMotor(GPIO, GPIO, GPIO, GPIO, STEPPER_MODE mode = halfStep4Wire, size_t stepsPerRevolution = 2048, size_t maxSpeed = 1000);
+  StepperMotor(GPIO, GPIO, GPIO, GPIO, STEPPER_MODE controlMode = halfStep4Wire, size_t stepsPerRevolution = 2048, size_t maxSpeed = 1000);
 
   // Interface method to get the current step 
   virtual int GetCurrentStep();
@@ -60,14 +83,17 @@ public:
   // Interface method to set the current step 
   virtual void SetCurrentStep(int);
 
-  // Interface method to drive the motor and / or during certain time
-  virtual void Drive (int desiredStep, int speed = 500, bool printMessages = false);
+  // Interface method to turn the motor by steps
+  virtual void TurnBySteps (int desiredSteps, int speed = 500, bool printMessages = false);
 
-  // Interface method to drive the motor in a thread during certain time
-  virtual void DriveThread(int speed = 0, int duration = 0, STOPMODE action = idle);
+  // Interface method to turn the motor continuously
+  virtual void ContinuosRotation(int speed, int duration = 0, bool printMessages = false);
+
+  // Method for stopping a blinking
+  void StopContinuosRotation();
 
   // Destructor
-  virtual ~DCMotor();
+  virtual ~StepperMotor();
 };
 
 #endif // H_STEPPERMOTOR_H
