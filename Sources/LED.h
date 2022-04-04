@@ -39,18 +39,18 @@ class LED: protected GPIO
     // Method for doing a blinking pattern
     void Blink(int duration = 1000);
 
+    // Method for stopping a blinking
+    void StopBlink();
+
     // Method for doing a flashing pattern
     void Flash(int timeOn = 100, int period = 1000);
+
+    // Method for stopping a flashing
+    void StopFlash();
 
     // Method for doing a digital heart beat pattern
     void HeartBeat(int timeOn = 100, int period = 1000);
 
-    // Method for stopping a blinking
-    void StopBlink();
-
-    // Method for stopping a flashing
-    void StopFlash();
-    
     // Method for stopping a digital heart beat
     void StopHeartBeat();
     
