@@ -51,10 +51,12 @@ private:
   GPIO motorPin3;
   GPIO motorPin4;
   STEPPER_MODE controlMode;
-  size_t stepsPerRevolution;
-  size_t maxSpeed;
+  unsigned int stepsPerRevolution;
+  unsigned int maxSpeed;
 
+  int stepCounter;
   int currentStep;
+  int stepsPerMode;
   
   // Initialize the GPIO pins with the data provided by the constructor
   virtual void InitMotorPins();
@@ -76,7 +78,7 @@ public:
   StepperMotor();
 
   // Overload constructor
-  StepperMotor(GPIO, GPIO, GPIO, GPIO, STEPPER_MODE controlMode = fullStep2Coils, size_t stepsPerRevolution = 2048, size_t maxSpeed = 1000);
+  StepperMotor(GPIO, GPIO, GPIO, GPIO, STEPPER_MODE controlMode = fullStep1Coil, unsigned int stepsPerRevolution = 2048, unsigned int maxSpeed = 500);
 
   // Interface method to get the current step 
   virtual int GetCurrentStep();
@@ -85,7 +87,7 @@ public:
   virtual void SetCurrentStep(int);
 
   // Interface method to turn the motor by steps
-  virtual void TurnBySteps (int stepsRequired, size_t speed = 500, bool printMessages = false);
+  virtual void TurnBySteps (int stepsRequired, unsigned int speed = 500, bool printMessages = false);
 
   // Interface method to turn the motor continuously
   virtual void ContinuosRotation(int speed, int duration = 0, bool printMessages = false);

@@ -11,8 +11,8 @@ StepperMotor::StepperMotor (GPIO newMotorPin1,
                             GPIO newMotorPin3,
                             GPIO newMotorPin4,
                             STEPPER_MODE newControlMode,
-                            size_t newStepsPerRevolution,
-                            size_t newMaxSpeed) :
+                            unsigned int newStepsPerRevolution,
+                            unsigned int newMaxSpeed) :
                             motorPin1 (newMotorPin1),
                             motorPin2 (newMotorPin2),
                             motorPin3 (newMotorPin3),
@@ -22,22 +22,26 @@ StepperMotor::StepperMotor (GPIO newMotorPin1,
                             maxSpeed (newMaxSpeed)
 {
   InitMotorPins();
+  stepCounter = 0;
   currentStep = 0;
 
   std::string modeString; 
   switch (controlMode)
   {
     case fullStep1Coil:
-      modeString = "Full step with 1 Coil\n"; 
+      modeString = "Full step with 1 Coil";
+      stepsPerMode = fullStep1CoilVector.size(); 
       break;
     case halfStep:
-      modeString = "Half step\n"; 
+      modeString = "Half step";
+      stepsPerMode = halfStepVector.size(); 
       break;
     case fullStep2Coils:
-      modeString = "Full step with 2 coils\n"; 
+      modeString = "Full step with 2 coils"; 
+      stepsPerMode = fullStep2CoilsVector.size(); 
       break;
     case driver:
-      modeString = "Driver mode was choosen\n"; 
+      modeString = "Driver mode was choosen"; 
       break;
   }
 
@@ -73,38 +77,39 @@ void StepperMotor::InitMotorPins()
 */
 void StepperMotor::Turn1StepCW()
 {
+  std::cout << "stepCounter: " << stepCounter << std::endl;
   switch (controlMode)
   {
     case fullStep1Coil:
-      for (size_t i = 0; i < fullStep1CoilVector.size(); i++)
-      {
-        motorPin1.DigitalWrite(fullStep1CoilVector.at(i).at(0));
-        motorPin2.DigitalWrite(fullStep1CoilVector.at(i).at(1));
-        motorPin3.DigitalWrite(fullStep1CoilVector.at(i).at(2));
-        motorPin4.DigitalWrite(fullStep1CoilVector.at(i).at(3));
-      }
+      motorPin1.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(0));
+      motorPin2.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(1));
+      motorPin3.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(2));
+      motorPin4.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(3));
+      std::cout << stepCounter << ": " 
+                << fullStep1CoilVector.at(stepCounter).at(0) << " "
+                << fullStep1CoilVector.at(stepCounter).at(1) << " "
+                << fullStep1CoilVector.at(stepCounter).at(2) << " "
+                << fullStep1CoilVector.at(stepCounter).at(3) << " "
+                << std::endl;
       break;
     case halfStep:
-      for (size_t i = 0; i < halfStepVector.size(); i++)
-      {
-        motorPin1.DigitalWrite(halfStepVector.at(i).at(0));
-        motorPin2.DigitalWrite(halfStepVector.at(i).at(1));
-        motorPin3.DigitalWrite(halfStepVector.at(i).at(2));
-        motorPin4.DigitalWrite(halfStepVector.at(i).at(3));
-      } 
+      motorPin1.DigitalWrite(halfStepVector.at(stepCounter).at(0));
+      motorPin2.DigitalWrite(halfStepVector.at(stepCounter).at(1));
+      motorPin3.DigitalWrite(halfStepVector.at(stepCounter).at(2));
+      motorPin4.DigitalWrite(halfStepVector.at(stepCounter).at(3));
       break;
     case fullStep2Coils:
-      for (size_t i = 0; i < fullStep2CoilsVector.size(); i++)
-      {
-        motorPin1.DigitalWrite(fullStep2CoilsVector.at(i).at(0));
-        motorPin2.DigitalWrite(fullStep2CoilsVector.at(i).at(1));
-        motorPin3.DigitalWrite(fullStep2CoilsVector.at(i).at(2));
-        motorPin4.DigitalWrite(fullStep2CoilsVector.at(i).at(3));
-      } 
+      motorPin1.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(0));
+      motorPin2.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(1));
+      motorPin3.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(2));
+      motorPin4.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(3));
       break;
     case driver:
       break;
   }
+  stepCounter++;
+  if (stepCounter > stepsPerMode - 1)
+    stepCounter = 0;
 }
 
 /*
@@ -112,39 +117,33 @@ void StepperMotor::Turn1StepCW()
 */
 void StepperMotor::Turn1StepCCW()
 {
+  std::cout << "stepCounter: " << stepCounter << std::endl;
   switch (controlMode)
   {
     case fullStep1Coil:
-      for (size_t i = fullStep1CoilVector.size(); i > 0; i--)
-      {
-        motorPin1.DigitalWrite(fullStep1CoilVector.at(i).at(0));
-        motorPin2.DigitalWrite(fullStep1CoilVector.at(i).at(1));
-        motorPin3.DigitalWrite(fullStep1CoilVector.at(i).at(2));
-        motorPin4.DigitalWrite(fullStep1CoilVector.at(i).at(3));
-      }
+      motorPin1.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(0),true);
+      motorPin2.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(1),true);
+      motorPin3.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(2),true);
+      motorPin4.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(3),true);
       break;
     case halfStep:
-      for (size_t i = halfStepVector.size(); i > 0; i--)
-      {
-        motorPin1.DigitalWrite(halfStepVector.at(i).at(0));
-        motorPin2.DigitalWrite(halfStepVector.at(i).at(1));
-        motorPin3.DigitalWrite(halfStepVector.at(i).at(2));
-        motorPin4.DigitalWrite(halfStepVector.at(i).at(3));
-      } 
+      motorPin1.DigitalWrite(halfStepVector.at(stepCounter).at(0));
+      motorPin2.DigitalWrite(halfStepVector.at(stepCounter).at(1));
+      motorPin3.DigitalWrite(halfStepVector.at(stepCounter).at(2));
+      motorPin4.DigitalWrite(halfStepVector.at(stepCounter).at(3));
       break;
     case fullStep2Coils:
-      for (size_t i = fullStep2CoilsVector.size(); i > 0; i--)
-      {
-        motorPin1.DigitalWrite(fullStep2CoilsVector.at(i).at(0));
-        motorPin2.DigitalWrite(fullStep2CoilsVector.at(i).at(1));
-        motorPin3.DigitalWrite(fullStep2CoilsVector.at(i).at(2));
-        motorPin4.DigitalWrite(fullStep2CoilsVector.at(i).at(3));
-      } 
+      motorPin1.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(0));
+      motorPin2.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(1));
+      motorPin3.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(2));
+      motorPin4.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(3));
       break;
     case driver:
       break;
   }
-
+  stepCounter--;
+  if (stepCounter < 0)
+    stepCounter = stepsPerMode - 1;
 }
 
 /*
@@ -168,16 +167,13 @@ void StepperMotor::SetCurrentStep(int desiredCurrentStep)
 /*
   Public method to turn the motor by steps
   @param int: The steps required (-stepsPerRevolution,stepsPerRevolution)
-  @param size_t: The rotation's speed in steps/sec (0,1000)    
+  @param unsigned int: The rotation's speed in steps/sec (0,1000)    
   @param bool: Flag to print / no print the messages on the console. Default value: <false>     
 */
-void StepperMotor::TurnBySteps(int stepsRequired, size_t speed, bool printMessages)
+void StepperMotor::TurnBySteps(int stepsRequired, unsigned int speed, bool printMessages)
 {
-  // Verify and limit the speed
-  if (stepsRequired > stepsPerRevolution)
-    stepsRequired = stepsPerRevolution;
-  else if (stepsRequired < -stepsPerRevolution)
-    stepsRequired = -stepsPerRevolution;
+  std::cout << "Steps required: " << stepsRequired << std::endl;
+  std::cout << "Delay is: " << static_cast<int>(1000000/speed) << std::endl;
 
   // Select and set the correct turn direction
   if (stepsRequired > 0)
@@ -188,6 +184,9 @@ void StepperMotor::TurnBySteps(int stepsRequired, size_t speed, bool printMessag
       std::to_string(speed) + "steps/second\n";
       std::cout << RainbowText(message, "Light Gray");
     }
+
+    stepCounter = 0;
+
     for (int i = currentStep; i < stepsRequired; i++)
     {
       this->Turn1StepCW();
@@ -201,6 +200,9 @@ void StepperMotor::TurnBySteps(int stepsRequired, size_t speed, bool printMessag
       std::string message = "Turning stepper motor CCW with speed: " + std::to_string(speed) + "steps/second\n";
       std::cout << RainbowText(message, "Light Gray");
     }
+
+    stepCounter = stepsPerMode - 1;
+
     for (int i = currentStep; i < stepsRequired; i++)
     {
       this->Turn1StepCCW();
