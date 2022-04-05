@@ -25,49 +25,25 @@ StepperMotor myStepper (IN1, IN2, IN3, IN4);
 
 int main()
 {
-  std::string message = "Main program starting here...";
+  string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   /* 
     Turn the stepper motor 1/4-turn in CW direction in fullstep 
     mode with 2 coils at the same time at 500 steps/second
   */
-  myStepper.TurnBySteps(512,500,true);
+  myStepper.TurnBySteps(512);
+  cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
+  cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
 
-  /*
-  for (;;)
-  {
-  IN1.DigitalWrite(HIGH);
-  IN2.DigitalWrite(LOW);
-  IN3.DigitalWrite(LOW);
-  IN4.DigitalWrite(LOW);
-  DelayMicroseconds(2000);
-
-  IN1.DigitalWrite(LOW);
-  IN2.DigitalWrite(HIGH);
-  IN3.DigitalWrite(LOW);
-  IN4.DigitalWrite(LOW);
-  DelayMicroseconds(2000);
-
-  IN1.DigitalWrite(LOW);
-  IN2.DigitalWrite(LOW);
-  IN3.DigitalWrite(HIGH);
-  IN4.DigitalWrite(LOW);
-  DelayMicroseconds(2000);
-
-  IN1.DigitalWrite(LOW);
-  IN2.DigitalWrite(LOW);
-  IN3.DigitalWrite(LOW);
-  IN4.DigitalWrite(HIGH);
-  DelayMicroseconds(2000);
-  }
-  */
 
   /* 
     Turn the stepper motor 1/4-turn in CCW direction in fullstep 
     mode with 2 coils at the same time at 500 steps/second
   */
-  myStepper.TurnBySteps(-512,500,true);
+  myStepper.TurnBySteps(-512);
+  cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
+  cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;

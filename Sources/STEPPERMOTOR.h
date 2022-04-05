@@ -54,18 +54,18 @@ private:
   unsigned int stepsPerRevolution;
   unsigned int maxSpeed;
 
-  int stepCounter;
-  int currentStep;
   int stepsPerMode;
+  int stepsCounter;
+  int currentStep;
   
   // Initialize the GPIO pins with the data provided by the constructor
   virtual void InitMotorPins();
 
   // Method to activate 1 step the coils in CW direction   
-  virtual void Turn1StepCW();
+  virtual void Turn1StepCW(int&);
   
   // Method to activate 1 step the coils in CCW direction  
-  virtual void Turn1StepCCW();
+  virtual void Turn1StepCCW(int&);
 
   // Method to turn the motor continuously in a thread
   virtual void MakeContinuousRotation(int);
@@ -80,14 +80,20 @@ public:
   // Overload constructor
   StepperMotor(GPIO, GPIO, GPIO, GPIO, STEPPER_MODE controlMode = fullStep1Coil, unsigned int stepsPerRevolution = 2048, unsigned int maxSpeed = 500);
 
-  // Interface method to get the current step 
-  virtual int GetCurrentStep();
-
-  // Interface method to set the current step 
-  virtual void SetCurrentStep(int);
-
   // Interface method to turn the motor by steps
   virtual void TurnBySteps (int stepsRequired, unsigned int speed = 500, bool printMessages = false);
+
+  // Interface method to get the absolute steps counter
+  virtual int GetStepsCounter();
+
+  // Interface method to set the absolute steps counter 
+  virtual void SetStepsCounter(int);
+
+   // Interface method to get the current step position of the axis
+  virtual int GetCurrentStep();
+
+  // Interface method to set the current step position of the axis 
+  virtual void SetCurrentStep(int);
 
   // Interface method to turn the motor continuously
   virtual void ContinuosRotation(int speed, int duration = 0, bool printMessages = false);

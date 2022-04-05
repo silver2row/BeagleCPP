@@ -22,7 +22,7 @@ StepperMotor::StepperMotor (GPIO newMotorPin1,
                             maxSpeed (newMaxSpeed)
 {
   InitMotorPins();
-  stepCounter = 0;
+  stepsCounter = 0;
   currentStep = 0;
 
   std::string modeString; 
@@ -75,95 +75,74 @@ void StepperMotor::InitMotorPins()
 /*
   Private method to activate 1 step the coils in CW direction       
 */
-void StepperMotor::Turn1StepCW()
+void StepperMotor::Turn1StepCW(int& step)
 {
-  std::cout << "stepCounter: " << stepCounter << std::endl;
   switch (controlMode)
   {
     case fullStep1Coil:
-      motorPin1.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(0));
-      motorPin2.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(1));
-      motorPin3.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(2));
-      motorPin4.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(3));
-      std::cout << stepCounter << ": " 
-                << fullStep1CoilVector.at(stepCounter).at(0) << " "
-                << fullStep1CoilVector.at(stepCounter).at(1) << " "
-                << fullStep1CoilVector.at(stepCounter).at(2) << " "
-                << fullStep1CoilVector.at(stepCounter).at(3) << " "
-                << std::endl;
+      motorPin1.DigitalWrite(fullStep1CoilVector.at(step).at(0));
+      motorPin2.DigitalWrite(fullStep1CoilVector.at(step).at(1));
+      motorPin3.DigitalWrite(fullStep1CoilVector.at(step).at(2));
+      motorPin4.DigitalWrite(fullStep1CoilVector.at(step).at(3));
+      stepsCounter++;
+      currentStep++;
       break;
     case halfStep:
-      motorPin1.DigitalWrite(halfStepVector.at(stepCounter).at(0));
-      motorPin2.DigitalWrite(halfStepVector.at(stepCounter).at(1));
-      motorPin3.DigitalWrite(halfStepVector.at(stepCounter).at(2));
-      motorPin4.DigitalWrite(halfStepVector.at(stepCounter).at(3));
+      motorPin1.DigitalWrite(halfStepVector.at(step).at(0));
+      motorPin2.DigitalWrite(halfStepVector.at(step).at(1));
+      motorPin3.DigitalWrite(halfStepVector.at(step).at(2));
+      motorPin4.DigitalWrite(halfStepVector.at(step).at(3));
+      stepsCounter++;
+      currentStep++;
       break;
     case fullStep2Coils:
-      motorPin1.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(0));
-      motorPin2.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(1));
-      motorPin3.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(2));
-      motorPin4.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(3));
+      motorPin1.DigitalWrite(fullStep2CoilsVector.at(step).at(0));
+      motorPin2.DigitalWrite(fullStep2CoilsVector.at(step).at(1));
+      motorPin3.DigitalWrite(fullStep2CoilsVector.at(step).at(2));
+      motorPin4.DigitalWrite(fullStep2CoilsVector.at(step).at(3));
+      stepsCounter++;
+      currentStep++;
       break;
     case driver:
       break;
   }
-  stepCounter++;
-  if (stepCounter > stepsPerMode - 1)
-    stepCounter = 0;
 }
 
 /*
   Private method to activate 1 step the coils in CCW direction   
 */
-void StepperMotor::Turn1StepCCW()
+void StepperMotor::Turn1StepCCW(int& step)
 {
-  std::cout << "stepCounter: " << stepCounter << std::endl;
   switch (controlMode)
   {
     case fullStep1Coil:
-      motorPin1.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(0),true);
-      motorPin2.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(1),true);
-      motorPin3.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(2),true);
-      motorPin4.DigitalWrite(fullStep1CoilVector.at(stepCounter).at(3),true);
+      motorPin1.DigitalWrite(fullStep1CoilVector.at(step).at(0));
+      motorPin2.DigitalWrite(fullStep1CoilVector.at(step).at(1));
+      motorPin3.DigitalWrite(fullStep1CoilVector.at(step).at(2));
+      motorPin4.DigitalWrite(fullStep1CoilVector.at(step).at(3));
+      stepsCounter++;
+      currentStep--;
       break;
     case halfStep:
-      motorPin1.DigitalWrite(halfStepVector.at(stepCounter).at(0));
-      motorPin2.DigitalWrite(halfStepVector.at(stepCounter).at(1));
-      motorPin3.DigitalWrite(halfStepVector.at(stepCounter).at(2));
-      motorPin4.DigitalWrite(halfStepVector.at(stepCounter).at(3));
+      motorPin1.DigitalWrite(halfStepVector.at(step).at(0));
+      motorPin2.DigitalWrite(halfStepVector.at(step).at(1));
+      motorPin3.DigitalWrite(halfStepVector.at(step).at(2));
+      motorPin4.DigitalWrite(halfStepVector.at(step).at(3));
+      stepsCounter++;
+      currentStep--;
       break;
     case fullStep2Coils:
-      motorPin1.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(0));
-      motorPin2.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(1));
-      motorPin3.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(2));
-      motorPin4.DigitalWrite(fullStep2CoilsVector.at(stepCounter).at(3));
+      motorPin1.DigitalWrite(fullStep2CoilsVector.at(step).at(0));
+      motorPin2.DigitalWrite(fullStep2CoilsVector.at(step).at(1));
+      motorPin3.DigitalWrite(fullStep2CoilsVector.at(step).at(2));
+      motorPin4.DigitalWrite(fullStep2CoilsVector.at(step).at(3));
+      stepsCounter++;
+      currentStep--;
       break;
     case driver:
       break;
   }
-  stepCounter--;
-  if (stepCounter < 0)
-    stepCounter = stepsPerMode - 1;
 }
-
-/*
-  Public method to get the current step of the stepper motor
-  @return int: the current step   
-*/  
-int StepperMotor::GetCurrentStep()
-{
-  return currentStep;
-}
-
-/*
-  Public method to set the current step of the stepper motor
-  @param int: the desired current step   
-*/  
-void StepperMotor::SetCurrentStep(int desiredCurrentStep)
-{
-  currentStep = desiredCurrentStep;
-}
-
 /*
   Public method to turn the motor by steps
   @param int: The steps required (-stepsPerRevolution,stepsPerRevolution)
@@ -172,9 +151,7 @@ void StepperMotor::SetCurrentStep(int desiredCurrentStep)
 */
 void StepperMotor::TurnBySteps(int stepsRequired, unsigned int speed, bool printMessages)
 {
-  std::cout << "Steps required: " << stepsRequired << std::endl;
-  std::cout << "Delay is: " << static_cast<int>(1000000/speed) << std::endl;
-
+  int coilStep {0};
   // Select and set the correct turn direction
   if (stepsRequired > 0)
   {
@@ -185,12 +162,14 @@ void StepperMotor::TurnBySteps(int stepsRequired, unsigned int speed, bool print
       std::cout << RainbowText(message, "Light Gray");
     }
 
-    stepCounter = 0;
-
-    for (int i = currentStep; i < stepsRequired; i++)
+    coilStep = 0;
+    for (int i = 0; i < stepsRequired; i++)
     {
-      this->Turn1StepCW();
+      this->Turn1StepCW(coilStep);
       DelayMicroseconds(static_cast<int>(1000000/speed));
+      coilStep++;
+      if (coilStep > stepsPerMode - 1)
+        coilStep = 0;
     }
   }
   else if (stepsRequired < 0)
@@ -201,14 +180,52 @@ void StepperMotor::TurnBySteps(int stepsRequired, unsigned int speed, bool print
       std::cout << RainbowText(message, "Light Gray");
     }
 
-    stepCounter = stepsPerMode - 1;
-
-    for (int i = currentStep; i < stepsRequired; i++)
+    coilStep = stepsPerMode - 1;
+    for (int i = 0; i > stepsRequired; i--)
     {
-      this->Turn1StepCCW();
+      this->Turn1StepCCW(coilStep);
       DelayMicroseconds(static_cast<int>(1000000/speed));
+      coilStep--;
+      if (coilStep < 0) 
+        coilStep = stepsPerMode - 1;
     }
   }
+}
+
+/*
+  Public method to get the absolute steps counter of the stepper motor
+  @return int: The counter value   
+*/  
+int StepperMotor::GetStepsCounter()
+{
+  return stepsCounter;
+}
+
+/*
+  Public method to set the absolute steps counter of the stepper motor
+  @param int: The desired counter value   
+*/  
+void StepperMotor::SetStepsCounter(int desiredCounterValue)
+{
+  stepsCounter = desiredCounterValue;
+}
+
+/*
+  Public method to get the current step position of the axis
+  @return int: The current step  
+*/  
+int StepperMotor::GetCurrentStep()
+{
+  return currentStep;
+}
+
+/*
+  Public method to set the current step position of the axis
+  @param int: The desired current step   
+*/  
+void StepperMotor::SetCurrentStep(int desiredStepValue)
+{
+  currentStep = desiredStepValue;
 }
 
 /*
