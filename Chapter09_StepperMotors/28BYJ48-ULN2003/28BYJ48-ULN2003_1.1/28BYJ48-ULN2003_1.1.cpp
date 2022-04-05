@@ -32,13 +32,42 @@ int main()
     Turn the stepper motor 1/4-turn in CW direction in fullstep 
     mode with 2 coils at the same time at 500 steps/second
   */
-  myStepper.TurnBySteps(512);
+  myStepper.TurnBySteps(512,500,true);
+
+  /*
+  for (;;)
+  {
+  IN1.DigitalWrite(HIGH);
+  IN2.DigitalWrite(LOW);
+  IN3.DigitalWrite(LOW);
+  IN4.DigitalWrite(LOW);
+  DelayMicroseconds(2000);
+
+  IN1.DigitalWrite(LOW);
+  IN2.DigitalWrite(HIGH);
+  IN3.DigitalWrite(LOW);
+  IN4.DigitalWrite(LOW);
+  DelayMicroseconds(2000);
+
+  IN1.DigitalWrite(LOW);
+  IN2.DigitalWrite(LOW);
+  IN3.DigitalWrite(HIGH);
+  IN4.DigitalWrite(LOW);
+  DelayMicroseconds(2000);
+
+  IN1.DigitalWrite(LOW);
+  IN2.DigitalWrite(LOW);
+  IN3.DigitalWrite(LOW);
+  IN4.DigitalWrite(HIGH);
+  DelayMicroseconds(2000);
+  }
+  */
 
   /* 
     Turn the stepper motor 1/4-turn in CCW direction in fullstep 
     mode with 2 coils at the same time at 500 steps/second
   */
-  myStepper.TurnBySteps(-512);
+  myStepper.TurnBySteps(-512,500,true);
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
