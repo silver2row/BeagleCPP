@@ -54,19 +54,21 @@ private:
   unsigned int stepsPerRevolution;
   unsigned int maxSpeed;
 
-  int stepsPerMode;
+  // Number of the steps required to be activated according to the stepper motor's  mode
+  unsigned int stepsPerMode;
+
+  // Absolute steps counter during the program execution
   int stepsCounter;
+
+  // Actual position in steps, of the stepper motor axis
   int currentStep;
-  
+
   // Initialize the GPIO pins with the data provided by the constructor
   virtual void InitMotorPins();
 
-  // Method to activate 1 step the coils in CW direction   
-  virtual void Turn1StepCW(int&);
+  // Method to activate 1 step the coils   
+  virtual void Turn1Step(int, int);
   
-  // Method to activate 1 step the coils in CCW direction  
-  virtual void Turn1StepCCW(int&);
-
   // Method to turn the motor continuously in a thread
   virtual void MakeContinuousRotation(int);
 

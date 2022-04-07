@@ -73,75 +73,39 @@ void StepperMotor::InitMotorPins()
 }
 
 /*
-  Private method to activate 1 step the coils in CW direction       
+  Private method to activate 1 step the coils in in CW or CCW direction
+  @param: int: The proper step to activate the coils 
+  @param: int: The desired speed in steps / second   
 */
-void StepperMotor::Turn1StepCW(int& step)
+void StepperMotor::Turn1Step(int coilStep, int speed)
 {
+  // Move one step the stepper motor with correct coil activation sequence
   switch (controlMode)
   {
     case fullStep1Coil:
-      motorPin1.DigitalWrite(fullStep1CoilVector.at(step).at(0));
-      motorPin2.DigitalWrite(fullStep1CoilVector.at(step).at(1));
-      motorPin3.DigitalWrite(fullStep1CoilVector.at(step).at(2));
-      motorPin4.DigitalWrite(fullStep1CoilVector.at(step).at(3));
-      stepsCounter++;
-      currentStep++;
+      motorPin1.DigitalWrite(fullStep1CoilVector.at(coilStep).at(0));
+      motorPin2.DigitalWrite(fullStep1CoilVector.at(coilStep).at(1));
+      motorPin3.DigitalWrite(fullStep1CoilVector.at(coilStep).at(2));
+      motorPin4.DigitalWrite(fullStep1CoilVector.at(coilStep).at(3));
       break;
     case halfStep:
-      motorPin1.DigitalWrite(halfStepVector.at(step).at(0));
-      motorPin2.DigitalWrite(halfStepVector.at(step).at(1));
-      motorPin3.DigitalWrite(halfStepVector.at(step).at(2));
-      motorPin4.DigitalWrite(halfStepVector.at(step).at(3));
-      stepsCounter++;
-      currentStep++;
+      motorPin1.DigitalWrite(halfStepVector.at(coilStep).at(0));
+      motorPin2.DigitalWrite(halfStepVector.at(coilStep).at(1));
+      motorPin3.DigitalWrite(halfStepVector.at(coilStep).at(2));
+      motorPin4.DigitalWrite(halfStepVector.at(coilStep).at(3));
       break;
     case fullStep2Coils:
-      motorPin1.DigitalWrite(fullStep2CoilsVector.at(step).at(0));
-      motorPin2.DigitalWrite(fullStep2CoilsVector.at(step).at(1));
-      motorPin3.DigitalWrite(fullStep2CoilsVector.at(step).at(2));
-      motorPin4.DigitalWrite(fullStep2CoilsVector.at(step).at(3));
-      stepsCounter++;
-      currentStep++;
+      motorPin1.DigitalWrite(fullStep2CoilsVector.at(coilStep).at(0));
+      motorPin2.DigitalWrite(fullStep2CoilsVector.at(coilStep).at(1));
+      motorPin3.DigitalWrite(fullStep2CoilsVector.at(coilStep).at(2));
+      motorPin4.DigitalWrite(fullStep2CoilsVector.at(coilStep).at(3));
       break;
     case driver:
       break;
   }
-}
 
-/*
-  Private method to activate 1 step the coils in CCW direction   
-*/
-void StepperMotor::Turn1StepCCW(int& step)
-{
-  switch (controlMode)
-  {
-    case fullStep1Coil:
-      motorPin1.DigitalWrite(fullStep1CoilVector.at(step).at(0));
-      motorPin2.DigitalWrite(fullStep1CoilVector.at(step).at(1));
-      motorPin3.DigitalWrite(fullStep1CoilVector.at(step).at(2));
-      motorPin4.DigitalWrite(fullStep1CoilVector.at(step).at(3));
-      stepsCounter++;
-      currentStep--;
-      break;
-    case halfStep:
-      motorPin1.DigitalWrite(halfStepVector.at(step).at(0));
-      motorPin2.DigitalWrite(halfStepVector.at(step).at(1));
-      motorPin3.DigitalWrite(halfStepVector.at(step).at(2));
-      motorPin4.DigitalWrite(halfStepVector.at(step).at(3));
-      stepsCounter++;
-      currentStep--;
-      break;
-    case fullStep2Coils:
-      motorPin1.DigitalWrite(fullStep2CoilsVector.at(step).at(0));
-      motorPin2.DigitalWrite(fullStep2CoilsVector.at(step).at(1));
-      motorPin3.DigitalWrite(fullStep2CoilsVector.at(step).at(2));
-      motorPin4.DigitalWrite(fullStep2CoilsVector.at(step).at(3));
-      stepsCounter++;
-      currentStep--;
-      break;
-    case driver:
-      break;
-  }
+  // Wait the proper microseconds before the next step
+  DelayMicroseconds(static_cast<int>(1000000/speed));
 }
 /*
   Public method to turn the motor by steps
@@ -152,7 +116,8 @@ void StepperMotor::Turn1StepCCW(int& step)
 void StepperMotor::TurnBySteps(int stepsRequired, unsigned int speed, bool printMessages)
 {
   int coilStep {0};
-  // Select and set the correct turn direction
+
+  // Turn 1 step in CW direction
   if (stepsRequired > 0)
   {
     if (printMessages == true)
@@ -161,33 +126,33 @@ void StepperMotor::TurnBySteps(int stepsRequired, unsigned int speed, bool print
       std::to_string(speed) + "steps/second\n";
       std::cout << RainbowText(message, "Light Gray");
     }
-
-    coilStep = 0;
     for (int i = 0; i < stepsRequired; i++)
     {
-      this->Turn1StepCW(coilStep);
-      DelayMicroseconds(static_cast<int>(1000000/speed));
-      coilStep++;
-      if (coilStep > stepsPerMode - 1)
-        coilStep = 0;
+      coilStep = stepsPerMode - 1 - (i % stepsPerMode);
+      this->Turn1Step(coilStep, speed);
+      
+      // Update counters
+      stepsCounter++;
+      currentStep++;
     }
   }
+  // Turn 1 step in CCW direction
   else if (stepsRequired < 0)
   {
     if (printMessages == true)
     {
-      std::string message = "Turning stepper motor CCW with speed: " + std::to_string(speed) + "steps/second\n";
+      std::string message = "Turning stepper motor CCW with speed: " + 
+      std::to_string(speed) + "steps/second\n";
       std::cout << RainbowText(message, "Light Gray");
     }
-
-    coilStep = stepsPerMode - 1;
-    for (int i = 0; i > stepsRequired; i--)
+    for (int i = 0; i < stepsRequired * -1; i++)
     {
-      this->Turn1StepCCW(coilStep);
-      DelayMicroseconds(static_cast<int>(1000000/speed));
-      coilStep--;
-      if (coilStep < 0) 
-        coilStep = stepsPerMode - 1;
+      coilStep = i % stepsPerMode;
+      this->Turn1Step(coilStep, speed);
+      
+      // Update counters
+      stepsCounter++;
+      currentStep--;
     }
   }
 }
