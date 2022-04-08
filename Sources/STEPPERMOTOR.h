@@ -15,6 +15,12 @@ enum STEPPER_MODE
   fullStep2Coils = 12,
 };
 
+enum DIRECTION
+{
+  CW = 1,
+  CCW = 2,
+};
+
 const std::vector <std::vector<STATE>> fullStep1CoilVector 
 {   
   {HIGH, LOW, LOW, LOW},
@@ -70,7 +76,7 @@ private:
   virtual void Turn1Step(int, int);
   
   // Method to turn the motor continuously in a thread
-  virtual void MakeContinuousRotation(int);
+  virtual void MakeContinuousRotation(DIRECTION, unsigned int);
 
   // Variable for stopping the continuous rotation
   bool stopContinuousRotation = false;
@@ -83,7 +89,13 @@ public:
   StepperMotor(GPIO, GPIO, GPIO, GPIO, STEPPER_MODE controlMode = fullStep1Coil, unsigned int stepsPerRevolution = 2048, unsigned int maxSpeed = 500);
 
   // Interface method to turn the motor by steps
-  virtual void TurnBySteps (int stepsRequired, unsigned int speed = 500, bool printMessages = false);
+  virtual void TurnBySteps (DIRECTION, unsigned int stepsRequired, unsigned int speed = 500, bool printMessages = false);
+
+  // Interface method to turn the motor continuously
+  virtual void ContinuosRotation(DIRECTION, unsigned int speed = 500, bool printMessages = false);
+
+  // Method for stopping a blinking
+  void StopContinuousRotation();
 
   // Interface method to get the absolute steps counter
   virtual int GetStepsCounter();
@@ -96,12 +108,6 @@ public:
 
   // Interface method to set the current step position of the axis 
   virtual void SetCurrentStep(int);
-
-  // Interface method to turn the motor continuously
-  virtual void ContinuosRotation(int speed, int duration = 0, bool printMessages = false);
-
-  // Method for stopping a blinking
-  void StopContinuousRotation();
 
   // Destructor
   virtual ~StepperMotor();

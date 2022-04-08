@@ -109,16 +109,21 @@ void StepperMotor::Turn1Step(int coilStep, int speed)
 }
 /*
   Public method to turn the motor by steps
-  @param int: The steps required (-stepsPerRevolution,stepsPerRevolution)
-  @param unsigned int: The rotation's speed in steps/sec (0,1000)    
+  @param DIRECTION: The desired direction for the motor rotation
+  @param unsigned int: The steps required (0,stepsPerRevolution]
+  @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed]    
   @param bool: Flag to print / no print the messages on the console. Default value: <false>     
 */
-void StepperMotor::TurnBySteps(int stepsRequired, unsigned int speed, bool printMessages)
+void StepperMotor::TurnBySteps(DIRECTION direction, unsigned int stepsRequired, unsigned int speed, bool printMessages)
 {
+  // Check the speed limit value
+  if (speed > maxSpeed)
+    speed = maxSpeed;
+
   int coilStep {0};
 
   // Turn 1 step in CW direction
-  if (stepsRequired > 0)
+  if (direction == CW)
   {
     if (printMessages == true)
     {
@@ -137,7 +142,7 @@ void StepperMotor::TurnBySteps(int stepsRequired, unsigned int speed, bool print
     }
   }
   // Turn 1 step in CCW direction
-  else if (stepsRequired < 0)
+  else if (direction == CCW)
   {
     if (printMessages == true)
     {
@@ -155,6 +160,46 @@ void StepperMotor::TurnBySteps(int stepsRequired, unsigned int speed, bool print
       currentStep--;
     }
   }
+}
+
+/*
+  Public method to turn the motor continuously inside a thread
+  @param DIRECTION: The desired direction for the motor rotation
+  @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed] 
+  @param bool: Flag to print / no print the messages on the console. Default value: <false> 
+*/
+void StepperMotor::ContinuosRotation(DIRECTION direction, unsigned int speed, bool printMessages)
+{
+  if (printMessages == true)
+  {
+    std::string message = "Continuous rotation has been activated with a speed of: " + 
+                          std::to_string(speed) + " steps/second\n";
+    std::cout << RainbowText(message, "Light Gray");
+  }
+  std::thread continuousRotationThread = std::thread(&StepperMotor::MakeContinuousRotation, this, direction, speed);
+  continuousRotationThread.detach();
+}
+
+/*
+  Private method that contains the routine to turn the motor continuously
+  @param DIRECTION: The desired direction for the motor rotation
+  @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed]     
+*/
+void StepperMotor::MakeContinuousRotation(DIRECTION direction, unsigned int speed)
+{
+  while(this->stopContinuousRotation == false)
+  {
+    // Turn the motor 1 revolution
+    TurnBySteps(direction, stepsPerRevolution, speed);
+  }
+}
+
+/*
+  Public method to stop the continuous rotation 
+*/
+void StepperMotor::StopContinuousRotation () 
+{
+  this->stopContinuousRotation = true;
 }
 
 /*
@@ -191,45 +236,6 @@ int StepperMotor::GetCurrentStep()
 void StepperMotor::SetCurrentStep(int desiredStepValue)
 {
   currentStep = desiredStepValue;
-}
-
-/*
-  Public method to turn the motor continuously inside a thread
-  @param int: The desired speed [-1000,1000] steps/second
-  @param bool: Flag to print / no print the messages on the console. Default value: <false> 
-*/
-void StepperMotor::ContinuosRotation(int speed, int duration, bool printMessages)
-{
-  if (printMessages == true)
-  {
-    std::string message = "Continuous rotation on the stepper motor has been activated with a speed of : " + 
-                          std::to_string(speed) + "steps/second\n";
-    std::cout << RainbowText(message, "Light Gray");
-  }
-  std::thread continuousRotationThread = std::thread(&StepperMotor::MakeContinuousRotation, this, speed);
-  continuousRotationThread.detach();
-}
-
-
-/*
-  Private method that contains the routine to turn the motor continuously
-  @param int: The desired speed [-1000,1000] steps/second     
-*/
-void StepperMotor::MakeContinuousRotation(int speed)
-{
-  while(this->stopContinuousRotation == false)
-  {
-    // Turn the motor 1 revolution
-    TurnBySteps(stepsPerRevolution, speed);
-  }
-}
-
-/*
-  Public method to stop the continuous rotation 
-*/
-void StepperMotor::StopContinuousRotation () 
-{
-  this->stopContinuousRotation = true;
 }
 
 StepperMotor::~StepperMotor() 
