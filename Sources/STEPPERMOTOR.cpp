@@ -88,17 +88,17 @@ void StepperMotor::Turn1Step(int coilStep, int speed)
       motorPin3.DigitalWrite(fullStep1CoilVector.at(coilStep).at(2));
       motorPin4.DigitalWrite(fullStep1CoilVector.at(coilStep).at(3));
       break;
-    case halfStep:
-      motorPin1.DigitalWrite(halfStepVector.at(coilStep).at(0));
-      motorPin2.DigitalWrite(halfStepVector.at(coilStep).at(1));
-      motorPin3.DigitalWrite(halfStepVector.at(coilStep).at(2));
-      motorPin4.DigitalWrite(halfStepVector.at(coilStep).at(3));
-      break;
     case fullStep2Coils:
       motorPin1.DigitalWrite(fullStep2CoilsVector.at(coilStep).at(0));
       motorPin2.DigitalWrite(fullStep2CoilsVector.at(coilStep).at(1));
       motorPin3.DigitalWrite(fullStep2CoilsVector.at(coilStep).at(2));
       motorPin4.DigitalWrite(fullStep2CoilsVector.at(coilStep).at(3));
+      break;
+    case halfStep:
+      motorPin1.DigitalWrite(halfStepVector.at(coilStep).at(0));
+      motorPin2.DigitalWrite(halfStepVector.at(coilStep).at(1));
+      motorPin3.DigitalWrite(halfStepVector.at(coilStep).at(2));
+      motorPin4.DigitalWrite(halfStepVector.at(coilStep).at(3));
       break;
     case driver:
       break;
@@ -150,7 +150,7 @@ void StepperMotor::TurnBySteps(DIRECTION direction, unsigned int stepsRequired, 
       std::to_string(speed) + "steps/second\n";
       std::cout << RainbowText(message, "Light Gray");
     }
-    for (int i = 0; i < stepsRequired * -1; i++)
+    for (int i = 0; i < stepsRequired; i++)
     {
       coilStep = i % stepsPerMode;
       this->Turn1Step(coilStep, speed);
@@ -170,13 +170,18 @@ void StepperMotor::TurnBySteps(DIRECTION direction, unsigned int stepsRequired, 
 */
 void StepperMotor::ContinuosRotation(DIRECTION direction, unsigned int speed, bool printMessages)
 {
+  this->stopContinuousRotation = false;
   if (printMessages == true)
   {
     std::string message = "Continuous rotation has been activated with a speed of: " + 
                           std::to_string(speed) + " steps/second\n";
     std::cout << RainbowText(message, "Light Gray");
   }
-  std::thread continuousRotationThread = std::thread(&StepperMotor::MakeContinuousRotation, this, direction, speed);
+  std::thread continuousRotationThread = std::thread(
+              &StepperMotor::MakeContinuousRotation, 
+              this, 
+              direction, 
+              speed);
   continuousRotationThread.detach();
 }
 

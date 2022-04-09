@@ -9,10 +9,10 @@
 /* The numeric value for the stop mode on the motor: e.g. 0/1 for idle/brake */
 enum STEPPER_MODE 
 {
-  driver = 1,
-  fullStep1Coil = 4,
-  halfStep = 8,
-  fullStep2Coils = 12,
+  driver,
+  fullStep1Coil,
+  fullStep2Coils,
+  halfStep,
 };
 
 enum DIRECTION
@@ -74,7 +74,7 @@ private:
 
   // Method to activate 1 step the coils   
   virtual void Turn1Step(int, int);
-  
+
   // Method to turn the motor continuously in a thread
   virtual void MakeContinuousRotation(DIRECTION, unsigned int);
 
