@@ -1,10 +1,10 @@
 /******************************************************************************
-28BYJ48-ULN2003_1.1.cpp
+28BYJ48-ULN2003_1.2.cpp
 @wgaonar
-03/04/2022
+07/04/2022
 https://github.com/wgaonar/BeagleCPP
 
-- Move the stepperMotor by steps in fullStep with 1 Coil mode
+- Move the stepper motor continuously
 
 Class: STEPPERMOTOR
 ******************************************************************************/
@@ -34,19 +34,21 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   /* 
-    Turn the stepper motor 1/4-turn in CW direction in fullstep 
-    mode with 2 coils at the same time at 500 steps/second
+    Turn the stepper motor continuously in CW direction in fullstep 
+    mode with 2 coils at the same time at a default speed of 500 steps/second
   */
-  myStepper.TurnBySteps(CW, 512);
-  cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
-  cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
+  myStepper.ContinuosRotation(CW);
 
+  char userInput = '\0';
+  while (userInput != 'y')
+  {
+    cout << "Enter 'y' for stopping the stepper rotation: ";
+    cin >> userInput;
+  }
 
-  /* 
-    Turn the stepper motor 1/4-turn in CCW direction in fullstep 
-    mode with 2 coils at the same time at 500 steps/second
-  */
-  myStepper.TurnBySteps(CCW, 512);
+  // Stop the continuous rotation
+  myStepper.StopContinuousRotation();
+
   cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
   cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
 
