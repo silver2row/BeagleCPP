@@ -177,11 +177,12 @@ void StepperMotor::ContinuosRotation(DIRECTION direction, unsigned int speed, bo
                           std::to_string(speed) + " steps/second\n";
     std::cout << RainbowText(message, "Light Gray");
   }
-  std::thread continuousRotationThread = std::thread(
-              &StepperMotor::MakeContinuousRotation, 
-              this, 
-              direction, 
-              speed);
+  std::thread continuousRotationThread = std::thread( 
+                                          &StepperMotor::MakeContinuousRotation, 
+                                          this,
+                                          direction, 
+                                          speed
+                                        );
   continuousRotationThread.detach();
 }
 
@@ -190,7 +191,10 @@ void StepperMotor::ContinuosRotation(DIRECTION direction, unsigned int speed, bo
   @param DIRECTION: The desired direction for the motor rotation
   @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed]     
 */
-void StepperMotor::MakeContinuousRotation(DIRECTION direction, unsigned int speed)
+void StepperMotor::MakeContinuousRotation(
+                                          DIRECTION direction, 
+                                          unsigned int speed
+                                          )
 {
   while(this->stopContinuousRotation == false)
   {

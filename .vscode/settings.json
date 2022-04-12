@@ -75,7 +75,8 @@
     "memory_resource": "cpp",
     "numeric": "cpp",
     "random": "cpp",
-    "list": "cpp"
+    "list": "cpp",
+    "future": "cpp"
   },
   "cSpell.words": [
     "DCMOTOR",
