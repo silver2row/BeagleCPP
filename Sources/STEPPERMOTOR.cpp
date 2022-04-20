@@ -114,7 +114,12 @@ void StepperMotor::Turn1Step(int coilStep, int speed)
   @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed]    
   @param bool: Flag to print / no print the messages on the console. Default value: <false>     
 */
-void StepperMotor::TurnBySteps(DIRECTION direction, unsigned int stepsRequired, unsigned int speed, bool printMessages)
+void StepperMotor::TurnBySteps(
+                                DIRECTION direction, 
+                                unsigned int stepsRequired, 
+                                unsigned int speed, 
+                                bool printMessages
+                              )
 {
   // Check the speed limit value
   if (speed > maxSpeed)
@@ -170,11 +175,11 @@ void StepperMotor::TurnBySteps(DIRECTION direction, unsigned int stepsRequired, 
   @param bool: Flag to print / no print the messages on the console. Default value: <false> 
 */
 void StepperMotor::TurnByStepsInThread( 
-                                      DIRECTION direction, 
-                                      unsigned int stepsRequired,
-                                      unsigned int speed, 
-                                      bool printMessages
-                                    )
+                                        DIRECTION direction, 
+                                        unsigned int stepsRequired,
+                                        unsigned int speed, 
+                                        bool printMessages
+                                      )
 {
   if (printMessages == true)
   {
@@ -184,12 +189,12 @@ void StepperMotor::TurnByStepsInThread(
   }
   
   std::thread rotationThread = std::thread( 
-                                          &StepperMotor::MakeTurnByStepsInThread, 
-                                          this,
-                                          direction,
-                                          stepsRequired, 
-                                          speed
-                                        );
+                                            &StepperMotor::MakeTurnByStepsInThread, 
+                                            this,
+                                            direction,
+                                            stepsRequired, 
+                                            speed
+                                          );
   rotationThread.detach();
   vectorOfThreads.push_back(std::move(rotationThread));
 }
@@ -200,9 +205,9 @@ void StepperMotor::TurnByStepsInThread(
   @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed]     
 */
 void StepperMotor::MakeTurnByStepsInThread(
-                                          DIRECTION direction,
-                                          unsigned int stepsRequired, 
-                                          unsigned int speed
+                                            DIRECTION direction,
+                                            unsigned int stepsRequired, 
+                                            unsigned int speed
                                           )
 {
   // Turn the motor
