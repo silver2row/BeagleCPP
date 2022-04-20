@@ -86,13 +86,28 @@ public:
   StepperMotor();
 
   // Overload constructor
-  StepperMotor(GPIO, GPIO, GPIO, GPIO, STEPPER_MODE controlMode = fullStep1Coil, unsigned int stepsPerRevolution = 2048, unsigned int maxSpeed = 500);
+  StepperMotor( 
+                GPIO, GPIO, GPIO, GPIO, 
+                STEPPER_MODE controlMode = fullStep1Coil, 
+                unsigned int stepsPerRevolution = 2048, 
+                unsigned int maxSpeed = 500
+              );
 
   // Interface method to turn the motor by steps
-  virtual void TurnBySteps (DIRECTION, unsigned int stepsRequired, unsigned int speed = 500, bool printMessages = false);
+  virtual void TurnBySteps(
+                            DIRECTION, 
+                            unsigned int stepsRequired, 
+                            unsigned int speed = 500, 
+                            bool printMessages = false
+                          );
 
   // Interface method to turn the motor continuously
-  virtual void TurnByStepsInThread(DIRECTION, unsigned int stepsRequired,unsigned int speed = 500, bool printMessages = false);
+  virtual void TurnByStepsInThread(
+                                    DIRECTION, 
+                                    unsigned int stepsRequired,
+                                    unsigned int speed = 500, 
+                                    bool printMessages = false
+                                  );
 
   // Interface method to get the absolute steps counter
   virtual int GetStepsCounter();
