@@ -37,7 +37,7 @@ int main()
     Turn the stepper motor continuously in CW direction in fullstep 
     mode with 2 coils at the same time at a default speed of 500 steps/second
   */
-  myStepper.ContinuosRotation(CW);
+  myStepper.TurnByStepsInThread(CW,2048);
 
   char userInput = '\0';
   while (userInput != 'y')
@@ -46,8 +46,17 @@ int main()
     cin >> userInput;
   }
 
-  // Stop the continuous rotation
-  myStepper.StopContinuousRotation();
+  cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
+  cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
+
+   myStepper.TurnByStepsInThread(CCW,2048);
+
+  userInput = '\0';
+  while (userInput != 'y')
+  {
+    cout << "Enter 'y' for stopping the stepper rotation: ";
+    cin >> userInput;
+  }
 
   cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
   cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;

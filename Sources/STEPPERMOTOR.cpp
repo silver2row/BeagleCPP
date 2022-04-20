@@ -165,25 +165,33 @@ void StepperMotor::TurnBySteps(DIRECTION direction, unsigned int stepsRequired, 
 /*
   Public method to turn the motor continuously inside a thread
   @param DIRECTION: The desired direction for the motor rotation
+  @param unsigned int: The steps required (0,stepsPerRevolution]
   @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed] 
   @param bool: Flag to print / no print the messages on the console. Default value: <false> 
 */
-void StepperMotor::ContinuosRotation(DIRECTION direction, unsigned int speed, bool printMessages)
+void StepperMotor::TurnByStepsInThread( 
+                                      DIRECTION direction, 
+                                      unsigned int stepsRequired,
+                                      unsigned int speed, 
+                                      bool printMessages
+                                    )
 {
-  this->stopContinuousRotation = false;
   if (printMessages == true)
   {
-    std::string message = "Continuous rotation has been activated with a speed of: " + 
+    std::string message = "Rotation in a thread has been activated with a speed of: " + 
                           std::to_string(speed) + " steps/second\n";
     std::cout << RainbowText(message, "Light Gray");
   }
-  std::thread continuousRotationThread = std::thread( 
-                                          &StepperMotor::MakeContinuousRotation, 
+  
+  std::thread rotationThread = std::thread( 
+                                          &StepperMotor::MakeTurnByStepsInThread, 
                                           this,
-                                          direction, 
+                                          direction,
+                                          stepsRequired, 
                                           speed
                                         );
-  continuousRotationThread.detach();
+  rotationThread.detach();
+  vectorOfThreads.push_back(std::move(rotationThread));
 }
 
 /*
@@ -191,24 +199,14 @@ void StepperMotor::ContinuosRotation(DIRECTION direction, unsigned int speed, bo
   @param DIRECTION: The desired direction for the motor rotation
   @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed]     
 */
-void StepperMotor::MakeContinuousRotation(
-                                          DIRECTION direction, 
+void StepperMotor::MakeTurnByStepsInThread(
+                                          DIRECTION direction,
+                                          unsigned int stepsRequired, 
                                           unsigned int speed
                                           )
 {
-  while(this->stopContinuousRotation == false)
-  {
-    // Turn the motor 1 revolution
-    TurnBySteps(direction, stepsPerRevolution, speed);
-  }
-}
-
-/*
-  Public method to stop the continuous rotation 
-*/
-void StepperMotor::StopContinuousRotation () 
-{
-  this->stopContinuousRotation = true;
+  // Turn the motor
+  TurnBySteps(direction, stepsRequired, speed);
 }
 
 /*

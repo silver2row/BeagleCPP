@@ -75,11 +75,11 @@ private:
   // Method to activate 1 step the coils   
   virtual void Turn1Step(int, int);
 
-  // Method to turn the motor continuously in a thread
-  virtual void MakeContinuousRotation(DIRECTION, unsigned int);
+  // Vector of threads to store each turn 
+  std::vector <std::thread> vectorOfThreads;
 
-  // Variable for stopping the continuous rotation
-  bool stopContinuousRotation = false;
+  // Method to turn the motor continuously in a thread
+  virtual void MakeTurnByStepsInThread(DIRECTION, unsigned int, unsigned int);
 
 public:
   // Default constructor
@@ -92,10 +92,7 @@ public:
   virtual void TurnBySteps (DIRECTION, unsigned int stepsRequired, unsigned int speed = 500, bool printMessages = false);
 
   // Interface method to turn the motor continuously
-  virtual void ContinuosRotation(DIRECTION, unsigned int speed = 500, bool printMessages = false);
-
-  // Method for stopping a blinking
-  void StopContinuousRotation();
+  virtual void TurnByStepsInThread(DIRECTION, unsigned int stepsRequired,unsigned int speed = 500, bool printMessages = false);
 
   // Interface method to get the absolute steps counter
   virtual int GetStepsCounter();
