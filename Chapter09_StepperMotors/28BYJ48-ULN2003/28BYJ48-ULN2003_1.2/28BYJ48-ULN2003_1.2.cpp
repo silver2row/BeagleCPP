@@ -1,5 +1,5 @@
 /******************************************************************************
-28BYJ48-ULN2003_1.1.cpp
+28BYJ48-ULN2003_1.2.cpp
 @wgaonar
 08/04/2022
 https://github.com/wgaonar/BeagleCPP
@@ -20,7 +20,10 @@ GPIO IN2 (P8_14);
 GPIO IN3 (P8_16);
 GPIO IN4 (P8_18);
 
-// Declare the stepper motor mode
+/*
+  Declare the stepper motor mode 
+  (fullStep1Coil / fullStep2Coils / halfStep)
+*/
 STEPPER_MODE controlMode {fullStep2Coils};
 
 // Declare the number of steps per revolution

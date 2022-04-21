@@ -1,10 +1,11 @@
 /******************************************************************************
-28BYJ48-ULN2003_1.1.cpp
+28BYJ48-ULN2003_1.5.cpp
 @wgaonar
-03/04/2022
+20/04/2022
 https://github.com/wgaonar/BeagleCPP
 
-- Move the stepperMotor by steps in fullStep with 1 Coil mode
+- Move the stepper motor using threads and waiting for a user 
+  keystroke at the same time
 
 Class: STEPPERMOTOR
 ******************************************************************************/
@@ -33,17 +34,29 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
-  /* 
-    Turn the stepper motor 1/4-turn in CW direction at 500 steps/second
-  */
-  myStepper.TurnBySteps(CW, 512);
+  // Turn the stepper motor 1 turn in CW direction inside a thread
+  myStepper.TurnByStepsInThread(CW, 2048);
+
+  char userInput = '\0';
+  while (userInput != 'y')
+  {
+    cout << "Waiting for 'y' keystroke while the stepper motor is turning CW: ";
+    cin >> userInput;
+  }
+
   cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
   cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
 
-  /* 
-    Turn the stepper motor 1/4-turn in CCW direction at 500 steps/second
-  */
-  myStepper.TurnBySteps(CCW, 512);
+  // Turn the stepper motor 1 turn in CCW direction inside a thread
+  myStepper.TurnByStepsInThread(CCW, 2048);
+
+  userInput = '\0';
+  while (userInput != 'y')
+  {
+    cout << "Waiting for 'y' keystroke while the stepper motor is turning CCW: ";
+    cin >> userInput;
+  }
+
   cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
   cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
 

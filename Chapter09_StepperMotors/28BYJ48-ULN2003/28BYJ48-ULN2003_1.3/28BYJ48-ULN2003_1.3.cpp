@@ -1,5 +1,5 @@
 /******************************************************************************
-28BYJ48-ULN2003_1.1.cpp
+28BYJ48-ULN2003_1.3.cpp
 @wgaonar
 08/04/2022
 https://github.com/wgaonar/BeagleCPP
@@ -45,8 +45,8 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   /* 
-    Turn the stepper motor 1/4-turn in CW direction in fullstep 
-    mode with 2 coils at the same time at 500 steps/second
+    Turn the stepper motor 1/4-turn in CW direction in halfstep
+    mode at 500 steps/second
   */
   myStepper.TurnBySteps(CW, 1024);
   cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
@@ -54,8 +54,8 @@ int main()
 
 
   /* 
-    Turn the stepper motor 1/4-turn in CCW direction in fullstep 
-    mode with 2 coils at the same time at 500 steps/second
+    Turn the stepper motor 1/4-turn in CCW direction in halfstep 
+    mode at 500 steps/second
   */
   myStepper.TurnBySteps(CCW, 1024);
   cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
