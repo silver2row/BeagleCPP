@@ -195,8 +195,8 @@ void StepperMotor::TurnByStepsInThread(
                                             stepsRequired, 
                                             speed
                                           );
-  rotationThread.detach();
-  vectorOfThreads.push_back(std::move(rotationThread));
+
+  stepperThreads.push_back(std::move(rotationThread));
 }
 
 /*
@@ -210,6 +210,9 @@ void StepperMotor::MakeTurnByStepsInThread(
                                             unsigned int speed
                                           )
 {
+  // The access to TurnBySteps function is mutually exclusive
+	std::lock_guard<std::mutex> guard(stepperMutex);
+
   // Turn the motor
   TurnBySteps(direction, stepsRequired, speed);
 }
@@ -252,6 +255,14 @@ void StepperMotor::SetCurrentStep(int desiredStepValue)
 
 StepperMotor::~StepperMotor() 
 {
+  // Iterate over the threads vector
+  for (std::thread & th : stepperThreads)
+  {
+    if (th.joinable())
+      th.join();
+  }
+
+  // Set the LOW state to the GPIO pins
   motorPin1.DigitalWrite(LOW);
   motorPin2.DigitalWrite(LOW);
   motorPin3.DigitalWrite(LOW);

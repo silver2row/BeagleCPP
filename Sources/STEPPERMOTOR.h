@@ -2,6 +2,7 @@
 #define H_STEPPERMOTOR_H
 
 #include <thread>
+#include <mutex>
 #include <vector>
 
 #include "GPIO.h"
@@ -49,6 +50,21 @@ const std::vector <std::vector<STATE>> fullStep2CoilsVector
   {HIGH, LOW, LOW, HIGH}
 };
 
+/* 
+  Vector of threads to store each turn.
+  C++17 inline signals the linker that only one instance 
+  of the variable should exist
+*/ 
+inline std::vector <std::thread> stepperThreads;
+
+// 
+/* 
+  Mutex instance to protect the GPIO access from the threads
+  C++17 inline signals the linker that only one instance 
+  of the variable should exist
+*/ 
+inline std::mutex stepperMutex;
+
 class StepperMotor
 {
 private:
@@ -74,9 +90,6 @@ private:
 
   // Method to activate 1 step the coils   
   virtual void Turn1Step(int, int);
-
-  // Vector of threads to store each turn 
-  std::vector <std::thread> vectorOfThreads;
 
   // Method to turn the motor continuously in a thread
   virtual void MakeTurnByStepsInThread(DIRECTION, unsigned int, unsigned int);
