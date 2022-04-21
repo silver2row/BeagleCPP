@@ -107,10 +107,11 @@ void StepperMotor::Turn1Step(int coilStep, int speed)
   // Wait the proper microseconds before the next step
   DelayMicroseconds(static_cast<int>(1000000/speed));
 }
+
 /*
   Public method to turn the motor by steps
   @param DIRECTION: The desired direction for the motor rotation
-  @param unsigned int: The steps required (0,stepsPerRevolution]
+  @param unsigned int: The steps required
   @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed]    
   @param bool: Flag to print / no print the messages on the console. Default value: <false>     
 */
@@ -127,15 +128,24 @@ void StepperMotor::TurnBySteps(
 
   int coilStep {0};
 
+  if (printMessages == true)
+  {
+    std::string message;
+    if (direction == CW) 
+      message = "Turning stepper motor CW ";
+    else
+      message = "Turning stepper motor CCW ";
+
+    message +=
+    std::to_string(stepsRequired) + " steps at " + 
+    std::to_string(speed) + " steps/second\n";
+
+    std::cout << RainbowText(message, "Light Gray");
+  }
+
   // Turn 1 step in CW direction
   if (direction == CW)
   {
-    if (printMessages == true)
-    {
-      std::string message = "Turning stepper motor CW with speed: " + 
-      std::to_string(speed) + "steps/second\n";
-      std::cout << RainbowText(message, "Light Gray");
-    }
     for (int i = 0; i < stepsRequired; i++)
     {
       coilStep = stepsPerMode - 1 - (i % stepsPerMode);
@@ -149,12 +159,6 @@ void StepperMotor::TurnBySteps(
   // Turn 1 step in CCW direction
   else if (direction == CCW)
   {
-    if (printMessages == true)
-    {
-      std::string message = "Turning stepper motor CCW with speed: " + 
-      std::to_string(speed) + "steps/second\n";
-      std::cout << RainbowText(message, "Light Gray");
-    }
     for (int i = 0; i < stepsRequired; i++)
     {
       coilStep = i % stepsPerMode;
@@ -170,7 +174,7 @@ void StepperMotor::TurnBySteps(
 /*
   Public method to turn the motor continuously inside a thread
   @param DIRECTION: The desired direction for the motor rotation
-  @param unsigned int: The steps required (0,stepsPerRevolution]
+  @param unsigned int: The steps required
   @param unsigned int: The rotation's speed in steps/sec (0,maxSpeed] 
   @param bool: Flag to print / no print the messages on the console. Default value: <false> 
 */
@@ -215,6 +219,31 @@ void StepperMotor::MakeTurnByStepsInThread(
 
   // Turn the motor
   TurnBySteps(direction, stepsRequired, speed);
+}
+
+
+/*
+  Public method to turn the motor by degrees
+  @param DIRECTION: The desired direction for the motor rotation
+  @param double: The degrees required
+  @param double: The rotation's speed in degrees/sec (0,maxSpeed * 360 / stepsPerRevolution]    
+  @param bool: Flag to print / no print the messages on the console. Default value: <false>     
+*/
+void StepperMotor::TurnByDegrees(
+                                DIRECTION direction, 
+                                double degreesRequired, 
+                                double speed, 
+                                bool printMessages
+                              )
+{
+  // Convert degrees to steps
+  unsigned int degreesToStepsRequired = static_cast<unsigned int>(degreesRequired * stepsPerRevolution / 360);
+
+  // Convert speed degrees/sec to steps/sec
+  unsigned int speedInSteps = static_cast<unsigned int>(speed * stepsPerRevolution / 360);
+
+  // Turn the motor
+  TurnBySteps(direction, degreesToStepsRequired, speedInSteps);
 }
 
 /*

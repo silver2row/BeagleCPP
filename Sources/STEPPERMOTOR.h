@@ -122,6 +122,14 @@ public:
                                     bool printMessages = false
                                   );
 
+  // Interface method to turn the motor by degrees
+  virtual void TurnByDegrees(
+                            DIRECTION, 
+                            double degreesRequired, 
+                            double speed = 500, 
+                            bool printMessages = false
+                          );
+
   // Interface method to get the absolute steps counter
   virtual int GetStepsCounter();
 
