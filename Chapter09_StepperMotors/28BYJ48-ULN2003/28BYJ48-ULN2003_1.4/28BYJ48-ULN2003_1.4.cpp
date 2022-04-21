@@ -1,11 +1,10 @@
 /******************************************************************************
-28BYJ48-ULN2003_1.2.cpp
+28BYJ48-ULN2003_1.4.cpp
 @wgaonar
 20/04/2022
 https://github.com/wgaonar/BeagleCPP
 
-- Move the stepper motor using threads and waiting for a user 
-  keystroke at the same time
+- Move the stepperMotor by degrees in fullStep with 1 Coil mode
 
 Class: STEPPERMOTOR
 ******************************************************************************/
@@ -34,31 +33,25 @@ int main()
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
-  // Turn the stepper motor 1 turn in CW direction inside a thread
-  myStepper.TurnByStepsInThread(CW, 2048);
+  /* 
+    Turn the stepper motor 90 degrees in CW direction in fullstep 
+    mode with 2 coils at the same time at 500 steps/second
+  */
+  myStepper.TurnByDegrees(CW, 90);
+  cout  << "Steps executed by the motor: " 
+        << myStepper.GetStepsCounter() << endl;
+  cout  << "Actual position of the motor axis: " 
+        << myStepper.GetCurrentStep() << "\n\n";
 
-  char userInput = '\0';
-  while (userInput != 'y')
-  {
-    cout << "Waiting for 'y' key stroke while the stepper motor is turning CW: ";
-    cin >> userInput;
-  }
-
-  cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
-  cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
-
-  // Turn the stepper motor 1 turn in CCW direction inside a thread
-  myStepper.TurnByStepsInThread(CCW, 2048);
-
-  userInput = '\0';
-  while (userInput != 'y')
-  {
-    cout << "Waiting for 'y' key stroke while the stepper motor is turning CCW: ";
-    cin >> userInput;
-  }
-
-  cout << "Steps executed by the motor: " << myStepper.GetStepsCounter() << endl;
-  cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
+   /* 
+    Turn the stepper motor 540 degrees (1.5 turns) in CCW direction in fullstep 
+    mode with 2 coils at the same time at 500 steps/second
+  */
+  myStepper.TurnByDegrees(CCW, 540);
+  cout  << "Steps executed by the motor: " 
+        << myStepper.GetStepsCounter() << endl;
+  cout  << "Actual position of the motor axis: " 
+        << myStepper.GetCurrentStep() << "\n\n";
 
   message = "Main program finishes here...";
   cout << RainbowText(message,"Blue", "White","Bold") << endl;
