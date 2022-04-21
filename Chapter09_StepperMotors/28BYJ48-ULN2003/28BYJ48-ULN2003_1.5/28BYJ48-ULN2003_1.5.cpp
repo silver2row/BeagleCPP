@@ -35,6 +35,7 @@ int main()
   cout << RainbowText(message,"Blue", "White", "Bold") << endl;
 
   // Turn the stepper motor 1 turn in CW direction inside a thread
+  cout << "Turning the stepper motor 1 turn CW" << endl;
   myStepper.TurnByStepsInThread(CW, 2048);
 
   char userInput = '\0';
@@ -48,6 +49,7 @@ int main()
   cout << "Actual position of the motor axis: " << myStepper.GetCurrentStep() << endl;
 
   // Turn the stepper motor 1 turn in CCW direction inside a thread
+  cout << "Turning the stepper motor 1 turn CCW" << endl;
   myStepper.TurnByStepsInThread(CCW, 2048);
 
   userInput = '\0';

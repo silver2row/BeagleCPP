@@ -37,7 +37,9 @@ int main()
     Turn the stepper motor 90 degrees in CW direction in fullstep 
     mode with 2 coils at the same time at 500 steps/second
   */
+  cout << "Turning the stepper motor 90° CW" << endl;
   myStepper.TurnByDegrees(CW, 90);
+
   cout  << "Steps executed by the motor: " 
         << myStepper.GetStepsCounter() << endl;
   cout  << "Actual position of the motor axis: " 
@@ -47,7 +49,9 @@ int main()
     Turn the stepper motor 540 degrees (1.5 turns) in CCW direction in fullstep 
     mode with 2 coils at the same time at 500 steps/second
   */
+  cout << "Turning the stepper motor 540° CCW" << endl;
   myStepper.TurnByDegrees(CCW, 540);
+
   cout  << "Steps executed by the motor: " 
         << myStepper.GetStepsCounter() << endl;
   cout  << "Actual position of the motor axis: " 
