@@ -1,9 +1,3 @@
-#include <iostream>
-#include <chrono> // chrono::milliseconds()
-#include <sstream> //stringstream
-#include <iomanip> //setprecision()
-#include <list>
-
 #include "HC_SR04.h"
 
 // No-args default constructor
@@ -74,14 +68,17 @@ void HC_SR04::InitSensor()
 */
 double HC_SR04::PulseDuration() 
 {
+  std::cout << "Inside PulseDuration!\n";
   auto pulseStart = std::chrono::steady_clock::now();
   auto pulseEnd = std::chrono::steady_clock::now();
 
   while (echoPin.DigitalRead() == LOW)
     pulseStart = std::chrono::steady_clock::now();
+  std::cout << "Echo pulse start was detected!\n";
     
   while (echoPin.DigitalRead() == HIGH)
     pulseEnd = std::chrono::steady_clock::now();
+  std::cout << "Echo pulse end was detected!\n";
   
   std::chrono::duration<double> duration = (pulseEnd-pulseStart);
   return duration.count();
@@ -97,6 +94,29 @@ double HC_SR04::MeasureDistanceCm()
   triggerPin.DigitalWrite(HIGH);
   DelayMilliseconds(5);
   triggerPin.DigitalWrite(LOW);
+
+  // call PulseDuration asynchronously:
+  //std::future<double> fut = std::async (&HC_SR04::PulseDuration,this);
+
+  //std::cout << "Call to run async PulseDuration was done\n";
+
+  /*
+    Define the max time interval to wait for a sensor's reading
+    Distance of 5 m approximately to an obstacle
+    span = 2 * 5m / 340m/sec = 30milliseconds  
+  */
+  //std::chrono::milliseconds span (30);
+
+  /* 
+    Wait for the sensor's reading to set future.
+    If it is not ready, return with 0 as the reading
+  */
+  //while (fut.wait_for(span)==std::future_status::timeout)
+    //std::cout << '.';
+  //std::cout << "The timeout has not occurred!\n";
+
+  // Compute the distance
+  //double distanceCm = (fut.get() * soundSpeed / 2.0) + this->offset;
 
   double distanceCm = (this->PulseDuration() * soundSpeed / 2.0) + this->offset;
   

@@ -1,6 +1,13 @@
 #ifndef HC_SR04_H
 #define HC_SR04_H
 
+#include <iostream>
+#include <chrono> // chrono::milliseconds()
+#include <sstream> //stringstream
+#include <iomanip> //setprecision()
+#include <list>
+#include <future>
+
 #include "GPIO.h"
 
 class HC_SR04 : public GPIO 
@@ -29,10 +36,10 @@ public:
   HC_SR04 (GPIO, GPIO, double, double); 
 
   // Public method to get and calculate the distance
-  double MeasureDistanceCm();
+  virtual double MeasureDistanceCm();
 
   // Public method to get, calculate and filter the distance
-  double MeasureDistanceCmWithMedian(int windowSize = 5);
+  virtual double MeasureDistanceCmWithMedian(int windowSize = 5);
 
   // Destructor
   ~HC_SR04();
