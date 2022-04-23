@@ -66,7 +66,7 @@ void HC_SR04::InitSensor()
   Private method to count the pulse duration
   @return double: The duration of pulse in seconds
 */
-double HC_SR04::PulseDuration() 
+double HC_SR04::CountPulseDuration() 
 {
   auto pulseStart = std::chrono::steady_clock::now();
   auto pulseEnd = std::chrono::steady_clock::now();
@@ -82,67 +82,31 @@ double HC_SR04::PulseDuration()
   return duration.count();
 }
 
-double HC_SR04::f()
+double HC_SR04::MakeGetPulseDuration()
 {
-  // This option is an example of counting time 
-  // change value here to less than cv.wait_for to see Success
-  //std::this_thread::sleep_for(1s);
-
-  /*
-  char userEntry {'\0'};
-  std::cout << "Enter 'y' for exit...\n";
-  std::cin >> userEntry;
-  while (userEntry != 'y')  
-      std::cin >> userEntry;
-  return 1;
-  */
-
-  double returnedPulseDuration = this->PulseDuration();
-  
-  return returnedPulseDuration; 
-}
-
-double HC_SR04::f_wrapper()
-{
-  /*
   std::mutex m;
   std::condition_variable cv;
-  double returnedPulseDuration;
-
-  // Make the thread with a Lambda Function
-  std::thread t([&cv, &returnedPulseDuration, this]() 
-  {
-    returnedPulseDuration = HC_SR04::PulseDuration();
-    cv.notify_one();
-  });
-
-  t.detach();
-
-  {
-    std::unique_lock<std::mutex> l(m);
-    if(cv.wait_for(l, std::chrono::milliseconds(10000)) == std::cv_status::timeout) 
-        throw std::runtime_error("Timeout");
-  }
-  */
-  std::mutex m;
-  std::condition_variable cv;
-  double retValue;
+  double duration;
   
-  std::thread t([&cv, &retValue, this]() 
+  std::thread t([&cv, &duration, this]() 
   {
-    retValue = f();
+    duration = this->CountPulseDuration();
     cv.notify_one();
   });
   
   t.detach();
   
-  {
-    std::unique_lock<std::mutex> l(m);
-    if(cv.wait_for(l, std::chrono::milliseconds(500)) == std::cv_status::timeout) 
-      throw std::runtime_error("Timeout");
-  }
+  /*
+    Define the maximum time interval to wait for a sensor's reading
+    for a distance of 5m approximately to an obstacle
+    span = 2 * 5m / 340m/sec = 30milliseconds  
+  */
   
-  return retValue; 
+  std::unique_lock<std::mutex> l(m);
+  if(cv.wait_for(l, std::chrono::milliseconds(30)) == std::cv_status::timeout) 
+    throw std::runtime_error("The sensor has not received a pulse, timeout");
+  else 
+    return duration; 
 }
 
 /*
@@ -156,52 +120,25 @@ double HC_SR04::MeasureDistanceCm()
   DelayMilliseconds(5);
   triggerPin.DigitalWrite(LOW);
 
-  double returnedPulseDuration {0.0};
   double distanceCm {0.0};
-  bool timedout = false;
 
-  try {
-    returnedPulseDuration = f_wrapper();
-    distanceCm = (returnedPulseDuration * soundSpeed / 2.0) + this->offset;
+  try 
+  {
+    distanceCm = (this->MakeGetPulseDuration() * soundSpeed / 2.0) + this->offset;
   }
-  catch(std::runtime_error& e) {
-      std::cout << e.what() << std::endl;
-      timedout = true;
+  catch(std::runtime_error& e) 
+  {
+    std::cout << e.what() << std::endl;
   }
   
-  if(!timedout)
-      std::cout << "Success" << std::endl;
-
-  if (distanceCm <= 0) 
-    return 0;
+  if (distanceCm <= 5) 
+    return 5;
   else if (distanceCm > 400) 
     return 400;
   else
     return distanceCm;
 
-  /*
-    Define the maximum time interval to wait for a sensor's reading
-    for a distance of 5m approximately to an obstacle
-    span = 2 * 5m / 340m/sec = 30milliseconds  
-  */
-
-
-  /* 
-    Wait for the sensor's reading to set future.
-    If it is not ready, return with 0 as the reading
-  */
-
- /*
-  double distanceCm = (returnedPulseDuration * soundSpeed / 2.0) + this->offset;
-  // double distanceCm = (this->PulseDuration() * soundSpeed / 2.0) + this->offset;
-  
-  if (distanceCm <= 0) 
-    return 0;
-  else if (distanceCm > 400) 
-    return 400;
-  else
-    return distanceCm;
-    */
+  // double distanceCm = (this->CountPulseDuration() * soundSpeed / 2.0) + this->offset;
 }
 
 /*

@@ -22,9 +22,10 @@ private:
   void InitSensor();
 
   // Private method to count the pulse duration
-  double PulseDuration();
+  double CountPulseDuration();
 
-
+  // Private method to count the pulse duration
+  double MakeGetPulseDuration();
 
 public:
 
@@ -43,9 +44,7 @@ public:
   // Public method to get, calculate and filter the distance
   virtual double MeasureDistanceCmWithMedian(int windowSize = 5);
 
-  virtual double f();
-
-  virtual double f_wrapper();
+  
 
   // Destructor
   ~HC_SR04();
