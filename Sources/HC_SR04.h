@@ -24,6 +24,8 @@ private:
   // Private method to count the pulse duration
   double PulseDuration();
 
+
+
 public:
 
   // No-args default constructor
@@ -40,6 +42,10 @@ public:
 
   // Public method to get, calculate and filter the distance
   virtual double MeasureDistanceCmWithMedian(int windowSize = 5);
+
+  virtual double f();
+
+  virtual double f_wrapper();
 
   // Destructor
   ~HC_SR04();

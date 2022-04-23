@@ -68,20 +68,81 @@ void HC_SR04::InitSensor()
 */
 double HC_SR04::PulseDuration() 
 {
-  std::cout << "Inside PulseDuration!\n";
   auto pulseStart = std::chrono::steady_clock::now();
   auto pulseEnd = std::chrono::steady_clock::now();
 
   while (echoPin.DigitalRead() == LOW)
     pulseStart = std::chrono::steady_clock::now();
-  std::cout << "Echo pulse start was detected!\n";
     
   while (echoPin.DigitalRead() == HIGH)
     pulseEnd = std::chrono::steady_clock::now();
-  std::cout << "Echo pulse end was detected!\n";
   
   std::chrono::duration<double> duration = (pulseEnd-pulseStart);
+
   return duration.count();
+}
+
+double HC_SR04::f()
+{
+  // This option is an example of counting time 
+  // change value here to less than cv.wait_for to see Success
+  //std::this_thread::sleep_for(1s);
+
+  /*
+  char userEntry {'\0'};
+  std::cout << "Enter 'y' for exit...\n";
+  std::cin >> userEntry;
+  while (userEntry != 'y')  
+      std::cin >> userEntry;
+  return 1;
+  */
+
+  double returnedPulseDuration = this->PulseDuration();
+  
+  return returnedPulseDuration; 
+}
+
+double HC_SR04::f_wrapper()
+{
+  /*
+  std::mutex m;
+  std::condition_variable cv;
+  double returnedPulseDuration;
+
+  // Make the thread with a Lambda Function
+  std::thread t([&cv, &returnedPulseDuration, this]() 
+  {
+    returnedPulseDuration = HC_SR04::PulseDuration();
+    cv.notify_one();
+  });
+
+  t.detach();
+
+  {
+    std::unique_lock<std::mutex> l(m);
+    if(cv.wait_for(l, std::chrono::milliseconds(10000)) == std::cv_status::timeout) 
+        throw std::runtime_error("Timeout");
+  }
+  */
+  std::mutex m;
+  std::condition_variable cv;
+  double retValue;
+  
+  std::thread t([&cv, &retValue, this]() 
+  {
+    retValue = f();
+    cv.notify_one();
+  });
+  
+  t.detach();
+  
+  {
+    std::unique_lock<std::mutex> l(m);
+    if(cv.wait_for(l, std::chrono::milliseconds(500)) == std::cv_status::timeout) 
+      throw std::runtime_error("Timeout");
+  }
+  
+  return retValue; 
 }
 
 /*
@@ -95,30 +156,44 @@ double HC_SR04::MeasureDistanceCm()
   DelayMilliseconds(5);
   triggerPin.DigitalWrite(LOW);
 
-  // call PulseDuration asynchronously:
-  //std::future<double> fut = std::async (&HC_SR04::PulseDuration,this);
+  double returnedPulseDuration {0.0};
+  double distanceCm {0.0};
+  bool timedout = false;
 
-  //std::cout << "Call to run async PulseDuration was done\n";
+  try {
+    returnedPulseDuration = f_wrapper();
+    distanceCm = (returnedPulseDuration * soundSpeed / 2.0) + this->offset;
+  }
+  catch(std::runtime_error& e) {
+      std::cout << e.what() << std::endl;
+      timedout = true;
+  }
+  
+  if(!timedout)
+      std::cout << "Success" << std::endl;
+
+  if (distanceCm <= 0) 
+    return 0;
+  else if (distanceCm > 400) 
+    return 400;
+  else
+    return distanceCm;
 
   /*
-    Define the max time interval to wait for a sensor's reading
-    Distance of 5 m approximately to an obstacle
+    Define the maximum time interval to wait for a sensor's reading
+    for a distance of 5m approximately to an obstacle
     span = 2 * 5m / 340m/sec = 30milliseconds  
   */
-  //std::chrono::milliseconds span (30);
+
 
   /* 
     Wait for the sensor's reading to set future.
     If it is not ready, return with 0 as the reading
   */
-  //while (fut.wait_for(span)==std::future_status::timeout)
-    //std::cout << '.';
-  //std::cout << "The timeout has not occurred!\n";
 
-  // Compute the distance
-  //double distanceCm = (fut.get() * soundSpeed / 2.0) + this->offset;
-
-  double distanceCm = (this->PulseDuration() * soundSpeed / 2.0) + this->offset;
+ /*
+  double distanceCm = (returnedPulseDuration * soundSpeed / 2.0) + this->offset;
+  // double distanceCm = (this->PulseDuration() * soundSpeed / 2.0) + this->offset;
   
   if (distanceCm <= 0) 
     return 0;
@@ -126,6 +201,7 @@ double HC_SR04::MeasureDistanceCm()
     return 400;
   else
     return distanceCm;
+    */
 }
 
 /*
