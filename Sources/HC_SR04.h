@@ -24,9 +24,6 @@ private:
   // Private method to count the pulse duration
   double CountPulseDuration();
 
-  // Private method to count the pulse duration
-  double MakeGetPulseDuration();
-
 public:
 
   // No-args default constructor

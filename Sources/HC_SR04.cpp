@@ -68,45 +68,33 @@ void HC_SR04::InitSensor()
 */
 double HC_SR04::CountPulseDuration() 
 {
+  auto startTime = std::chrono::steady_clock::now();
   auto pulseStart = std::chrono::steady_clock::now();
-  auto pulseEnd = std::chrono::steady_clock::now();
-
+  
+  // Wait for the pulse will be in HIGH state
   while (echoPin.DigitalRead() == LOW)
     pulseStart = std::chrono::steady_clock::now();
-    
+
+  // Declare the timespan variable to compare after with a timeout
+  std::chrono::duration<double,std::micro> timespan =  (pulseStart-startTime);
+  
+  /*
+    If a reading has not done, the first while is nos executed and 
+    the time spanned is less than 15us. Then the function return 0.
+  */
+  int timeout = 15;
+  if (timespan.count() < timeout)
+    return 0;
+
+  // Wait for the pulse will be in LOW state  
+  auto pulseEnd = std::chrono::steady_clock::now();
   while (echoPin.DigitalRead() == HIGH)
     pulseEnd = std::chrono::steady_clock::now();
   
+  // Compute the wave's travel duration
   std::chrono::duration<double> duration = (pulseEnd-pulseStart);
 
   return duration.count();
-}
-
-double HC_SR04::MakeGetPulseDuration()
-{
-  std::mutex m;
-  std::condition_variable cv;
-  double duration;
-  
-  std::thread t([&cv, &duration, this]() 
-  {
-    duration = this->CountPulseDuration();
-    cv.notify_one();
-  });
-  
-  t.detach();
-  
-  /*
-    Define the maximum time interval to wait for a sensor's reading
-    for a distance of 5m approximately to an obstacle
-    span = 2 * 5m / 340m/sec = 30milliseconds  
-  */
-  
-  std::unique_lock<std::mutex> l(m);
-  if(cv.wait_for(l, std::chrono::milliseconds(30)) == std::cv_status::timeout) 
-    throw std::runtime_error("The sensor has not received a pulse, timeout");
-  else 
-    return duration; 
 }
 
 /*
@@ -115,30 +103,22 @@ double HC_SR04::MakeGetPulseDuration()
 */
 double HC_SR04::MeasureDistanceCm() 
 {
+  // Delay before to start another measure
+  DelayMilliseconds(50);
+
   // Send the pulse and keep it for at least 5ms in HIGH state
   triggerPin.DigitalWrite(HIGH);
   DelayMilliseconds(5);
   triggerPin.DigitalWrite(LOW);
 
-  double distanceCm {0.0};
+  double distanceCm = (this->CountPulseDuration() * soundSpeed / 2.0) + this->offset;
 
-  try 
-  {
-    distanceCm = (this->MakeGetPulseDuration() * soundSpeed / 2.0) + this->offset;
-  }
-  catch(std::runtime_error& e) 
-  {
-    std::cout << e.what() << std::endl;
-  }
-  
-  if (distanceCm <= 5) 
-    return 5;
+  if (distanceCm <= 0) 
+    return 0;
   else if (distanceCm > 400) 
     return 400;
   else
     return distanceCm;
-
-  // double distanceCm = (this->CountPulseDuration() * soundSpeed / 2.0) + this->offset;
 }
 
 /*
