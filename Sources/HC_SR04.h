@@ -36,12 +36,10 @@ public:
   HC_SR04 (GPIO, GPIO, double, double); 
 
   // Public method to get and calculate the distance
-  virtual double MeasureDistanceCm();
+  double MeasureDistanceCm();
 
   // Public method to get, calculate and filter the distance
-  virtual double MeasureDistanceCmWithMedian(int windowSize = 5);
-
-  
+  double MeasureDistanceCmWithMedian(int windowSize = 5);
 
   // Destructor
   ~HC_SR04();

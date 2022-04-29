@@ -103,9 +103,6 @@ double HC_SR04::CountPulseDuration()
 */
 double HC_SR04::MeasureDistanceCm() 
 {
-  // Delay before to start another measure
-  DelayMilliseconds(50);
-
   // Send the pulse and keep it for at least 5ms in HIGH state
   triggerPin.DigitalWrite(HIGH);
   DelayMilliseconds(5);
@@ -137,8 +134,11 @@ double HC_SR04::MeasureDistanceCmWithMedian(int windowSize)
   std::list <double> windowValues;
 
   // Make the measures for the window
-  for (size_t i = 0; i < windowSize; i++) {
+  for (size_t i = 0; i < windowSize; i++) 
+  {
     windowValues.push_back(this->MeasureDistanceCm());
+    // Wait before the other measure
+    DelayMilliseconds(10);
   }
 
   // Sort the list of values 
