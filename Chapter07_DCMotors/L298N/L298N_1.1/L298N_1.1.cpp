@@ -1,7 +1,7 @@
 /******************************************************************************
 L298N_1.1.cpp
 @wgaonar
-02/07/2021
+20/04/2021
 https://github.com/wgaonar/BeagleCPP
 
 - Move the motor each 1000 milliseconds increasing the speed 10% 

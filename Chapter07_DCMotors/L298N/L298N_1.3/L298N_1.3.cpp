@@ -65,7 +65,9 @@ int main()
 
     // Doing other stuff
     for(int i = 0; i < 100; i++)
+    {
       cout << "Doing something else while the motor is running" << endl;
+    }
   }
 
   message = "Main program finishes here...";

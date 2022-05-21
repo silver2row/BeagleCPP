@@ -126,7 +126,6 @@ void DCMotor::DriveThread(int speed, int duration, STOPMODE action)
   motorThread.detach();
 }
 
-
 /*
   Private method that contains the routine to drive 
   the motor during a certain time
