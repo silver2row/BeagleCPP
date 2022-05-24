@@ -48,11 +48,8 @@ public:
 /******************************************************************************
 PUBLIC FUNCTIONS TO RUN ONLY MOTOR OBJECTS
 ******************************************************************************/
-
-void Forward (std::vector <L298N *>, int);
-void Forward (std::vector <L298N *>, int, int, STOPMODE);
-void Backward (std::vector <L298N *>, int);
-void Backward (std::vector <L298N *>, int, int, STOPMODE);
+void Forward (std::vector <L298N *>, int speed, int duration = 0, STOPMODE = idle);
+void Backward (std::vector <L298N *>, int speed, int duration = 0, STOPMODE = idle);
 void Brake (std::vector <L298N *>);
 void Idle (std::vector <L298N *>);
 

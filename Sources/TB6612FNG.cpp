@@ -222,62 +222,35 @@ PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
 
 /*
-  Overload function to drive FORWARD a robot with ANY number of TB6612FNG drivers
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
-  @param int: The desired speed (0,100). It set up the correct value if 
-              the user enters a negative value.
-*/
-void Forward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed)
-{
-  if (speed < 0)
-    speed *= -1;
-  for (auto TB6612FNGModule : vectorOfTB6612FNG)
-  {
-    TB6612FNGModule->MotorA.Drive(speed);
-    TB6612FNGModule->MotorB.Drive(speed);
-  }
-}
-
-/*
   Overload function to drive FORWARD a robot with ANY number of TB6612FNG drivers 
   during certain time
   @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects  
-  @param int: The desired speed (0,100). It set up the correct value if the user enters a negative value.
-  @param int: The desired duration in milliseconds.
-  @param STOPMODE <brake / idle>: Action on the motor after driving it with <idle> as default action.   
+  @param int speed: The desired speed (0,100). It set up the correct value if the user enters 
+                    a negative value.
+  @param int duration:  The desired duration in milliseconds with 0 as 
+                        default value
+  @param STOPMODE action <brake / idle>:  Action on the motor after driving it with 
+                                        <idle> as default action.  
 */
 void Forward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int duration, STOPMODE action)
 {
   if (speed < 0)
     speed *= -1;
+  
   for (auto TB6612FNGModule : vectorOfTB6612FNG)
   {
     TB6612FNGModule->MotorA.Drive(speed);
     TB6612FNGModule->MotorB.Drive(speed);
   }
 
-  DelayMilliseconds(duration);
-  
-  if (action == idle)
-    Idle(vectorOfTB6612FNG);
-  else
-    Brake(vectorOfTB6612FNG);
-}
-
-/*
-  Overload function to drive BACKWARD a robot with ANY number of TB6612FNG drivers
-  @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects 
-  @param int: The desired speed (-100,0). It set up the correct value if
-              the user enters a positive value.
-*/
-void Backward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed)
-{
-  if (speed > 0)
-    speed *= -1;
-  for (auto TB6612FNGModule : vectorOfTB6612FNG)
+  if (duration > 0)
   {
-    TB6612FNGModule->MotorA.Drive(speed);
-    TB6612FNGModule->MotorB.Drive(speed);
+    DelayMilliseconds(duration);
+    
+    if (action == idle)
+      Idle(vectorOfTB6612FNG);
+    else
+      Brake(vectorOfTB6612FNG);
   }
 }
 
@@ -285,10 +258,12 @@ void Backward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed)
   Overload function to drive BACKWARD a robot with ANY number of TB6612FNG drivers 
   during certain time
   @param std::vector<TB6612FNG *>: The vector of pointers to TB6612FNG objects
-  @param int: The desired speed (-100,0). It set up the correct value if
-              the user enters a positive value.
-  @param int: The desired duration in milliseconds.
-  @param STOPMODE <brake / idle>: Action on the motor after driving it with <idle> as default action.  
+  @param int speed: The desired speed (0,100). It set up the correct value if the user enters 
+                    a positive value.
+  @param int duration:  The desired duration in milliseconds with 0 as 
+                        default value
+  @param STOPMODE action <brake / idle>:  Action on the motor after driving it with 
+                                        <idle> as default action. 
 */
 void Backward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int duration, STOPMODE action)
 {
@@ -300,12 +275,15 @@ void Backward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int durati
     TB6612FNGModule->MotorB.Drive(speed);
   }
 
-  DelayMilliseconds(duration);
-  
-  if (action == idle)
-    Idle(vectorOfTB6612FNG);
-  else
-    Brake(vectorOfTB6612FNG);
+  if (duration > 0)
+  {
+    DelayMilliseconds(duration);
+    
+    if (action == idle)
+      Idle(vectorOfTB6612FNG);
+    else
+      Brake(vectorOfTB6612FNG);
+  }
 }
 
 /*

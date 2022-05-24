@@ -195,64 +195,36 @@ L298N::~L298N() {}
 /******************************************************************************
 PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
-
-/*
-  Overload function to drive FORWARD a robot with ANY number of L298N drivers
-  @param std::vector<L298N *>: The vector of pointers to L298N objects 
-  @param int: The desired speed (0,100). It set up the correct value if 
-              the user enters a negative value.
-*/
-void Forward (std::vector<L298N *> vectorOfL298N, int speed)
-{
-  if (speed < 0)
-    speed *= -1;
-  for (auto L298NModule : vectorOfL298N)
-  {
-    L298NModule->MotorA.Drive(speed);
-    L298NModule->MotorB.Drive(speed);
-  }
-}
-
 /*
   Overload function to drive FORWARD a robot with ANY number of L298N drivers 
   during certain time
   @param std::vector<L298N *>: The vector of pointers to L298N objects  
-  @param int: The desired speed (0,100). It set up the correct value if the user enters a negative value.
-  @param int: The desired duration in milliseconds.
-  @param STOPMODE <brake / idle>: Action on the motor after driving it with <idle> as default action.   
+  @param int speed: The desired speed (0,100). It set up the correct value if the user enters 
+                    a negative value.
+  @param int duration:  The desired duration in milliseconds with 0 as 
+                        default value
+  @param STOPMODE action <brake / idle>:  Action on the motor after driving it with 
+                                        <idle> as default action.  
 */
 void Forward (std::vector<L298N *> vectorOfL298N, int speed, int duration, STOPMODE action)
 {
   if (speed < 0)
     speed *= -1;
+
   for (auto L298NModule : vectorOfL298N)
   {
     L298NModule->MotorA.Drive(speed);
     L298NModule->MotorB.Drive(speed);
   }
 
-  DelayMilliseconds(duration);
-  
-  if (action == idle)
-    Idle(vectorOfL298N);
-  else
-    Brake(vectorOfL298N);
-}
-
-/*
-  Overload function to drive BACKWARD a robot with ANY number of L298N drivers
-  @param std::vector<L298N *>: The vector of pointers to L298N objects 
-  @param int: The desired speed (-100,0). It set up the correct value if
-              the user enters a positive value.
-*/
-void Backward (std::vector<L298N *> vectorOfL298N, int speed)
-{
-  if (speed > 0)
-    speed *= -1;
-  for (auto L298NModule : vectorOfL298N)
+  if (duration > 0)
   {
-    L298NModule->MotorA.Drive(speed);
-    L298NModule->MotorB.Drive(speed);
+    DelayMilliseconds(duration);
+    
+    if (action == idle)
+      Idle(vectorOfL298N);
+    else
+      Brake(vectorOfL298N);
   }
 }
 
@@ -260,27 +232,33 @@ void Backward (std::vector<L298N *> vectorOfL298N, int speed)
   Overload function to drive BACKWARD a robot with ANY number of L298N drivers 
   during certain time
   @param std::vector<L298N *>: The vector of pointers to L298N objects
-  @param int: The desired speed (-100,0). It set up the correct value if
-              the user enters a positive value.
-  @param int: The desired duration in milliseconds.
-  @param STOPMODE <brake / idle>: Action on the motor after driving it with <idle> as default action.  
+  @param int speed: The desired speed (-100,0). It set up the correct value if
+                    the user enters a positive value.
+  @param int duration:  The desired duration in milliseconds with 0 as 
+                        default value
+  @param STOPMODE action <brake / idle>:  Action on the motor after driving it with 
+                                        <idle> as default action. 
 */
 void Backward (std::vector<L298N *> vectorOfL298N, int speed, int duration, STOPMODE action)
 {
   if (speed > 0)
     speed *= -1;
+
   for (auto L298NModule : vectorOfL298N)
   {
     L298NModule->MotorA.Drive(speed);
     L298NModule->MotorB.Drive(speed);
   }
 
-  DelayMilliseconds(duration);
-  
-  if (action == idle)
-    Idle(vectorOfL298N);
-  else
-    Brake(vectorOfL298N);
+  if (duration > 0)
+  {
+    DelayMilliseconds(duration);
+    
+    if (action == idle)
+      Idle(vectorOfL298N);
+    else
+      Brake(vectorOfL298N);
+  }
 }
 
 /*

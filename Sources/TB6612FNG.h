@@ -55,11 +55,8 @@ public:
 /******************************************************************************
 PUBLIC FUNCTIONS TO RUN ONLY MOTOR OBJECTS
 ******************************************************************************/
-
-void Forward (std::vector <TB6612FNG *>, int);
-void Forward (std::vector <TB6612FNG *>, int, int, STOPMODE);
-void Backward (std::vector <TB6612FNG *>, int);
-void Backward (std::vector <TB6612FNG *>, int, int, STOPMODE);
+void Forward (std::vector <TB6612FNG *>, int speed, int duration = 0, STOPMODE = idle);
+void Backward (std::vector <TB6612FNG *>, int speed, int duration = 0, STOPMODE = idle);
 void Brake (std::vector <TB6612FNG *>);
 void Idle (std::vector <TB6612FNG *>);
 
