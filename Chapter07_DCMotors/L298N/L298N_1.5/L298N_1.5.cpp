@@ -53,7 +53,7 @@ int main()
     cout << RainbowText(message, "Blue");
     cin >> userInput;
 
-    // Update the motor's speed
+    // Update the motors speed
     switch (userInput)
     {
     case 'w':

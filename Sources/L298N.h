@@ -41,6 +41,12 @@ public:
   // Interface method to drive in the another opposite direction both motors 
   virtual void TurnRight(int speed, int duration = 0, STOPMODE action = idle);
 
+  // Getter to let know if the  MotorA is used
+  virtual bool GetMotorAisUsed();
+
+  //Getter to let know if the  MotorB is used
+  virtual bool GetMotorBisUsed(); 
+
   // Destructor
   virtual ~L298N();
 };

@@ -119,8 +119,10 @@ void TB6612FNG::Forward(int speed, int duration, STOPMODE action)
   if (speed < 0)
     speed *= -1;
 
-  MotorA.Drive(speed);
-  MotorB.Drive(speed);
+  if (motorAisUsed)
+    this->MotorA.Drive(speed);
+  if (motorBisUsed)  
+    this->MotorB.Drive(speed);
 
   if (duration > 0)
   {
@@ -146,8 +148,10 @@ void TB6612FNG::Backward(int speed, int duration, STOPMODE action)
   if (speed > 0)
     speed *= -1;
 
-  MotorA.Drive(speed);
-  MotorB.Drive(speed);
+  if (motorAisUsed)
+    this->MotorA.Drive(speed);
+  if (motorBisUsed)  
+    this->MotorB.Drive(speed);
 
   if (duration > 0)
   {
@@ -173,8 +177,10 @@ void TB6612FNG::TurnLeft(int speed, int duration, STOPMODE action)
   if (speed < 0)
     speed *= -1;
 
-  MotorA.Drive(-speed);
-  MotorB.Drive(speed);
+  if (motorAisUsed)
+    this->MotorA.Drive(-speed);
+  if (motorBisUsed)  
+    this->MotorB.Drive(speed);
 
   if (duration > 0)
   {
@@ -200,8 +206,10 @@ void TB6612FNG::TurnRight(int speed, int duration, STOPMODE action)
   if (speed < 0)
     speed *= -1;
 
-  MotorA.Drive(speed);
-  MotorB.Drive(-speed);
+  if (motorAisUsed)
+    this->MotorA.Drive(speed);
+  if (motorBisUsed)  
+    this->MotorB.Drive(-speed);
 
   if (duration > 0)
   {
@@ -213,9 +221,26 @@ void TB6612FNG::TurnRight(int speed, int duration, STOPMODE action)
   }
 }
 
+/*
+  Getter method that lets to know if the Motor A is used
+  @return bool: motorAisUsed
+*/
+bool TB6612FNG::GetMotorAisUsed()
+{
+  return motorAisUsed;
+}
+
+/*
+  Getter method that lets to know if the Motor B is used
+  @return bool: motorBisUsed
+*/
+bool TB6612FNG::GetMotorBisUsed()
+{
+  return motorBisUsed;
+}
+
 // Destructor
-TB6612FNG::~TB6612FNG() 
-{} 
+TB6612FNG::~TB6612FNG() {} 
 
 /******************************************************************************
 PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
@@ -239,8 +264,10 @@ void Forward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int duratio
   
   for (auto TB6612FNGModule : vectorOfTB6612FNG)
   {
-    TB6612FNGModule->MotorA.Drive(speed);
-    TB6612FNGModule->MotorB.Drive(speed);
+    if (TB6612FNGModule->GetMotorAisUsed())
+      TB6612FNGModule->MotorA.Drive(speed);
+    if (TB6612FNGModule->GetMotorBisUsed())
+      TB6612FNGModule->MotorB.Drive(speed);
   }
 
   if (duration > 0)
@@ -271,8 +298,10 @@ void Backward (std::vector<TB6612FNG *> vectorOfTB6612FNG, int speed, int durati
     speed *= -1;
   for (auto TB6612FNGModule : vectorOfTB6612FNG)
   {
-    TB6612FNGModule->MotorA.Drive(speed);
-    TB6612FNGModule->MotorB.Drive(speed);
+    if (TB6612FNGModule->GetMotorAisUsed())
+      TB6612FNGModule->MotorA.Drive(speed);
+    if (TB6612FNGModule->GetMotorBisUsed())
+      TB6612FNGModule->MotorB.Drive(speed);
   }
 
   if (duration > 0)

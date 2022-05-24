@@ -72,7 +72,7 @@ void L298N::Brake()
 */ 
 void L298N::Idle()
 {
-    // Set the motor A in idle mode
+  // Set the motor A in idle mode
   if (motorAisUsed)
     this->MotorA.Stop(LOW, LOW, LOW);
 
@@ -82,7 +82,7 @@ void L298N::Idle()
 }
 
 /*
-  Overload interface method to drive FORWARD both motors
+  Interface method to drive FORWARD both motors
   @param int speed: The desired speed (0,100). It set up the correct value if
                     the user enters a negative value.
   @param int duration:  The desired duration in milliseconds with 0 as
@@ -95,8 +95,10 @@ void L298N::Forward(int speed, int duration, STOPMODE action)
   if (speed < 0)
     speed *= -1;
 
-  MotorA.Drive(speed);
-  MotorB.Drive(speed);
+  if (motorAisUsed)
+    this->MotorA.Drive(speed);
+  if (motorBisUsed)  
+    this->MotorB.Drive(speed);
 
   if (duration > 0)
   {
@@ -122,8 +124,10 @@ void L298N::Backward(int speed, int duration, STOPMODE action)
   if (speed > 0)
     speed *= -1;
 
-  MotorA.Drive(speed);
-  MotorB.Drive(speed);
+  if (motorAisUsed)
+    this->MotorA.Drive(speed);
+  if (motorBisUsed)  
+    this->MotorB.Drive(speed);
 
   if (duration > 0)
   {
@@ -149,8 +153,10 @@ void L298N::TurnLeft(int speed, int duration, STOPMODE action)
   if (speed < 0)
     speed *= -1;
 
-  MotorA.Drive(-speed);
-  MotorB.Drive(speed);
+  if (motorAisUsed)
+    this->MotorA.Drive(-speed);
+  if (motorBisUsed)  
+    this->MotorB.Drive(speed);
 
   if (duration > 0)
   {
@@ -176,8 +182,10 @@ void L298N::TurnRight(int speed, int duration, STOPMODE action)
   if (speed < 0)
     speed *= -1;
 
-  MotorA.Drive(speed);
-  MotorB.Drive(-speed);
+  if (motorAisUsed)
+    this->MotorA.Drive(speed);
+  if (motorBisUsed)  
+    this->MotorB.Drive(-speed);
 
   if (duration > 0)
   {
@@ -189,6 +197,24 @@ void L298N::TurnRight(int speed, int duration, STOPMODE action)
   }
 }
 
+/*
+  Getter method that lets to know if the Motor A is used
+  @return bool: motorAisUsed
+*/
+bool L298N::GetMotorAisUsed()
+{
+  return motorAisUsed;
+}
+
+/*
+  Getter method that lets to know if the Motor B is used
+  @return bool: motorBisUsed
+*/
+bool L298N::GetMotorBisUsed()
+{
+  return motorBisUsed;
+}
+
 // Destructor
 L298N::~L298N() {} 
 
@@ -196,7 +222,7 @@ L298N::~L298N() {}
 PUBLIC FUNCTIONS OUTSIDE OF THE CLASS
 ******************************************************************************/
 /*
-  Overload function to drive FORWARD a robot with ANY number of L298N drivers 
+  Function to drive FORWARD a robot with ANY number of L298N drivers 
   during certain time
   @param std::vector<L298N *>: The vector of pointers to L298N objects  
   @param int speed: The desired speed (0,100). It set up the correct value if the user enters 
@@ -213,8 +239,10 @@ void Forward (std::vector<L298N *> vectorOfL298N, int speed, int duration, STOPM
 
   for (auto L298NModule : vectorOfL298N)
   {
-    L298NModule->MotorA.Drive(speed);
-    L298NModule->MotorB.Drive(speed);
+    if (L298NModule->GetMotorAisUsed())
+      L298NModule->MotorA.Drive(speed);
+    if (L298NModule->GetMotorBisUsed())
+      L298NModule->MotorB.Drive(speed);
   }
 
   if (duration > 0)
@@ -229,7 +257,7 @@ void Forward (std::vector<L298N *> vectorOfL298N, int speed, int duration, STOPM
 }
 
 /*
-  Overload function to drive BACKWARD a robot with ANY number of L298N drivers 
+  Function to drive BACKWARD a robot with ANY number of L298N drivers 
   during certain time
   @param std::vector<L298N *>: The vector of pointers to L298N objects
   @param int speed: The desired speed (-100,0). It set up the correct value if
@@ -246,8 +274,10 @@ void Backward (std::vector<L298N *> vectorOfL298N, int speed, int duration, STOP
 
   for (auto L298NModule : vectorOfL298N)
   {
-    L298NModule->MotorA.Drive(speed);
-    L298NModule->MotorB.Drive(speed);
+    if (L298NModule->GetMotorAisUsed())
+      L298NModule->MotorA.Drive(speed);
+    if (L298NModule->GetMotorBisUsed())
+      L298NModule->MotorB.Drive(speed);
   }
 
   if (duration > 0)
