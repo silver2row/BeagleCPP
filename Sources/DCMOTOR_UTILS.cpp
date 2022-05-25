@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "DCMotorModulesUtils.h"
+#include "DCMOTOR_UTILS.h"
 
 /******************************************************************************
 PUBLIC FUNCTIONS TO RUN ONLY DC MOTOR MODULES OBJECTS

@@ -10,8 +10,8 @@ Class: TB6612FNG
 ******************************************************************************/
 #include <iostream>
 #include "../../../Sources/TB6612FNG.h"
-#include "../../../Sources/DCMotorModulesUtils.h"
-#include "../../../Sources/DCMotorModulesUtils.cpp"
+#include "../../../Sources/DCMOTOR_UTILS.h"
+#include "../../../Sources/DCMOTOR_UTILS.cpp"
 
 using namespace std;
 

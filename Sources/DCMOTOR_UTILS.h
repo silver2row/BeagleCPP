@@ -1,5 +1,5 @@
-#ifndef DCMotorModulesUtils_H
-#define DCMotorModulesUtils_H
+#ifndef DCMOTOR_UTILS_H
+#define DCMOTOR_UTILS_H
 
 #include <vector>
 #include "DCMOTOR.h"
@@ -19,4 +19,4 @@ void Brake (std::vector <Module *>);
 template <typename Module>
 void Idle (std::vector <Module *>);
 
-#endif // DCMotorModulesUtils_H
+#endif // DCMOTOR_UTILS_H

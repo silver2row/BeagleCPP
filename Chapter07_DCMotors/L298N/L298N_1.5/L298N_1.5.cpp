@@ -10,8 +10,8 @@ Class: L298N
 ******************************************************************************/
 #include <iostream>
 #include "../../../Sources/L298N.h"
-#include "../../../Sources/DCMotorModulesUtils.h"
-#include "../../../Sources/DCMotorModulesUtils.cpp"
+#include "../../../Sources/DCMOTOR_UTILS.h"
+#include "../../../Sources/DCMOTOR_UTILS.cpp"
 
 using namespace std;
 
