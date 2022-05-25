@@ -58,12 +58,4 @@ public:
   virtual ~TB6612FNG();
 };
 
-/******************************************************************************
-PUBLIC FUNCTIONS TO RUN ONLY MOTOR OBJECTS
-******************************************************************************/
-void Forward (std::vector <TB6612FNG *>, int speed, int duration = 0, STOPMODE = idle);
-void Backward (std::vector <TB6612FNG *>, int speed, int duration = 0, STOPMODE = idle);
-void Brake (std::vector <TB6612FNG *>);
-void Idle (std::vector <TB6612FNG *>);
-
 #endif // TB6612FNG_H

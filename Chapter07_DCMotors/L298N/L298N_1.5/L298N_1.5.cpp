@@ -10,6 +10,8 @@ Class: L298N
 ******************************************************************************/
 #include <iostream>
 #include "../../../Sources/L298N.h"
+#include "../../../Sources/DCMotorModulesUtils.h"
+#include "../../../Sources/DCMotorModulesUtils.cpp"
 
 using namespace std;
 
@@ -72,7 +74,7 @@ int main()
 
     // Move the motors
     if (motorSpeed > 0)
-      Forward(vectorOfL298N, motorSpeed);
+     Forward(vectorOfL298N, motorSpeed);
     else if (motorSpeed < 0)
       Backward(vectorOfL298N, motorSpeed);
     else
