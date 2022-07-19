@@ -36,8 +36,10 @@ int main()
       previousMillis = currentMillis;
 
       // if the LED is off turn it on and vice-versa:
-      if (ledState == LOW) 
+      if (ledState == LOW)
+      { 
         ledState = HIGH;
+      }
       else
       { 
         ledState = LOW;
