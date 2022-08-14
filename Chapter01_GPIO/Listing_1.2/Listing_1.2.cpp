@@ -1,10 +1,10 @@
 /************************************************************************
-Listing_1.3.cpp
+Listing_1.2.cpp
 @wgaonar
 24/03/2021
 https://github.com/wgaonar/BeagleCPP
 
-Turn ON / OFF  six leds in order
+Control the activation of one LED from reading a Button
 
 Class: GPIO
 ************************************************************************/

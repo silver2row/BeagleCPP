@@ -4,7 +4,7 @@ Listing_1.3.cpp
 24/03/2021
 https://github.com/wgaonar/BeagleCPP
 
-Turn ON / OFF  six leds in order
+Turning ON / OFF  six LEDs in order
 
 Class: GPIO
 ************************************************************************/
