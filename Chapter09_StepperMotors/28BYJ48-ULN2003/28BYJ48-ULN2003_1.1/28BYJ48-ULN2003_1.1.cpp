@@ -21,7 +21,7 @@ GPIO IN3 (P8_16);
 GPIO IN4 (P8_18);
 
 /*
-  Declare the 28BYJ-48 stepper motor object with:
+  Declare the 28BYJ-48 stepper motor object with default parameters:
   full step with the activation of 1 coil, 
   default 2048 steps per revolution 
   and a default maximum speed of 500 steps/second
