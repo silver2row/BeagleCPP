@@ -43,7 +43,7 @@ enum PWM_ID {
 /* The pwm class internal number of the pin*/
 enum ADC_ID {
   P9_39 = 0,
-  P9_40 = 1, 
+  P9_40 = 1,
   P9_37 = 2,
   P9_38 = 3,
   P9_33 = 4,

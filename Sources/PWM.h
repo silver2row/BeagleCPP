@@ -17,10 +17,10 @@
 */
 using callbackType = int (*)();
 
-const std::string PWM_PATH ("/sys/devices/platform/ocp/");
-const std::string EHRPWM0_PATH = "48300000.epwmss/48300200.pwm/pwm/";
-const std::string EHRPWM1_PATH = "48302000.epwmss/48302200.pwm/pwm/";
-const std::string EHRPWM2_PATH = "48304000.epwmss/48304200.pwm/pwm/";
+const std::string PWM_PATH ("/dev/bone/pwm/");
+const std::string EHRPWM0_PATH = "0";
+const std::string EHRPWM1_PATH = "1";
+const std::string EHRPWM2_PATH = "2";
 
 class PWM : public SYSFILEACCESS
 {

@@ -5,7 +5,7 @@
 #include <thread> // this_thread::sleep_for()
 #include <exception>
 #include <mutex>
-#include <cstdlib>  // system()
+#include <cstdlib> // system()
 
 #include "PWM.h"
 
@@ -31,9 +31,9 @@ PWM::PWM(PWM_ID newPWMPin)
   InitPWMPin();
 
   std::cout << "\033[F"; // Move the cursor one line up
-  std::cout << RainbowText("Setting the PWM pin with a period of ", "Pink")
-            << RainbowText("500000", "Pink") 
-            << RainbowText("ns was a success!\n\n", "Pink"); 
+  std::cout << ("Setting the PWM pin with a period of ")
+            << ("500000") 
+            << ("ns was a success!\n\n"); 
 }
 
 // Overload constructor with pin's id and period
@@ -50,9 +50,9 @@ PWM::PWM(PWM_ID pwmPin, int newPeriod)
   InitPWMPin();
 
   std::cout << "\033[F"; // Move the cursor one line up
-  std::cout << RainbowText("Setting the PWM pin with a period of ", "Pink")
-            << RainbowText(std::to_string(this->GetPeriod()), "Pink") 
-            << RainbowText("ns was a success!\n\n", "Pink"); 
+  std::cout << ("Setting the PWM pin with a period of ")
+            << (std::to_string(this->GetPeriod())
+            << ("ns was a success!\n\n");
 }
 
 // Public method to initialize the PWM pin
@@ -68,22 +68,22 @@ void PWM::InitPWMPin()
   switch (id)
   {
   case P8_13:
-    name = EHRPWM2_PATH + "pwmchip6/pwm-6:1/";
+    name = EHRPWM2_PATH + "/dev/bone/pwm/1/";
     break;
   case P8_19:
-    name = EHRPWM2_PATH + "pwmchip6/pwm-6:0/";
+    name = EHRPWM2_PATH + "/dev/bone/pwm/1/";
     break;
   case P9_14:
-    name = EHRPWM1_PATH + "pwmchip3/pwm-3:0/";
+    name = EHRPWM1_PATH + "/dev/bone/pwm/2/";
     break;
   case P9_16:
-    name = EHRPWM1_PATH + "pwmchip3/pwm-3:1/";
+    name = EHRPWM1_PATH + "/dev/bone/pwm/2/";
     break;
   case P9_21:
-    name = EHRPWM0_PATH + "pwmchip1/pwm-1:1/";
+    name = EHRPWM0_PATH + "/dev/bone/pwm/0/";
     break;
   case P9_22:
-    name = EHRPWM0_PATH + "pwmchip1/pwm-1:0/";
+    name = EHRPWM0_PATH + "/dev/bone/pwm/0/";
     break;
   default:
     break;
@@ -92,7 +92,7 @@ void PWM::InitPWMPin()
 
   std::string message;
   message = "Trying to enable the PWM pin: " + this->GetPinHeaderId() + "\n";
-  std::cout << RainbowText(message, "Pink");
+  std::cout << (message);
 
   std::string commandString = "config-pin " + this->GetPinHeaderId() + " pwm";
   const char* command = commandString.c_str();
@@ -175,9 +175,9 @@ int PWM::SetPeriod(int newPeriod)
   }
   else
   {
-    std::cout << RainbowText("A new period of ", "Pink")
-            << RainbowText(std::to_string(this->GetPeriod()), "Pink") 
-            << RainbowText("ns was set!\n", "Pink"); 
+    std::cout << ("A new period of ")
+            << (std::to_string(this->GetPeriod()) 
+            << ("ns was set!\n"); 
   } 
   return 1;
 }
@@ -227,13 +227,13 @@ int PWM::SetDutyCycleByPeriod(int newDutyCycle)
 }
 
 /*
-  Public callback method to do a user customized function when is called
+  Public callback method to do a user customized function when called
   @param callbackType: user function pointer to execute 
   @return int: 1 the user function was called      
 */
 int PWM::DoUserFunction (callbackType callbackFunction) {
   std::string message = "'UserFunction' method has been activated!";
-  std::cout << RainbowText(message, "Orange") << std::endl;
+  std::cout << (message) << std::endl;
 
   std::thread functionThread(callbackFunction);
   functionThread.detach();
@@ -241,7 +241,7 @@ int PWM::DoUserFunction (callbackType callbackFunction) {
 }
 
 // Destructor
-PWM::~PWM() 
+PWM::~PWM()
 {
   this->SetDutyCycle(0);
 }

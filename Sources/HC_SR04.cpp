@@ -18,7 +18,7 @@ HC_SR04::HC_SR04 (GPIO newTriggerPin,
             this->triggerPin.GetPinHeaderId() + " / echo pin: " +
             this->echoPin.GetPinHeaderId() + 
             " was created!\n\n";
-  std::cout << RainbowText(message, "Violet");
+  std::cout << (message);
 }
 
 // Overload Constructor with offset and temperature for correction 
@@ -38,17 +38,17 @@ HC_SR04::HC_SR04 (GPIO newTriggerPin,
             this->triggerPin.GetPinHeaderId() + " / echo pin: " +
             this->echoPin.GetPinHeaderId() + 
             " was created!\n";
-  std::cout << RainbowText(message, "Violet");
+  std::cout << (message);
   
   std::stringstream streamSoundSpeed;
-  std::cout << RainbowText("The sound speed that will be used is: ", "Violet");
+  std::cout << ("The sound speed that will be used is: ");
   streamSoundSpeed << std::fixed << std::setprecision(2) << this->soundSpeed;
-  std::cout << RainbowText(streamSoundSpeed.str(), "Violet") << std::endl;
+  std::cout << (streamSoundSpeed.str()) << std::endl;
   
   std::stringstream streamOffset;
-  std::cout << RainbowText("The distance offset that will be used is: ","Violet");
+  std::cout << ("The distance offset that will be used is: ");
   streamOffset << std::fixed << std::setprecision(2) << this->offset;
-  std::cout << RainbowText(streamOffset.str(), "Violet") << std::endl; 
+  std::cout << (streamOffset.str()) << std::endl; 
 }
 
 // Private method to initialize the Pins

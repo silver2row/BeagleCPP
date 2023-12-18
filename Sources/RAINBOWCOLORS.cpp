@@ -1,6 +1,8 @@
+/*
+
 #include <string>
 #include <map>
-#include "RAINBOWCOLORS.h"
+// #include "RAINBOWCOLORS.h"
 
 std::map <std::string, std::string> mapForegroundColor = 
 {
@@ -147,3 +149,5 @@ std::string RainbowText ( std::string src,
                 src + escCode + "[0m";
   return formattedText;
 }
+
+*/

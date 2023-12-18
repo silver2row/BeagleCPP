@@ -216,4 +216,4 @@ bool L298N::GetMotorBisUsed()
 }
 
 // Destructor
-L298N::~L298N() {} 
+L298N::~L298N() {}

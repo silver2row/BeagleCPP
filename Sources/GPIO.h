@@ -5,22 +5,22 @@
 #include <thread>
 #include <map>
 
-#include "RAINBOWCOLORS.h"
+// #include "RAINBOWCOLORS.h"
 #include "BLACKPIN_ID.h"
 #include "SYSFILEACCESS.h"
 #include "MISCELLANEOUS.h"
 
-const std::string GPIO_PATH("/sys/class/gpio/");
+const std::string GPIO_PATH("/sys/class/leds/");
 
 /* The numeric mode for MODE: e.g. 0/1 for OUTPUT/INPUT */
-enum MODE 
+enum MODE
 {
   OUTPUT = 0,
   INPUT = 1,
 };
 
 /* The numeric value for VALUE: e.g. 0/1 for LOW/HIGH */
-enum STATE 
+enum STATE
 {
   LOW = 0,
   HIGH = 1,
@@ -30,7 +30,7 @@ class GPIO : public SYSFILEACCESS
 {
   protected:
     GPIO_ID id;         /* Enum for the Kernel GPIO number of the object */
-    MODE mode;          /* The GPIO mode e.g. OUTPUT / INPUT*/
+    MODE mode;          /* The GPIO mode e.g. OUTPUT / INPUT */
     std::string name;   /* The name of the GPIO e.g. gpio44 */
     std::string path;   /* The full path to the GPIO e.g. /sys/class/gpio/gpio44 */
 
@@ -41,7 +41,7 @@ class GPIO : public SYSFILEACCESS
     void InitGPIOPin();
 
     // Initialize the GPIO pin id map kernel's number -> header's name
-    void InitPinIdMap();  
+    void InitPinIdMap();
 
   public:
     // Default constructor
@@ -63,14 +63,14 @@ class GPIO : public SYSFILEACCESS
     virtual MODE GetMode();
 
     // Mutator method to set the pin's mode
-    virtual int SetMode(MODE);
+//    virtual int SetMode(MODE);
 
     // Method to export the GPIO pin
-    virtual int ExportGPIO();
+//    virtual int ExportGPIO();
 
     // Method to unexport the GPIO pin
-    virtual int UnexportGPIO();
-    
+//    virtual int UnexportGPIO();
+
     // Interface method to set the GPIO pin state
     virtual int DigitalWrite(STATE, bool printMessages = false);
 
@@ -78,7 +78,7 @@ class GPIO : public SYSFILEACCESS
     virtual STATE DigitalRead();
 
     // Destructor
-    virtual ~GPIO ();    
+    virtual ~GPIO ();
 };
 
 #endif // GPIO_H

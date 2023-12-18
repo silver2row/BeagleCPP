@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "RAINBOWCOLORS.h"
+// #include "RAINBOWCOLORS.h"
 #include "BLACKPIN_ID.h"
 #include "MISCELLANEOUS.h"
 

@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <chrono> // chrono::milliseconds()
-#include <sstream> //stringstream
-#include <iomanip> //setprecision()
+#include <sstream> // string stream
+#include <iomanip> // set precision()
 #include <list>
 #include <future>
 

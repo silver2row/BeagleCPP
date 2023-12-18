@@ -17,13 +17,13 @@ int main()
 {
   string message = "Main program starting here...";
   cout << RainbowText(message,"Blue", "Bold") << endl;
-  
+
   GPIO ledPin(P8_12, OUTPUT);
 
-  for (int i = 0; i < 10; i++)   
+  for (int i = 0; i < 10; i++)
   {
     cout << "Blinking " << i+1 << " times of " << 10 <<  endl;
-    
+
     ledPin.DigitalWrite(HIGH);
     DelayMilliseconds(1000);
 
