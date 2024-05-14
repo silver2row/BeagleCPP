@@ -16,4 +16,4 @@ Please give some leeway on my building around the new specification for pinmuxin
 
 1. /Chapter01_GPIO/Listing_1.1/ is done for now for the am335x on the BBB.
 2. /Chapter01_GPIO/Listing_1.2/ will done next...
-3. Wait for the release.
+3. /Chapter04_PWM/Listing_4.1/ is done for now, also. Enjoy PWM.
