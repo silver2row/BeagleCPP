@@ -23,12 +23,12 @@ class GPIO_Exception : public std::exception
 // Default constructor
 GPIO::GPIO() {}
 
-// Overload constructor with the pin`s name
+// Overload constructor with the pin's name
 GPIO::GPIO (GPIO_ID newId) 
 {
   id = newId;
   InitGPIOPin();
-  std::cout << RainbowText("Setting the GPIO pin was a success!\n\n", "Green");
+  std::cout << "Setting the GPIO pin was a success!\n";
 }
 
 // Overload constructor with the pin id and mode
@@ -38,7 +38,7 @@ GPIO::GPIO (GPIO_ID newId, MODE newMode)
   mode = newMode;
   InitGPIOPin();
   SetMode(mode);
-  std::cout << RainbowText("Setting the GPIO pin with direction (I/O) was a success!\n\n", "Green");
+  std::cout << "Setting the GPIO pin with direction (I/O) was a success!\n";
 }
 
 // Protected method to initialize the GPIO pin
@@ -47,8 +47,8 @@ void GPIO::InitGPIOPin()
   InitPinIdMap();
   name = "gpio" + std::to_string(id);
   path = GPIO_PATH + name + "/";
-  std::cout << RainbowText("Trying to set the GPIO pin: ","Green") 
-            << RainbowText(this->GetPinHeaderId(), "Green", "Default", "Bold") 
+  std::cout << "Trying to set the GPIO pin: "
+            << this->GetPinHeaderId()
             << std::endl;
   
   // Repeat two times to ensure the pin's folder was created
@@ -56,7 +56,7 @@ void GPIO::InitGPIOPin()
     UnexportGPIO();
     ExportGPIO();
   }
-  std::cout << RainbowText("The GPIO pin's system folder was created!\n", "Green");
+  std::cout << "The GPIO pin's system folder was created!\n";
 }
 
 // Protected method to initialize the Map of GPIO pin with its name
@@ -137,7 +137,7 @@ int GPIO::SetMode(MODE newMode) {
         throw GPIO_Exception("Error in the 'SetMode' method");
       }
       message = "Set direction for " + this->GetPinHeaderId() + " pin as DIGITAL OUTPUT\n";
-      std::cout << RainbowText(message, "Apple Green");
+      std::cout << message;
       break;
     case INPUT:
       if (WriteFile(path, "direction", "in") != 1) 
@@ -146,7 +146,7 @@ int GPIO::SetMode(MODE newMode) {
         throw GPIO_Exception("Error in the 'SetMode' method");
       }
       message = "Set direction for " + this->GetPinHeaderId() + " pin as DIGITAL INPUT\n";
-      std::cout << RainbowText(message, "Apple Green");
+      std::cout << message;
       break;   
   }
   return 1;
@@ -224,4 +224,3 @@ GPIO::~GPIO()
 {
   if (this->mode == OUTPUT) this->DigitalWrite(LOW);
 }
-

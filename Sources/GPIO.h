@@ -63,13 +63,13 @@ class GPIO : public SYSFILEACCESS
     virtual MODE GetMode();
 
     // Mutator method to set the pin's mode
-//    virtual int SetMode(MODE);
+    virtual int SetMode(MODE);
 
     // Method to export the GPIO pin
-//    virtual int ExportGPIO();
+    virtual int ExportGPIO();
 
     // Method to unexport the GPIO pin
-//    virtual int UnexportGPIO();
+    virtual int UnexportGPIO();
 
     // Interface method to set the GPIO pin state
     virtual int DigitalWrite(STATE, bool printMessages = false);
