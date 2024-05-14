@@ -14,6 +14,6 @@ Please give some leeway on my building around the new specification for pinmuxin
 
 `Cross_Compiling` on the WSL2 instance and porting it to the BBB has never been more fun!
 
-1. /Chapter01_GPIO/Listing_1.1/ is done for now for the am335x on the BBB.
-2. /Chapter01_GPIO/Listing_1.2/ will done next...
+1. Chapter01_GPIO is done for now for the am335x on the BBB.
+2. /Chapter01_GPIO/Listing_1.1 to /Chapter01_GPIO/Listing_1.4 is at completion.
 3. /Chapter04_PWM/Listing_4.1/ is done for now, also. Enjoy PWM.

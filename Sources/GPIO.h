@@ -5,7 +5,6 @@
 #include <thread>
 #include <map>
 
-// #include "RAINBOWCOLORS.h"
 #include "BLACKPIN_ID.h"
 #include "SYSFILEACCESS.h"
 #include "MISCELLANEOUS.h"

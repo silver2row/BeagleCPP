@@ -1,4 +1,4 @@
 #!/bin/bash
 echo "Building BeagleBone Application..."
-g++ -std=c++17  ../../Sources/RAINBOWCOLORS.cpp ../../Sources/SYSFILEACCESS.cpp ../../Sources/MISCELLANEOUS.cpp ../../Sources/GPIO.cpp Listing_1.4.cpp -lpthread -o Listing_1.4.out
+g++ -std=c++17  ../../Sources/SYSFILEACCESS.cpp ../../Sources/MISCELLANEOUS.cpp ../../Sources/GPIO.cpp Listing_1.4.cpp -lpthread -o Listing_1.4.out
 echo "Finished"

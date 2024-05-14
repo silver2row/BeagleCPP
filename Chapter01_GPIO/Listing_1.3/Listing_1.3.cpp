@@ -17,9 +17,9 @@ int main()
 {
 
   string message = "Main program starting here...";
-  cout << RainbowText(message,"Blue", "White", "Bold") << endl;
+  cout << message << endl;
   
-  GPIO blueLed1(P9_22, OUTPUT);
+//  GPIO blueLed1(P9_22, OUTPUT);
   GPIO redLed(P8_12, OUTPUT);
   GPIO yellowLed(P8_14, OUTPUT);
   GPIO greenLed(P8_16, OUTPUT);
@@ -30,8 +30,8 @@ int main()
   while (userInput != 'y')
   {
     int time = 100;
-    blueLed1.DigitalWrite(HIGH);
-    DelayMilliseconds(time);
+//    blueLed1.DigitalWrite(HIGH);
+//    DelayMilliseconds(time);
 
     redLed.DigitalWrite(HIGH);
     DelayMilliseconds(time);
@@ -63,14 +63,14 @@ int main()
     redLed.DigitalWrite(LOW);
     DelayMilliseconds(time);
 
-    blueLed1.DigitalWrite(LOW);
-    DelayMilliseconds(time);
+//    blueLed1.DigitalWrite(LOW);
+//    DelayMilliseconds(time);
 
     cout << "Enter 'y', to finish the program: " << endl;
     cin >> userInput;
   }
   
   message = "Main program finishes here...";
-  cout << RainbowText(message,"Blue", "Bold") << endl;
+  cout << message << endl;
   return 0;
 }

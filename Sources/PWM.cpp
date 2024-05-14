@@ -31,9 +31,9 @@ PWM::PWM(PWM_ID newPWMPin)
   InitPWMPin();
 
   std::cout << "\033[F"; // Move the cursor one line up
-  std::cout << ("Setting the PWM pin with a period of ")
-            << ("500000") 
-            << ("ns was a success!\n\n"); 
+  std::cout << "Setting the PWM pin with a period of "
+            << "500000"
+            << "ns was a success!\n";
 }
 
 // Overload constructor with pin's id and period
@@ -50,9 +50,9 @@ PWM::PWM(PWM_ID pwmPin, int newPeriod)
   InitPWMPin();
 
   std::cout << "\033[F"; // Move the cursor one line up
-  std::cout << ("Setting the PWM pin with a period of ")
-            << (std::to_string(this->GetPeriod())
-            << ("ns was a success!\n\n");
+  std::cout << "Setting the PWM pin with a period of "
+            << std::to_string(this->GetPeriod())
+            << "ns was a success!\n";
 }
 
 // Public method to initialize the PWM pin
@@ -92,7 +92,7 @@ void PWM::InitPWMPin()
 
   std::string message;
   message = "Trying to enable the PWM pin: " + this->GetPinHeaderId() + "\n";
-  std::cout << (message);
+  std::cout << message;
 
   std::string commandString = "config-pin " + this->GetPinHeaderId() + " pwm";
   const char* command = commandString.c_str();
@@ -175,9 +175,9 @@ int PWM::SetPeriod(int newPeriod)
   }
   else
   {
-    std::cout << ("A new period of ")
-            << (std::to_string(this->GetPeriod()) 
-            << ("ns was set!\n"); 
+    std::cout << "A new period of "
+            << std::to_string(this->GetPeriod())
+            << "ns was set!\n";
   } 
   return 1;
 }
@@ -232,7 +232,7 @@ int PWM::SetDutyCycleByPeriod(int newDutyCycle)
   @return int: 1 the user function was called      
 */
 int PWM::DoUserFunction (callbackType callbackFunction) {
-  std::string message = "'UserFunction' method has been activated!";
+  std::string message = "UserFunction method has been activated!";
   std::cout << (message) << std::endl;
 
   std::thread functionThread(callbackFunction);

@@ -16,7 +16,7 @@ using namespace std;
 int main() 
 {
   string message = "Main program starting here...";
-  cout << RainbowText(message,"Blue", "White", "Bold") << endl;
+  cout << message << endl;
   
   GPIO buttonPin(P8_08, INPUT);
   GPIO ledPin(P8_12, OUTPUT);
@@ -27,7 +27,7 @@ int main()
     while (buttonPin.DigitalRead() == LOW);
     count++;
     cout << "The button was pressed, turning the led ON " 
-          << RainbowText(to_string(count), "Red") << " times" << endl;
+         << to_string(count) << " times" << endl;
     ledPin.DigitalWrite(HIGH);
     
     while (buttonPin.DigitalRead() == HIGH) 
@@ -38,6 +38,6 @@ int main()
   }
   
   message = "Main program finishes here...";
-  cout << RainbowText(message,"Blue", "Bold") << endl;
+  cout << message << endl;
   return 0;
 }
