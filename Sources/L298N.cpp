@@ -22,7 +22,7 @@ L298N::L298N (DCMotor& newMotorA) :
             std::string("\t\tPWMA: ") + this->MotorA.pwmPin.GetPinHeaderId() + "\n" +
             std::string("\t\tSwap Spin: ") + swapStringMotorA + "\n" +
             "\n\n"; 
-  std::cout << RainbowText(message, "Light Red");
+  std::cout << (message);
 }
 
 // Overload constructor from DCMotor objects and for MotorA and MotorB
@@ -50,7 +50,7 @@ L298N::L298N (DCMotor& newMotorA,
             std::string("\t\tPWMB: ") + this->MotorB.pwmPin.GetPinHeaderId() + "\n" +
             std::string("\t\tSwap Spin: ") + swapStringMotorB + "\n" +
             "\n\n"; 
-  std::cout << RainbowText(message, "Light Red");
+  std::cout << (message);
 }
 
 /*

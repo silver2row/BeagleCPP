@@ -27,7 +27,7 @@ TB6612FNG::TB6612FNG (DCMotor& newMotorA,
             std::string("\t\tPWMA: ") + this->MotorA.pwmPin.GetPinHeaderId() + "\n" +
             std::string("\t\tSwap Spin: ") + swapStringMotorA + "\n" +
             std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
-  std::cout << RainbowText(message, "Light Red");
+  std::cout << (message);
 }
 
 // Overload constructor from DCMotor objects and for MotorA and MotorB
@@ -60,21 +60,21 @@ TB6612FNG::TB6612FNG (DCMotor& newMotorA,
             std::string("\t\tPWMB: ") + this->MotorB.pwmPin.GetPinHeaderId() + "\n" +
             std::string("\t\tSwap Spin: ") + swapStringMotorB + "\n" +
             std::string("\tStandByPin: ") + this->standByPin.GetPinHeaderId() + "\n\n"; 
-  std::cout << RainbowText(message, "Light Red");
+  std::cout << (message);
 }
 
 // Interface method to activate the module setting the StandBy pin
 void TB6612FNG::Activate()
 { 
   this->standByPin.DigitalWrite(HIGH);
-  std::cout << RainbowText("TB6612FNG has been activated!\n","Light Red");
+  std::cout << ("TB6612FNG has been activated!\n");
 }
 
 // Interface method to deactivate the module unsetting the StandBy pin
 void TB6612FNG::Deactivate ()
 {
   this->standByPin.DigitalWrite(LOW);
-  std::cout << RainbowText("TB6612FNG has been deactivated!\n","Light Red");
+  std::cout << ("TB6612FNG has been deactivated!\n");
 }
 
 /*

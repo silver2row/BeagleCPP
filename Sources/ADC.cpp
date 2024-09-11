@@ -24,25 +24,19 @@ ADC::ADC(ADC_ID newADCPin)
 {
   id = newADCPin;
 
-  idMap[P9_39] = "P9_39";
-  idMap[P9_40] = "P9_40";
-  idMap[P9_37] = "P9_37";
-  idMap[P9_38] = "P9_38";
-  idMap[P9_33] = "P9_33";
-  idMap[P9_36] = "P9_36";
-  idMap[P9_35] = "P9_35";
+// Add pins here or fd!
 
   name = "in_voltage" + std::to_string(id) + "_raw";
   path = ADC_PATH + name;
 
   std::string message;
-  message = "Trying to enable the ADC on pin: " + idMap[id] + "\n";
-  std::cout << RainbowText(message,"Violet"); 
+  message = "Trying to enable the ADC on pin: " + [id] + "\n"; // before [id], make a known fd
+  std::cout << (message);
 
   GetADC();
 
   message = "Setting the ADC pin was a success!\n\n";
-  std::cout << RainbowText(message, "Violet"); 
+  std::cout << (message);
 }
 
 /*
@@ -50,7 +44,7 @@ ADC::ADC(ADC_ID newADCPin)
   @return std::string: The pin's header name, e.g. "P9_39"
 */
 std::string ADC::GetPinHeaderId() {
-  return idMap[id];
+  return [id]; // before [id], idMap was labeled but needs a change...
 }
 
 /*
@@ -82,8 +76,8 @@ int ADC::ReadADC(int timeInterval, bool printMessages)
   if (printMessages == true)
   { 
     std::string message;
-    message = "ADC value on pin " + idMap[id] + ": " + std::to_string(adcValueOut) + "\n";
-    std::cout << RainbowText(message, "Violet");
+    message = "ADC value on pin " + [id] + ": " + std::to_string(adcValueOut) + "\n"; // before [id] idMap again needs changing
+    std::cout << (message);
   }
 
   if (timeInterval > 0)
@@ -101,7 +95,7 @@ int ADC::ReadADC(int timeInterval, bool printMessages)
 void ADC::ReadADC(int &adcValueOut, int timeInterval, bool printMessages) 
 {
   std::string message = "Read ADC value in a THREAD has been activated\n";
-  std::cout << RainbowText(message, "Violet", "Default", "Bold") << std::endl;
+  std::cout << (message) << std::endl;
   std::thread readADCThread = std::thread(&ADC::MakeReadADC, this, std::ref(adcValueOut),timeInterval, printMessages);
   readADCThread.detach();
 }
@@ -140,7 +134,7 @@ double ADC::ReadVoltage(int timeInterval, bool printMessages)
   { 
     std::string message;
     message = "Voltage on pin " + idMap[id] + ": " + std::to_string(voltageOut) + " \n";
-    std::cout << RainbowText(message, "Violet");
+    std::cout << (message);
   }
 
   if (timeInterval > 0)
@@ -158,7 +152,7 @@ double ADC::ReadVoltage(int timeInterval, bool printMessages)
 void ADC::ReadVoltage(double &voltageOut, int timeInterval, bool printMessages) 
 {
   std::string  message = "Read voltage in a THREAD has been activated\n";
-  std::cout << RainbowText(message, "Violet", "Default", "Bold");
+  std::cout << (message);
   std::thread readVoltageThread = std::thread(&ADC::MakeReadVoltage, this, std::ref(voltageOut), timeInterval, printMessages);
   readVoltageThread.detach();
 }
@@ -192,7 +186,7 @@ void ADC::StopReadVoltage()
 int ADC::DoUserFunction (callbackType callbackFunction) 
 {
   std::string message = "'UserFunction' method has been activated!";
-  std::cout << RainbowText(message, "Violet", "Default", "Bold") << std::endl;
+  std::cout << (message) << std::endl;
 
   std::thread functionThread(callbackFunction);
   functionThread.detach();

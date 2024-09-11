@@ -39,7 +39,7 @@ void CONTINUOUS_SERVO::InitContinuousServo()
             std::to_string(this->Servo.GetMaximumPulseWidth()) + "ns\n" +
             std::string("\tAverage Pulse Width: ") + 
             std::to_string(this->Servo.GetAveragePulseWidth()) + "ns\n\n";
-  std::cout << RainbowText(message, "Light Blue");
+  std::cout << (message);
 }
 
 /*
@@ -57,7 +57,7 @@ void CONTINUOUS_SERVO::SetSpeed(int newSpeed)
   std::string message;
   message = "speed: " + std::to_string(speed) + " -> pulse width: " +
             std::to_string(pulseWidth) + "ns\n";
-  std::cout << RainbowText(message, "Light Blue"); 
+  std::cout << (message); 
 }
 
 CONTINUOUS_SERVO::~CONTINUOUS_SERVO() {} 

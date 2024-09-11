@@ -11,8 +11,8 @@ BUTTON::BUTTON() {}
 // Overload constructor
 BUTTON::BUTTON(GPIO_ID newId) : GPIO(newId, INPUT) 
 {
-  std::cout << RainbowText("Button object was created on pin: ", "Light Red") 
-            << RainbowText(this->GetPinHeaderId(), "Light Red", "Default", "Bold") 
+  std::cout << ("Button object was created on pin: ")
+            << (this->GetPinHeaderId())
             << std::endl;
 }
 
@@ -54,7 +54,7 @@ bool BUTTON::WaitForEdge(EDGE newEdge) {
       break;
     default:
       std::string message = "A RISING or FALLING edge was not specified for detecting it!";
-      std::cout << RainbowText(message, "Yellow") << std::endl;
+      std::cout << (message) << std::endl;
       return false;
   }
   return true;

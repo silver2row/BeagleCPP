@@ -24,7 +24,7 @@ DCMotor::DCMotor (GPIO newInput1Pin,
             std::string("\tIN2: ") + this->input2Pin.GetPinHeaderId() + "\n" + 
             std::string("\tPWM: ") + this->pwmPin.GetPinHeaderId() + "\n" +
             std::string("\tSwap Spin: ") + swapString + "\n\n";
-  std::cout << RainbowText(message, "Gray");
+  std::cout << (message);
 }
 
 // Private method to initialize the Pins
@@ -88,7 +88,7 @@ void DCMotor::Drive(int speed, int duration, bool printMessages)
     if (printMessages == true)
     {
       message = "Turning motor CW with speed: " + std::to_string(speed) + "%\n";
-      std::cout << RainbowText(message, "Light Red");
+      std::cout << (message);
     }
   }
   else
@@ -98,7 +98,7 @@ void DCMotor::Drive(int speed, int duration, bool printMessages)
     if (printMessages == true)
     {
       message = "Turning motor CCW with speed: " + std::to_string(speed) + "%\n";
-      std::cout << RainbowText(message, "Light Red");
+      std::cout << (message);
     }
   }
 

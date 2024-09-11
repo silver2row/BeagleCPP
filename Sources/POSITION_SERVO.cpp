@@ -43,7 +43,7 @@ void POSITION_SERVO::InitPositionServo()
             std::to_string(this->Servo.GetMaximumPulseWidth()) + "ns\n" +
             std::string("\tAverage Pulse Width: ") + 
             std::to_string(this->Servo.GetAveragePulseWidth()) + "ns\n\n";
-  std::cout << RainbowText(message, "Light Blue");
+  std::cout << (message);
 }
 
 /*
@@ -61,7 +61,7 @@ void POSITION_SERVO::SetAngle(int newAngle)
   std::string message;
   message = "angle: " + std::to_string(angle) + " -> pulse width: " +
             std::to_string(pulseWidth) + "ns\n";
-  std::cout << RainbowText(message, "Light Blue"); 
+  std::cout << (message); 
 }
 
 POSITION_SERVO::~POSITION_SERVO() {} 

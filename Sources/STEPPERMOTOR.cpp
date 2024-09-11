@@ -57,7 +57,7 @@ StepperMotor::StepperMotor (GPIO newMotorPin1,
             "\n" +
             std::string("\tControl Mode: ") + modeString + "\n" +
             std::string("\tMax speed: ") + std::to_string(maxSpeed) + "\n\n";
-  std::cout << RainbowText(message, "Light Gray");
+  std::cout << (message);
 }
 
 /*
@@ -140,7 +140,7 @@ void StepperMotor::TurnBySteps(
     std::to_string(stepsRequired) + " steps at " + 
     std::to_string(speed) + " steps/second\n";
 
-    std::cout << RainbowText(message, "Light Gray");
+    std::cout << (message);
   }
 
   // Turn 1 step in CW direction
@@ -189,7 +189,7 @@ void StepperMotor::TurnByStepsInThread(
   {
     std::string message = "Rotation in a thread has been activated with a speed of: " + 
                           std::to_string(speed) + " steps/second\n";
-    std::cout << RainbowText(message, "Light Gray");
+    std::cout << (message);
   }
   
   std::thread rotationThread = std::thread( 

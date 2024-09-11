@@ -58,12 +58,8 @@ PWM::PWM(PWM_ID pwmPin, int newPeriod)
 // Public method to initialize the PWM pin
 void PWM::InitPWMPin()
 {
-  idMap[P8_13] = "P8_13";
-  idMap[P8_19] = "P8_19";
-  idMap[P9_14] = "P9_14";
-  idMap[P9_16] = "P9_16";
-  idMap[P9_21] = "P9_21";
-  idMap[P9_22] = "P9_22";
+
+// add some fd here somehow in some way?
 
   switch (id)
   {

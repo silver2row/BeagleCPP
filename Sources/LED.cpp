@@ -71,7 +71,7 @@ void LED::Blink(int duration)
     "Blinking has been activated with duration of: "
     + std::to_string(duration) + "ms on pin: " + this->GetPinHeaderId()
   };
-  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl; 
+  std::cout << (message) << std::endl; 
   std::thread blinkThread = std::thread(&LED::MakeBlink, this, duration);
   blinkThread.detach();
 }
@@ -112,7 +112,7 @@ void LED::Flash(int timeOn, int period)
     + std::to_string(timeOn) + "ms on a period of: " 
     + std::to_string(period) + "ms on pin: " + this->GetPinHeaderId()
   };
-  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl;
+  std::cout << (message) << std::endl;
   std::thread flashThread = std::thread(&LED::MakeFlash, this, timeOn, period);
   flashThread.detach();
 }
@@ -154,7 +154,7 @@ void LED::HeartBeat(int timeOn, int period)
     + std::to_string(timeOn) + " on a period of: " 
     + std::to_string(period) + "ms on pin: " + this->GetPinHeaderId()
   };
-  std::cout << RainbowText(message, "Light Blue", "Default", "Bold") << std::endl;
+  std::cout << (message) << std::endl;
   std::thread heartBeatThread = std::thread(&LED::MakeHeartBeat, this, timeOn, period);
   heartBeatThread.detach();
 }
